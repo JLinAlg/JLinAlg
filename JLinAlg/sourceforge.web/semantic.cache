@@ -1,0 +1,15 @@
+;; Object sourceforge.web/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "sourceforge.web/"
+  :tables (list 
+   (semanticdb-table "index.php"
+    :major-mode 'php-mode
+    :tags '(("uuml" variable (:type ("Z" type (:type "class") nil nil)) nil [7412 7419]) ("echo" function (:prototype-flag t :arguments (("" variable (:type ("date" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [8720 8757])) :type ("php" type (:type "class") nil nil)) nil [8711 8759]) ("echo" function (:prototype-flag t :arguments (("" variable (:type ("date" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [8773 8809])) :type "int") nil [8761 8811]))
+    :file "index.php"
+    :pointmax 9071
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0beta3"
+  :semanticdb-version "2.0beta3"
+  )

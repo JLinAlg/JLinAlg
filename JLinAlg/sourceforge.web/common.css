@@ -1,0 +1,76 @@
+/* Common tags */
+	body	{
+			font-family: verdana, marlett, arial, sans-serif;
+			font-weight: normal;
+			font-size: 12pt;
+			color: #000000;
+			background-color: #FFFFFF;		
+			width:850px;
+			margin-left:auto;
+			margin-right:auto;
+		}
+
+/* Links */
+
+	a:link		{
+					font-size: 12pt;
+					text-decoration: underline;
+					font-weight: normal;
+					color: #FF1100;
+				}
+	a:active	{
+					font-size: 12pt;
+					font-style: italic;
+					text-decoration: underline;
+					font-weight: normal;
+					color: blue;
+				}
+	a:visited	{
+					font-size: 12pt;
+					text-decoration: underline;
+					font-weight: normal;
+					color: #FB8C13;
+				}
+	a:hover		{					
+					font-size: 12pt;
+					background-color: #FF6B24;
+					color: black;
+					text-decoration: none;
+				}
+
+/* Headings */
+	h1	{
+			font-family: "comic sans ms", verdana, marlett, arial, sans-serif;
+			font-size: 40pt;
+			font-weight: bold;
+			text-align: center;
+			color: #FE1100;
+		}
+
+	h2	{
+			font-size: 20pt;
+			font-weight: bold;
+			text-align: left;
+			color: #FC6C06;
+		}
+
+	h3	{
+			font-size: 16pt;
+			font-weight: bold;
+			text-align: left;
+			color: #FB8C13;
+		}
+
+	h4	{
+			font-size: 13pt;
+			font-weight: bold;
+			color: black;
+		}
+
+	td	{
+			font-size: 12pt;
+		}
+		
+	li	{
+			font-size: 12pt;
+		}
