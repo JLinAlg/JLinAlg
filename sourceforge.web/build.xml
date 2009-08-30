@@ -1,0 +1,105 @@
+<project name="Sourceforge web page" default="all" basedir=".">
+	<description>
+        simple example build file
+    </description>
+	<!-- set global properties for this build -->
+	<property name="demosrc" location="../src/demo/java/org/jlinalg/demo" />
+	<property name="doc" location="../javadoc" />
+	<property name="dist" location="dist" />
+	<property file="${user.home}/.sourceforgecredentials" />
+	<property name="server" value="${user.sourceforge},jlinalg@web.sourceforge.net" />
+
+	<target name="init">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<!-- check for credentials -->
+		<fail unless="user.sourceforge" message="Please create a file ${user.home}/.sourceforgecredentials defining the properties user.sourceforge and password.sourceforge" />
+	</target>
+
+	<target name="copyjavafiles" depends="init" description="copy some java files">
+		<!-- Compile the java code from ${src} into ${build} -->
+		<echo message="copy demo files ${server}:htdocs" />
+		<scp todir="${server}:htdocs" password="${password.sourceforge}" verbose="true">
+			<fileset dir="../src/main/java/org/jlinalg/">
+				<include name="F2.java" />
+			</fileset>
+		</scp>
+		<scp todir="${server}:htdocs" password="${password.sourceforge}" verbose="true">
+			<fileset dir="${demosrc}">
+				<include name="**/*.java" />
+			</fileset>
+		</scp>
+		<echo message="Done" />
+	</target>
+
+	<target name="java2html" description="create the html sources from the javba demo files for the web pages">
+		<macrodef name="j2html">
+			<attribute name="JAVA" />
+			<attribute name="HTML" />
+			<sequential>
+				<delete file="@{HTML}" />
+				<exec executable="webcpp">
+					<arg value="@{JAVA}" />
+					<arg value="@{HTML}" />
+					<arg value="-X" />
+					<arg value="-c=./jlinalg" />
+				</exec>
+			</sequential>
+		</macrodef>
+		<j2html JAVA="../src/demo/java/org/jlinalg/demo/LinearEquationSystemDemo.java" HTML="LinearEquationSystemDemo.html" />
+		<j2html JAVA="../src/demo/java/org/jlinalg/demo/EigenvaluesDemo.java" HTML="EigenvaluesDemo.html" />
+		<j2html JAVA="../src/demo/java/org/jlinalg/demo/PolynomialDemo.java" HTML="PolynomialDemo.html" />
+		<j2html JAVA="../src/demo/java/org/jlinalg/demo/FieldPDemo.java" HTML="FieldPDemo.html" />
+		<j2html JAVA="../src/demo/java/org/jlinalg/demo/MatrixOperationsDemo.java" HTML="MatrixOperationsDemo.html" />
+		<j2html JAVA="../src/demo/java/org/jlinalg/demo/F2Demo.java" HTML="F2Demo.html" />
+		<j2html JAVA="../src/main/java/org/jlinalg/F2.java" HTML="F2.html" />
+		<j2html JAVA="../src/demo/java/org/jlinalg/demo/Xor.java" HTML="Xor.html" />
+		<j2html JAVA="../src/demo/java/org/jlinalg/demo/Function.java" HTML="Function.html" />
+		<j2html JAVA="../src/demo/java/org/jlinalg/demo/RandomGradientSearchDemo.java" HTML="RandomGradientSearchDemo.html" />
+		<!-- this is necessary as webcpp overwrites jlinalg.css -->
+		<copy file="jlinalg.css.save" tofile="jlinalg.css" overwrite="true" />
+	</target>
+
+	<target name="web" depends="init,java2html" description="copy the web pages">
+		<echo message="copy web files to ${server}:htdocs" />
+		<scp todir="${server}:htdocs" password="${password.sourceforge}" verbose="true">
+			<fileset dir=".">
+				<include name="*.html" />
+			</fileset>
+		</scp>
+		<scp todir="${server}:htdocs" password="${password.sourceforge}" verbose="true">
+			<fileset dir=".">
+				<include name="*css" />
+			</fileset>
+		</scp>
+		<scp todir="${server}:htdocs" password="${password.sourceforge}" verbose="true">
+			<fileset dir=".">
+				<include name="index.php" />
+			</fileset>
+		</scp>
+	</target>
+
+
+	<target name="copyjavadoc" depends="init" description="copy the javadoc pages">
+		<echo message="copy javadoc files to ${server}:htdocs" />
+		<scp todir="${server}:htdocs/javadoc" password="${password.sourceforge}" verbose="true" sftp="true">
+			<fileset dir="${doc}">
+				<include name="**" />
+			</fileset>
+		</scp>
+	</target>
+
+	<target name="clean" description="clean up">
+		<delete>
+			<fileset dir=".">
+				<include name="*Demo.html" />
+				<includesfile name="jlinalg.css" />
+				<includesfile name="F2.html" />
+				<includesfile name="Xor.html" />
+			</fileset>
+		</delete>
+	</target>
+
+	<target name="all" depends="web,java2html,copyjavafiles,copyjavadoc" description="copy everything to sourceforge.">
+	</target>
+</project>
