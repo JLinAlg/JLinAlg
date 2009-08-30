@@ -75,24 +75,26 @@ public class Polynomial<BASE extends IRingElement>
 	 *            the factory for the creation of the elements in the
 	 *            polynomial.
 	 */
+	@SuppressWarnings("unchecked")
 	public Polynomial(Map<Integer, BASE> coeff1,
 			final IRingElementFactory<BASE> baseFactory)
 	{
+		if (baseFactory == null) {
+			throw new InvalidOperationException(
+					"The factory of a Polynomial cannot be null!");
+		}
+
 		if (coeff1 == null) {
 			coeff1 = new HashMap<Integer, BASE>();
 		}
 
 		this.coefficientsForExponents = new TreeMap<Integer, BASE>();
-		if (baseFactory == null) {
-			throw new InvalidOperationException(
-					"factory of a Polynomial cannot be null!");
-		}
 
 		this.polynomialFactory = (PolynomialFactory<BASE>) PolynomialFactoryMap.INSTANCE
 				.get(baseFactory);
 
 		for (final BASE b : coeff1.values()) {
-			if (baseFactory != b.getFactory())
+			if (!baseFactory.equals(b.getFactory()))
 				throw new InternalError("Found inconsistent Factories.");
 		}
 
@@ -113,10 +115,9 @@ public class Polynomial<BASE extends IRingElement>
 
 		SortedMap<Integer, BASE> resultCoeffs = this.addHelper(
 				coefficientsForExponents, otherCoefficients);
-		Polynomial<BASE> result = new Polynomial<BASE>(resultCoeffs,
+		return new Polynomial<BASE>(resultCoeffs,
 				((PolynomialFactory<BASE>) ((Polynomial<BASE>) other)
 						.getFactory()).getBaseFactory());
-		return result;
 	}
 
 	@SuppressWarnings("unchecked")
