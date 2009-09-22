@@ -7,12 +7,12 @@ import java.util.Random;
  * This class provides a set of methods for generating various common types of
  * matrices and vectors for an arbitrary RingElement type.
  * 
- * @author Simon D. Levy, Andreas Keilhauer
+ * @author Simon D. Levy, Andreas Keilhauer, Georg Thimm
  * @param <RE>
  *            the type of the elements in the vectors, matrices to be created.
  */
 
-public class LinAlgFactory<RE extends IRingElement>
+public class LinAlgFactory<RE extends IRingElement<RE>>
 		implements Serializable
 {
 
@@ -29,13 +29,13 @@ public class LinAlgFactory<RE extends IRingElement>
 	/**
 	 * Creates a LinAlgFactory for a certain RingElement type.
 	 * 
-	 * @param factory
-	 *            the factory for elements this LinAlgFactory creates matices,
+	 * @param iRingElementFactory
+	 *            the factory for elements this LinAlgFactory creates matrices,
 	 *            vectors, etc. for.
 	 */
-	public LinAlgFactory(IRingElementFactory<RE> factory)
+	public LinAlgFactory(IRingElementFactory<RE> iRingElementFactory)
 	{
-		this.factory = factory;
+		this.factory = iRingElementFactory;
 	}
 
 	/**
@@ -63,20 +63,27 @@ public class LinAlgFactory<RE extends IRingElement>
 	}
 
 	/**
+	 * @deprecated this is a legacy front-end to {@link #uniformNoise(int,int)}
+	 *             ( <code>random</code> is ignored).
+	 */
+	@Deprecated
+	public Matrix<RE> uniformNoise(int numberOfRows, int numberOfCols,
+			@SuppressWarnings("unused") Random random)
+	{
+		return uniformNoise(numberOfRows, numberOfCols);
+	}
+
+	/**
 	 * Returns a Matrix of uniformly distributed random values. The kind of
-	 * random values you get depends on the RingElement you use to initialise
+	 * random values you get depends on the RingElement you use to initialize
 	 * the LinAlgFactory
 	 * 
 	 * @param numberOfRows
 	 * @param numberOfCols
-	 * @param random
-	 *            random-number generator
 	 * @return matrix of uniformly distributed random values
 	 */
-	public Matrix<RE> uniformNoise(int numberOfRows, int numberOfCols,
-			Random random)
+	public Matrix<RE> uniformNoise(int numberOfRows, int numberOfCols)
 	{
-
 		Matrix<RE> a = new Matrix<RE>(numberOfRows, numberOfCols, factory);
 		for (int i = 1; i <= numberOfRows; ++i) {
 			for (int j = 1; j <= numberOfCols; ++j) {
@@ -84,6 +91,17 @@ public class LinAlgFactory<RE extends IRingElement>
 			}
 		}
 		return a;
+	}
+
+	/**
+	 * @deprecated this is a legacy front-end to {@link #gaussianNoise(int,int)}
+	 *             ( <code>random</code> is ignored).
+	 */
+	@Deprecated
+	public Matrix<RE> gaussianNoise(int numberOfRows, int numberOfCols,
+			@SuppressWarnings("unused") Random random)
+	{
+		return gaussianNoise(numberOfRows, numberOfCols);
 	}
 
 	/**
@@ -95,12 +113,9 @@ public class LinAlgFactory<RE extends IRingElement>
 	 * 
 	 * @param numberOfRows
 	 * @param numberOfCols
-	 * @param random
-	 *            random-number generator
 	 * @return Matrix of normally distributed random values
 	 */
-	public Matrix<RE> gaussianNoise(int numberOfRows, int numberOfCols,
-			Random random)
+	public Matrix<RE> gaussianNoise(int numberOfRows, int numberOfCols)
 	{
 		Matrix<RE> a = new Matrix<RE>(numberOfRows, numberOfCols, factory);
 		for (int i = 1; i <= numberOfRows; ++i) {
@@ -136,15 +151,24 @@ public class LinAlgFactory<RE extends IRingElement>
 	}
 
 	/**
+	 * @deprecated this is a legacy front-end to {@link #uniformNoise(int)} (
+	 *             <code>random</code> is ignored).
+	 */
+	@Deprecated
+	public Vector<RE> uniformNoise(int length,
+			@SuppressWarnings("unused") Random random)
+	{
+		return uniformNoise(length);
+	}
+
+	/**
 	 * Returns a Vector of uniformly distributed random values.
 	 * 
 	 * @param length
 	 *            vector length
-	 * @param random
-	 *            a random number generator
 	 * @return vector of uniformly distributed random values
 	 */
-	public Vector<RE> uniformNoise(int length, Random random)
+	public Vector<RE> uniformNoise(int length)
 	{
 		Vector<RE> v = new Vector<RE>(length, factory);
 		for (int i = 1; i <= length; ++i) {
@@ -161,17 +185,26 @@ public class LinAlgFactory<RE extends IRingElement>
 	 * 
 	 * @param length
 	 *            vector length
-	 * @param random
-	 *            a random number generator
 	 * @return vector of uniformly distributed random values
 	 */
-	public Vector<RE> gaussianNoise(int length, Random random)
+	public Vector<RE> gaussianNoise(int length)
 	{
 		Vector<RE> v = new Vector<RE>(length, factory);
 		for (int i = 1; i <= length; ++i) {
 			v.set(i, factory.gaussianRandomValue());
 		}
 		return v;
+	}
+
+	/**
+	 * @deprecated this is a legacy front-end to {@link #gaussianNoise(int)} (
+	 *             <code>random</code> is ignored).
+	 */
+	@Deprecated
+	public Vector<RE> gaussianNoise(int length,
+			@SuppressWarnings("unused") Random random)
+	{
+		return gaussianNoise(length);
 	}
 
 	/**
@@ -229,7 +262,11 @@ public class LinAlgFactory<RE extends IRingElement>
 	 * @param theValues
 	 * @return Matrix built from theValues
 	 * @throws InvalidOperationException
+	 * @deprecated use {@link RingElementFactory#convert(Matrix)} or an
+	 *             appropriate constructor of {@link Matrix}
 	 */
+	@SuppressWarnings("deprecation")
+	@Deprecated
 	public Matrix<RE> buildMatrix(double[][] theValues)
 			throws InvalidOperationException
 	{
@@ -243,7 +280,11 @@ public class LinAlgFactory<RE extends IRingElement>
 	 * @param theValues
 	 * @return Vector built from theValues
 	 * @throws InvalidOperationException
+	 * @deprecated use {@link RingElementFactory#convert(Vector)} or an
+	 *             appropriate constructor of {@link Vector}
 	 */
+	@SuppressWarnings("deprecation")
+	@Deprecated
 	public Vector<RE> buildVector(double[] theValues)
 			throws InvalidOperationException
 	{
@@ -255,7 +296,9 @@ public class LinAlgFactory<RE extends IRingElement>
 	 * 
 	 * @param x
 	 * @return an RE-array
+	 * @deprecated use {@link RingElementFactory#convert(Vector)}
 	 */
+	@Deprecated
 	public RE[] wrap(double[] x)
 	{
 		RE[] d = factory.getArray(x.length);
@@ -268,10 +311,14 @@ public class LinAlgFactory<RE extends IRingElement>
 	/**
 	 * create a 2-d array with elements of type <code>RE</code> from a double
 	 * array
+	 * <P>
+	 * use a constructor of {@link Matrix} instead.
 	 * 
 	 * @param x
 	 * @return an RE-array
+	 * @deprecated use {@link RingElementFactory#convert(Matrix)}
 	 */
+	@Deprecated
 	public RE[][] wrap(double[][] x)
 	{
 		int rows = x.length, cols = x[0].length;
@@ -283,5 +330,4 @@ public class LinAlgFactory<RE extends IRingElement>
 		}
 		return d;
 	}
-
 }

@@ -19,7 +19,7 @@ import org.jlinalg.IRingElement;
  * @param <RESIDUAL>
  *            the type of the residual
  */
-public interface Optimiser<RESIDUAL extends IRingElement>
+public interface Optimiser<RESIDUAL extends IRingElement<?>>
 {
 	/**
 	 * Set the {@link Target} for the optimiser. Does not start the

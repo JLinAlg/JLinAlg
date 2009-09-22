@@ -5,8 +5,8 @@
 package org.jlinalg.demo;
 
 // import the required classes from JLinAlg
-import org.jlinalg.DoubleWrapper;
 import org.jlinalg.Matrix;
+import org.jlinalg.doublewrapper.DoubleWrapper;
 
 public class EigenvaluesDemo
 {

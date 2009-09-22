@@ -5,9 +5,9 @@ package org.jlinalg.optimise;
 
 import java.util.Random;
 
-import org.jlinalg.Complex;
 import org.jlinalg.IRingElement;
-import org.jlinalg.Rational;
+import org.jlinalg.complex.Complex;
+import org.jlinalg.rational.Rational;
 
 /**
  * @author Georg Thimm
@@ -40,8 +40,7 @@ public class ComplexFunction
 	/**
 	 * The starting point for the optimisation
 	 */
-	final static Complex[] start =
-	{
+	final static Complex[] start = {
 			Complex.FACTORY.get(.111, .24), Complex.FACTORY.get(-.37, .41),
 			Complex.FACTORY.get(-.20, -.01)
 	};
@@ -86,7 +85,7 @@ public class ComplexFunction
 	 * @see org.jlinalg.optimise.Target#getParameters()
 	 */
 	@Override
-	public IRingElement[] getParameters()
+	public Rational[] getParameters()
 	{
 		Rational[] param = new Rational[dim * 2];
 		for (int i = 0; i < dim * 2; i += 2) {
@@ -110,11 +109,11 @@ public class ComplexFunction
 	/**
 	 * The function to be minimised
 	 */
-	Rational function(IRingElement[] v)
+	Rational function(Complex[] v)
 	{
 		Rational sum = Rational.FACTORY.zero();
 		for (int i = 0; i < v.length; i++) {
-			Complex r = (Complex) v[i].subtract(func[i]);
+			Complex r = v[i].subtract(func[i]);
 			r = r.multiply(r.conjugate());
 			sum = sum.add(r.getReal());
 		}
@@ -131,7 +130,7 @@ public class ComplexFunction
 	 * @see org.jlinalg.optimise.Target#maxParameterValues()
 	 */
 	@Override
-	public IRingElement[] maxParameterValues()
+	public Rational[] maxParameterValues()
 	{
 		return max;
 	}
@@ -143,7 +142,7 @@ public class ComplexFunction
 	 * @see org.jlinalg.optimise.Target#minParameterValues()
 	 */
 	@Override
-	public IRingElement[] minParameterValues()
+	public Rational[] minParameterValues()
 	{
 		return null;
 	}
@@ -152,7 +151,7 @@ public class ComplexFunction
 	 * @see org.jlinalg.optimise.Target#setParameters(org.jlinalg.IRingElement[])
 	 */
 	@Override
-	public void setParameters(IRingElement[] values)
+	public void setParameters(IRingElement<?>[] values)
 	{
 		for (int i = 0; i < values.length; i += 2) {
 			vector[i / 2] = Complex.FACTORY.get(values[i], values[i + 1]);
@@ -177,6 +176,7 @@ public class ComplexFunction
 	 * @see org.jlinalg.optimise.Target#setParameter(int,
 	 *      org.jlinalg.IRingElement)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean setParameter(int index, IRingElement value)
 	{
@@ -188,11 +188,11 @@ public class ComplexFunction
 			vector[index / 2] = Complex.FACTORY.get(c.getReal(), value);
 		else
 			vector[index / 2] = Complex.FACTORY.get(value, c.getImaginary());
-		for (int i = 0; i < dim; i++) {
-			Complex c1 = vector[i];
-			// System.out.print(c1.getReal().doubleValue() + "+"
-			// + c1.getImaginary().doubleValue() + "i  ");
-		}
+		// for (int i = 0; i < dim; i++) {
+		// Complex c1 = vector[i];
+		// System.out.print(c1.getReal().doubleValue() + "+"
+		// + c1.getImaginary().doubleValue() + "i  ");
+		// }
 		// System.out.println("   res=" + getResidual().doubleValue());
 		return true;
 	}
@@ -203,7 +203,7 @@ public class ComplexFunction
 	 * @see org.jlinalg.optimise.Target#getParameter(int)
 	 */
 	@Override
-	public IRingElement getParameter(int index)
+	public IRingElement<?> getParameter(int index)
 	{
 		if (index % 2 == 0) return vector[index / 2].getReal();
 		return vector[index / 2].getImaginary();

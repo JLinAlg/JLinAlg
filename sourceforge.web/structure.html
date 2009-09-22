@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="common.css" rel="stylesheet" type="text/css">
+<title>JLinAlg - structure: packages and classes</title>
+</head>
+<body>
+<h1>JLinAlg - structure: packages and classes</h1>
+<h2>The API</h2>
+All packages of JLinAlg have the prefix
+<code>org.jlinalg</code>
+. The API's main classes are under this package:
+<ul>
+	<li>
+	<ul>
+		<li>The definition of ring elements in class <code>RingElement</code>,</li>
+		<li>the corresponding factory <code>RingElementFactory</code>,
+		and</li>
+		<li>the interfaces (with the prefix <code>I</code>) for both.
+	</ul>
+	</li>
+	<li>The classes defining matrices and vectors.</li>
+	<li>Utilities such as a linear solver, optimized matrix
+	multiplication, and other supporting classes.</li>
+</ul>
+All new data types must implement the interface IRingElement (typically,
+they extend on
+<code>FieldElement,</code>
+which extends on
+<code>RingElement</code>
+and implements
+<code>IRingElement</code>
+) and provide a factory implementing
+<code>IRingElementFactory</code>
+(by usually extending on
+<code>RingElementFactory</code>
+). Realizations of ring elements are defined in the packages
+<ul>
+	<li><code>org.jlinalg.polynomial</code> permits the creation of
+	generic polynomials.</li>
+	<li><code>org.jlinalg.rational</code> implements rational numbers
+	based on <code>java.util.BigIntegers</code>.</li>
+	<li><code>org.jlinalg.complex</code> implements complex numbers
+	based on <code>Rational</code>s.</li>
+	<li><code>org.jlinalg.f2</code> is the Galois field with two
+	values.</li>
+	<li><code>org.jlinalg.doublewrapper</code> is a wrapper for <code>java.lang.Double</code>.
+	</li>
+	<li><code>org.jlinalg.bigdecimalwrapper</code> similar, but for <code>java.util.BigDecimal</code>.
+	</li>
+	<li><code>org.jlinalg.field_p</code> is a generic definition of
+	Galois fields.</li>
+</ul>
+The packages
+<ul>
+	<li><code>org.jlinalg.operator</code> define operators.</li>
+	<li><code>org.jlinalg.latex</code> allows to create chunks of
+	LaTeX from variables, matrices, and so on.</li>
+	<li><code>org.jlinalg.optimise</code> implements a simple
+	optimizer (slow but general).</li>
+</ul>
+<h2>The tests</h2>
+Tests are in the same packages as their API-counterparts. The tests are
+implemented under the JUnit4 framework and, by convention, their class
+namesfollow the pattern
+<code><em>Xxx</em>Test</code>
+. They are grouped into test suites (by convention their class names
+are
+<code><em>Xxx</em>Tests</code>)
+; most are located in package
+<code>org.jlinalg.tests</code>
+. Among them are:
+<ol>
+	<li><code>UnitTests</code> which comprises the usual unit tests,</li>
+	<li><code>BlackBoxTests</code> which includes more expensive tests
+	(e.g. tests using random numbers, large matrices, ...)</li>
+	<li><code>AllTests</code> which combines the above as well as
+	tests for the demos and tests for the tests.</li>
+</ol>
+Code supporting the tests is located in the package
+<code>org.jlinalg.testutil.</code>
+The classes
+<code><em>Xxx</em>TestBase</code>
+correspond to classes in
+<code>org.jlinalg</code>
+. These classes are meant to be extended by classes representing a new
+data type. Methods in these classes (by convention having the postfix
+<code>_base</code>
+) should usually not be overwritten as to prevent the the basic tests
+are canceled. In certain cases, these tests may fail even though the
+implementation of the base type is correct (and then overwriting is
+meaningful). When a new test class extends one of the tests, it must
+implement the interface
+<code>org.jlinalg.testutil.TestBaseInterface</code>
+. As several of the tests create instances of ring elements from strings
+representing integer numbers, the method
+<code><em>Xxx</em>Factory.get(Object o)</code>
+must accept strings.
+<p>The classes <code>StringWrapper<em>Xxx</em></code> are used in
+some tests.
+<h2>The demos</h2>
+The demos are in package
+<code>org.jlinalg.demo</code>
+. At the moment, a few basic tests use the "depreciated" annotation to
+decide whether to run a specific test or not. Experimentally, annotation
+<code>org.jlinalg.JLinAlgTypeProperties</code>
+is used to determine whether certain test are executed and/or their
+configuration and/or their expected outcomes.
+<P>The test suite is modified from JUnit: see <code>org.jlinalg.testutils.SuiteJLinAlg</code></P>
+<hr>
+<a href="index.php">Back</a>
+to the main page.
+</body>
+</html>

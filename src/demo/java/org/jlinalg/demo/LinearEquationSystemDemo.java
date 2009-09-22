@@ -2,8 +2,8 @@ package org.jlinalg.demo;
 
 import org.jlinalg.LinSysSolver;
 import org.jlinalg.Matrix;
-import org.jlinalg.Rational;
 import org.jlinalg.Vector;
+import org.jlinalg.rational.Rational;
 
 /**
  * Example that computes a solution of a linear equation system for the domain

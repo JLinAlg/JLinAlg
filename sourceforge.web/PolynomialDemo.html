@@ -20,8 +20,8 @@ Get webcpp at http://webcpp.sf.net
 
 <font CLASS=keyword>import</font> org.jlinalg.LinAlgFactory;
 <font CLASS=keyword>import</font> org.jlinalg.Matrix;
-<font CLASS=keyword>import</font> org.jlinalg.Rational;
 <font CLASS=keyword>import</font> org.jlinalg.polynomial.Polynomial;
+<font CLASS=keyword>import</font> org.jlinalg.rational.Rational;
 
 <font CLASS=comment>/**
  * Demonstrate the use of polynomials for the domain of rational numbers.
@@ -30,6 +30,13 @@ Get webcpp at http://webcpp.sf.net
  */</font>
 <font CLASS=keyword>public</font> <font CLASS=keyword>class</font> PolynomialDemo
 {
+	<font CLASS=keyword>final</font> <font CLASS=keytype>static</font> Object[][] s_matrix <font CLASS=symbols>=</font> {
+			{
+					<font CLASS=dblquot>"2"</font>, <font CLASS=keyword>new</font> Double(<font CLASS=floatpt>1.5</font>)
+			}, {
+					<font CLASS=dblquot>"-1/6"</font>, <font CLASS=keyword>new</font> Integer(<font CLASS=integer>0</font>)
+			}
+	};
 
 	<font CLASS=comment>/**
 	 * start the demonstration
@@ -42,12 +49,13 @@ Get webcpp at http://webcpp.sf.net
 		<font CLASS=comment>// Create a factory for complex objects made from rational numbers.</font>
 		LinAlgFactory&lt;Rational&gt; factory <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> LinAlgFactory&lt;Rational&gt;(
 				Rational.FACTORY);
-		<font CLASS=comment>// this factory allows it to create matrices (or vectors) from rational</font>
-		<font CLASS=comment>// numbers - even from an array of double numbers.</font>
-		Matrix&lt;Rational&gt; a <font CLASS=symbols>=</font> factory.buildMatrix(<font CLASS=keyword>new</font> <font CLASS=keytype>double</font>[][]
-			{
-				{ <font CLASS=floatpt>2.0</font>, <font CLASS=floatpt>1.5</font> },
-				{ <font CLASS=symbols>-</font><font CLASS=floatpt>1.0</font>, <font CLASS=floatpt>0.0</font> } });
+		<font CLASS=comment>// this factory allows it to create matrices (or vectors)</font>
+		Matrix&lt;Rational&gt; id <font CLASS=symbols>=</font> factory.identity(<font CLASS=integer>3</font>);
+		System.out.println(<font CLASS=dblquot>"id=\n"</font> <font CLASS=symbols>+</font> id);
+		<font CLASS=comment>// alternatively, the constructors of matrixes (alike those for vectors)</font>
+		<font CLASS=comment>// allow to build them from arrays - even from arrays with mixed</font>
+		<font CLASS=comment>// objects.</font>
+		Matrix&lt;Rational&gt; a <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Matrix&lt;Rational&gt;(s_matrix, Rational.FACTORY);
 
 		System.out.println(<font CLASS=dblquot>"a=\n"</font> <font CLASS=symbols>+</font> a);
 
@@ -55,6 +63,11 @@ Get webcpp at http://webcpp.sf.net
 		Polynomial&lt;Rational&gt; characteristicPolynomial <font CLASS=symbols>=</font> a
 				.characteristicPolynomial();
 		System.out.println(<font CLASS=dblquot>"char(a): "</font> <font CLASS=symbols>+</font> characteristicPolynomial);
+
+		System.out.println(<font CLASS=dblquot>"norm(char(a)): "</font> <font CLASS=symbols>+</font> characteristicPolynomial.norm());
+
+		System.out.println(<font CLASS=dblquot>"invert(norm(char(a))): "</font>
+				<font CLASS=symbols>+</font> characteristicPolynomial.norm().invert());
 
 		<font CLASS=comment>// calculate the minimal polynomial "min(a)"</font>
 		Polynomial&lt;Rational&gt; minimalPolynomial <font CLASS=symbols>=</font> a.minimalPolynomial();
@@ -67,6 +80,7 @@ Get webcpp at http://webcpp.sf.net
 		<font CLASS=comment>// integrate "char(a)"</font>
 		System.out.println(<font CLASS=dblquot>"Int(char(a)): "</font>
 				<font CLASS=symbols>+</font> characteristicPolynomial.integrate());
+
 	}
 }
 

@@ -3,12 +3,10 @@ package org.jlinalg.optimise;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import org.jlinalg.Complex;
-import org.jlinalg.DoubleWrapper;
-import org.jlinalg.Rational;
+import org.jlinalg.complex.Complex;
 import org.jlinalg.demo.Function;
-import org.jlinalg.optimise.Optimiser;
-import org.jlinalg.optimise.RandomGradientDescent;
+import org.jlinalg.doublewrapper.DoubleWrapper;
+import org.jlinalg.rational.Rational;
 import org.junit.Test;
 
 /**
@@ -31,7 +29,7 @@ public class RandomGradientTest
 	public void testFunction() throws InterruptedException
 	{
 		// Function is an implementation of Target<DoubleWrapper>
-		System.err.println("\n\n testFunction");
+		// System.err.println("\n\n testFunction");
 		Function target = new Function();
 		DoubleWrapper resid = target.getResidual();
 		Optimiser<DoubleWrapper> optimiser = new RandomGradientDescent<DoubleWrapper>(
@@ -65,8 +63,7 @@ public class RandomGradientTest
 	@Test
 	public void testComplex() throws InterruptedException
 	{
-		// Function is an implementation of Target<DoubleWrapper>
-		System.err.println("\n\ntestComplex ");
+		// System.err.println("\n\ntestComplex ");
 		ComplexFunction target = new ComplexFunction();
 		Rational resid = target.getResidual();
 		Optimiser<Rational> optimiser = new RandomGradientDescent<Rational>(
@@ -88,10 +85,10 @@ public class RandomGradientTest
 		Rational maxDiff = Rational.FACTORY.get(0.0001);
 		Complex[] coefficients = target.is();
 		for (int i = 0; i < target.best().length; i++) {
+			Complex n = coefficients[i].subtract(target.best()[i].norm());
 			assertTrue("Parameter " + coefficients[i]
 					+ " is too far off the optimal value " + target.best()[i],
-					((Complex) coefficients[i].subtract(target.best()[i]))
-							.norm().lt(maxDiff));
+					n.getReal().lt(maxDiff));
 		}
 	}
 }

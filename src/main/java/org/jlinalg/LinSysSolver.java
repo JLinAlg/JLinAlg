@@ -11,7 +11,7 @@ import java.util.Stack;
  *            the type for the domain for which equations are to be solved.
  */
 
-public class LinSysSolver<RE extends IRingElement>
+public class LinSysSolver<RE extends IRingElement<?>>
 		implements Serializable
 {
 
@@ -36,7 +36,8 @@ public class LinSysSolver<RE extends IRingElement>
 	 * @throws InvalidOperationException
 	 *             if the matrix and vector sizes mismatch.
 	 */
-	public static <RE extends IRingElement> AffineLinearSubspace<RE> solutionSpace(
+	@SuppressWarnings("unchecked")
+	public static <RE extends IRingElement<RE>> AffineLinearSubspace<RE> solutionSpace(
 			Matrix<RE> a, Vector<RE> b) throws InvalidOperationException
 	{
 		IRingElementFactory<RE> factory = a.getFactory();
@@ -61,8 +62,8 @@ public class LinSysSolver<RE extends IRingElement>
 				while (extCoeff.get(row, col).isZero()) {
 					col++;
 				}
-				swaps.push(row);
-				swaps.push(col);
+				swaps.push(new Integer(row));
+				swaps.push(new Integer(col));
 				extCoeff.swapCols(row, col);
 			}
 		}
@@ -70,7 +71,8 @@ public class LinSysSolver<RE extends IRingElement>
 		int dimension = a.getCols();
 
 		RE zero = factory.zero();
-		RE minusOne = (RE) zero.subtract(factory.one());
+		RE one = factory.one();
+		RE minusOne = zero.subtract(one);
 
 		Vector<RE>[] generatingSystem = new Vector[extCoeff.getCols()
 				- extCoeff.getRows() - 1];
@@ -106,8 +108,8 @@ public class LinSysSolver<RE extends IRingElement>
 		}
 
 		while (!swaps.isEmpty()) {
-			int index1 = swaps.pop();
-			int index2 = swaps.pop();
+			int index1 = swaps.pop().intValue();
+			int index2 = swaps.pop().intValue();
 			inhomogenousPart.swapEntries(index1, index2);
 			for (int i = 0; i < generatingSystem.length; i++) {
 				generatingSystem[i].swapEntries(index1, index2);
@@ -116,14 +118,11 @@ public class LinSysSolver<RE extends IRingElement>
 
 		if (inhomogenousPart.isZero()) {
 			if (generatingSystem.length == 0) {
-				return new LinearSubspace<RE>(new Vector[]
-				{
+				return new LinearSubspace<RE>(new Vector[] {
 					inhomogenousPart
 				}, true);
 			}
-			else {
-				return new LinearSubspace<RE>(generatingSystem, true);
-			}
+			return new LinearSubspace<RE>(generatingSystem, true);
 		}
 		return new AffineLinearSubspace<RE>(inhomogenousPart, generatingSystem,
 				true);
@@ -145,7 +144,7 @@ public class LinSysSolver<RE extends IRingElement>
 	 * @throws InvalidOperationException
 	 *             if the matrix and vector sizes mismatch.
 	 */
-	public static <RE extends IRingElement> Vector<RE> solve(Matrix<RE> a,
+	public static <RE extends IRingElement<RE>> Vector<RE> solve(Matrix<RE> a,
 			Vector<RE> b)
 	{
 		IRingElementFactory<RE> factory = a.getFactory();
@@ -170,8 +169,8 @@ public class LinSysSolver<RE extends IRingElement>
 				while (extCoeff.get(row, col).isZero()) {
 					col++;
 				}
-				swaps.push(row);
-				swaps.push(col);
+				swaps.push(new Integer(row));
+				swaps.push(new Integer(col));
 				extCoeff.swapCols(row, col);
 			}
 		}
@@ -192,8 +191,8 @@ public class LinSysSolver<RE extends IRingElement>
 		}
 
 		while (!swaps.isEmpty()) {
-			int index1 = swaps.pop();
-			int index2 = swaps.pop();
+			int index1 = swaps.pop().intValue();
+			int index2 = swaps.pop().intValue();
 			inhomogenousPart.swapEntries(index1, index2);
 		}
 
@@ -215,7 +214,7 @@ public class LinSysSolver<RE extends IRingElement>
 	 *            result vector
 	 * @return a.gaussjord() without zero rows or null if there is no solution
 	 */
-	private static <RE extends IRingElement> Matrix<RE> isSolvableHelper(
+	private static <RE extends IRingElement<RE>> Matrix<RE> isSolvableHelper(
 			Matrix<RE> a, Vector<RE> b)
 	{
 		if (a.getRows() != b.length()) {
@@ -244,18 +243,16 @@ public class LinSysSolver<RE extends IRingElement>
 		if (b.isZero()) {
 			return tmp;
 		}
-		else {
-			/*
-			 * Check whether there is any non zero entry in the first not zero
-			 * row of tmp in a.gaussjord() (i.e. tmp without last column)
-			 */
-			for (int col = 1; col < tmp.getCols(); col++) {
-				if (!tmp.get(row, col).isZero()) {
-					return tmp;
-				}
+		/*
+		 * Check whether there is any non zero entry in the first not zero
+		 * row of tmp in a.gaussjord() (i.e. tmp without last column)
+		 */
+		for (int col = 1; col < tmp.getCols(); col++) {
+			if (!tmp.get(row, col).isZero()) {
+				return tmp;
 			}
-			return null;
 		}
+		return null;
 
 	}
 
@@ -271,8 +268,8 @@ public class LinSysSolver<RE extends IRingElement>
 	 * @return return true if and only if there is a solution for this linear
 	 *         equation system.
 	 */
-	public static <RE extends IRingElement> boolean isSolvable(Matrix<RE> a,
-			Vector<RE> b)
+	public static <RE extends IRingElement<RE>> boolean isSolvable(
+			Matrix<RE> a, Vector<RE> b)
 	{
 
 		if (a.getRows() != b.length()) {

@@ -3,6 +3,29 @@ package org.jlinalg;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
+import org.jlinalg.operator.AbsOperator;
+import org.jlinalg.operator.AddOperator;
+import org.jlinalg.operator.AndOperator;
+import org.jlinalg.operator.DivideOperator;
+import org.jlinalg.operator.DyadicOperator;
+import org.jlinalg.operator.EqualToComparator;
+import org.jlinalg.operator.FEComparator;
+import org.jlinalg.operator.GreaterThanComparator;
+import org.jlinalg.operator.GreaterThanOrEqualToComparator;
+import org.jlinalg.operator.LessThanComparator;
+import org.jlinalg.operator.LessThanOrEqualToComparator;
+import org.jlinalg.operator.MaxReduction;
+import org.jlinalg.operator.MinReduction;
+import org.jlinalg.operator.MonadicOperator;
+import org.jlinalg.operator.MultiplyOperator;
+import org.jlinalg.operator.NotEqualToComparator;
+import org.jlinalg.operator.NotOperator;
+import org.jlinalg.operator.OrOperator;
+import org.jlinalg.operator.Reduction;
+import org.jlinalg.operator.SquareOperator;
+import org.jlinalg.operator.SubtractOperator;
+import org.jlinalg.operator.SumReduction;
+
 /**
  * This class represents a mathematical vector.
  * 
@@ -11,7 +34,7 @@ import java.lang.reflect.Method;
  *            the type of the elements in the vector.
  */
 
-public class Vector<RE extends IRingElement>
+public class Vector<RE extends IRingElement<RE>>
 		implements Serializable, Comparable<Vector<RE>>
 {
 
@@ -23,12 +46,40 @@ public class Vector<RE extends IRingElement>
 	/**
 	 * a reference to the singleton factory
 	 */
-	private final IRingElementFactory<RE> FACTORY;
+	final IRingElementFactory<RE> FACTORY;
 
 	/**
 	 * the elements in this vector.
 	 */
 	protected RE[] entries;
+
+	/**
+	 * Create a Vector with elements of type {@code RE} from a 1-dimensional
+	 * array containing any type of objects the factory of {@code RE}
+	 * understands.
+	 * 
+	 * @param theEntries
+	 *            the array of objects to be converted and inserted into the
+	 *            vector.
+	 * @param factory
+	 *            the factory of the base type for the vector to be created.
+	 */
+	public Vector(Object[] theEntries, IRingElementFactory<RE> factory)
+			throws InvalidOperationException
+	{
+		if (theEntries == null) {
+			throw new InvalidOperationException(
+					"Tried to construct vector but entry array was null");
+		}
+		if (factory == null) {
+			throw new InvalidOperationException("The factory is is null ");
+		}
+		entries = factory.getArray(theEntries.length);
+		FACTORY = factory;
+		for (int row = 0; row < theEntries.length; row++) {
+			entries[row] = FACTORY.get(theEntries[row]);
+		}
+	}
 
 	/**
 	 * A constructor that creates a Vector of a given length with no entries.
@@ -37,7 +88,6 @@ public class Vector<RE extends IRingElement>
 	 * @param factory
 	 *            the factory to be used to create elements for this vector.
 	 */
-
 	public Vector(int length, IRingElementFactory<RE> factory)
 	{
 		FACTORY = factory;
@@ -58,7 +108,7 @@ public class Vector<RE extends IRingElement>
 			String err = "Tried to construct Vector but entry array was null.";
 			throw new InvalidOperationException(err);
 		}
-		FACTORY = (IRingElementFactory<RE>) theEntries[0].getFactory();
+		FACTORY = theEntries[0].getFactory();
 		entries = theEntries;
 	}
 
@@ -78,9 +128,11 @@ public class Vector<RE extends IRingElement>
 	 * 
 	 * @return L1 norm of this Vector
 	 */
+	@SuppressWarnings("unchecked")
 	public RE L1Norm()
 	{
-		Vector<RE> abs = this.apply(AbsOperator.getInstance());
+		Vector<RE> abs = this.apply((MonadicOperator<RE>) AbsOperator
+				.getInstance());
 		return abs.sum();
 	}
 
@@ -94,7 +146,8 @@ public class Vector<RE extends IRingElement>
 	@SuppressWarnings("unchecked")
 	public RE L2Norm()
 	{
-		RE sum = this.apply(SquareOperator.getInstance()).sum();
+		RE sum = this.apply((MonadicOperator<RE>) SquareOperator.getInstance())
+				.sum();
 		Method sqrt;
 		try {
 			sqrt = sum.getClass().getMethod("sqrt");
@@ -120,7 +173,7 @@ public class Vector<RE extends IRingElement>
 	public RE nycDist(Vector<RE> anotherVector)
 			throws InvalidOperationException
 	{
-		return safe_diff(anotherVector, "nycDist").L1Norm();
+		return subtract(anotherVector).L1Norm();
 	}
 
 	/**
@@ -137,8 +190,8 @@ public class Vector<RE extends IRingElement>
 	public RE cosine(Vector<RE> anotherVector) throws InvalidOperationException
 	{
 		check_lengths(anotherVector, "cosine");
-		double n2 = this.length() * anotherVector.length();
-		return (RE) multiply(anotherVector).multiply(FACTORY.get(n2).invert());
+		return multiply(anotherVector).divide(L2Norm()).divide(
+				anotherVector.L2Norm());
 	}
 
 	/**
@@ -165,15 +218,14 @@ public class Vector<RE extends IRingElement>
 	 * Sets an entry to a IRingElement at a certain index.
 	 * 
 	 * @param index
-	 * @param iRingElement
+	 * @param entry
 	 * @throws InvalidOperationException
 	 *             if the index is invalid
 	 */
-	public void set(int index, IRingElement iRingElement)
-			throws InvalidOperationException
+	public void set(int index, RE entry) throws InvalidOperationException
 	{
 		try {
-			entries[index - 1] = (RE) iRingElement;
+			entries[index - 1] = entry;
 		} catch (ArrayIndexOutOfBoundsException e) {
 			throw new InvalidOperationException("Invalid index: " + index
 					+ "\n Valid only between 1 and " + entries.length);
@@ -183,7 +235,7 @@ public class Vector<RE extends IRingElement>
 	/**
 	 * Returns a new 1xN Matrix made from the N elements of this Vector.
 	 * 
-	 * @return the Matrix
+	 * @return a Matrix with a single column having the elements of this vector.
 	 */
 	public Matrix<RE> toMatrix()
 	{
@@ -198,11 +250,11 @@ public class Vector<RE extends IRingElement>
 	 * @param scalar
 	 * @return the divided Vector
 	 */
-
+	@SuppressWarnings("unchecked")
 	public Vector<RE> divide(RE scalar)
 	{
-
-		return operate(scalar, DivideOperator.getInstance());
+		return operate(scalar, (DyadicOperator<RE>) DivideOperator
+				.getInstance());
 	}
 
 	/**
@@ -210,9 +262,11 @@ public class Vector<RE extends IRingElement>
 	 * 
 	 * @param scalar
 	 */
+	@SuppressWarnings("unchecked")
 	public void divideReplace(RE scalar)
 	{
-		operateReplace(scalar, DivideOperator.getInstance());
+		operateReplace(scalar, (DyadicOperator<RE>) DivideOperator
+				.getInstance());
 	}
 
 	/**
@@ -221,9 +275,11 @@ public class Vector<RE extends IRingElement>
 	 * @param scalar
 	 * @return the multiplied Vector
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<RE> multiply(RE scalar)
 	{
-		return operate(scalar, MultiplyOperator.getInstance());
+		return operate(scalar, (DyadicOperator<RE>) MultiplyOperator
+				.getInstance());
 	}
 
 	/**
@@ -234,11 +290,12 @@ public class Vector<RE extends IRingElement>
 	 * @throws InvalidOperationException
 	 *             if the vectors have unequal lengths
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<RE> arrayMultiply(Vector<RE> anotherVector)
 			throws InvalidOperationException
 	{
-		return operate(anotherVector, MultiplyOperator.getInstance(),
-				"arrayMultiply");
+		return operate(anotherVector, (DyadicOperator<RE>) MultiplyOperator
+				.getInstance(), "arrayMultiply");
 	}
 
 	/**
@@ -247,9 +304,11 @@ public class Vector<RE extends IRingElement>
 	 * @param scalar
 	 */
 
+	@SuppressWarnings("unchecked")
 	public void multiplyReplace(RE scalar)
 	{
-		operateReplace(scalar, MultiplyOperator.getInstance());
+		operateReplace(scalar, (DyadicOperator<RE>) MultiplyOperator
+				.getInstance());
 	}
 
 	/**
@@ -259,10 +318,11 @@ public class Vector<RE extends IRingElement>
 	 * @throws InvalidOperationException
 	 *             if the vectors have unequal lengths
 	 */
+	@SuppressWarnings("unchecked")
 	public void multiplyReplace(Vector<RE> anotherVector)
 	{
-		operateReplace(anotherVector, MultiplyOperator.getInstance(),
-				"multiplyReplace");
+		operateReplace(anotherVector, (DyadicOperator<RE>) MultiplyOperator
+				.getInstance(), "multiplyReplace");
 	}
 
 	/**
@@ -271,9 +331,10 @@ public class Vector<RE extends IRingElement>
 	 * @param scalar
 	 * @return the add Vector
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<RE> add(RE scalar)
 	{
-		return operate(scalar, AddOperator.getInstance());
+		return operate(scalar, (DyadicOperator<RE>) AddOperator.getInstance());
 	}
 
 	/**
@@ -285,11 +346,12 @@ public class Vector<RE extends IRingElement>
 	 *             if the vectors have unequal lengths
 	 */
 
+	@SuppressWarnings("unchecked")
 	public Vector<RE> add(Vector<RE> anotherVector)
 			throws InvalidOperationException
 	{
-
-		return operate(anotherVector, AddOperator.getInstance(), "add");
+		return operate(anotherVector, (DyadicOperator<RE>) AddOperator
+				.getInstance(), "add");
 	}
 
 	/**
@@ -297,10 +359,10 @@ public class Vector<RE extends IRingElement>
 	 * 
 	 * @param scalar
 	 */
-
+	@SuppressWarnings("unchecked")
 	public void addReplace(RE scalar)
 	{
-		operateReplace(scalar, AddOperator.getInstance());
+		operateReplace(scalar, (DyadicOperator<RE>) AddOperator.getInstance());
 	}
 
 	/**
@@ -310,9 +372,11 @@ public class Vector<RE extends IRingElement>
 	 * @throws InvalidOperationException
 	 *             if the vectors have unequal lengths
 	 */
+	@SuppressWarnings("unchecked")
 	public void addReplace(Vector<RE> anotherVector)
 	{
-		operateReplace(anotherVector, AddOperator.getInstance(), "add");
+		operateReplace(anotherVector, (DyadicOperator<RE>) AddOperator
+				.getInstance(), "add");
 	}
 
 	/**
@@ -321,9 +385,11 @@ public class Vector<RE extends IRingElement>
 	 * @param scalar
 	 * @return the subtractd Vector
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<RE> subtract(RE scalar)
 	{
-		return operate(scalar, SubtractOperator.getInstance());
+		return operate(scalar, (DyadicOperator<RE>) SubtractOperator
+				.getInstance());
 	}
 
 	/**
@@ -334,11 +400,12 @@ public class Vector<RE extends IRingElement>
 	 * @throws InvalidOperationException
 	 *             if the vectors have unequal lengths
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<RE> subtract(Vector<RE> anotherVector)
 			throws InvalidOperationException
 	{
-		return operate(anotherVector, SubtractOperator.getInstance(),
-				"subtract");
+		return operate(anotherVector, (DyadicOperator<RE>) SubtractOperator
+				.getInstance(), "subtract");
 	}
 
 	/**
@@ -346,9 +413,11 @@ public class Vector<RE extends IRingElement>
 	 * 
 	 * @param scalar
 	 */
+	@SuppressWarnings("unchecked")
 	public void subtractReplace(RE scalar)
 	{
-		operateReplace(scalar, SubtractOperator.getInstance());
+		operateReplace(scalar, (DyadicOperator<RE>) SubtractOperator
+				.getInstance());
 	}
 
 	/**
@@ -358,10 +427,11 @@ public class Vector<RE extends IRingElement>
 	 * @throws InvalidOperationException
 	 *             if the vectors have unequal lengths
 	 */
+	@SuppressWarnings("unchecked")
 	public void subtractReplace(Vector<RE> anotherVector)
 	{
-		operateReplace(anotherVector, SubtractOperator.getInstance(),
-				"subtract");
+		operateReplace(anotherVector, (DyadicOperator<RE>) SubtractOperator
+				.getInstance(), "subtract");
 	}
 
 	/**
@@ -387,7 +457,7 @@ public class Vector<RE extends IRingElement>
 
 		RE result = FACTORY.zero();
 		for (int i = 1; i <= entries.length; i++) {
-			result = (RE) result.add(entries[i - 1].multiply(anotherVector
+			result = result.add(entries[i - 1].multiply(anotherVector
 					.getEntry(i)));
 		}
 
@@ -403,7 +473,7 @@ public class Vector<RE extends IRingElement>
 	@Override
 	public boolean equals(Object anotherVector)
 	{
-		Vector<RE> v = (Vector<RE>) anotherVector;
+		Vector<?> v = (Vector<?>) anotherVector;
 		if (this.length() == v.length()) {
 			for (int i = 1; i <= this.length(); i++) {
 				if (!this.getEntry(i).equals(v.getEntry(i))) {
@@ -459,9 +529,11 @@ public class Vector<RE extends IRingElement>
 	 *             if the vectors have unequal lengths
 	 */
 
+	@SuppressWarnings("unchecked")
 	public Vector<RE> and(Vector<RE> anotherVector)
 	{
-		return operate(anotherVector, AndOperator.getInstance(), "AND");
+		return operate(anotherVector, (DyadicOperator<RE>) AndOperator
+				.getInstance(), "AND");
 	}
 
 	/**
@@ -473,9 +545,11 @@ public class Vector<RE extends IRingElement>
 	 * @throws InvalidOperationException
 	 *             if the vectors have unequal lengths
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<RE> or(Vector<RE> anotherVector)
 	{
-		return operate(anotherVector, OrOperator.getInstance(), "OR");
+		return operate(anotherVector, (DyadicOperator<RE>) OrOperator
+				.getInstance(), "OR");
 	}
 
 	/**
@@ -484,9 +558,10 @@ public class Vector<RE extends IRingElement>
 	 * 
 	 * @return Vector of 1's and 0's
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<RE> not()
 	{
-		return this.apply(NotOperator.getInstance());
+		return this.apply((MonadicOperator<RE>) NotOperator.getInstance());
 	}
 
 	/**
@@ -513,7 +588,7 @@ public class Vector<RE extends IRingElement>
 	 *            the function to apply
 	 * @return result of applying <tt>fun</tt> to this Vector
 	 */
-	public Vector<RE> apply(MonadicOperator<? extends IRingElement> fun)
+	public Vector<RE> apply(MonadicOperator<RE> fun)
 	{
 		Vector<RE> vector = new Vector<RE>(this.length(), FACTORY);
 
@@ -610,14 +685,13 @@ public class Vector<RE extends IRingElement>
 	 * 
 	 * @return Vector copy
 	 */
-
+	@SuppressWarnings("unchecked")
 	public Vector<RE> copy()
 	{
 		if (entries.length == 0) {
 			throw new InvalidOperationException("Encountered empty vector.");
 		}
-		Vector<RE> tmp = new Vector<RE>(this.length(),
-				(IRingElementFactory<RE>) entries[0].getFactory());
+		Vector<RE> tmp = new Vector(this.length(), entries[0].getFactory());
 		for (int i = 1; i <= this.length(); i++) {
 			tmp.set(i, this.getEntry(i));
 		}
@@ -633,9 +707,11 @@ public class Vector<RE extends IRingElement>
 	 * @throws InvalidOperationException
 	 *             if the vectors have unequal lengths
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<RE> lt(Vector<RE> anotherVector)
 	{
-		return comparison(anotherVector, LessThanComparator.getInstance(), "LT");
+		return comparison(anotherVector, (FEComparator<RE>) LessThanComparator
+				.getInstance(), "LT");
 	}
 
 	/**
@@ -645,9 +721,11 @@ public class Vector<RE extends IRingElement>
 	 * @param scalar
 	 * @return Vector of ones and zeros
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<RE> lt(RE scalar)
 	{
-		return comparison(scalar, LessThanComparator.getInstance());
+		return comparison(scalar, (FEComparator<RE>) LessThanComparator
+				.getInstance());
 	}
 
 	/**
@@ -659,10 +737,12 @@ public class Vector<RE extends IRingElement>
 	 * @throws InvalidOperationException
 	 *             if the vectors have unequal lengths
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<RE> le(Vector<RE> anotherVector)
 	{
-		return comparison(anotherVector, LessThanOrEqualToComparator
-				.getInstance(), "LE");
+		return comparison(anotherVector,
+				(FEComparator<RE>) LessThanOrEqualToComparator.getInstance(),
+				"LE");
 	}
 
 	/**
@@ -672,9 +752,11 @@ public class Vector<RE extends IRingElement>
 	 * @param scalar
 	 * @return Vector of ones and zeros
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<RE> le(RE scalar)
 	{
-		return comparison(scalar, LessThanOrEqualToComparator.getInstance());
+		return comparison(scalar,
+				(FEComparator<RE>) LessThanOrEqualToComparator.getInstance());
 	}
 
 	/**
@@ -686,11 +768,11 @@ public class Vector<RE extends IRingElement>
 	 * @throws InvalidOperationException
 	 *             if the vectors have unequal lengths
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<RE> gt(Vector<RE> anotherVector)
 	{
-
-		return comparison(anotherVector, GreaterThanComparator.getInstance(),
-				"GT");
+		return comparison(anotherVector,
+				(FEComparator<RE>) GreaterThanComparator.getInstance(), "GT");
 	}
 
 	/**
@@ -700,9 +782,11 @@ public class Vector<RE extends IRingElement>
 	 * @param scalar
 	 * @return Vector of ones and zeros
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<RE> gt(RE scalar)
 	{
-		return comparison(scalar, GreaterThanComparator.getInstance());
+		return comparison(scalar, (FEComparator<RE>) GreaterThanComparator
+				.getInstance());
 	}
 
 	/**
@@ -714,10 +798,13 @@ public class Vector<RE extends IRingElement>
 	 * @throws InvalidOperationException
 	 *             if the vectors have unequal lengths
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<RE> ge(Vector<RE> anotherVector)
 	{
-		return comparison(anotherVector, GreaterThanOrEqualToComparator
-				.getInstance(), "GE");
+		return comparison(
+				anotherVector,
+				(FEComparator<RE>) GreaterThanOrEqualToComparator.getInstance(),
+				"GE");
 	}
 
 	/**
@@ -727,9 +814,11 @@ public class Vector<RE extends IRingElement>
 	 * @param scalar
 	 * @return Vector of ones and zeros
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<RE> ge(RE scalar)
 	{
-		return comparison(scalar, GreaterThanOrEqualToComparator.getInstance());
+		return comparison(scalar,
+				(FEComparator<RE>) GreaterThanOrEqualToComparator.getInstance());
 	}
 
 	/**
@@ -741,9 +830,11 @@ public class Vector<RE extends IRingElement>
 	 * @throws InvalidOperationException
 	 *             if the vectors have unequal lengths
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<RE> eq(Vector<RE> anotherVector)
 	{
-		return comparison(anotherVector, EqualToComparator.getInstance(), "EQ");
+		return comparison(anotherVector, (FEComparator<RE>) EqualToComparator
+				.getInstance(), "EQ");
 	}
 
 	/**
@@ -753,9 +844,11 @@ public class Vector<RE extends IRingElement>
 	 * @param scalar
 	 * @return Vector of ones and zeros
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<RE> eq(RE scalar)
 	{
-		return comparison(scalar, EqualToComparator.getInstance());
+		return comparison(scalar, (FEComparator<RE>) EqualToComparator
+				.getInstance());
 	}
 
 	/**
@@ -767,10 +860,11 @@ public class Vector<RE extends IRingElement>
 	 * @throws InvalidOperationException
 	 *             if the vectors have unequal lengths
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<RE> ne(Vector<RE> anotherVector)
 	{
-		return comparison(anotherVector, NotEqualToComparator.getInstance(),
-				"NE");
+		return comparison(anotherVector,
+				(FEComparator<RE>) NotEqualToComparator.getInstance(), "NE");
 	}
 
 	/**
@@ -780,10 +874,11 @@ public class Vector<RE extends IRingElement>
 	 * @param scalar
 	 * @return Vector of ones and zeros
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<RE> ne(RE scalar)
 	{
-
-		return comparison(scalar, NotEqualToComparator.getInstance());
+		return comparison(scalar, (FEComparator<RE>) NotEqualToComparator
+				.getInstance());
 	}
 
 	/**
@@ -825,7 +920,7 @@ public class Vector<RE extends IRingElement>
 	 */
 	public RE mean()
 	{
-		return (RE) sum().multiply((FACTORY.get(length())).invert());
+		return sum().multiply((FACTORY.get(length())).invert());
 	}
 
 	/**
@@ -932,17 +1027,36 @@ public class Vector<RE extends IRingElement>
 	}
 
 	/**
-	 * Returns the cross-product of this Vector and another.
-	 * 
+	 * @param vec
+	 *            a vector
+	 * @return the cross-product of this Vector and vector {@code vec}.
+	 * @throws InvalidOperationException
+	 *             if the other Vector is null or not in the three-dimensional
+	 *             space
+	 */
+
+	public Vector<RE> cross(Vector<RE> vec) throws InvalidOperationException
+	{
+		Vector<RE> res = new Vector<RE>(3, FACTORY);
+		res.entries[0] = entries[1].multiply(vec.entries[2]).subtract(
+				entries[2].multiply(vec.entries[1]));
+		res.entries[1] = entries[2].multiply(vec.entries[0]).subtract(
+				entries[0].multiply(vec.entries[2]));
+		res.entries[2] = entries[0].multiply(vec.entries[1]).subtract(
+				entries[1].multiply(vec.entries[0]));
+		return res;
+	}
+
+	/**
 	 * @param anotherVector
-	 * @return this^T X anotherVector
+	 * @return the matrix obtained from multiplying the transposed of this
+	 *         Vector and another.
 	 * @throws InvalidOperationException
 	 *             if the other Vector is null
 	 */
-	public Matrix<RE> cross(Vector<RE> anotherVector)
+	public Matrix<RE> transposeAndMultiply(Vector<RE> anotherVector)
 			throws InvalidOperationException
 	{
-
 		if (anotherVector == null) {
 			throw new InvalidOperationException("Tried to " + "cross \n" + this
 					+ " and \n" + anotherVector + "Other vector is null!");
@@ -1003,7 +1117,7 @@ public class Vector<RE extends IRingElement>
 	 *         comparison succeeds, zeros where it fails)
 	 */
 	private Vector<RE> comparison(Vector<RE> anotherVector,
-			FEComparator<IRingElement> feComparator, String compName)
+			FEComparator<RE> feComparator, String compName)
 	{
 		check_lengths(anotherVector, compName);
 
@@ -1026,8 +1140,7 @@ public class Vector<RE extends IRingElement>
 	 * @return the result of comparing this Vector with a scalar (ones where
 	 *         comparison succeeds, zeros where it fails)
 	 */
-	private Vector<RE> comparison(RE scalar,
-			FEComparator<IRingElement> feComparator)
+	private Vector<RE> comparison(RE scalar, FEComparator<RE> feComparator)
 	{
 		Vector<RE> v = new Vector<RE>(this.length(), FACTORY);
 
@@ -1050,7 +1163,7 @@ public class Vector<RE extends IRingElement>
 	 * @return Vector resulting from operation on two others
 	 */
 	private Vector<RE> operate(Vector<RE> vector2,
-			DyadicOperator<IRingElement> dyadicOperator, String funName)
+			DyadicOperator<RE> dyadicOperator, String funName)
 	{
 		check_lengths(vector2, funName);
 		Vector<RE> vector3 = copy();
@@ -1066,8 +1179,7 @@ public class Vector<RE extends IRingElement>
 	 * @param dyadicOperator
 	 * @return Vector resulting from operation on Vector and scalar
 	 */
-	private Vector<RE> operate(RE scalar,
-			DyadicOperator<IRingElement> dyadicOperator)
+	private Vector<RE> operate(RE scalar, DyadicOperator<RE> dyadicOperator)
 	{
 		Vector<RE> vector2 = copy();
 		for (int i = 1; i <= length(); ++i) {
@@ -1084,7 +1196,7 @@ public class Vector<RE extends IRingElement>
 	 * @param funName
 	 */
 	private void operateReplace(Vector<RE> vector,
-			DyadicOperator<IRingElement> dyadicOperator, String funName)
+			DyadicOperator<RE> dyadicOperator, String funName)
 	{
 		check_lengths(vector, funName);
 
@@ -1100,8 +1212,7 @@ public class Vector<RE extends IRingElement>
 	 * @param scalar
 	 * @param dyadicOperator
 	 */
-	private void operateReplace(RE scalar,
-			DyadicOperator<IRingElement> dyadicOperator)
+	private void operateReplace(RE scalar, DyadicOperator<RE> dyadicOperator)
 	{
 		for (int i = 1; i <= this.length(); ++i) {
 			this.set(i, dyadicOperator.apply(this.getEntry(i), scalar));
@@ -1155,7 +1266,7 @@ public class Vector<RE extends IRingElement>
 		if (entries == null) return 0;
 		int hash = entries.length;
 		for (int i = 0; i < entries.length; i++)
-			hash ^= entries[i].hashCode() * 113 << (i * 2);
+			hash ^= entries[i].hashCode() << i;
 		return hash;
 	}
 
@@ -1171,10 +1282,10 @@ public class Vector<RE extends IRingElement>
 		if (entries.length == 0)
 			throw new InvalidOperationException(
 					"Can not calculate the product for an empty vector.");
-		RE f = FACTORY.one();
+		RE product = FACTORY.one();
 		for (int i = 0; i < entries.length; i++)
-			f = (RE) f.multiply(entries[i]);
-		return f;
+			product = product.multiply(entries[i]);
+		return product;
 	}
 
 	/**
@@ -1202,13 +1313,13 @@ public class Vector<RE extends IRingElement>
 		if (vector.length() != length())
 			throw new InvalidOperationException(
 					"Comparison of vectors with distinct lengths is not permitted.");
-		IRingElement[] entries_b = vector.entries;
+		RE[] entries_b = vector.entries;
 		for (int i = 1; i <= length(); i++) {
-			IRingElement a = entries[i - 1];
+			RE a = entries[i - 1];
 			if (a == null)
 				throw new InvalidOperationException(
 						"Can not compare vectors with null entries.");
-			IRingElement b = entries_b[i - 1];
+			RE b = entries_b[i - 1];
 			if (b == null)
 				throw new InvalidOperationException(
 						"Can not compare vectors with null entries.");

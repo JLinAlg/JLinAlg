@@ -20,8 +20,8 @@ Get webcpp at http://webcpp.sf.net
  * This demonstration of the class FieldP shows that in vector spaces over
  * finite fields there can be linear dependent vectors which are all orthogonal
  * to each other.&lt;br&gt;
- *  
  * This also demonstrates the use of a dynamic factory
+ * 
  * @author Andreas Lochbihler, Georg Thimm
  */</font>
 <font CLASS=keyword>package</font> org.jlinalg.demo;
@@ -40,15 +40,16 @@ Get webcpp at http://webcpp.sf.net
 	 * @param args
 	 *            are ignored.
 	 */</font>
+	@SuppressWarnings(<font CLASS=dblquot>"unchecked"</font>)
 	<font CLASS=keyword>public</font> <font CLASS=keytype>static</font> <font CLASS=keytype>void</font> main(String[] args)
 	{
 		<font CLASS=comment>// The PField require the creation of a factory. Here, a factory for</font>
 		<font CLASS=comment>// G(7) is used.</font>
-		<font CLASS=keytype>long</font> prime <font CLASS=symbols>=</font> <font CLASS=integer>7</font>;
-		FieldPAbstractFactory factory7 <font CLASS=symbols>=</font> FieldPFactoryMap.getFactory(prime);
+		Long prime <font CLASS=symbols>=</font> 7L;
+		FieldPAbstractFactory&lt;?&gt; factory7 <font CLASS=symbols>=</font> FieldPFactoryMap.getFactory(prime);
 
 		<font CLASS=comment>// By the means of the factory, instances are created.</font>
-		FieldP p1, p2, p3, p4, p5, p6;
+		FieldP&lt;?&gt; p1, p2, p3, p4, p5, p6;
 		p1 <font CLASS=symbols>=</font> factory7.get(<font CLASS=integer>1</font>);
 		p2 <font CLASS=symbols>=</font> factory7.get(<font CLASS=integer>2</font>);
 		p3 <font CLASS=symbols>=</font> factory7.get(<font CLASS=integer>3</font>);
@@ -57,16 +58,20 @@ Get webcpp at http://webcpp.sf.net
 		p6 <font CLASS=symbols>=</font> factory7.get(<font CLASS=integer>6</font>);
 
 		<font CLASS=comment>// The vectors will be used to define a matrix</font>
-		Vector&lt;FieldP&gt; u <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Vector&lt;FieldP&gt;(<font CLASS=keyword>new</font> FieldP[]
-			{ p1, p1, p5 });
-		Vector&lt;FieldP&gt; v <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Vector&lt;FieldP&gt;(<font CLASS=keyword>new</font> FieldP[]
-			{ p1, p3, p2 });
-		Vector&lt;FieldP&gt; w <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Vector&lt;FieldP&gt;(<font CLASS=keyword>new</font> FieldP[]
-			{ p6, p4, p5, });
+		Vector&lt;?&gt; u <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Vector(<font CLASS=keyword>new</font> FieldP[] {
+				p1, p1, p5
+		});
+		Vector&lt;?&gt; v <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Vector(<font CLASS=keyword>new</font> FieldP[] {
+				p1, p3, p2
+		});
+		Vector&lt;?&gt; w <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Vector(<font CLASS=keyword>new</font> FieldP[] {
+				p6, p4, p5,
+		});
 
 		<font CLASS=comment>// the matrix is created and printed.</font>
-		Matrix&lt;FieldP&gt; matrix <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Matrix&lt;FieldP&gt;(<font CLASS=keyword>new</font> Vector[]
-			{ u, v, w });
+		Matrix&lt;?&gt; matrix <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Matrix(<font CLASS=keyword>new</font> Vector[] {
+				u, v, w
+		});
 
 		System.out.println(matrix);
 
@@ -83,11 +88,14 @@ Get webcpp at http://webcpp.sf.net
 		 */</font>
 
 		<font CLASS=comment>// &lt;u, v&gt; =</font>
-		System.out.println(<font CLASS=dblquot>" &lt; "</font> <font CLASS=symbols>+</font> u <font CLASS=symbols>+</font> <font CLASS=dblquot>", "</font> + v + <font CLASS=dblquot>" &gt; = "</font> + u.multiply(v));
+		System.out.println(<font CLASS=dblquot>" &lt; "</font> <font CLASS=symbols>+</font> u <font CLASS=symbols>+</font> <font CLASS=dblquot>", "</font> + v + <font CLASS=dblquot>" &gt; = "</font>
+				<font CLASS=symbols>+</font> ((Vector) u).multiply(v));
 		<font CLASS=comment>// &lt;u, w&gt; =</font>
-		System.out.println(<font CLASS=dblquot>" &lt; "</font> <font CLASS=symbols>+</font> u <font CLASS=symbols>+</font> <font CLASS=dblquot>", "</font> + w + <font CLASS=dblquot>" &gt; = "</font> + u.multiply(w));
+		System.out.println(<font CLASS=dblquot>" &lt; "</font> <font CLASS=symbols>+</font> u <font CLASS=symbols>+</font> <font CLASS=dblquot>", "</font> + w + <font CLASS=dblquot>" &gt; = "</font>
+				<font CLASS=symbols>+</font> ((Vector) u).multiply(w));
 		<font CLASS=comment>// &lt;v, w&gt; =</font>
-		System.out.println(<font CLASS=dblquot>" &lt; "</font> <font CLASS=symbols>+</font> v <font CLASS=symbols>+</font> <font CLASS=dblquot>", "</font> + w + <font CLASS=dblquot>" &gt; = "</font> + v.multiply(w));
+		System.out.println(<font CLASS=dblquot>" &lt; "</font> <font CLASS=symbols>+</font> v <font CLASS=symbols>+</font> <font CLASS=dblquot>", "</font> + w + <font CLASS=dblquot>" &gt; = "</font>
+				<font CLASS=symbols>+</font> ((Vector) v).multiply(w));
 	}
 }
 

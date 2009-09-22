@@ -11,7 +11,7 @@ import org.jlinalg.IRingElement;
  *            the type of the elements in the polynomial Created on 15.06.2008
  *            by Andreas Keilhauer
  */
-public class PolynomialLongDivisionResult<BASE extends IRingElement>
+public class PolynomialLongDivisionResult<BASE extends IRingElement<BASE>>
 		implements Serializable
 {
 

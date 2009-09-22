@@ -15,7 +15,7 @@ import org.jlinalg.IRingElement;
  * @param <RESIDUAL>
  *            The type of the residual.
  */
-public interface Target<RESIDUAL extends IRingElement>
+public interface Target<RESIDUAL extends IRingElement<?>>
 {
 	/**
 	 * Give access to the residual for the parameters as they are stored in the
@@ -30,7 +30,7 @@ public interface Target<RESIDUAL extends IRingElement>
 	/**
 	 * @return the parameters as they are stored in the target.
 	 */
-	public IRingElement[] getParameters();
+	public IRingElement<?>[] getParameters();
 
 	/**
 	 * Change the parameters
@@ -38,7 +38,7 @@ public interface Target<RESIDUAL extends IRingElement>
 	 * @param values
 	 *            the new value
 	 */
-	public void setParameters(IRingElement[] values);
+	public void setParameters(IRingElement<?>[] values);
 
 	/**
 	 * Change one parameter
@@ -51,7 +51,7 @@ public interface Target<RESIDUAL extends IRingElement>
 	 *         <code>{@link #maxParameterValues()}[index]</code> and
 	 *         <code>{@link #minParameterValues()}[index]</code>
 	 */
-	public boolean setParameter(int index, IRingElement value);
+	public boolean setParameter(int index, IRingElement<?> value);
 
 	/**
 	 * @return the minimum permissible values for the parameters. This may be
@@ -59,7 +59,7 @@ public interface Target<RESIDUAL extends IRingElement>
 	 *         elements may be <code>null</code> (and then for this element no
 	 *         lower limit exists).
 	 */
-	public IRingElement[] minParameterValues();
+	public IRingElement<?>[] minParameterValues();
 
 	/**
 	 * @return the maximum permissible values for the parameters. This may be
@@ -67,12 +67,12 @@ public interface Target<RESIDUAL extends IRingElement>
 	 *         elements may be <code>null</code> (and then for this element no
 	 *         upper limit exists).
 	 */
-	public IRingElement[] maxParameterValues();
+	public IRingElement<?>[] maxParameterValues();
 
 	/**
 	 * @param index
 	 *            the number of the parameter
 	 * @return a parameter
 	 */
-	public IRingElement getParameter(int index);
+	public IRingElement<?> getParameter(int index);
 }

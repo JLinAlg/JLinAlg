@@ -22,15 +22,16 @@ public class FieldPDemo
 	 * @param args
 	 *            are ignored.
 	 */
+	@SuppressWarnings("unchecked")
 	public static void main(String[] args)
 	{
 		// The PField require the creation of a factory. Here, a factory for
 		// G(7) is used.
-		long prime = 7;
-		FieldPAbstractFactory factory7 = FieldPFactoryMap.getFactory(prime);
+		Long prime = 7L;
+		FieldPAbstractFactory<?> factory7 = FieldPFactoryMap.getFactory(prime);
 
 		// By the means of the factory, instances are created.
-		FieldP p1, p2, p3, p4, p5, p6;
+		FieldP<?> p1, p2, p3, p4, p5, p6;
 		p1 = factory7.get(1);
 		p2 = factory7.get(2);
 		p3 = factory7.get(3);
@@ -39,22 +40,18 @@ public class FieldPDemo
 		p6 = factory7.get(6);
 
 		// The vectors will be used to define a matrix
-		Vector<FieldP> u = new Vector<FieldP>(new FieldP[]
-		{
+		Vector<?> u = new Vector(new FieldP[] {
 				p1, p1, p5
 		});
-		Vector<FieldP> v = new Vector<FieldP>(new FieldP[]
-		{
+		Vector<?> v = new Vector(new FieldP[] {
 				p1, p3, p2
 		});
-		Vector<FieldP> w = new Vector<FieldP>(new FieldP[]
-		{
+		Vector<?> w = new Vector(new FieldP[] {
 				p6, p4, p5,
 		});
 
 		// the matrix is created and printed.
-		Matrix<FieldP> matrix = new Matrix<FieldP>(new Vector[]
-		{
+		Matrix<?> matrix = new Matrix(new Vector[] {
 				u, v, w
 		});
 
@@ -73,10 +70,13 @@ public class FieldPDemo
 		 */
 
 		// <u, v> =
-		System.out.println(" < " + u + ", " + v + " > = " + u.multiply(v));
+		System.out.println(" < " + u + ", " + v + " > = "
+				+ ((Vector) u).multiply(v));
 		// <u, w> =
-		System.out.println(" < " + u + ", " + w + " > = " + u.multiply(w));
+		System.out.println(" < " + u + ", " + w + " > = "
+				+ ((Vector) u).multiply(w));
 		// <v, w> =
-		System.out.println(" < " + v + ", " + w + " > = " + v.multiply(w));
+		System.out.println(" < " + v + ", " + w + " > = "
+				+ ((Vector) v).multiply(w));
 	}
 }

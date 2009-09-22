@@ -1,13 +1,10 @@
 package org.jlinalg.demo;
 
-import java.util.Random;
-
-import org.jlinalg.DoubleWrapper;
-import org.jlinalg.IRingElement;
 import org.jlinalg.LinAlgFactory;
 import org.jlinalg.Matrix;
-import org.jlinalg.MonadicOperator;
 import org.jlinalg.Vector;
+import org.jlinalg.doublewrapper.DoubleWrapper;
+import org.jlinalg.operator.MonadicOperator;
 
 /**
  * Example showing Exclusive-Or neural net problem using JLinAlg. Example can be
@@ -21,39 +18,32 @@ public class Xor
 	/**
 	 * inpat holds the input part of the training patterns
 	 */
-	private static double[][] inpat =
-	{
+	@SuppressWarnings("boxing")
+	private static Double[][] inpat = {
 			{
-					0, 0
-			},
-			{
-					0, 1
-			},
-			{
-					1, 0
-			},
-			{
-					1, 1
+					0., 0.
+			}, {
+					0., 1.
+			}, {
+					1., 0.
+			}, {
+					1., 1.
 			}
 	};
 
 	/**
 	 * tgpat holds the target part of the training patterns
 	 */
-
-	private static double[][] tgpat =
-	{
+	@SuppressWarnings("boxing")
+	private static Double[][] tgpat = {
 			{
-				0
-			},
-			{
-				1
-			},
-			{
-				1
-			},
-			{
-				0
+				0.
+			}, {
+				1.
+			}, {
+				1.
+			}, {
+				0.
 			}
 	};
 
@@ -70,7 +60,7 @@ public class Xor
 	/**
 	 * the momentum
 	 */
-	private static final double MU = 0.9; // 
+	private static final double MU = 0.9;
 
 	/**
 	 * the number of hidden units
@@ -81,11 +71,6 @@ public class Xor
 	 * used to create vectors and arrays of {@link DoubleWrapper}s
 	 */
 	private LinAlgFactory<DoubleWrapper> df;
-
-	/**
-	 * an instance of a random number generator.
-	 */
-	private Random random;
 
 	/**
 	 * the number of inputs
@@ -127,9 +112,7 @@ public class Xor
 	 */
 	public Xor()
 	{
-
 		df = new LinAlgFactory<DoubleWrapper>(DoubleWrapper.FACTORY);
-		random = new Random();
 
 		// this allows us to generalize to new problems
 		ninp = inpat[0].length;
@@ -137,12 +120,12 @@ public class Xor
 		npat = inpat.length;
 
 		// weights are initially random
-		wih = df.gaussianNoise(ninp, NHID, random);
-		who = df.gaussianNoise(NHID, nout, random);
+		wih = df.gaussianNoise(ninp, NHID);
+		who = df.gaussianNoise(NHID, nout);
 
 		// biases are initially random
-		bh = df.gaussianNoise(NHID, random);
-		bo = df.gaussianNoise(nout, random);
+		bh = df.gaussianNoise(NHID);
+		bo = df.gaussianNoise(nout);
 	}
 
 	/**
@@ -180,15 +163,16 @@ public class Xor
 			// loop over patterns
 			for (int j = 0; j < npat; ++j) {
 
-				Vector<DoubleWrapper> ai = df.buildVector(inpat[j]);
+				Vector<DoubleWrapper> ai = new Vector<DoubleWrapper>(inpat[j],
+						DoubleWrapper.FACTORY);
 
 				// run forward pass
 				Vector<DoubleWrapper> ah = ai.multiply(wih).add(bh).apply(sgop);
 				Vector<DoubleWrapper> ao = ah.multiply(who).add(bo).apply(sgop);
 
 				// compute output error/delta from target
-				Vector<DoubleWrapper> eo = df.buildVector(tgpat[j])
-						.subtract(ao);
+				Vector<DoubleWrapper> eo = new Vector<DoubleWrapper>(tgpat[j],
+						DoubleWrapper.FACTORY).subtract(ao);
 				Vector<DoubleWrapper> dlo = eo.arrayMultiply(ao.apply(sdop));
 
 				// compute hidden error/delta by back-prop from output delta
@@ -196,8 +180,8 @@ public class Xor
 				Vector<DoubleWrapper> dlh = eh.arrayMultiply(ah.apply(sdop));
 
 				// accumulate weight- and bias- changes using the Delta Rule
-				dwih = dwih.add(ai.cross(dlh));
-				dwho = dwho.add(ah.cross(dlo));
+				dwih = dwih.add(ai.transposeAndMultiply(dlh));
+				dwho = dwho.add(ah.transposeAndMultiply(dlo));
 				dbh = dbh.add(dlh);
 				dbo = dbo.add(dlo);
 
@@ -242,8 +226,10 @@ public class Xor
 
 		for (int j = 0; j < npat; ++j) {
 
-			Vector<DoubleWrapper> ai = df.buildVector(inpat[j]);
-			Vector<DoubleWrapper> tg = df.buildVector(tgpat[j]);
+			Vector<DoubleWrapper> ai = new Vector<DoubleWrapper>(inpat[j],
+					DoubleWrapper.FACTORY);
+			Vector<DoubleWrapper> tg = new Vector<DoubleWrapper>(tgpat[j],
+					DoubleWrapper.FACTORY);
 
 			// run forward pass
 			Vector<DoubleWrapper> ah = ai.multiply(wih).add(bh).apply(sgop);
@@ -260,10 +246,9 @@ public class Xor
 	private class SigmoidOperator
 			implements MonadicOperator<DoubleWrapper>
 	{
-
-		public <ARG extends IRingElement> DoubleWrapper apply(ARG x)
+		public DoubleWrapper apply(DoubleWrapper x)
 		{
-			double dx = ((DoubleWrapper) x).getValue();
+			double dx = x.getValue();
 			return new DoubleWrapper(1 / (1 + Math.exp(-dx)));
 		}
 	}
@@ -274,16 +259,15 @@ public class Xor
 	private class SigdervOperator
 			implements MonadicOperator<DoubleWrapper>
 	{
-
-		public <ARG extends IRingElement> DoubleWrapper apply(ARG x)
+		public DoubleWrapper apply(DoubleWrapper x)
 		{
-			double dx = ((DoubleWrapper) x).getValue();
+			double dx = (x).getValue();
 			return new DoubleWrapper(dx * (1 - dx));
 		}
 	}
 
 	/**
-	 * Strat the demo.
+	 * Start the demo.
 	 * 
 	 * @param argv
 	 *            ignored

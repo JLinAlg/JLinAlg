@@ -1,0 +1,122 @@
+package org.jlinalg.testutil;
+
+import org.jlinalg.IRingElement;
+import org.jlinalg.IRingElementFactory;
+import org.jlinalg.Matrix;
+
+public class TestMatrices
+{
+
+	@SuppressWarnings("boxing")
+	final static Object[][] m2x2a = {
+			{
+					2, -1
+			}, {
+					-1, 1
+			}
+	};
+
+	@SuppressWarnings("boxing")
+	private static Object[][] m2x2a_inv = {
+			{
+					1, 1
+			}, {
+					1, 2
+			}
+	};
+
+	public static <RE extends IRingElement<RE>> Matrix<RE> getM2x2A(
+			IRingElementFactory<RE> iRingElementFactory)
+	{
+		return new Matrix<RE>(m2x2a, iRingElementFactory);
+	}
+
+	public static <RE extends IRingElement<RE>> Matrix<RE> getM2x2A_inv(
+			IRingElementFactory<RE> factory)
+	{
+		return new Matrix<RE>(m2x2a_inv, factory);
+	}
+
+	final static String[][] largeNonInversible = {
+			{
+					"0", "0", "0", "-7/6", "0", "-1", "0", "-5/3", "0", "0"
+			},
+			{
+					"0", "0", "-1/2", "0", "0", "-4/5", "0", "7/3", "2/7", "0"
+			},
+			{
+					"-3", "0", "0", "-1/3", "0", "0", "0", "2", "1/2", "-5/7"
+			},
+			{
+					"1/3", "0", "0", "0", "-7", "0", "0", "-5/7", "-1/2", "0"
+			},
+			{
+					"-5/7", "0", "-1", "1/2", "-5/6", "0", "0", "0", "0", "2/5"
+			},
+			{
+					"0", "0", "2/7", "1/2", "-3", "0", "0", "0", "0", "0"
+			},
+			{
+					"0", "0", "0", "0", "0", "-7/3", "0", "-1/4", "0", "1/8"
+			},
+			{
+					"0", "-2", "0", "0", "0", "-7/4", "0", "0", "-1/8", "-1/2"
+			},
+			{
+					"-4/5", "-1/2", "-4/5", "4/5", "-4/5", "-2", "0", "0",
+					"1/4", "-1/2"
+			}, {
+					"0", "0", "0", "-1", "0", "3", "0", "6/5", "0", "-2/5"
+			}
+	};
+
+	public static <RE extends IRingElement<RE>> Matrix<RE> getLargeNonInversible(
+			IRingElementFactory<RE> factory)
+	{
+		return new Matrix<RE>(largeNonInversible, factory);
+	}
+
+	final static String[][] largeInversible = {
+			{
+					"0", "0", "0", "-4", "0", "1/4", "-4", "0", "0", "-7/3"
+			},
+			{
+					"0", "-1", "0", "0", "0", "0", "0", "0", "-6/7", "0",
+					"-2/3"
+			},
+			{
+					"0", "-1/3", "0", "0", "-5/7", "0", "0", "0", "0", "0",
+					"2/3"
+			},
+			{
+					"0", "1/2", "0", "2/7", "0", "-1/5", "0", "-1", "0", "0",
+					"0"
+			},
+			{
+					"0", "-1", "0", "7/8", "0", "0", "-1", "0", "-1/2", "2/3",
+					"1/2"
+			},
+			{
+					"0", "-4", "0", "2/7", "0", "0", "0", "-7/8", "0", "0", "0"
+			},
+			{
+					"7/8", "5/2", "1/2", "0", "0", "1/2", "0", "-7", "0",
+					"-4/7", "0"
+			},
+			{
+					"-2", "0", "2/3", "0", "1/2", "0", "-2/3", "0", "0", "3/7",
+					"0"
+			}, {
+					"6", "0", "0", "0", "0", "0", "0", "-7/8", "0", "4", "0"
+			}, {
+					"0", "2/5", "3", "0", "-1", "0", "0", "0", "-1/3", "0", "0"
+			},
+	};
+
+	public static <RE extends IRingElement<RE>> Matrix<RE> getLargeInversible(
+			IRingElementFactory<RE> factory)
+	{
+		return new Matrix<RE>(largeInversible, factory);
+	}
+
+}

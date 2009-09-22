@@ -112,6 +112,7 @@
    </ul>
 </li>
 <li>Get to know JLinAlg. Have a look at the <a href="#Examples">examples</a> and the <a href="#Documentation">documentation</a> (both also included in the Zip-File).</li>
+<li>Consider the <a href="structure.html">structure</a> of JLinalg.</li> 
 <li>Do something cool with it.</li>
 <li>Use our <a href="https://sourceforge.net/forum/?group_id=71387">forums</a> at Sourceforge and tell us about it!</li>
 </ol>
@@ -120,8 +121,8 @@
  
 <h2>Download</h2>
 <ul>
-  <li><a href="http://downloads.sourceforge.net/jlinalg/jlinalg_0.5.zip?use_mirror=">JLinAlg-v0.5</a>: 
-    The complete source code including Eclipse project files, the API as a jar-file (compiled using jdk1.6.0_11) and javadoc in one zip-file.</li>
+  <li><a href="http://downloads.sourceforge.net/jlinalg/jlinalg_0.6.zip?use_mirror=">JLinAlg-0.6</a>: 
+    The complete source code including Eclipse project files, the API as a jar-file (compiled using jdk1.6.0_16-b01) and javadoc in one zip-file.</li>
 	
   <li><a href="https://sourceforge.net/project/showfiles.php?group_id=71387" target="_blank">Earlier 
     versions</a>: Other releases at Sourceforge.</li>
@@ -133,8 +134,7 @@
 <ul>
   	<li><a href="/javadoc" target="_blank">JLinalg API-Documentation</a> (generated Javadoc): Quite 
     thorough documentation of every method and constructor.</li>
-  	<li> <a href="http://jlinalg.cvs.sourceforge.net/jlinalg/" target="_blank">Project-CVS</a>: 
-    Browse the CVS-repository of JLinAlg.</li>
+  	<li> JLinAlg uses SVN: <a href="https://jlinalg.svn.sourceforge.net/svnroot/jlinalg">https://jlinalg.svn.sourceforge.net/svnroot/jlinalg  </a> (older versions prior and inclusive to 0.5 are under  <a href="http://jlinalg.cvs.sourceforge.net/jlinalg/" target="_blank">CVS</a>)</li>
 </ul>
 <a name="Examples"></a>
  

@@ -2,8 +2,8 @@ package org.jlinalg.demo;
 
 import java.util.Random;
 
-import org.jlinalg.DoubleWrapper;
 import org.jlinalg.IRingElement;
+import org.jlinalg.doublewrapper.DoubleWrapper;
 import org.jlinalg.optimise.Target;
 
 /**
@@ -37,8 +37,8 @@ public class Function
 	final DoubleWrapper[] max = new DoubleWrapper[dim];
 
 	/**
-	 * Create the target: set up the random initial parameters, {@link min} and
-	 * {@link max}, as well as the coefficients for the polynomial.
+	 * Create the target: set up the random initial parameters, {@link #min} and
+	 * {@link #max}, as well as the coefficients for the polynomial.
 	 */
 	public Function()
 	{
@@ -67,7 +67,7 @@ public class Function
 	 * @see org.jlinalg.optimise.Target#getParameters()
 	 */
 	@Override
-	public IRingElement[] getParameters()
+	public DoubleWrapper[] getParameters()
 	{
 		return vector;
 	}
@@ -84,11 +84,11 @@ public class Function
 	/**
 	 * The function to be minimised
 	 */
-	DoubleWrapper function(IRingElement[] v)
+	DoubleWrapper function(DoubleWrapper[] v)
 	{
 		DoubleWrapper sum = DoubleWrapper.FACTORY.zero();
 		for (int i = 0; i < v.length; i++) {
-			DoubleWrapper r = (DoubleWrapper) v[i].subtract(func[i]);
+			DoubleWrapper r = v[i].subtract(func[i]);
 			r = r.multiply(r);
 			sum = sum.add(r);
 		}
@@ -105,7 +105,7 @@ public class Function
 	 * @see org.jlinalg.optimise.Target#maxParameterValues()
 	 */
 	@Override
-	public IRingElement[] maxParameterValues()
+	public DoubleWrapper[] maxParameterValues()
 	{
 		return max;
 	}
@@ -114,7 +114,7 @@ public class Function
 	 * @see org.jlinalg.optimise.Target#minParameterValues()
 	 */
 	@Override
-	public IRingElement[] minParameterValues()
+	public DoubleWrapper[] minParameterValues()
 	{
 		return min;
 	}
@@ -160,7 +160,7 @@ public class Function
 	 * @see org.jlinalg.optimise.Target#getParameter(int)
 	 */
 	@Override
-	public IRingElement getParameter(int index)
+	public DoubleWrapper getParameter(int index)
 	{
 		return func[index];
 	}

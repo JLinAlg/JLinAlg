@@ -1,20 +1,16 @@
-/**
- * 
- */
 package org.jlinalg.field_p;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Random;
 
-import org.jlinalg.IRingElement;
 import org.jlinalg.InvalidOperationException;
 
 /**
  * @author Andreas Lochbihler, Georg Thimm, Andreas Keilhauer
  */
 public class FieldPBigFactory
-		extends FieldPAbstractFactory
+		extends FieldPAbstractFactory<FieldPBig>
 {
 
 	/**
@@ -32,7 +28,7 @@ public class FieldPBigFactory
 	/**
 	 * The number of elements in Fp. Must be a prime.
 	 */
-	BigInteger p;
+	final BigInteger p;
 
 	/**
 	 * the zero element
@@ -62,7 +58,7 @@ public class FieldPBigFactory
 		this.p = p;
 		ZERO = new FieldPBig(BigInteger.ZERO, this);
 		ONE = new FieldPBig(BigInteger.ONE, this);
-		M_ONE = ONE.negate();
+		M_ONE = new FieldPBig(p.subtract(BigInteger.ONE), this);
 	}
 
 	/**
@@ -85,15 +81,12 @@ public class FieldPBigFactory
 		return ZERO;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see JLinAlg.FieldElement#m_one()
+	/**
+	 * @see IRingElementFactory#m_one()
 	 */
 	@Override
 	public FieldPBig m_one()
 	{
-
 		return M_ONE;
 	}
 
@@ -111,36 +104,31 @@ public class FieldPBigFactory
 	}
 
 	/**
-	 * Creates a random value (by mapping a random double value 0<=dval<1 to a
-	 * element of FieldP)
-	 * 
-	 * @param random
-	 *            the random number generator.
-	 * @return a random element.
+	 * @deprecated use {@link #randomValue()}
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	@Deprecated
-	public FieldPBig randomValue(Random random)
+	public FieldPBig randomValue(@SuppressWarnings("unused") Random random)
 	{
-		return new FieldPBig(new BigDecimal(this.p).multiply(
-				new BigDecimal(random.nextDouble())).toBigInteger(), this);
+		return randomValue();
 	}
 
 	/**
 	 * @throws InvalidOperationException
 	 *             if called
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	@Deprecated
-	public FieldPBig gaussianRandomValue(Random random)
+	public FieldPBig gaussianRandomValue(
+			@SuppressWarnings("unused") Random random)
 	{
 		throw new InvalidOperationException(
 				"Can not calculate gaussian random values for Fp.");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
 	 * @see org.jlinalg.RingElementFactory#get(java.lang.Object)
 	 */
 	@Override
@@ -149,7 +137,7 @@ public class FieldPBigFactory
 		if (o instanceof BigInteger) {
 			if (o.equals(BigInteger.ZERO)) return ZERO;
 			if (o.equals(BigInteger.ONE)) return ONE;
-			if (((BigInteger) o).intValue() == -1) return M_ONE;
+			if (((BigInteger) o).equals(M_ONE.value)) return M_ONE;
 			return new FieldPBig(((BigInteger) o).mod(p), this);
 		}
 		if (o instanceof Number) {
@@ -159,51 +147,51 @@ public class FieldPBigFactory
 			if (n.longValue() == 0) return ZERO;
 			return new FieldPBig(BigInteger.valueOf(n.longValue()).mod(p), this);
 		}
-		throw new InvalidOperationException("Cannot translate " + o
-				+ " of class " + o.getClass() + " into a FieldPBig type.");
+		if (o instanceof String) {
+			if (o.equals("0")) return ZERO;
+			if (o.equals("1")) return ONE;
+			if (o.equals("-1")) return M_ONE;
+			return new FieldPBig(new BigInteger((String) o).mod(p), this);
+		}
+		return get(o.toString());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
 	 * @see org.jlinalg.RingElementFactory#get(int)
 	 */
 	@Override
-	public FieldP get(int i)
+	public FieldPBig get(int i)
 	{
 		return new FieldPBig(BigInteger.valueOf(i).mod(p), this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
 	 * @see org.jlinalg.RingElementFactory#get(double)
 	 */
 	@Override
-	public FieldP get(double d)
+	public FieldPBig get(double d)
 	{
 		return new FieldPBig(BigInteger.valueOf((long) d).mod(p), this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
 	 * @see org.jlinalg.IRingElementFactory#get(long)
 	 */
-	public FieldP get(long d)
+	public FieldPBig get(long d)
 	{
 		return new FieldPBig(BigInteger.valueOf(d).mod(p), this);
 	}
 
 	/**
-	 * @throws InvalidOperationException
+	 * @throws UnsupportedOperationException
 	 *             if called
-	 * @see org.jlinalg.RingElementFactory#randomValue(Random, IRingElement,
-	 *      IRingElement)
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	@Deprecated
-	public FieldP randomValue(Random random, IRingElement min, IRingElement max)
+	public FieldPBig randomValue(@SuppressWarnings("unused") Random random,
+			@SuppressWarnings("unused") FieldPBig min,
+			@SuppressWarnings("unused") FieldPBig max)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -214,22 +202,19 @@ public class FieldPBigFactory
 	 */
 	@Override
 	@Deprecated
-	public FieldP gaussianRandomValue()
+	public FieldPBig gaussianRandomValue()
 	{
 		throw new InvalidOperationException(
 				"Can not calculate gaussian random values for Fp.");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jlinalg.IRingElementFactory#randomValue(org.jlinalg.IRingElement,
-	 * org.jlinalg.IRingElement)
+	/**
+	 * @throws UnsupportedOperationException
 	 */
 	@Override
 	@Deprecated
-	public FieldP randomValue(IRingElement min, IRingElement max)
+	public FieldPBig randomValue(@SuppressWarnings("unused") FieldPBig min,
+			@SuppressWarnings("unused") FieldPBig max)
 	{
 		throw new UnsupportedOperationException();
 	}

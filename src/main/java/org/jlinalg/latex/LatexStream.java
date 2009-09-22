@@ -7,11 +7,10 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 
-import org.jlinalg.FieldElement;
 import org.jlinalg.IRingElement;
 import org.jlinalg.Matrix;
-import org.jlinalg.Rational;
 import org.jlinalg.Vector;
+import org.jlinalg.rational.Rational;
 
 /**
  * LatexStream is an extension of PrintStream to accomodate the particular needs
@@ -190,16 +189,14 @@ public class LatexStream
 	/**
 	 * strings for starting an equation
 	 */
-	private String[] startEquation =
-	{
+	private String[] startEquation = {
 			"$", "\\begin{equation*}", "\\begin{equation}", "\\begin{eqnarray}"
 	};
 
 	/**
 	 * strings for ending an equation
 	 */
-	private String[] endEquation =
-	{
+	private String[] endEquation = {
 			"$", "\\end{equation*}", "\\end{equation}", "\\end{eqnarray}"
 	};
 
@@ -269,7 +266,7 @@ public class LatexStream
 	 * @param v
 	 *            a vector
 	 */
-	public void print(Vector<? extends IRingElement> v)
+	public void print(Vector<? extends IRingElement<?>> v)
 	{
 		if (equationSet == NONE)
 			throw new LatexStreamError("No equation environment open");
@@ -297,7 +294,7 @@ public class LatexStream
 	 * @throws LatexStreamError
 	 *             is f is not a {@link Rational}
 	 */
-	public void print(FieldElement f)
+	public void print(IRingElement<?> f)
 	{
 		if (f instanceof Rational) {
 			Rational r = (Rational) f;
@@ -324,7 +321,7 @@ public class LatexStream
 	 * @param m
 	 *            the matrix to be printed
 	 */
-	public void print(Matrix<? extends IRingElement> m)
+	public void print(Matrix<? extends IRingElement<?>> m)
 	{
 		// header for the matrix
 		print("\\left(\\begin{array}{");

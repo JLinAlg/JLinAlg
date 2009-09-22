@@ -13,7 +13,7 @@ public class MatrixDeterminant
 	 * @throws InvalidOperationException
 	 *             if it is not.
 	 */
-	private static void checkSquare(Matrix<? extends IRingElement> matrix)
+	private static void checkSquare(Matrix<? extends IRingElement<?>> matrix)
 			throws InvalidOperationException
 	{
 		if (matrix.getRows() != matrix.getCols()) {
@@ -34,11 +34,10 @@ public class MatrixDeterminant
 	 * @return the determinant
 	 * @throws InvalidOperationException
 	 */
-	public static <RE extends IRingElement> RE gaussianMethod(Matrix<RE> matrix)
-			throws InvalidOperationException
+	public static <RE extends IRingElement<RE>> RE gaussianMethod(
+			Matrix<RE> matrix) throws InvalidOperationException
 	{
-		IRingElementFactory<? extends RE> factory = (IRingElementFactory<RE>) matrix
-				.get(1, 1).getFactory();
+		IRingElementFactory<RE> factory = matrix.get(1, 1).getFactory();
 
 		checkSquare(matrix);
 
@@ -50,7 +49,7 @@ public class MatrixDeterminant
 		while (m.numOfCols != 1) {
 			// Search element with maximal norm value in row=1.
 			int mrow = 1;
-			IRingElement max = m.get(mrow, 1).norm();
+			RE max = m.get(mrow, 1).norm();
 			for (int r = 1; r <= m.getRows(); r++) {
 				if (m.get(r, 1).norm().gt(max)) {
 					max = m.get(r, 1).norm();
@@ -62,7 +61,7 @@ public class MatrixDeterminant
 			// reduce other rows
 			for (int r = 1; r <= m.numOfRows; r++) {
 				if (r == mrow || m.get(r, 1).equals(zero)) continue;
-				RE div = (RE) m.get(mrow, 1).multiply(m.get(r, 1).invert());
+				RE div = m.get(mrow, 1).multiply(m.get(r, 1).invert());
 				m.set(r, 1, factory.zero());
 				for (int c = 2; c <= m.numOfCols; c++) {
 					m.set(r, c, m.get(r, c).subtract(
@@ -71,13 +70,13 @@ public class MatrixDeterminant
 			}
 			// System.err.println("Reduced w/ mrow=" + mrow + "\n" + m + "
 			// max="+ max);
-			determinant = (RE) determinant.multiply(m.get(mrow, 1));
-			if (mrow % 2 == 0) determinant = (RE) determinant.negate();
+			determinant = determinant.multiply(m.get(mrow, 1));
+			if (mrow % 2 == 0) determinant = determinant.negate();
 			m = m.withoutRow(mrow).withoutCol(1);
 			// System.err.println("partial det=" + determinant + "\nnew m=\n" +
 			// m);
 		}
-		determinant = (RE) determinant.multiply(m.get(1, 1));
+		determinant = determinant.multiply(m.get(1, 1));
 		return determinant;
 	}
 
@@ -92,11 +91,10 @@ public class MatrixDeterminant
 	 * @param squareMatrix
 	 * @return the determinant
 	 */
-	public static <RE extends IRingElement> RE leibnizMethod(
+	public static <RE extends IRingElement<RE>> RE leibnizMethod(
 			Matrix<RE> squareMatrix)
 	{
-		IRingElementFactory<RE> factory = (IRingElementFactory<RE>) squareMatrix
-				.get(1, 1).getFactory();
+		IRingElementFactory<RE> factory = squareMatrix.get(1, 1).getFactory();
 
 		checkSquare(squareMatrix);
 
@@ -108,7 +106,7 @@ public class MatrixDeterminant
 			 * This case is unnecessary, but it is nice to have it there (maybe
 			 * even a bit of a runtime optimization ;-)...
 			 */
-			return (RE) squareMatrix.get(1, 1).multiply(squareMatrix.get(2, 2))
+			return squareMatrix.get(1, 1).multiply(squareMatrix.get(2, 2))
 					.subtract(
 							squareMatrix.get(1, 2).multiply(
 									squareMatrix.get(2, 1)));
@@ -124,8 +122,8 @@ public class MatrixDeterminant
 					f = m_one;
 				else
 					f = one;
-				determinant = (RE) determinant
-						.add(f.multiply(squareMatrix.get(i, 1)).multiply(
+				determinant = determinant.add(f
+						.multiply(squareMatrix.get(i, 1)).multiply(
 								leibnizMethod(withoutRowAndColumn(squareMatrix,
 										i, 1))));
 			}
@@ -146,7 +144,7 @@ public class MatrixDeterminant
 	 *            the column to be removed
 	 * @return the reduced matrix
 	 */
-	public static <RE extends IRingElement> Matrix<RE> withoutRowAndColumn(
+	public static <RE extends IRingElement<RE>> Matrix<RE> withoutRowAndColumn(
 			Matrix<RE> squareMatrix, int withoutRow, int withoutColumn)
 	{
 		Matrix<RE> result = new Matrix<RE>(squareMatrix.numOfRows - 1,

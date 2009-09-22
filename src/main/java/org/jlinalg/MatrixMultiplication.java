@@ -52,7 +52,7 @@ public class MatrixMultiplication
 	 *             if the two matrices can not be multiplied as the number
 	 *             columns in m1 is different to that of the rows in m2
 	 */
-	private static <RE extends IRingElement> void checkDimensions(
+	private static <RE extends IRingElement<RE>> void checkDimensions(
 			Matrix<RE> m1, Matrix<RE> m2) throws InvalidOperationException
 	{
 		if (m1.getCols() != m2.getRows()) {
@@ -74,8 +74,8 @@ public class MatrixMultiplication
 	 * @return m1 multiplied by m2
 	 * @throws InvalidOperationException
 	 */
-	public static <RE extends IRingElement> Matrix<RE> simple(Matrix<RE> m1,
-			Matrix<RE> m2) throws InvalidOperationException
+	public static <RE extends IRingElement<RE>> Matrix<RE> simple(
+			Matrix<RE> m1, Matrix<RE> m2) throws InvalidOperationException
 	{
 		checkDimensions(m1, m2);
 
@@ -105,8 +105,8 @@ public class MatrixMultiplication
 	 * @return m1 multiplied by m2
 	 * @throws InvalidOperationException
 	 */
-	public static <RE extends IRingElement> Matrix<RE> school(Matrix<RE> m1,
-			Matrix<RE> m2) throws InvalidOperationException
+	public static <RE extends IRingElement<RE>> Matrix<RE> school(
+			Matrix<RE> m1, Matrix<RE> m2) throws InvalidOperationException
 	{
 		checkDimensions(m1, m2);
 
@@ -122,7 +122,7 @@ public class MatrixMultiplication
 			for (int j = 0; j < resultCols; j++) {
 				resultEntries[i][j] = m1.FACTORY.zero();
 				for (int k = 0; k < m2Entries.length; k++) {
-					resultEntries[i][j] = (RE) resultEntries[i][j]
+					resultEntries[i][j] = resultEntries[i][j]
 							.add(m1Entries[i][k].multiply(m2Entries[k][j]));
 				}
 			}
@@ -142,7 +142,7 @@ public class MatrixMultiplication
 	 * @return m1 multiplied by m2
 	 * @throws InvalidOperationException
 	 */
-	public static <RE extends IRingElement> Matrix<RE> strassenOriginal(
+	public static <RE extends IRingElement<RE>> Matrix<RE> strassenOriginal(
 			Matrix<RE> m1, Matrix<RE> m2)
 	{
 
@@ -162,7 +162,7 @@ public class MatrixMultiplication
 				resultCols - 1);
 	}
 
-	private static <RE extends IRingElement> Matrix<RE> strassenOriginalHelper(
+	private static <RE extends IRingElement<RE>> Matrix<RE> strassenOriginalHelper(
 			Matrix<RE> m1, Matrix<RE> m2)
 	{
 
@@ -250,7 +250,7 @@ public class MatrixMultiplication
 	 * @return m1 multiplied by m2
 	 * @throws InvalidOperationException
 	 */
-	public static <RE extends IRingElement> Matrix<RE> strassenWinograd(
+	public static <RE extends IRingElement<RE>> Matrix<RE> strassenWinograd(
 			Matrix<RE> m1, Matrix<RE> m2)
 	{
 		checkDimensions(m1, m2);
@@ -269,7 +269,7 @@ public class MatrixMultiplication
 				resultCols - 1);
 	}
 
-	private static <RE extends IRingElement> Matrix<RE> strassenWinogradHelper(
+	private static <RE extends IRingElement<RE>> Matrix<RE> strassenWinogradHelper(
 			Matrix<RE> m1, Matrix<RE> m2)
 	{
 		if (m1.getRows() <= STRASSEN_WINOGRAD_TRUNCATION_POINT) {
@@ -380,7 +380,7 @@ public class MatrixMultiplication
 	 * @return m1 multiplied by m2
 	 * @throws InvalidOperationException
 	 */
-	public static <RE extends IRingElement> Matrix<RE> strassenBodrato(
+	public static <RE extends IRingElement<RE>> Matrix<RE> strassenBodrato(
 			Matrix<RE> m1, Matrix<RE> m2)
 	{
 
@@ -404,7 +404,7 @@ public class MatrixMultiplication
 				resultCols - 1);
 	}
 
-	private static <RE extends IRingElement> Matrix<RE> strassenBodratoHelper(
+	private static <RE extends IRingElement<RE>> Matrix<RE> strassenBodratoHelper(
 			Matrix<RE> m1, Matrix<RE> m2)
 	{
 
@@ -508,7 +508,8 @@ public class MatrixMultiplication
 		return new Matrix<RE>(cEntries);
 	}
 
-	private static <RE extends IRingElement> Matrix<RE> fillUpPow2(Matrix<RE> m)
+	private static <RE extends IRingElement<RE>> Matrix<RE> fillUpPow2(
+			Matrix<RE> m)
 	{
 		double mLog2 = Math.log(Math.max(m.getRows(), m.getCols()))
 				/ Math.log(2);

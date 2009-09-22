@@ -1,6 +1,6 @@
 package org.jlinalg.demo;
 
-import org.jlinalg.DoubleWrapper;
+import org.jlinalg.doublewrapper.DoubleWrapper;
 import org.jlinalg.optimise.Optimiser;
 import org.jlinalg.optimise.RandomGradientDescent;
 import org.jlinalg.optimise.Target;

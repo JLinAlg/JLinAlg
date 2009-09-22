@@ -2,7 +2,6 @@ package org.jlinalg.field_p;
 
 import java.math.BigInteger;
 
-import org.jlinalg.IRingElement;
 import org.jlinalg.InvalidOperationException;
 
 /**
@@ -12,18 +11,17 @@ import org.jlinalg.InvalidOperationException;
  * @author Andreas Lochbihler, Georg Thimm
  */
 class FieldPBig
-		extends FieldP
+		extends FieldP<FieldPBig>
 {
-
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * The smallest nonnegative representant of the equivalence class in Fp.
+	 * The smallest non-negative representative of the equivalence class in Fp.
 	 */
-	private BigInteger value;
+	BigInteger value;
 
 	/**
 	 * @see java.lang.Object#hashCode()
@@ -50,7 +48,7 @@ class FieldPBig
 	 *            the factory producing elements in Fp (typically the caller of
 	 *            this constructor).
 	 */
-	FieldPBig(BigInteger value, FieldPAbstractFactory factory)
+	FieldPBig(BigInteger value, FieldPAbstractFactory<FieldPBig> factory)
 	{
 		super(factory);
 		this.value = value;
@@ -64,11 +62,10 @@ class FieldPBig
 	 * @return The sum of this and val.
 	 */
 	@Override
-	public FieldPBig add(IRingElement val)
+	public FieldPBig add(FieldPBig val)
 	{
-		FieldPBig op = (FieldPBig) val;
-		if (op.factory == factory) {
-			return (FieldPBig) factory.get(value.add(op.value));
+		if (val.factory == factory) {
+			return factory.get(value.add(val.value));
 		}
 		throw new IllegalArgumentException(val
 				+ " is from a different field Fp than " + this
@@ -83,11 +80,10 @@ class FieldPBig
 	 * @return The product of this and val.
 	 */
 	@Override
-	public FieldPBig multiply(IRingElement val)
+	public FieldPBig multiply(FieldPBig val)
 	{
-		FieldPBig op = (FieldPBig) val;
-		if (op.factory == factory) {
-			return (FieldPBig) factory.get(this.value.multiply(op.value));
+		if (val.factory == factory) {
+			return factory.get(this.value.multiply(val.value));
 		}
 		throw new IllegalArgumentException(val
 				+ " is from a different field Fp than " + this
@@ -102,7 +98,7 @@ class FieldPBig
 	@Override
 	public FieldPBig negate()
 	{
-		return (FieldPBig) factory.get(value.negate());
+		return factory.get(value.negate());
 	}
 
 	/**
@@ -122,7 +118,7 @@ class FieldPBig
 			throw new InvalidOperationException("Multiplicative inversion of 0");
 		}
 		if (this.inverse == null) {
-			this.inverse = (FieldPBig) factory.get(value
+			this.inverse = factory.get(value
 					.modInverse(((FieldPBigFactory) factory).p));
 			inverse.inverse = this;
 		}
@@ -133,18 +129,17 @@ class FieldPBig
 	 * Compares this element with another element of the same field Fp. Note:
 	 * This order does not respect addition or multiplication!
 	 * 
-	 * @param o
+	 * @param par
 	 *            The element to compare to
 	 * @return -1, if this is less, 0, if they are equal, 1, if this is bigger
 	 */
 	@Override
-	public int compareTo(IRingElement o)
+	public int compareTo(FieldPBig par)
 	{
-		FieldPBig par = (FieldPBig) o;
 		if (par.factory == factory) {
 			return value.compareTo(par.value);
 		}
-		throw new IllegalArgumentException(o
+		throw new IllegalArgumentException(par
 				+ " is from a differend field than " + this
 				+ "! You cannot compare them");
 	}
@@ -163,6 +158,15 @@ class FieldPBig
 					"Cannot compare elements in different fields");
 		}
 		return f.value.equals(value);
+	}
+
+	/**
+	 * return the String representation of the encapsulated value.
+	 */
+	@Override
+	public String toString()
+	{
+		return value.toString();
 	}
 
 }

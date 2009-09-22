@@ -11,7 +11,7 @@ import java.util.TreeMap;
  * @author Georg THimm (2008)
  */
 public class FieldPFactoryMap
-		extends TreeMap<Object, FieldPAbstractFactory>
+		extends TreeMap<Object, FieldPAbstractFactory<?>>
 {
 
 	/**
@@ -27,6 +27,7 @@ public class FieldPFactoryMap
 	/**
 	 * No second instance of this class should be created
 	 */
+	@SuppressWarnings("unchecked")
 	private FieldPFactoryMap()
 	{
 		super(new FieldPFactoryComparator());
@@ -76,9 +77,9 @@ public class FieldPFactoryMap
 	 *            the size of the field
 	 * @return a factory that is unique for p.
 	 */
-	public static FieldPAbstractFactory getFactory(Long p)
+	public static FieldPAbstractFactory<?> getFactory(Long p)
 	{
-		FieldPAbstractFactory factory = FACTORY_MAP.get(p);
+		FieldPAbstractFactory<?> factory = FACTORY_MAP.get(p);
 		if (factory != null) {
 			return factory;
 		}
@@ -107,14 +108,14 @@ public class FieldPFactoryMap
 	 *            the size of the field
 	 * @return a factory
 	 */
-	public static FieldPAbstractFactory getFactory(String p)
+	public static FieldPAbstractFactory<?> getFactory(String p)
 	{
 		BigInteger bInt = new BigInteger(p);
 		// if this is a relatively small value, use Long's.
 		if (bInt.compareTo(PRIME_SEPARATION_BOUNDARY_BIGINT) <= 0)
 			return getFactory(new Long(bInt.longValue()));
 
-		FieldPAbstractFactory factory = FACTORY_MAP.get(bInt);
+		FieldPAbstractFactory<?> factory = FACTORY_MAP.get(bInt);
 		if (factory != null) {
 			return factory;
 		}

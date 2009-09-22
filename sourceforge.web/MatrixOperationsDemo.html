@@ -18,12 +18,11 @@ Get webcpp at http://webcpp.sf.net
 
 <font CLASS=keyword>package</font> org.jlinalg.demo;
 
-<font CLASS=keyword>import</font> org.jlinalg.Complex;
 <font CLASS=keyword>import</font> org.jlinalg.IRingElement;
 <font CLASS=keyword>import</font> org.jlinalg.Matrix;
+<font CLASS=keyword>import</font> org.jlinalg.complex.Complex;
 
 <font CLASS=comment>/**
- * 
  * This computes the determinant and the inverse of a complex matrix.
  * 
  * @author Andreas Keilhauer, Georg Thimm
@@ -45,14 +44,17 @@ Get webcpp at http://webcpp.sf.net
 		Complex c2 <font CLASS=symbols>=</font> Complex.FACTORY.get(<font CLASS=floatpt>0.0</font>, <font CLASS=floatpt>1.0</font>);
 
 		<font CLASS=comment>// create the matrix</font>
-		Matrix&lt;Complex&gt; m <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Matrix&lt;Complex&gt;(<font CLASS=keyword>new</font> Complex[][]
-			{
-				{ c1, c2 },
-				{ c2, c1.add(c2) } });
+		Matrix&lt;Complex&gt; m <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Matrix&lt;Complex&gt;(<font CLASS=keyword>new</font> Complex[][] {
+				{
+						c1, c2
+				}, {
+						c2, c1.add(c2)
+				}
+		});
 		System.out.println(<font CLASS=dblquot>"Matrix m: \n"</font> <font CLASS=symbols>+</font> m);
 
 		<font CLASS=comment>// print the determinant</font>
-		IRingElement determinant <font CLASS=symbols>=</font> m.det();
+		IRingElement&lt;?&gt; determinant <font CLASS=symbols>=</font> m.det();
 		System.out.println(<font CLASS=dblquot>"Deteterminant of m: "</font> <font CLASS=symbols>+</font> determinant);
 
 		<font CLASS=comment>// print the inverse</font>

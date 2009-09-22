@@ -12,7 +12,7 @@ import java.util.List;
  *            the domain for the space.
  */
 
-public class AffineLinearSubspace<RE extends IRingElement>
+public class AffineLinearSubspace<RE extends IRingElement<RE>>
 		implements Serializable
 {
 
@@ -44,10 +44,10 @@ public class AffineLinearSubspace<RE extends IRingElement>
 	 * @param generatingSystem
 	 * @throws InvalidOperationException
 	 */
+	@SuppressWarnings("unchecked")
 	public AffineLinearSubspace(Vector<RE> inhomogenousPart,
 			Vector<RE>[] generatingSystem) throws InvalidOperationException
 	{
-
 		if (generatingSystem != null /* && generatingSystem.length > 0 */) {
 			this.generatingSystem = generatingSystem;
 		}
@@ -56,11 +56,19 @@ public class AffineLinearSubspace<RE extends IRingElement>
 			// (but java does not like this).
 			this.generatingSystem = new Vector[0];
 		}
-		IRingElementFactory<RE> factory = (IRingElementFactory<RE>) generatingSystem[0].entries[0]
-				.getFactory();
+		assert this.generatingSystem.length > 0;
+		IRingElementFactory<RE> factory;
+		if (inhomogenousPart != null && inhomogenousPart.length() > 0)
+			factory = inhomogenousPart.getEntry(0).getFactory();
+		else if (this.generatingSystem.length > 0
+				&& this.generatingSystem[0].entries.length > 0)
+			factory = this.generatingSystem[0].entries[0].getFactory();
+		else
+			throw new InvalidOperationException(
+					"both, the inhomogenous part and the generating system are empty.");
 		if (inhomogenousPart == null) {
-			if (generatingSystem.length > 0) {
-				Vector<RE> tmp = generatingSystem[0];
+			if (this.generatingSystem.length > 0) {
+				Vector<RE> tmp = this.generatingSystem[0];
 				Vector<RE> zeroVector = new Vector<RE>(tmp.length(), factory);
 				for (int i = 1; i <= zeroVector.length(); i++) {
 					zeroVector.set(i, factory.zero());
@@ -87,6 +95,7 @@ public class AffineLinearSubspace<RE extends IRingElement>
 	 * @param normalized
 	 * @throws InvalidOperationException
 	 */
+	@SuppressWarnings("unchecked")
 	public AffineLinearSubspace(Vector<RE> inhomogenousPart,
 			Vector<RE>[] generatingSystem, boolean normalized)
 			throws InvalidOperationException
@@ -115,7 +124,7 @@ public class AffineLinearSubspace<RE extends IRingElement>
 	}
 
 	/**
-	 * Gets the dimension of the affin linear subspace.
+	 * Gets the dimension of the affine linear subspace.
 	 * 
 	 * @return dimension (number of independent Vectors of the generating
 	 *         system).
@@ -175,6 +184,7 @@ public class AffineLinearSubspace<RE extends IRingElement>
 	 * 
 	 * @return the normalised version of this
 	 */
+	@SuppressWarnings("unchecked")
 	public AffineLinearSubspace<RE> normalize()
 	{
 		if (this.generatingSystem.length > 0) {
@@ -188,8 +198,8 @@ public class AffineLinearSubspace<RE extends IRingElement>
 			}
 
 			if (generatingVectors.isEmpty()) {
-				LinAlgFactory<RE> f = new LinAlgFactory(normalized.get(1, 1)
-						.getFactory());
+				LinAlgFactory<RE> f = new LinAlgFactory<RE>(normalized
+						.get(1, 1).getFactory());
 				generatingVectors.add(f.zeros(normalized.getCols()));
 			}
 			Vector<RE>[] newGeneratingSystem = generatingVectors
@@ -197,8 +207,7 @@ public class AffineLinearSubspace<RE extends IRingElement>
 			if (newGeneratingSystem.length == 1
 					&& this.inhomogenousPart != null)
 			{
-				Matrix<RE> testInhomogenousPart = new Matrix<RE>(new Vector[]
-				{
+				Matrix<RE> testInhomogenousPart = new Matrix<RE>(new Vector[] {
 						newGeneratingSystem[0], this.inhomogenousPart
 				});
 				if (testInhomogenousPart.rank() != 2) {
@@ -214,6 +223,7 @@ public class AffineLinearSubspace<RE extends IRingElement>
 		return this;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o)
 	{

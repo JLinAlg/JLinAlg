@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project name="JLinAlg" default="jar">
+	<property name="version" value="0.6" />
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: init                      
+         - - - - - - - - - - - - - - - - - -->
+	<target name="init">
+	<!-- deterine the root of the project -->
+		<pathconvert property="projectroot" targetos="unix">
+			<path path="${basedir}" />
+			<mapper>
+				<chainedmapper>
+					<flattenmapper />
+					<globmapper from="*" to="*" casesensitive="no" />
+				</chainedmapper>
+			</mapper>
+		</pathconvert>
+		<echo>project root  ${projectroot}</echo>
+	</target>
+
+	<target name="javadoc" description="Create the java doc">
+		<javadoc access="private" author="true" doctitle="The JLinAlg API" destdir="javadoc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" splitindex="true" use="true" version="true">
+			<fileset dir="src" defaultexcludes="yes">
+				<include name="**/*.java" />
+				<exclude name="test/**" />
+			</fileset>
+		</javadoc>
+	</target>
+	<!-- ================================= 
+          target: clean the java doc              
+         ================================= -->
+	<target name="clean the java doc" description="remove al the files javadoc creates">
+		<delete includeemptydirs="true">
+			<fileset dir="javadoc">
+				<include name="**/*" />
+			</fileset>
+		</delete>
+	</target>
+	<!-- ================================= 
+          target: jar              
+         ================================= -->
+	<target name="jar" description="Create the jar file of the API (tests and related files are excluded)">
+		<jar destfile="jlinalg-api_${version}.jar" compress="yes" description="JLinAlg API ${version}">
+			<fileset dir="bin" id="id">
+				<include name="**/*" />
+				<exclude name="**/demo/*" />
+				<exclude name="**/*Test*" />
+				<exclude name="**/test*/**" />
+			</fileset>
+		</jar>
+	</target>
+	<!-- ================================= 
+          target: zip              
+         ================================= -->
+	<target name="zip" depends="init,jar" description="create a zip file with all the code, javadoc, web-page, eclipse settings, etc. in the user's home directory">
+		<zip zipfile="${user.home}/jlinalg_${version}.zip" compress="true" description="JLinAlg ${version}: all the code, javadoc, web-page, eclipse settings, etc.">
+			<fileset dir="..">
+				<include name="${projectroot}/**/*" />
+				<exclude name="${projectroot}/**/*.class" />
+			</fileset>
+		</zip>
+	</target>
+</project>

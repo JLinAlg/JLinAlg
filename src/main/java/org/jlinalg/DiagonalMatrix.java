@@ -8,7 +8,7 @@ package org.jlinalg;
  *            the type of the domain for this matrix.
  */
 
-class DiagonalMatrix<RE extends IRingElement>
+class DiagonalMatrix<RE extends IRingElement<RE>>
 		extends Matrix<RE>
 {
 
@@ -28,8 +28,8 @@ class DiagonalMatrix<RE extends IRingElement>
 	 */
 	public DiagonalMatrix(RE[] diagElements) throws InvalidOperationException
 	{
-		super(diagElements.length, diagElements.length,
-				(IRingElementFactory<RE>) diagElements[0].getFactory());
+		super(diagElements.length, diagElements.length, diagElements[0]
+				.getFactory());
 
 		int arraysize = diagElements.length;
 
@@ -55,7 +55,7 @@ class DiagonalMatrix<RE extends IRingElement>
 
 	public DiagonalMatrix(int size, RE diagElement)
 	{
-		super(size, size, (IRingElementFactory<RE>) diagElement.getFactory());
+		super(size, size, diagElement.getFactory());
 
 		for (int i = 0; i < size; i++)
 			for (int j = 0; j < size; j++) {
@@ -111,13 +111,13 @@ class DiagonalMatrix<RE extends IRingElement>
 	 *            RingElement to be set
 	 */
 	@Override
-	public void set(int rowIndex, int colIndex, IRingElement newEntry)
+	public void set(int rowIndex, int colIndex, RE newEntry)
 			throws InvalidOperationException
 	{
 		if (rowIndex != colIndex)
 			throw new InvalidOperationException(
 					"Tried to set non-diagonal entry.");
-		setDiagElement(rowIndex, (RE) newEntry);
+		setDiagElement(rowIndex, newEntry);
 	}
 
 	/**
@@ -327,15 +327,12 @@ class DiagonalMatrix<RE extends IRingElement>
 	@Override
 	public DiagonalMatrix<RE> multiply(RE scalar)
 	{
-
 		int size = this.getRows();
-
 		DiagonalMatrix<RE> diagMatrix = new DiagonalMatrix<RE>(size, FACTORY
 				.zero());
 
 		for (int i = 0; i < size; i++)
-			diagMatrix.entries[i][i] = (RE) this.entries[i][i].multiply(scalar);
-
+			diagMatrix.entries[i][i] = this.entries[i][i].multiply(scalar);
 		return diagMatrix;
 	}
 
@@ -356,12 +353,10 @@ class DiagonalMatrix<RE extends IRingElement>
 					+ "and \n" + vector + "No correct format!");
 		}
 
-		RE[] result = (RE[]) vector.getEntry(1).getFactory()
-				.getArray(numOfRows);
+		RE[] result = vector.getEntry(1).getFactory().getArray(numOfRows);
 
 		for (int i = 1; i <= this.getRows(); i++)
-			result[i - 1] = (RE) entries[i - 1][i - 1].multiply(vector
-					.getEntry(i));
+			result[i - 1] = entries[i - 1][i - 1].multiply(vector.getEntry(i));
 
 		Vector<RE> resultVector = new Vector<RE>(result);
 
@@ -423,7 +418,7 @@ class DiagonalMatrix<RE extends IRingElement>
 				FACTORY.zero());
 
 		for (int i = 1; i <= diagMatrix.numOfRows; i++)
-			result.setDiagElement(i, (RE) this.entries[i - 1][i - 1]
+			result.setDiagElement(i, this.entries[i - 1][i - 1]
 					.multiply(diagMatrix.get(i, i)));
 
 		return result;
@@ -460,19 +455,19 @@ class DiagonalMatrix<RE extends IRingElement>
 		RE[] diagonalElements = getDiagonalElements();
 
 		for (int i = 0; i < getRows(); i++)
-			result = (RE) result.multiply(diagonalElements[i]);
+			result = result.multiply(diagonalElements[i]);
 
 		return result;
 	}
 
 	/**
-	 * Disallow swapping of rows
-	 * 
 	 * @exception InvalidOperationException
-	 *                always
+	 *                always as swapping of rows would destroy the property of
+	 *                being diagonal.
 	 */
 	@Override
-	public void swapRows(int rowIndex1, int rowIndex2)
+	public void swapRows(@SuppressWarnings("unused") int rowIndex1,
+			@SuppressWarnings("unused") int rowIndex2)
 			throws InvalidOperationException
 	{
 		throw new InvalidOperationException(
@@ -480,13 +475,13 @@ class DiagonalMatrix<RE extends IRingElement>
 	}
 
 	/**
-	 * Disallow swapping of columns
-	 * 
 	 * @exception InvalidOperationException
-	 *                always
+	 *                always as swapping of rows would destroy the property of
+	 *                being diagonal.
 	 */
 	@Override
-	public void swapCols(int colIndex1, int colIndex2)
+	public void swapCols(@SuppressWarnings("unused") int colIndex1,
+			@SuppressWarnings("unused") int colIndex2)
 			throws InvalidOperationException
 	{
 
@@ -550,8 +545,10 @@ class DiagonalMatrix<RE extends IRingElement>
 
 		DiagonalMatrix<RE> reverse = new DiagonalMatrix<RE>(this.numOfRows,
 				FACTORY.zero());
-		for (int i = 1; i <= numOfRows; i++)
-			reverse.set(i, i, this.get(i, i).invert());
+		for (int i = 1; i <= numOfRows; i++) {
+			RE re = this.get(i, i).invert();
+			reverse.set(i, i, re);
+		}
 		return reverse;
 	}
 
@@ -571,7 +568,7 @@ class DiagonalMatrix<RE extends IRingElement>
 	 * diagonal.
 	 */
 	@Override
-	public Vector<? extends IRingElement> eig()
+	public Vector<RE> eig()
 	{
 		Vector<RE> result = new Vector<RE>(this.getRows(), this.getFactory());
 		for (int i = 1; i <= this.getRows(); i++) {

@@ -27,7 +27,7 @@ import org.jlinalg.IRingElement;
  * @param <RESIDUAL>
  *            the type of the residual.
  */
-public class RandomGradientDescent<RESIDUAL extends IRingElement>
+public class RandomGradientDescent<RESIDUAL extends IRingElement<RESIDUAL>>
 		implements Optimiser<RESIDUAL>
 {
 	/**
@@ -90,7 +90,7 @@ public class RandomGradientDescent<RESIDUAL extends IRingElement>
 		/**
 		 * the performance of the unoptimised target.
 		 */
-		private IRingElement startingResidual;
+		private RESIDUAL startingResidual;
 
 		Worker()
 		{
@@ -115,14 +115,15 @@ public class RandomGradientDescent<RESIDUAL extends IRingElement>
 				startingResidual = currentResidual;
 				ArrayList<Integer> parameterList = new ArrayList<Integer>();
 				for (int i = 0; i < nParameters; i++)
-					parameterList.add(i);
+					parameterList.add(new Integer(i));
 				ArrayList<Integer> tempParameterList = new ArrayList<Integer>();
 				while (!isInterrupted() && steps++ < maxOptimisationSteps) {
 					RESIDUAL r = currentResidual;
 					tempParameterList.addAll(parameterList);
 					while (!tempParameterList.isEmpty()) {
-						int p = tempParameterList.remove(random
-								.nextInt(tempParameterList.size()));
+						int p = tempParameterList.remove(
+								random.nextInt(tempParameterList.size()))
+								.intValue();
 						changeParameter(p);
 						// System.err.println(steps + " param " + p +
 						// " residual="
@@ -150,6 +151,7 @@ public class RandomGradientDescent<RESIDUAL extends IRingElement>
 		/**
 		 * create the array for the maximal steps.
 		 */
+		@SuppressWarnings("unchecked")
 		private void createMaxStep()
 		{
 			maxStep = new IRingElement[nParameters];
@@ -174,11 +176,12 @@ public class RandomGradientDescent<RESIDUAL extends IRingElement>
 		/**
 		 * the maximal and initial steps taken during the optimsation.
 		 */
-		private IRingElement[] maxStep;
+		private IRingElement<?>[] maxStep;
 
 		/**
 		 * find a minimum for varying parameter paraNum.
 		 */
+		@SuppressWarnings("unchecked")
 		private void changeParameter(final int paraNum)
 		{
 			IRingElement oldParam = target.getParameter(paraNum);
@@ -259,11 +262,13 @@ public class RandomGradientDescent<RESIDUAL extends IRingElement>
 	/**
 	 * the minimal values for the parameters.
 	 */
+	@SuppressWarnings("unchecked")
 	private IRingElement[] min;
 
 	/**
 	 * the maximal values for the parameters
 	 */
+	@SuppressWarnings("unchecked")
 	private IRingElement[] max;
 
 	/**
@@ -274,6 +279,7 @@ public class RandomGradientDescent<RESIDUAL extends IRingElement>
 	/**
 	 * the parameters of the currently optimised target.
 	 */
+	@SuppressWarnings("unchecked")
 	private IRingElement[] currentParameters;
 
 	/*

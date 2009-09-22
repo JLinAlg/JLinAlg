@@ -1,14 +1,22 @@
 package org.jlinalg;
 
+import org.jlinalg.complex.Complex;
+import org.jlinalg.doublewrapper.DoubleWrapper;
+
 /**
- * This file conains Java versions of the algorithms HQR, ELMHES, and BALANCE,
+ * This file contains Java versions of the algorithms HQR, ELMHES, and BALANCE,
  * as presented in
  * 
- * @Book{LinearAlgebraHandbook, author = {J.H. Wilkinson and C. Reinsch}, title
- *                              = {Handbook for Automatic Computation},
- *                              publisher = {Springer-Verlag}, address = {New
- *                              York} year = {1971}, volume = {II: Linear
- *                              Algebra} }
+ * <PRE>
+ * &#064;Book{LinearAlgebraHandbook, 
+ * 			author = {J.H. Wilkinson and C. Reinsch}, 
+ * 			title = {Handbook for Automatic Computation},
+ *          publisher = {Springer-Verlag}, 
+ *          address = {New York},
+ *          year = {1971}, 
+ *          volume = {II: Linear Algebra} }
+ * </pre>
+ * 
  * @author Simon D. Levy, Georg Thimm
  */
 class Handbook
@@ -41,34 +49,35 @@ class Handbook
 	 * The algorithms used for steps 1-3 are adapted from
 	 * 
 	 * <PRE>
-	 * 
-	 * &amp;#064Book{LinearAlgebraHandbook, author = {J.H. Wilkinson and C.
-	 * Reinsch}, title = {Handbook for Automatic Computation}, publisher =
-	 * {Springer-Verlag}, address = {New York} year = {1971}, volume = {II:
-	 * Linear Algebra} }
-	 * 
+	 * &#064;Book{LinearAlgebraHandbook,
+	 * 		author = {J.H. Wilkinson and C. Reinsch},
+	 * 		title = {Handbook for Automatic Computation}, 
+	 * 		publisher = {Springer-Verlag}, 
+	 * 		address = {New York},
+	 * 		year = {1971},
+	 * 		volume = {II: Linear Algebra} }
 	 * </PRE>
 	 * 
-	 * @param a
-	 *            the matrix
+	 * @param matrix
+	 *            the matrix for which the eigenvectors are calculated
 	 * @return Vector of Complex
 	 * @throws InvalidOperationException
 	 *             if theMatrix does not contain doubles
 	 * @throws InvalidOperationException
 	 *             if theMatrix is not square
 	 */
-	public static Vector<IRingElement> eig(Matrix<IRingElement> a)
-			throws InvalidOperationException
+	public static <RE extends IRingElement<RE>> Vector<Complex> eig(
+			Matrix<RE> matrix) throws InvalidOperationException
 	{
 		double[][] vals = null;
 		try {
-			vals = doubleValues(a);
+			vals = doubleValues(matrix);
 		} catch (Exception e) {
 			throw new InvalidOperationException(
 					"Matrix must contain only DoubleWrappers");
 		}
 
-		int m = a.getRows(), n = a.getCols();
+		int m = matrix.getRows(), n = matrix.getCols();
 
 		if (m != n) {
 			throw new InvalidOperationException("Matrix must be square");
@@ -94,10 +103,10 @@ class Handbook
 		Complex[] entries = new Complex[n];
 
 		for (int i = 0; i < n; ++i) {
-			entries[i] = new Complex(wr[i], wi[i]);
+			entries[i] = Complex.FACTORY.get(wr[i], wi[i]);
 		}
 
-		return new Vector<IRingElement>(entries);
+		return new Vector<Complex>(entries, Complex.FACTORY);
 	}
 
 	/**
@@ -586,23 +595,23 @@ class Handbook
 	}
 
 	/**
-	 * Returns an array of double-precision floating-point values contained in a
-	 * Matrix.
-	 * 
-	 * @param theMatrix
-	 * @return 2D array of double
+	 * @param matrix
+	 *            an array with double values.
+	 * @return a 2D array of double-precision floating-point values contained in
+	 *         a
+	 *         Matrix.
 	 * @throws InvalidOperationException
 	 *             if theMatrix does not contain doubles
 	 */
-	public static double[][] doubleValues(Matrix<IRingElement> theMatrix)
-			throws InvalidOperationException
+	public static <RE extends IRingElement<RE>> double[][] doubleValues(
+			Matrix<RE> matrix) throws InvalidOperationException
 	{
-		check_double(theMatrix);
-		int m = theMatrix.getRows(), n = theMatrix.getCols();
+		check_double(matrix);
+		int m = matrix.getRows(), n = matrix.getCols();
 		double[][] result = new double[m][n];
 		for (int i = 1; i <= m; ++i) {
 			for (int j = 1; j <= n; ++j) {
-				result[i - 1][j - 1] = doubleValue(theMatrix, i, j);
+				result[i - 1][j - 1] = doubleValue(matrix, i, j);
 			}
 		}
 		return result;
@@ -618,23 +627,19 @@ class Handbook
 	 * @throws InvalidOperationException
 	 *             if theVector does not contain Complex
 	 */
-	public static double[][] complexValues(Vector<IRingElement> theVector)
-			throws InvalidOperationException
+	public static <RE extends IRingElement<RE>> double[][] complexValues(
+			Vector<RE> theVector) throws InvalidOperationException
 	{
-
 		check_complex(theVector);
-
 		int n = theVector.length();
 
 		double[][] values = new double[2][n];
 
 		for (int i = 0; i < n; ++i) {
-			IRingElement f = theVector.entries[i];
-			Complex c = (Complex) f;
+			Complex c = (Complex) theVector.entries[i];
 			values[0][i] = c.getReal().doubleValue();
 			values[1][i] = c.getImaginary().doubleValue();
 		}
-
 		return values;
 	}
 
@@ -647,7 +652,7 @@ class Handbook
 	 * @throws InvalidOperationException
 	 *             if d does not contain a double
 	 */
-	public static double doubleValue(RingElement d)
+	public static <RE extends IRingElement<RE>> double doubleValue(RE d)
 			throws InvalidOperationException
 	{
 		check_double(d);
@@ -668,8 +673,8 @@ class Handbook
 	 * @throws InvalidOperationException
 	 *             if the index is out of bounds
 	 */
-	public static double doubleValue(Vector<IRingElement> x, int i)
-			throws InvalidOperationException
+	public static <RE extends IRingElement<RE>> double doubleValue(
+			Vector<RE> x, int i) throws InvalidOperationException
 	{
 		check_double(x);
 		return unwrap(x.getEntry(i));
@@ -691,8 +696,8 @@ class Handbook
 	 * @throws InvalidOperationException
 	 *             if either index is out of bounds
 	 */
-	public static double doubleValue(Matrix<IRingElement> a, int i, int j)
-			throws InvalidOperationException
+	public static <RE extends IRingElement<RE>> double doubleValue(
+			Matrix<RE> a, int i, int j) throws InvalidOperationException
 	{
 		check_double(a);
 		return unwrap(a.get(i, j));
@@ -702,21 +707,21 @@ class Handbook
 	 * @param f
 	 * @return f.vaule if f is an instance of DoubleWrapper
 	 */
-	private static double unwrap(IRingElement f)
+	private static <RE extends IRingElement<RE>> double unwrap(RE f)
 	{
-		return ((DoubleWrapper) f).value;
+		return ((DoubleWrapper) f).getValue();
 	}
 
 	/**
-	 * @param a
+	 * @param matrix
 	 *            a matrix
 	 * @throws InvalidOperationException
 	 *             if a does not contain instances of DoubleWrapper.
 	 */
-	private static void check_double(Matrix<IRingElement> a)
-			throws InvalidOperationException
+	private static <RE extends IRingElement<RE>> void check_double(
+			Matrix<RE> matrix) throws InvalidOperationException
 	{
-		check_double(a.get(1, 1));
+		check_double(matrix.get(1, 1));
 	}
 
 	/**
@@ -725,10 +730,9 @@ class Handbook
 	 * @throws InvalidOperationException
 	 *             if value does not contain instances of DoubleWrapper.
 	 */
-	private static void check_double(IRingElement value)
+	private static <RE extends IRingElement<RE>> void check_double(RE value)
 			throws InvalidOperationException
 	{
-
 		check_type(value, new DoubleWrapper(0), "double");
 	}
 
@@ -738,7 +742,7 @@ class Handbook
 	 * @throws InvalidOperationException
 	 *             if v does not contain instances of DoubleWrapper.
 	 */
-	private static void check_double(Vector<IRingElement> v)
+	private static <RE extends IRingElement<RE>> void check_double(Vector<RE> v)
 			throws InvalidOperationException
 	{
 		check_double(v.getEntry(1));
@@ -750,7 +754,7 @@ class Handbook
 	 * @throws InvalidOperationException
 	 *             if v does not contain instances of Complex.
 	 */
-	private static void check_complex(Vector<IRingElement> v)
+	private static <RE extends IRingElement<RE>> void check_complex(Vector<RE> v)
 			throws InvalidOperationException
 	{
 		check_complex(v.getEntry(1));
@@ -762,11 +766,11 @@ class Handbook
 	 *             if value does not contain an instance of Complex.
 	 */
 
-	private static void check_complex(IRingElement value)
+	private static <RE extends IRingElement<RE>> void check_complex(RE value)
 			throws InvalidOperationException
 	{
 
-		check_type(value, new Complex(0, 0), "complex");
+		check_type(value, Complex.FACTORY.get(0, 0), "complex");
 	}
 
 	/**
@@ -781,10 +785,10 @@ class Handbook
 	 * @throws InvalidOperationException
 	 *             if the types differ.
 	 */
-	private static void check_type(IRingElement value, IRingElement check,
-			String name) throws InvalidOperationException
+	private static <RE extends IRingElement<RE>> void check_type(RE value,
+			IRingElement<?> check, String name)
+			throws InvalidOperationException
 	{
-
 		if (!value.getClass().equals(check.getClass())) {
 			String err = "Matrix or Vector doesn't contain " + name;
 			throw new InvalidOperationException(err);
