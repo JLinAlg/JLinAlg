@@ -17,16 +17,14 @@ Get webcpp at http://webcpp.sf.net
 <pre>
 
 <font CLASS=comment>/**
- * 
  * @author Andreas Keilhauer, Georg Thimm
- * 
  */</font>
 
 <font CLASS=keyword>package</font> org.jlinalg.demo;
 
 <font CLASS=comment>// import the required classes from JLinAlg</font>
-<font CLASS=keyword>import</font> org.jlinalg.DoubleWrapper;
 <font CLASS=keyword>import</font> org.jlinalg.Matrix;
+<font CLASS=keyword>import</font> org.jlinalg.doublewrapper.DoubleWrapper;
 
 <font CLASS=keyword>public</font> <font CLASS=keyword>class</font> EigenvaluesDemo
 {
@@ -48,10 +46,17 @@ Get webcpp at http://webcpp.sf.net
 		<font CLASS=comment>// create a diagonal matrix</font>
 		Matrix&lt;DoubleWrapper&gt; diagonalMatrix <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Matrix&lt;DoubleWrapper&gt;(
 				<font CLASS=keyword>new</font> DoubleWrapper[][]
-					{
-						{ d1, d0, d0 },
-						{ d0, d2, d0 },
-						{ d0, d0, d3 } });
+				{
+						{
+								d1, d0, d0
+						},
+						{
+								d0, d2, d0
+						},
+						{
+								d0, d0, d3
+						}
+				});
 		System.out.println(<font CLASS=dblquot>"Diagonal Matrix: \n"</font> <font CLASS=symbols>+</font> diagonalMatrix);
 		<font CLASS=comment>// The eigenvalues of a diagonal matrix are always the diagonal entries:</font>
 		System.out.println(<font CLASS=dblquot>"All eigenvalues: "</font> <font CLASS=symbols>+</font> diagonalMatrix.eig());
@@ -59,9 +64,14 @@ Get webcpp at http://webcpp.sf.net
 		<font CLASS=comment>// In general, the eigenvalues of a real matrix can be complex:</font>
 		Matrix&lt;DoubleWrapper&gt; m <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Matrix&lt;DoubleWrapper&gt;(
 				<font CLASS=keyword>new</font> DoubleWrapper[][]
-					{
-						{ d1, d1.negate() },
-						{ d1, d1 } });
+				{
+						{
+								d1, d1.negate()
+						},
+						{
+								d1, d1
+						}
+				});
 		System.out.println(<font CLASS=dblquot>"New matrix: \n"</font> <font CLASS=symbols>+</font> m);
 		System.out.println(<font CLASS=dblquot>"All eigenvalues: "</font> <font CLASS=symbols>+</font> m.eig());
 

@@ -17,7 +17,7 @@ import java.util.Random;
  * @param <RE>
  *            The type of the values the factory produces.
  */
-public abstract class RingElementFactory<RE extends RingElement>
+public abstract class RingElementFactory<RE extends RingElement<RE>>
 		implements IRingElementFactory<RE>
 {
 
@@ -109,24 +109,22 @@ public abstract class RingElementFactory<RE extends RingElement>
 	 */
 	public abstract RE get(double d);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jlinalg.IRingElementFactory#gaussianRandomValue(java.util.Random)
+	/**
+	 * @deprecated
+	 * @deprecated use {@link #gaussianRandomValue()}
 	 */
+	@SuppressWarnings("deprecation")
+	@Deprecated
 	public abstract RE gaussianRandomValue(Random random);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.IRingElementFactory#randomValue(java.util.Random)
+	/**
+	 * @deprecated use {@link #randomValue()}
 	 */
+	@SuppressWarnings("deprecation")
+	@Deprecated
 	public abstract RE randomValue(Random random);
 
 	/**
-	 * @param random
-	 *            a random number generator
 	 * @param min
 	 *            the minimum value to be generated
 	 * @param max
@@ -134,8 +132,15 @@ public abstract class RingElementFactory<RE extends RingElement>
 	 * @return a random value inclusive of min, and exclusive of max for
 	 *         continous domains and inclusive for others.
 	 */
-	public abstract RE randomValue(Random random, IRingElement min,
-			IRingElement max);
+	public abstract RE randomValue(RE min, RE max);
+
+	/**
+	 * @deprecated use {@link #randomValue(IRingElement, IRingElement)}
+	 */
+	@SuppressWarnings("deprecation")
+	@Deprecated
+	@Override
+	public abstract RE randomValue(Random random, RE min, RE max);
 
 	/**
 	 * convert matrices
@@ -144,7 +149,8 @@ public abstract class RingElementFactory<RE extends RingElement>
 	 *            the matrix to be converted
 	 * @return a matrix of type <RE>
 	 */
-	public <ARG extends IRingElement> Matrix<RE> convert(final Matrix<ARG> from)
+	@Override
+	public Matrix<RE> convert(final Matrix<? extends IRingElement<?>> from)
 	{
 		Matrix<RE> to = new Matrix<RE>(from.getRows(), from.getCols(), this);
 		for (int row = 0; row < from.getRows(); row++) {
@@ -162,7 +168,7 @@ public abstract class RingElementFactory<RE extends RingElement>
 	 *            the vector to be converted
 	 * @return a vector of type <RE>
 	 */
-	public <ARG extends IRingElement> Vector<RE> convert(final Vector<ARG> from)
+	public Vector<RE> convert(final Vector<? extends IRingElement<?>> from)
 	{
 		Vector<RE> to = new Vector<RE>(from.length(), this);
 		for (int row = 0; row < from.length(); row++) {

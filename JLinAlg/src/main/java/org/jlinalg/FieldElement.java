@@ -19,20 +19,23 @@ package org.jlinalg;
  */
 
 @SuppressWarnings("serial")
-public abstract class FieldElement
-		extends RingElement
-		implements IRingElement
+public abstract class FieldElement<RE extends IRingElement<RE>>
+		extends RingElement<RE>
+		implements IRingElement<RE>
 {
 
-	/*
-	 * @param val the value to be subtracted from this element.
+	/**
+	 * Implement subtraction as a addition of a negated value.
 	 * 
-	 * @return difference
+	 * @param val
+	 *            the value to be subtracted from this element.
+	 * @return the difference
 	 */
 	@Override
-	public FieldElement subtract(IRingElement val)
+	public RE subtract(RE val)
 	{
-		return (FieldElement) this.add(val.negate());
+		RE re = val.negate();
+		return this.add(re);
 	}
 
 	/**
@@ -42,22 +45,14 @@ public abstract class FieldElement
 	 * @return quotient
 	 */
 	@Override
-	public FieldElement divide(IRingElement val) throws DivisionByZeroException
+	public RE divide(RE val) throws DivisionByZeroException
 	{
 		if (val.isZero()) {
 			throw new DivisionByZeroException("Tried to divide " + this
 					+ " by " + val + ".");
 		}
-		return (FieldElement) this.multiply(val.invert());
-	}
-
-	/**
-	 * @return the absolute value
-	 */
-	@Override
-	public FieldElement abs()
-	{
-		return (FieldElement) this.apply(AbsOperator.getInstance());
+		RE re = val.invert();
+		return this.multiply(re);
 	}
 
 	/**
@@ -65,7 +60,7 @@ public abstract class FieldElement
 	 * @see #abs()
 	 */
 	@Override
-	public FieldElement norm()
+	public RE norm()
 	{
 		return this.abs();
 	}

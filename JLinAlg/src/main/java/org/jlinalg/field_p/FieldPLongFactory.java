@@ -2,8 +2,8 @@ package org.jlinalg.field_p;
 
 import java.util.Random;
 
-import org.jlinalg.IRingElement;
 import org.jlinalg.InvalidOperationException;
+import org.jlinalg.JLinAlgTypeProperties;
 
 /**
  * An implementation of a factory for FieldP's using "long"s as internal number
@@ -11,8 +11,9 @@ import org.jlinalg.InvalidOperationException;
  * 
  * @author Andreas Lochbihler, Georg Thimm, Andreas Keilhauer
  */
+@JLinAlgTypeProperties(isExact = true, hasNegativeValues = false, isDiscreet = true)
 public class FieldPLongFactory
-		extends FieldPAbstractFactory
+		extends FieldPAbstractFactory<FieldPLong>
 {
 	/**
 	 * @return true if {@code obj} is of the same type and are based on the same
@@ -99,9 +100,11 @@ public class FieldPLongFactory
 	 * @throws InvalidOperationException
 	 *             if called
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	@Deprecated
-	public FieldPLong gaussianRandomValue(Random random)
+	public FieldPLong gaussianRandomValue(
+			@SuppressWarnings("unused") Random random)
 	{
 		throw new InternalError("not implemented");
 	}
@@ -124,23 +127,26 @@ public class FieldPLongFactory
 		if (o instanceof Number) {
 			return new FieldPLong(normalize(((Number) o).longValue(), p), this);
 		}
-		throw new InvalidOperationException("Cannot convert " + o + "in class "
-				+ o.getClass() + " to type FieldPLong");
+		if (o instanceof String) {
+			try {
+				long l = Long.parseLong((String) o);
+				return new FieldPLong(normalize(l, p), this);
+			} catch (NumberFormatException e) {
+				throw new InvalidOperationException(o + " is not a long number");
+			}
+		}
+		return get(o.toString());
 	}
 
 	/**
-	 * Creates a random value (by mapping a random double value 0<=dval<1 to a
-	 * element of FieldP)
-	 * 
-	 * @param random
-	 *            the random number generator.
-	 * @return a random element.
+	 * @deprecated use {@link #randomValue()}
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	@Deprecated
-	public FieldPLong randomValue(Random random)
+	public FieldPLong randomValue(@SuppressWarnings("unused") Random random)
 	{
-		return new FieldPLong((long) (p * random.nextDouble()), this);
+		return randomValue();
 	}
 
 	/**
@@ -240,21 +246,16 @@ public class FieldPLongFactory
 	}
 
 	/**
-	 * @return a random value inclusive of min and max.
-	 * @see org.jlinalg.IRingElementFactory#randomValue(Random, IRingElement,
-	 *      IRingElement)
+	 * @deprecated
+	 * @deprecated use {@link #randomValue(IRingElement,IRingElement)}
 	 */
-	@Override
+	@SuppressWarnings("deprecation")
 	@Deprecated
-	public FieldPLong randomValue(Random random, IRingElement min_,
-			IRingElement max_)
+	@Override
+	public FieldPLong randomValue(@SuppressWarnings("unused") Random random,
+			FieldPLong min_, FieldPLong max_)
 	{
-		long min = ((FieldPLong) min_).value;
-		long max = ((FieldPLong) max_).value;
-		long r = random.nextLong();
-		if (r < 0L) r = -r;
-		long l = (r % (max - min + 1)) + min;
-		return get(l);
+		return randomValue(min_, max_);
 	}
 
 	/**
@@ -263,7 +264,7 @@ public class FieldPLongFactory
 	 */
 	@Override
 	@Deprecated
-	public FieldP gaussianRandomValue()
+	public FieldPLong gaussianRandomValue()
 	{
 		throw new InternalError("not implemented");
 	}
@@ -274,10 +275,10 @@ public class FieldPLongFactory
 	 *      IRingElement)
 	 */
 	@Override
-	public FieldP randomValue(IRingElement min_, IRingElement max_)
+	public FieldPLong randomValue(FieldPLong min_, FieldPLong max_)
 	{
-		long min = ((FieldPLong) min_).value;
-		long max = ((FieldPLong) max_).value;
+		long min = min_.value;
+		long max = max_.value;
 		long r = random.nextLong();
 		if (r < 0L) r = -r;
 		long l = (r % (max - min + 1)) + min;
@@ -291,7 +292,7 @@ public class FieldPLongFactory
 	 * @return a random element.
 	 */
 	@Override
-	public FieldP randomValue()
+	public FieldPLong randomValue()
 	{
 		return new FieldPLong((long) (p * random.nextDouble()), this);
 	}

@@ -7,6 +7,7 @@ import java.util.Random;
 import org.jlinalg.IRingElement;
 import org.jlinalg.IRingElementFactory;
 import org.jlinalg.InvalidOperationException;
+import org.jlinalg.JLinAlgTypeProperties;
 import org.jlinalg.RingElementFactory;
 
 /**
@@ -22,7 +23,8 @@ import org.jlinalg.RingElementFactory;
  * @param <BASE>
  *            the type for the elements in the polynomial
  */
-public class PolynomialFactory<BASE extends IRingElement>
+@JLinAlgTypeProperties(isCompound = true)
+public class PolynomialFactory<BASE extends IRingElement<BASE>>
 		extends RingElementFactory<Polynomial<BASE>>
 {
 	/**
@@ -50,7 +52,8 @@ public class PolynomialFactory<BASE extends IRingElement>
 	 * @param baseFactory
 	 * @return a factory for polynomials.
 	 */
-	public static <RE extends IRingElement> PolynomialFactory<RE> getFactory(
+	@SuppressWarnings("unchecked")
+	public static <RE extends IRingElement<RE>> PolynomialFactory<RE> getFactory(
 			IRingElementFactory<RE> baseFactory)
 	{
 		PolynomialFactory<RE> factory = (PolynomialFactory<RE>) PolynomialFactoryMap.INSTANCE
@@ -71,6 +74,7 @@ public class PolynomialFactory<BASE extends IRingElement>
 	 *                if it is attempted to create another factory for the same
 	 *                base type.
 	 */
+	@SuppressWarnings("boxing")
 	private PolynomialFactory(IRingElementFactory<BASE> baseFactory)
 	{
 		super();
@@ -94,7 +98,7 @@ public class PolynomialFactory<BASE extends IRingElement>
 	{
 		if (this == obj) return true;
 		if (!(obj instanceof PolynomialFactory)) return false;
-		return BASEFACTORY.equals(((PolynomialFactory<IRingElement>) obj)
+		return BASEFACTORY.equals(((PolynomialFactory<BASE>) obj)
 				.getBaseFactory());
 	}
 
@@ -115,6 +119,7 @@ public class PolynomialFactory<BASE extends IRingElement>
 		return BASEFACTORY;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Polynomial<BASE>[] getArray(int size)
 	{
@@ -143,9 +148,11 @@ public class PolynomialFactory<BASE extends IRingElement>
 	 * @throws InvalidOperationException
 	 *             if called.
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	@Deprecated
-	public Polynomial<BASE> gaussianRandomValue(Random random)
+	public Polynomial<BASE> gaussianRandomValue(
+			@SuppressWarnings("unused") Random random)
 	{
 		throw new InvalidOperationException("Cannot create random polynomials.");
 	}
@@ -154,33 +161,37 @@ public class PolynomialFactory<BASE extends IRingElement>
 	 * Create a polynomial from a {@link Map}<Integer,? extends
 	 * {@link IRingElement}> or an instance of {@link IRingElement}. <BR>
 	 * Preferred method: {@link #get(Map, IRingElementFactory)}
+	 * 
+	 * @param o
+	 *            an object which can be translated into a coefficient for this
+	 *            polynomial.
+	 * @return a polynomial consisting of a single constant: the value of
+	 *         <code>o</code>
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Polynomial<BASE> get(Object o)
 	{
 		// create a polynomial consisting of a single constant.
-		if (o instanceof IRingElement) {
-			IRingElement e = (IRingElement) o;
-			Map<Integer, IRingElement> coefficientForOne = new HashMap<Integer, IRingElement>();
+		if (o instanceof IRingElement<?>) {
+			IRingElement<?> e = (IRingElement<?>) o;
+			Map<Integer, IRingElement<?>> coefficientForOne = new HashMap<Integer, IRingElement<?>>();
 			coefficientForOne.put(0, e);
 			return new Polynomial<BASE>((Map<Integer, BASE>) coefficientForOne,
 					(IRingElementFactory<BASE>) e.getFactory());
 		}
 
-		if (o instanceof Map) {
-			if (((Map<Integer, BASE>) o).isEmpty()) {
+		if (o instanceof Map<?, ?>) {
+			if (((Map<?, ?>) o).isEmpty()) {
 				throw new InvalidOperationException(
 						"can not create a polynomial from an empty map");
 			}
-			BASE baseElement = (BASE) ((Map<Integer, BASE>) o).values()
-					.toArray()[0];
+			BASE baseElement = (BASE) ((Map<?, ?>) o).values().toArray()[0];
 
-			return new Polynomial<BASE>((Map<Integer, BASE>) o,
-					(IRingElementFactory<BASE>) baseElement.getFactory());
+			return new Polynomial<BASE>((Map<Integer, BASE>) o, baseElement
+					.getFactory());
 		}
-
-		throw new InvalidOperationException("cannot create a polynomial for "
-				+ o);
+		return get(BASEFACTORY.get(o));
 	}
 
 	/**
@@ -208,6 +219,7 @@ public class PolynomialFactory<BASE extends IRingElement>
 		return get(BASEFACTORY.get(d));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Polynomial<BASE>[][] getArray(int rows, int columns)
 	{
@@ -218,16 +230,16 @@ public class PolynomialFactory<BASE extends IRingElement>
 	 * @throws InvalidOperationException
 	 *             if called.
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	@Deprecated
-	public Polynomial<BASE> randomValue(final Random random)
+	public Polynomial<BASE> randomValue(
+			@SuppressWarnings("unused") final Random random)
 	{
 		throw new InvalidOperationException("Cannot create random polynomials.");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
 	 * @see org.jlinalg.IRingElementFactory#get(long)
 	 */
 	public Polynomial<BASE> get(long d)
@@ -237,13 +249,14 @@ public class PolynomialFactory<BASE extends IRingElement>
 
 	/**
 	 * @throws InvalidOperationException
-	 * @see org.jlinalg.RingElementFactory#randomValue(java.util.Random,
-	 *      org.jlinalg.IRingElement, org.jlinalg.IRingElement)
 	 */
-	@Override
+	@SuppressWarnings("deprecation")
 	@Deprecated
-	public Polynomial<BASE> randomValue(Random random, IRingElement min,
-			IRingElement max)
+	@Override
+	public Polynomial<BASE> randomValue(
+			@SuppressWarnings("unused") Random random,
+			@SuppressWarnings("unused") Polynomial<BASE> min,
+			@SuppressWarnings("unused") Polynomial<BASE> max)
 	{
 		throw new InvalidOperationException("Cannot create random polynomials.");
 	}
@@ -265,7 +278,9 @@ public class PolynomialFactory<BASE extends IRingElement>
 	 */
 	@Override
 	@Deprecated
-	public Polynomial<BASE> randomValue(IRingElement min, IRingElement max)
+	public Polynomial<BASE> randomValue(
+			@SuppressWarnings("unused") Polynomial<BASE> min,
+			@SuppressWarnings("unused") Polynomial<BASE> max)
 	{
 		throw new InvalidOperationException("Cannot create random polynomials.");
 	}

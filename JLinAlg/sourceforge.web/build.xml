@@ -60,7 +60,7 @@
 		<copy file="jlinalg.css.save" tofile="jlinalg.css" overwrite="true" />
 	</target>
 
-	<target name="web" depends="init,java2html" description="copy the web pages">
+	<target name="web" depends="init,java2html,copyjavafiles,copyjavadoc" description="copy the web pages">
 		<echo message="copy web files to ${server}:htdocs" />
 		<scp todir="${server}:htdocs" password="${password.sourceforge}" verbose="true">
 			<fileset dir=".">
@@ -100,6 +100,6 @@
 		</delete>
 	</target>
 
-	<target name="all" depends="web,java2html,copyjavafiles,copyjavadoc" description="copy everything to sourceforge.">
+	<target name="all" depends="web" description="copy everything to sourceforge.">
 	</target>
 </project>

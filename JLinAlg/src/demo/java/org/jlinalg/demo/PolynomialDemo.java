@@ -2,8 +2,8 @@ package org.jlinalg.demo;
 
 import org.jlinalg.LinAlgFactory;
 import org.jlinalg.Matrix;
-import org.jlinalg.Rational;
 import org.jlinalg.polynomial.Polynomial;
+import org.jlinalg.rational.Rational;
 
 /**
  * Demonstrate the use of polynomials for the domain of rational numbers.
@@ -12,6 +12,13 @@ import org.jlinalg.polynomial.Polynomial;
  */
 public class PolynomialDemo
 {
+	final static Object[][] s_matrix = {
+			{
+					"2", new Double(1.5)
+			}, {
+					"-1/6", new Integer(0)
+			}
+	};
 
 	/**
 	 * start the demonstration
@@ -24,17 +31,13 @@ public class PolynomialDemo
 		// Create a factory for complex objects made from rational numbers.
 		LinAlgFactory<Rational> factory = new LinAlgFactory<Rational>(
 				Rational.FACTORY);
-		// this factory allows it to create matrices (or vectors) from rational
-		// numbers - even from an array of double numbers.
-		Matrix<Rational> a = factory.buildMatrix(new double[][]
-		{
-				{
-						2.0, 1.5
-				},
-				{
-						-1.0, 0.0
-				}
-		});
+		// this factory allows it to create matrices (or vectors)
+		Matrix<Rational> id = factory.identity(3);
+		System.out.println("id=\n" + id);
+		// alternatively, the constructors of matrixes (alike those for vectors)
+		// allow to build them from arrays - even from arrays with mixed
+		// objects.
+		Matrix<Rational> a = new Matrix<Rational>(s_matrix, Rational.FACTORY);
 
 		System.out.println("a=\n" + a);
 

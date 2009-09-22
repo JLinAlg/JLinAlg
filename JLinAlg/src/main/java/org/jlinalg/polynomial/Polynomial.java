@@ -8,7 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jlinalg.DivisionByZeroException;
-import org.jlinalg.FieldElement;
 import org.jlinalg.IRingElement;
 import org.jlinalg.IRingElementFactory;
 import org.jlinalg.InvalidOperationException;
@@ -38,9 +37,9 @@ import org.jlinalg.RingElement;
  * @param <BASE>
  *            The type for the domain of the polynomials' coefficients.
  */
-public class Polynomial<BASE extends IRingElement>
-		extends RingElement
-		implements IRingElement
+public class Polynomial<BASE extends IRingElement<BASE>>
+		extends RingElement<Polynomial<BASE>>
+		implements IRingElement<Polynomial<BASE>>
 {
 	/**
 	 * 
@@ -57,6 +56,7 @@ public class Polynomial<BASE extends IRingElement>
 	 */
 	private final PolynomialFactory<BASE> polynomialFactory;
 
+	@SuppressWarnings("unchecked")
 	public Polynomial(BASE value)
 	{
 		if (value == null) {
@@ -107,24 +107,22 @@ public class Polynomial<BASE extends IRingElement>
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public Polynomial<BASE> add(final IRingElement other)
+	@Override
+	public Polynomial<BASE> add(final Polynomial<BASE> other)
 	{
-		final SortedMap<Integer, BASE> otherCoefficients = ((Polynomial<BASE>) other)
+		final SortedMap<Integer, BASE> otherCoefficients = other
 				.getCoefficientsForExponents();
 
 		SortedMap<Integer, BASE> resultCoeffs = this.addHelper(
 				coefficientsForExponents, otherCoefficients);
 		return new Polynomial<BASE>(resultCoeffs,
-				((PolynomialFactory<BASE>) ((Polynomial<BASE>) other)
-						.getFactory()).getBaseFactory());
+				((PolynomialFactory<BASE>) other.getFactory()).getBaseFactory());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public Polynomial<BASE> subtract(final IRingElement other)
+	public Polynomial<BASE> subtract(final Polynomial<BASE> other)
 	{
-		return (Polynomial<BASE>) super.subtract(other);
+		return super.subtract(other);
 	}
 
 	/**
@@ -156,12 +154,12 @@ public class Polynomial<BASE extends IRingElement>
 			rightValue = rightCoefficients.get(rightKey);
 
 			if (leftKey == rightKey) {
-				resultCoefficientsForIndexes.put(leftKey, (BASE) leftValue
+				resultCoefficientsForIndexes.put(leftKey, leftValue
 						.add(rightValue));
 				leftIndex++;
 				rightIndex++;
 			}
-			else if (leftKey < rightKey) {
+			else if (leftKey.compareTo(rightKey) < 0) {
 				resultCoefficientsForIndexes.put(leftKey, leftValue);
 				leftIndex++;
 			}
@@ -189,15 +187,14 @@ public class Polynomial<BASE extends IRingElement>
 		return resultCoefficientsForIndexes;
 	}
 
-	public int compareTo(final IRingElement o)
+	public int compareTo(final Polynomial<BASE> o)
 	{
-		final Polynomial<BASE> other = (Polynomial<BASE>) o;
+		final Polynomial<BASE> other = o;
 		if (this.getDegree() == other.getDegree()) {
 			if (this.getHighestPower() != 0
 					&& this.getHighestCoefficient().equals(
 							other.getHighestCoefficient()))
 			{
-
 				Polynomial<BASE> thisWithoutHightestPower = new Polynomial<BASE>(
 						this.getCoefficientsForExponents().headMap(
 								this.getHighestPower()), this
@@ -209,27 +206,23 @@ public class Polynomial<BASE extends IRingElement>
 				return thisWithoutHightestPower
 						.compareTo(otherWithoutHightestPower);
 			}
-			else {
-				return this.getHighestCoefficient().compareTo(
-						other.getHighestCoefficient());
-			}
+			return this.getHighestCoefficient().compareTo(
+					other.getHighestCoefficient());
 		}
-		else {
-			return new Integer(this.getDegree()).compareTo(other.getDegree());
-		}
+		return this.getDegree() - other.getDegree();
 	}
 
-	public Polynomial<BASE> multiply(final IRingElement other)
+	public Polynomial<BASE> multiply(final Polynomial<BASE> other)
 	{
 		SortedMap<Integer, BASE> resultCoefficientsForIndexes = new TreeMap<Integer, BASE>();
 
-		final SortedMap<Integer, BASE> otherCoefficients = ((Polynomial<BASE>) other)
+		final SortedMap<Integer, BASE> otherCoefficients = other
 				.getCoefficientsForExponents();
 
 		for (final Integer currentOtherKey : otherCoefficients.keySet()) {
-			final Map<Integer, IRingElement> currentCoefficients = new HashMap<Integer, IRingElement>(
+			final Map<Integer, BASE> currentCoefficients = new HashMap<Integer, BASE>(
 					this.coefficientsForExponents);
-			final IRingElement currentOtherCoefficient = otherCoefficients
+			final BASE currentOtherCoefficient = otherCoefficients
 					.get(currentOtherKey);
 
 			/*
@@ -239,9 +232,9 @@ public class Polynomial<BASE extends IRingElement>
 			 */
 			final SortedMap<Integer, BASE> currentCoefficientsShifted = new TreeMap<Integer, BASE>();
 			for (final Integer currentKey : currentCoefficients.keySet()) {
-				currentCoefficientsShifted.put(currentKey + currentOtherKey,
-						(BASE) currentCoefficients.get(currentKey).multiply(
-								currentOtherCoefficient));
+				BASE v = currentCoefficients.get(currentKey);
+				currentCoefficientsShifted.put(currentKey + currentOtherKey, v
+						.multiply(currentOtherCoefficient));
 			}
 
 			resultCoefficientsForIndexes = this.addHelper(
@@ -266,8 +259,7 @@ public class Polynomial<BASE extends IRingElement>
 		for (final Integer currentKey : this.coefficientsForExponents.keySet())
 		{
 			resultCoefficientsForIndexes.put(currentKey,
-					(BASE) (this.coefficientsForExponents.get(currentKey))
-							.negate());
+					(this.coefficientsForExponents.get(currentKey)).negate());
 		}
 		return polynomialFactory.get(resultCoefficientsForIndexes,
 				polynomialFactory.BASEFACTORY);
@@ -295,7 +287,7 @@ public class Polynomial<BASE extends IRingElement>
 		if (this.coefficientsForExponents.isEmpty()) {
 			return 0;
 		}
-		return this.coefficientsForExponents.lastKey();
+		return this.coefficientsForExponents.lastKey().intValue();
 	}
 
 	/**
@@ -320,7 +312,7 @@ public class Polynomial<BASE extends IRingElement>
 
 			final Map<Integer, BASE> factorCoeffs = new HashMap<Integer, BASE>();
 			factorCoeffs.put(this.getHighestPower() - other.getHighestPower(),
-					(BASE) this.getHighestCoefficient().divide(
+					this.getHighestCoefficient().divide(
 							other.getHighestCoefficient()));
 
 			final Polynomial<BASE> factor = polynomialFactory.get(factorCoeffs,
@@ -349,12 +341,12 @@ public class Polynomial<BASE extends IRingElement>
 		final HashMap<Integer, BASE> resultCoefficients = new HashMap<Integer, BASE>();
 		for (final Integer currentKey : this.coefficientsForExponents.keySet())
 		{
-			if (currentKey != 0) {
-				final IRingElement currentCoefficient = this.coefficientsForExponents
+			if (currentKey.intValue() != 0) {
+				final BASE currentCoefficient = this.coefficientsForExponents
 						.get(currentKey);
-				resultCoefficients.put(currentKey - 1,
-						(BASE) currentCoefficient.multiply(polynomialFactory
-								.getBaseFactory().get(currentKey.intValue())));
+				resultCoefficients.put(currentKey - 1, currentCoefficient
+						.multiply(polynomialFactory.getBaseFactory().get(
+								currentKey.intValue())));
 			}
 		}
 		return polynomialFactory.get(resultCoefficients,
@@ -375,7 +367,7 @@ public class Polynomial<BASE extends IRingElement>
 		{
 			final BASE currentCoefficient = this.coefficientsForExponents
 					.get(currentKey);
-			resultCoefficients.put(currentKey + 1, (BASE) currentCoefficient
+			resultCoefficients.put(currentKey + 1, currentCoefficient
 					.multiply(polynomialFactory.getBaseFactory().get(
 							currentKey + 1).invert()));
 		}
@@ -397,7 +389,7 @@ public class Polynomial<BASE extends IRingElement>
 		boolean firstKey = true;
 		for (final Integer currentKey : coefficientsForExponents.keySet()) {
 
-			final IRingElement currentCoefficient = coefficientsForExponents
+			final BASE currentCoefficient = coefficientsForExponents
 					.get(currentKey);
 			if (!currentCoefficient.isZero()) {
 				final String s = currentCoefficient.toString();
@@ -408,14 +400,14 @@ public class Polynomial<BASE extends IRingElement>
 					firstKey = false;
 				}
 				final Matcher m = simpleNumber.matcher(s);
-				if (currentKey != 0 && !m.matches()) sb.append('(');
+				if (currentKey.intValue() != 0 && !m.matches()) sb.append('(');
 				sb.append(currentCoefficient);
-				if (currentKey != 0 && !m.matches()) sb.append(')');
-				if (currentKey > 0) {
+				if (currentKey.intValue() != 0 && !m.matches()) sb.append(')');
+				if (currentKey.intValue() > 0) {
 					sb.append("*x");
 				}
 
-				if (currentKey > 1) {
+				if (currentKey.intValue() > 1) {
 					sb.append("^" + currentKey);
 				}
 			}
@@ -439,7 +431,7 @@ public class Polynomial<BASE extends IRingElement>
 		{
 			return this.polynomialFactory.BASEFACTORY.zero();
 		}
-		final int highestExponent = this.coefficientsForExponents.lastKey();
+		final Integer highestExponent = this.coefficientsForExponents.lastKey();
 		return this.coefficientsForExponents.get(highestExponent);
 	}
 
@@ -455,19 +447,19 @@ public class Polynomial<BASE extends IRingElement>
 			return this.polynomialFactory.BASEFACTORY.zero();
 		}
 
-		final int lowestExponent = this.coefficientsForExponents.firstKey();
+		final Integer lowestExponent = this.coefficientsForExponents.firstKey();
 		return this.coefficientsForExponents.get(lowestExponent);
 	}
 
 	/**
-	 * @return the higherst power in this polynomial (or zero)
+	 * @return the highest power in this polynomial (or zero)
 	 */
 	public int getHighestPower()
 	{
 		if (this.coefficientsForExponents.isEmpty()) {
 			return 0;
 		}
-		return this.coefficientsForExponents.lastKey();
+		return this.coefficientsForExponents.lastKey().intValue();
 	}
 
 	/*
@@ -475,7 +467,7 @@ public class Polynomial<BASE extends IRingElement>
 	 * 
 	 * @see org.jlinalg.IRingElement#getFactory()
 	 */
-	public IRingElementFactory<? extends IRingElement> getFactory()
+	public IRingElementFactory<Polynomial<BASE>> getFactory()
 	{
 		return polynomialFactory;
 	}
@@ -537,11 +529,11 @@ public class Polynomial<BASE extends IRingElement>
 	 *             if the remainder is non-zero
 	 */
 	@Override
-	public Polynomial<BASE> divide(final IRingElement val)
+	public Polynomial<BASE> divide(final Polynomial<BASE> val)
 	{
-		if (val instanceof Polynomial<?>) {
+		if (val != null) {
 			final PolynomialLongDivisionResult<BASE> divisionResult = this
-					.longDivision((Polynomial<BASE>) val);
+					.longDivision(val);
 			if (divisionResult.getRemainder().isZero()) {
 				return divisionResult.getQuotient();
 			}
@@ -551,13 +543,24 @@ public class Polynomial<BASE extends IRingElement>
 							+ val
 							+ " without a remainder. Use method longDivision() instead.");
 		}
+		throw new InternalError("divisor=null");
+	}
+
+	/**
+	 * Division with a base value/
+	 * 
+	 * @param val
+	 * @return a polynomial with all coefficients divided by val.
+	 */
+	public Polynomial<BASE> divide(final BASE val)
+	{
 		final Map<Integer, BASE> newCoefficientsForExponents = new HashMap<Integer, BASE>();
 		for (final Integer currentKey : this.coefficientsForExponents.keySet())
 		{
 			final BASE currentCoefficient = this.coefficientsForExponents
 					.get(currentKey);
-			newCoefficientsForExponents.put(currentKey,
-					(BASE) currentCoefficient.divide(val));
+			BASE newCoeff = currentCoefficient.divide(val);
+			newCoefficientsForExponents.put(currentKey, newCoeff);
 		}
 
 		return new Polynomial<BASE>(newCoefficientsForExponents,
@@ -572,10 +575,8 @@ public class Polynomial<BASE extends IRingElement>
 			return this.getPolynomialFactory().get(
 					this.getHighestCoefficient().invert());
 		}
-		else {
-			throw new InvalidOperationException(this
-					+ " inverted does not result in a polynomial!");
-		}
+		throw new InvalidOperationException(this
+				+ " inverted does not result in a polynomial!");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -589,7 +590,7 @@ public class Polynomial<BASE extends IRingElement>
 	 * @see org.jlinalg.FieldElement#abs()
 	 */
 	@Override
-	public FieldElement abs()
+	public Polynomial<BASE> abs()
 	{
 		throw new InvalidOperationException(
 				"The Abs() of a polynomial is not a polynomial anymore.");

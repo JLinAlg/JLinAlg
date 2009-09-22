@@ -10,7 +10,7 @@ import java.io.Serializable;
  *            the type of the domain.
  */
 
-public class LinearSubspace<RE extends IRingElement>
+public class LinearSubspace<RE extends IRingElement<RE>>
 		extends AffineLinearSubspace<RE>
 		implements Serializable
 {

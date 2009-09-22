@@ -1,7 +1,5 @@
 package org.jlinalg.field_p;
 
-import org.jlinalg.IRingElement;
-
 /**
  * This class implements the operations in Fp where p &lt;
  * PRIME_SEPARATION_BOUNDARY. All computations can be done using long variables.
@@ -12,7 +10,7 @@ import org.jlinalg.IRingElement;
  * @author Lochbihler Andreas, Georg Thimm
  */
 class FieldPLong
-		extends FieldP
+		extends FieldP<FieldPLong>
 {
 
 	/**
@@ -40,7 +38,7 @@ class FieldPLong
 	 *            the factory producing elements in Fp (typically the caller of
 	 *            this constructor).
 	 */
-	FieldPLong(long value, FieldPAbstractFactory factory)
+	FieldPLong(long value, FieldPAbstractFactory<FieldPLong> factory)
 	{
 		super(factory);
 		this.value = value;
@@ -63,7 +61,7 @@ class FieldPLong
 	@Override
 	public FieldPLong negate()
 	{
-		return (FieldPLong) factory.get(-value);
+		return factory.get(-value);
 	}
 
 	/**
@@ -77,11 +75,10 @@ class FieldPLong
 	 *             fields Fp.
 	 */
 	@Override
-	public FieldPLong add(IRingElement val) throws IllegalArgumentException
+	public FieldPLong add(FieldPLong val) throws IllegalArgumentException
 	{
-		FieldPLong op = (FieldPLong) val;
-		if (op.factory == this.factory) {
-			return (FieldPLong) factory.get(this.value + op.value);
+		if (val.factory == this.factory) {
+			return factory.get(this.value + val.value);
 		}
 
 		throw new IllegalArgumentException(val
@@ -101,12 +98,11 @@ class FieldPLong
 	 *             fields Fp.
 	 */
 	@Override
-	public FieldPLong multiply(IRingElement val)
-			throws IllegalArgumentException
+	public FieldPLong multiply(FieldPLong val) throws IllegalArgumentException
 	{
-		FieldPLong op = (FieldPLong) val;
-		if (op.factory == this.factory) {
-			return (FieldPLong) factory.get(this.value * op.value);
+
+		if (val.factory == this.factory) {
+			return factory.get(this.value * val.value);
 		}
 		throw new IllegalArgumentException(val
 				+ " is from a different Fp than " + this
@@ -131,19 +127,18 @@ class FieldPLong
 	 * Compares this element with another element of the same field Fp. Note:
 	 * This order does not respect addition or multiplication!
 	 * 
-	 * @param o
+	 * @param par
 	 *            The element to compare to
 	 * @return -1, if this is less, 0, if they are equal, 1, if this is bigger
 	 */
 	@Override
-	public int compareTo(IRingElement o)
+	public int compareTo(FieldPLong par)
 	{
-		FieldPLong par = (FieldPLong) o;
 		if (this.factory == par.factory) {
 			long diff = this.value - par.value;
 			return (diff > 0 ? 1 : (diff < 0 ? -1 : 0));
 		}
-		throw new IllegalArgumentException(o
+		throw new IllegalArgumentException(par
 				+ " is from a differend field than " + this
 				+ "! You cannot compare them");
 	}

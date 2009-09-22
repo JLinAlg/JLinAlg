@@ -1,7 +1,6 @@
 package org.jlinalg.field_p;
 
 import org.jlinalg.FieldElement;
-import org.jlinalg.IRingElement;
 import org.jlinalg.IRingElementFactory;
 
 /**
@@ -15,10 +14,9 @@ import org.jlinalg.IRingElementFactory;
  * This is only a wrapper class for the different implementations for
  * FieldPAbstract depending on the magnitude of p.
  */
-public abstract class FieldP
-		extends FieldElement
+public abstract class FieldP<RE extends FieldP<RE>>
+		extends FieldElement<RE>
 {
-
 	/**
 	 * 
 	 */
@@ -27,7 +25,7 @@ public abstract class FieldP
 	/**
 	 * the factory for the creation of other elements of this type.
 	 */
-	final FieldPAbstractFactory factory;
+	final FieldPAbstractFactory<RE> factory;
 
 	/**
 	 * constructor for internal use only.
@@ -36,7 +34,7 @@ public abstract class FieldP
 	 *            the factory to be used for the creation of subsequent
 	 *            instances of specializations this class.
 	 */
-	FieldP(FieldPAbstractFactory factory)
+	FieldP(FieldPAbstractFactory<RE> factory)
 	{
 		this.factory = factory;
 	}
@@ -48,7 +46,7 @@ public abstract class FieldP
 	 *            The second operand. Must be of the same field Fp.
 	 * @return The element that is the sum of this and val.
 	 */
-	public abstract FieldP add(IRingElement val);
+	public abstract RE add(RE val);
 
 	/**
 	 * Multiplies this element with val and returns the new element of Fp.
@@ -57,14 +55,15 @@ public abstract class FieldP
 	 *            The second operand. Must be of the same field Fp.
 	 * @return The element that is the sum of this and val.
 	 */
-	public abstract FieldP multiply(IRingElement val);
+	public abstract RE multiply(RE val);
 
 	/**
 	 * Returns the additive inverse of this in the field Fp.
 	 * 
 	 * @return The additive inverse of this in the field Fp.
 	 */
-	public abstract FieldP negate();
+	@Override
+	public abstract RE negate();
 
 	/**
 	 * Returns the multiplicative inverse of this in the field Fp.
@@ -72,7 +71,7 @@ public abstract class FieldP
 	 * @return The multiplicative inverse of this in the field Fp.
 	 */
 	@Override
-	public abstract FieldP invert();
+	public abstract RE invert();
 
 	/**
 	 * Compares this element with another element. o must be a instance of
@@ -87,7 +86,7 @@ public abstract class FieldP
 	 * @return &lt; 0 if this is smaller than o, = 0 if this is equal to o (in
 	 *         the sense of equals), &gt; 0 if this is bigger than o
 	 */
-	public abstract int compareTo(IRingElement o);
+	public abstract int compareTo(RE o);
 
 	/**
 	 * Returns true if and only if <code>this</code> and <code>o</code>
@@ -98,13 +97,20 @@ public abstract class FieldP
 	 * @return True if and only if this and o are the same equivalence class of
 	 *         the same field.
 	 */
-
 	@Override
 	public abstract boolean equals(Object e);
 
-	public IRingElementFactory<? extends IRingElement> getFactory()
+	public IRingElementFactory<RE> getFactory()
 	{
 		return factory;
 	}
 
+	/**
+	 * @return {@code this}
+	 * @see org.jlinalg.IRingElement#abs()
+	 */
+	public RE abs()
+	{
+		return (RE) this;
+	}
 }

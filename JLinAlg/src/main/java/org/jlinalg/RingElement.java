@@ -2,13 +2,15 @@ package org.jlinalg;
 
 import java.io.Serializable;
 
+import org.jlinalg.operator.MonadicOperator;
+
 /**
  * The basic implementation of some methods for most ring elements.
  * 
  * @author Andreas, Georg Thimm
  */
-public abstract class RingElement
-		implements IRingElement, Comparable<IRingElement>, Serializable
+public abstract class RingElement<RE extends IRingElement<RE>>
+		implements IRingElement<RE>, Comparable<RE>, Serializable
 {
 
 	/**
@@ -32,10 +34,11 @@ public abstract class RingElement
 	 * @param val
 	 * @return difference
 	 */
-
-	public RingElement subtract(IRingElement val)
+	@Override
+	public RE subtract(RE val)
 	{
-		return (RingElement) this.add(val.negate());
+		RE re = val.negate();
+		return add(re);
 	}
 
 	/**
@@ -54,40 +57,46 @@ public abstract class RingElement
 	 * @param obj
 	 * @return true if the two RingElements are mathematically equal.
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object obj)
 	{
-		return this.compareTo((RingElement) obj) == 0;
+		return this.compareTo((RE) obj) == 0;
 	}
 
 	/**
 	 * Returns the result of applying a specified function to this
 	 * FielkdElement. New functions can be applied to a RingElement by
-	 * subclassing the abstract <tt>MonadicOperator</tt> class.
+	 * sub-classing the abstract <tt>MonadicOperator</tt> class.
 	 * 
 	 * @param fun
 	 *            the function to apply
 	 * @return result of applying <tt>fun</tt> to this {@link RingElement}
 	 */
-	public <ARG extends IRingElement> RingElement apply(MonadicOperator<ARG> fun)
+	@SuppressWarnings("unchecked")
+	@Override
+	public RE apply(MonadicOperator<RE> fun)
 	{
-		return (RingElement) fun.apply(this);
+		return fun.apply((RE) this);
 	}
 
-	/**
-	 * Returns absolute value of this element
-	 * 
-	 * @return the absolute value
-	 */
-	public RingElement abs()
-	{
-		return apply(AbsOperator.getInstance());
-	}
+	// /**
+	// * Returns absolute value of this element
+	// *
+	// * @return the absolute value
+	// */
+	// @SuppressWarnings("unchecked")
+	// @Override
+	// public RE abs()
+	// {
+	// return apply((MonadicOperator<RE>) AbsOperator.getInstance());
+	// }
 
 	/**
-	 * @return the absolute value of this fiels.
+	 * @return the absolute value of this field.
 	 */
-	public RingElement norm()
+	@Override
+	public RE norm()
 	{
 		return this.abs();
 	}
@@ -98,7 +107,8 @@ public abstract class RingElement
 	 * @param val
 	 * @return true if this RingElement is less than val, false otherwise
 	 */
-	public boolean lt(IRingElement val)
+	@Override
+	public boolean lt(RE val)
 	{
 		return compareTo(val) < 0;
 	}
@@ -109,7 +119,8 @@ public abstract class RingElement
 	 * @param val
 	 * @return true if this RingElement is greater than val, false otherwise
 	 */
-	public boolean gt(IRingElement val)
+	@Override
+	public boolean gt(RE val)
 	{
 		return compareTo(val) > 0;
 	}
@@ -122,7 +133,7 @@ public abstract class RingElement
 	 * @return true if this RingElement is less than or equal to val, false
 	 *         otherwise
 	 */
-	public boolean le(IRingElement val)
+	public boolean le(RE val)
 	{
 		return compareTo(val) <= 0;
 	}
@@ -135,19 +146,36 @@ public abstract class RingElement
 	 * @return true if this RingElement is greater than or equal to val, false
 	 *         otherwise
 	 */
-	public boolean ge(IRingElement val)
+	public boolean ge(RE val)
 	{
 		return compareTo(val) >= 0;
 	}
 
-	public RingElement divide(IRingElement val) throws DivisionByZeroException
+	/**
+	 *@throws DivisionByZeroException
+	 *             if a division is possible for the type, but <code>val</code>
+	 *             is
+	 *             the zero element.
+	 * @throws InvalidOperationException
+	 *             as in the general case, an inversion is not possible.
+	 */
+	@Override
+	public RE divide(@SuppressWarnings("unused") RE val)
+			throws DivisionByZeroException, InvalidOperationException
 	{
 		throw new InvalidOperationException("RingElements  of type "
 				+ this.getClass().getCanonicalName() + " cannot be divided!");
 	}
 
-	@SuppressWarnings("unchecked")
-	public RingElement invert() throws DivisionByZeroException
+	/**
+	 *@throws DivisionByZeroException
+	 *             if an inversion is possible for the type, but the element is
+	 *             the zero element.
+	 * @throws InvalidOperationException
+	 *             as in the general case, an inversion is not possible.
+	 */
+	public RE invert() throws DivisionByZeroException,
+			InvalidOperationException
 	{
 		throw new InvalidOperationException("RingElements of type "
 				+ this.getClass().getCanonicalName() + " cannot be inverted! "

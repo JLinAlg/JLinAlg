@@ -3,11 +3,10 @@
  */
 package org.jlinalg.latex;
 
+import org.jlinalg.LinAlgFactory;
 import org.jlinalg.Matrix;
-import org.jlinalg.Rational;
-import org.jlinalg.RationalMatrixFactory;
 import org.jlinalg.Vector;
-import org.jlinalg.latex.LatexStream;
+import org.jlinalg.rational.Rational;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -35,7 +34,9 @@ public class LatexStreamTest
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception
 	{
-		m = RationalMatrixFactory.unit(4);
+		LinAlgFactory<Rational> linalgFactory = new LinAlgFactory<Rational>(
+				Rational.FACTORY);
+		m = linalgFactory.identity(4);
 		m.multiplyReplace(Rational.FACTORY.get(3, 67));
 		v = new Vector<Rational>(4, Rational.FACTORY);
 		for (int i = 1; i <= 4; i++)

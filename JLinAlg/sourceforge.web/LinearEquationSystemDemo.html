@@ -20,8 +20,8 @@ Get webcpp at http://webcpp.sf.net
 
 <font CLASS=keyword>import</font> org.jlinalg.LinSysSolver;
 <font CLASS=keyword>import</font> org.jlinalg.Matrix;
-<font CLASS=keyword>import</font> org.jlinalg.Rational;
 <font CLASS=keyword>import</font> org.jlinalg.Vector;
+<font CLASS=keyword>import</font> org.jlinalg.rational.Rational;
 
 <font CLASS=comment>/**
  * Example that computes a solution of a linear equation system for the domain
@@ -50,13 +50,20 @@ Get webcpp at http://webcpp.sf.net
 
 		<font CLASS=comment>// create a matrix</font>
 		Matrix&lt;Rational&gt; a <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Matrix&lt;Rational&gt;(<font CLASS=keyword>new</font> Rational[][]
-			{
-				{ r1, r2, r3 },
-				{ r4, r5, r6 } });
+		{
+				{
+						r1, r2, r3
+				},
+				{
+						r4, r5, r6
+				}
+		});
 
 		<font CLASS=comment>// create a vector</font>
 		Vector&lt;Rational&gt; b <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Vector&lt;Rational&gt;(<font CLASS=keyword>new</font> Rational[]
-			{ r1, r2 });
+		{
+				r1, r2
+		});
 
 		<font CLASS=comment>// calculate the solution and print it</font>
 		Vector&lt;Rational&gt; solution <font CLASS=symbols>=</font> LinSysSolver.solve(a, b);

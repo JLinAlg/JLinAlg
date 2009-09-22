@@ -1,5 +1,6 @@
 package org.jlinalg.field_p;
 
+import org.jlinalg.JLinAlgTypeProperties;
 import org.jlinalg.RingElementFactory;
 
 /**
@@ -10,19 +11,22 @@ import org.jlinalg.RingElementFactory;
  * 
  * @author Andreas Lochbihler, Georg Thimm
  */
-public abstract class FieldPAbstractFactory
-		extends RingElementFactory<FieldP>
+@JLinAlgTypeProperties(isExact = true, isDiscreet = true, hasNegativeValues = false)
+public abstract class FieldPAbstractFactory<RE extends FieldP<RE>>
+		extends RingElementFactory<RE>
 {
+	@SuppressWarnings("unchecked")
 	@Override
-	public FieldP[][] getArray(int rows, int columns)
+	public RE[][] getArray(int rows, int columns)
 	{
-		return new FieldP[rows][columns];
+		return (RE[][]) new FieldP[rows][columns];
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public FieldP[] getArray(int size)
+	public RE[] getArray(int size)
 	{
-		return new FieldP[size];
+		return (RE[]) new FieldP[size];
 	}
 
 }

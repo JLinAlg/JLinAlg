@@ -1,70 +1,41 @@
 package org.jlinalg.polynomial;
 
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import java.util.Collection;
 
-import org.jlinalg.DoubleWrapper;
-import org.jlinalg.field_p.FieldPAbstractFactory;
-import org.jlinalg.field_p.FieldPFactoryMap;
-import org.junit.Test;
+import org.jlinalg.IRingElement;
+import org.jlinalg.IRingElementFactory;
+import org.jlinalg.testutil.FactoryTestBase;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
-public class PolynomialFactoryTest
+@RunWith(Parameterized.class)
+public class PolynomialFactoryTest<RE extends IRingElement<RE>>
+		extends FactoryTestBase<Polynomial<RE>>
 {
-	/**
-	 * test whether the factories are unique if the same base type DoubleWrapper
-	 * is used for their creation.
-	 */
-	@Test
-	public void testCompareFactoriesDoubleWrapper()
+
+	@Parameters
+	public static Collection<Object[]> data()
 	{
-		PolynomialFactory<DoubleWrapper> f1 = PolynomialFactory
-				.getFactory(DoubleWrapper.FACTORY);
-		PolynomialFactory<DoubleWrapper> f2 = PolynomialFactory
-				.getFactory(DoubleWrapper.FACTORY);
-		assertTrue(f1 == f2);
+		return PolynomialTest.data();
 	}
 
-	/**
-	 * test whether the factories are unique if the same base type FieldP is
-	 * used for their creation.
-	 */
-	@Test
-	public void testCompareFactoriesFieldP()
+	private IRingElementFactory<Polynomial<RE>> factory;
+
+	public PolynomialFactoryTest(IRingElementFactory<Polynomial<RE>> factory)
 	{
-		FieldPAbstractFactory f1 = FieldPFactoryMap.getFactory(Long
-				.valueOf(17L));
-		FieldPAbstractFactory f2 = FieldPFactoryMap.getFactory(Long
-				.valueOf(17L));
-		assertTrue(f1.equals(f2));
-		assertSame(f1, f2);
-		f2 = FieldPFactoryMap.getFactory(Long.valueOf(19L));
-		assertNotSame(f1, f2);
+		this.factory = factory;
 	}
 
-	/**
-	 * a prime number from the Woodall series
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.jlinalg.testutil.TestBaseInterface#getFactory()
 	 */
-	final String prime1 = "32212254719";
-
-	/**
-	 * a Wagstaff prime
-	 */
-	final String prime2 = "2932031007403";
-
-	/**
-	 * test whether the factories are unique if the same base type FieldP is
-	 * used for their creation.
-	 */
-	@Test
-	public void testCompareFactoriesFieldPBig()
+	@Override
+	public IRingElementFactory<Polynomial<RE>> getFactory()
 	{
-		FieldPAbstractFactory f1 = FieldPFactoryMap.getFactory(prime1);
-		FieldPAbstractFactory f2 = FieldPFactoryMap.getFactory(prime1);
-		assertTrue(f1.equals(f2));
-		assertSame(f1, f2);
-		f2 = FieldPFactoryMap.getFactory(prime2);
-		assertNotSame(f1, f2);
+		return factory;
 	}
 
 }

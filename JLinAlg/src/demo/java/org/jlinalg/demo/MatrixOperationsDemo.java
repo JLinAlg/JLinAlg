@@ -1,8 +1,8 @@
 package org.jlinalg.demo;
 
-import org.jlinalg.Complex;
 import org.jlinalg.IRingElement;
 import org.jlinalg.Matrix;
+import org.jlinalg.complex.Complex;
 
 /**
  * This computes the determinant and the inverse of a complex matrix.
@@ -26,19 +26,17 @@ public class MatrixOperationsDemo
 		Complex c2 = Complex.FACTORY.get(0.0, 1.0);
 
 		// create the matrix
-		Matrix<Complex> m = new Matrix<Complex>(new Complex[][]
-		{
+		Matrix<Complex> m = new Matrix<Complex>(new Complex[][] {
 				{
 						c1, c2
-				},
-				{
+				}, {
 						c2, c1.add(c2)
 				}
 		});
 		System.out.println("Matrix m: \n" + m);
 
 		// print the determinant
-		IRingElement determinant = m.det();
+		IRingElement<?> determinant = m.det();
 		System.out.println("Deteterminant of m: " + determinant);
 
 		// print the inverse

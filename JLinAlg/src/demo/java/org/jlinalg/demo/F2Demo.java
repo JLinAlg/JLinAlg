@@ -1,8 +1,8 @@
 package org.jlinalg.demo;
 
-import org.jlinalg.F2;
 import org.jlinalg.LinAlgFactory;
 import org.jlinalg.Matrix;
+import org.jlinalg.f2.F2;
 
 /**
  * Demonstrate the use of the F2 data type
