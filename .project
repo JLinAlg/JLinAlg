@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>JLinAlg_georg</name>
+	<name>JLinAlg</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -10,14 +10,5 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
-		<buildCommand>
-			<name>com.jcoverage.ide.plugin.coverageInstrumentationBuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
 	</buildSpec>
-	<natures>
-		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>com.jcoverage.ide.plugin.coverageNature</nature>
-	</natures>
 </projectDescription>
