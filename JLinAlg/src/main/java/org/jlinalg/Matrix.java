@@ -2165,7 +2165,7 @@ public class Matrix<RE extends IRingElement<RE>>
 				.getFactory(this.getFactory());
 
 		Map<Integer, IRingElement<?>> coeffs = new HashMap<Integer, IRingElement<?>>();
-		coeffs.put(1, this.getFactory().one());
+		coeffs.put(new Integer(1), this.getFactory().one());
 
 		Polynomial<RE> x = rationalPolyFactory.get(coeffs);
 

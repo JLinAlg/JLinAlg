@@ -45,8 +45,8 @@ Get webcpp at http://webcpp.sf.net
 	{
 		<font CLASS=comment>// The PField require the creation of a factory. Here, a factory for</font>
 		<font CLASS=comment>// G(7) is used.</font>
-		Long prime <font CLASS=symbols>=</font> 7L;
-		FieldPAbstractFactory&lt;?&gt; factory7 <font CLASS=symbols>=</font> FieldPFactoryMap.getFactory(prime);
+		FieldPAbstractFactory&lt;?&gt; factory7 <font CLASS=symbols>=</font> FieldPFactoryMap
+				.getFactory(<font CLASS=keyword>new</font> Long(<font CLASS=integer>7</font>));
 
 		<font CLASS=comment>// By the means of the factory, instances are created.</font>
 		FieldP&lt;?&gt; p1, p2, p3, p4, p5, p6;

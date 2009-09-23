@@ -141,7 +141,7 @@ Get webcpp at http://webcpp.sf.net
 	 * @see org.jlinalg.optimise.Target#setParameters(org.jlinalg.IRingElement[])
 	 */</font>
 	@Override
-	<font CLASS=keyword>public</font> <font CLASS=keytype>void</font> setParameters(IRingElement[] values)
+	<font CLASS=keyword>public</font> <font CLASS=keytype>void</font> setParameters(IRingElement&lt;?&gt;[] values)
 	{
 		System.arraycopy(values, <font CLASS=integer>0</font>, vector, <font CLASS=integer>0</font>, vector.length);
 	}
@@ -166,7 +166,7 @@ Get webcpp at http://webcpp.sf.net
 	 *      org.jlinalg.IRingElement)
 	 */</font>
 	@Override
-	<font CLASS=keyword>public</font> <font CLASS=keytype>boolean</font> setParameter(<font CLASS=keytype>int</font> index, IRingElement value)
+	<font CLASS=keyword>public</font> <font CLASS=keytype>boolean</font> setParameter(<font CLASS=keytype>int</font> index, IRingElement&lt;?&gt; value)
 	{
 		func[index] <font CLASS=symbols>=</font> (DoubleWrapper) value;
 		<font CLASS=keyword>return</font> <font CLASS=keyword>true</font>;

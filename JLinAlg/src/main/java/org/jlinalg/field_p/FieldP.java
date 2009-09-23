@@ -109,6 +109,7 @@ public abstract class FieldP<RE extends FieldP<RE>>
 	 * @return {@code this}
 	 * @see org.jlinalg.IRingElement#abs()
 	 */
+	@SuppressWarnings("unchecked")
 	public RE abs()
 	{
 		return (RE) this;
