@@ -123,7 +123,7 @@ public class Function
 	 * @see org.jlinalg.optimise.Target#setParameters(org.jlinalg.IRingElement[])
 	 */
 	@Override
-	public void setParameters(IRingElement[] values)
+	public void setParameters(IRingElement<?>[] values)
 	{
 		System.arraycopy(values, 0, vector, 0, vector.length);
 	}
@@ -148,7 +148,7 @@ public class Function
 	 *      org.jlinalg.IRingElement)
 	 */
 	@Override
-	public boolean setParameter(int index, IRingElement value)
+	public boolean setParameter(int index, IRingElement<?> value)
 	{
 		func[index] = (DoubleWrapper) value;
 		return true;

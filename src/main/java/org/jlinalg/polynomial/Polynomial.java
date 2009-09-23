@@ -65,7 +65,7 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 		this.polynomialFactory = (PolynomialFactory<BASE>) PolynomialFactoryMap.INSTANCE
 				.get(value.getFactory());
 		this.coefficientsForExponents = new TreeMap<Integer, BASE>();
-		this.coefficientsForExponents.put(0, value);
+		this.coefficientsForExponents.put(new Integer(0), value);
 	}
 
 	/**
@@ -191,7 +191,7 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 	{
 		final Polynomial<BASE> other = o;
 		if (this.getDegree() == other.getDegree()) {
-			if (this.getHighestPower() != 0
+			if (getHighestPower().intValue() != 0
 					&& this.getHighestCoefficient().equals(
 							other.getHighestCoefficient()))
 			{
@@ -212,6 +212,7 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 		return this.getDegree() - other.getDegree();
 	}
 
+	@SuppressWarnings("boxing")
 	public Polynomial<BASE> multiply(final Polynomial<BASE> other)
 	{
 		SortedMap<Integer, BASE> resultCoefficientsForIndexes = new TreeMap<Integer, BASE>();
@@ -297,6 +298,7 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 	 * @param other
 	 * @return the result of the division
 	 */
+	@SuppressWarnings("boxing")
 	public PolynomialLongDivisionResult<BASE> longDivision(
 			final Polynomial<BASE> other)
 	{
@@ -336,6 +338,7 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 	/**
 	 * @return this Polynomial differentiated
 	 */
+	@SuppressWarnings("boxing")
 	public Polynomial<BASE> differentiate()
 	{
 		final HashMap<Integer, BASE> resultCoefficients = new HashMap<Integer, BASE>();
@@ -360,6 +363,7 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 	 * @return a polynomial that is the the result of integrating this
 	 *         polynomial.
 	 */
+	@SuppressWarnings("boxing")
 	public Polynomial<BASE> integrate()
 	{
 		final Map<Integer, BASE> resultCoefficients = new HashMap<Integer, BASE>();
@@ -454,12 +458,13 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 	/**
 	 * @return the highest power in this polynomial (or zero)
 	 */
-	public int getHighestPower()
+	@SuppressWarnings("boxing")
+	public Integer getHighestPower()
 	{
 		if (this.coefficientsForExponents.isEmpty()) {
 			return 0;
 		}
-		return this.coefficientsForExponents.lastKey().intValue();
+		return this.coefficientsForExponents.lastKey();
 	}
 
 	/*

@@ -47,7 +47,7 @@ public class Rational
 	 * @param numerator
 	 * @param denominator
 	 */
-	private Rational(long numerator, long denominator)
+	protected Rational(long numerator, long denominator)
 	{
 		this(BigInteger.valueOf(numerator), BigInteger.valueOf(denominator),
 				true);
@@ -59,7 +59,7 @@ public class Rational
 	 * @param value
 	 *            numerator
 	 */
-	private Rational(BigInteger value)
+	protected Rational(BigInteger value)
 	{
 		this.numerator = value;
 		this.denominator = BigInteger.ONE;
@@ -71,7 +71,7 @@ public class Rational
 	 * @param numerator
 	 * @param denominator
 	 */
-	Rational(BigInteger numerator, BigInteger denominator)
+	protected Rational(BigInteger numerator, BigInteger denominator)
 	{
 		this(numerator, denominator, true);
 	}
@@ -86,7 +86,8 @@ public class Rational
 	 *            if true, try to cancel the fraction
 	 */
 
-	Rational(BigInteger numerator, BigInteger denominator, boolean cancel)
+	protected Rational(BigInteger numerator, BigInteger denominator,
+			boolean cancel)
 	{
 		if (cancel) {
 			BigInteger cancelledBy = numerator.gcd(denominator);
@@ -111,7 +112,7 @@ public class Rational
 	 * 
 	 * @param value
 	 */
-	Rational(double value)
+	protected Rational(double value)
 	{
 		boolean isNegative = false;
 		if (value < 0) {

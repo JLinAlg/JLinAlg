@@ -82,7 +82,7 @@ public class FieldPBigFactory
 	}
 
 	/**
-	 * @see IRingElementFactory#m_one()
+	 * @see org.jlinalg.IRingElementFactory#m_one()
 	 */
 	@Override
 	public FieldPBig m_one()

@@ -25,8 +25,8 @@ import org.junit.runners.Parameterized.Parameters;
  * @author Georg Thimm
  */
 @RunWith(value = Parameterized.class)
-public class FieldPTest
-		extends RingElementTestBase
+public class FieldPTest<RE extends IRingElement<RE>>
+		extends RingElementTestBase<RE>
 {
 	/**
 	 * Two values from which the fixture is created: a small to test
@@ -46,11 +46,12 @@ public class FieldPTest
 		return Arrays.asList(data);
 	}
 
-	private final IRingElementFactory<?> factory;
+	private final IRingElementFactory<RE> factory;
 
+	@SuppressWarnings("unchecked")
 	public FieldPTest(String o)
 	{
-		factory = FieldPFactoryMap.getFactory(o);
+		factory = (IRingElementFactory<RE>) FieldPFactoryMap.getFactory(o);
 	}
 
 	public void testFieldP_113_Test()
@@ -59,7 +60,7 @@ public class FieldPTest
 	}
 
 	@Override
-	public IRingElementFactory<?> getFactory()
+	public IRingElementFactory<RE> getFactory()
 	{
 		return factory;
 	}
@@ -85,15 +86,15 @@ public class FieldPTest
 	public void testAbs_base()
 	{
 		assertSame(getFactory().zero(), getFactory().zero().abs());
-		IRingElement<?> e = getFactory().get("7");
+		RE e = getFactory().get("7");
 		assertSame(e, e.abs());
 	}
 
 	@Test
 	public void testLt()
 	{
-		IRingElement v = getFactory().get("44");
-		IRingElement<?> w = getFactory().get("77");
+		RE v = getFactory().get("44");
+		RE w = getFactory().get("77");
 		assertTrue(v.lt(w));
 	}
 
@@ -106,7 +107,7 @@ public class FieldPTest
 	public void testNorm_base()
 	{
 		assertSame(getFactory().zero(), getFactory().zero().norm());
-		IRingElement<?> e = getFactory().get("7");
+		RE e = getFactory().get("7");
 		assertSame(e, e.norm());
 	}
 

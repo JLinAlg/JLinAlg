@@ -176,7 +176,7 @@ public class PolynomialFactory<BASE extends IRingElement<BASE>>
 		if (o instanceof IRingElement<?>) {
 			IRingElement<?> e = (IRingElement<?>) o;
 			Map<Integer, IRingElement<?>> coefficientForOne = new HashMap<Integer, IRingElement<?>>();
-			coefficientForOne.put(0, e);
+			coefficientForOne.put(new Integer(0), e);
 			return new Polynomial<BASE>((Map<Integer, BASE>) coefficientForOne,
 					(IRingElementFactory<BASE>) e.getFactory());
 		}

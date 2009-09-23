@@ -27,8 +27,8 @@ public class FieldPDemo
 	{
 		// The PField require the creation of a factory. Here, a factory for
 		// G(7) is used.
-		Long prime = 7L;
-		FieldPAbstractFactory<?> factory7 = FieldPFactoryMap.getFactory(prime);
+		FieldPAbstractFactory<?> factory7 = FieldPFactoryMap
+				.getFactory(new Long(7));
 
 		// By the means of the factory, instances are created.
 		FieldP<?> p1, p2, p3, p4, p5, p6;
