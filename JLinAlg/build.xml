@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project name="JLinAlg" default="jar">
+	<property name="junit.path" value="/usr/share/java/junit4.jar"/>
 	<property name="version" value="0.6" />
 	<!-- - - - - - - - - - - - - - - - - - 
           target: init                      
@@ -19,7 +20,7 @@
 	</target>
 
 	<target name="javadoc" description="Create the java doc">
-		<javadoc access="private" author="true" doctitle="The JLinAlg API" destdir="javadoc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" splitindex="true" use="true" version="true">
+		<javadoc access="private" classpath="${junit.path}" author="true" doctitle="The JLinAlg API" destdir="javadoc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" splitindex="true" use="true" version="true">
 			<fileset dir="src" defaultexcludes="yes">
 				<include name="**/*.java" />
 				<exclude name="test/**" />
