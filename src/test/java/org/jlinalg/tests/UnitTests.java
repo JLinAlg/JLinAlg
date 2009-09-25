@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
  */
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses(value = {}, include = "org.jlinalg.*Test", exclude = ".*(BlackBox|\\$|Suite|Demo).*")
+@Suite.SuiteClasses(include = "org.jlinalg.*Test", exclude = ".*(BlackBox|\\$|Suite|Demo).*")
 public class UnitTests
 {
 
