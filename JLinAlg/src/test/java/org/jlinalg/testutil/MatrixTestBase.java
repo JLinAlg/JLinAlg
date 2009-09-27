@@ -304,4 +304,20 @@ public abstract class MatrixTestBase<RE extends IRingElement<RE>>
 		o = m.order(20);
 		assertEquals("order for matrix\n" + m.toString(), 2, o);
 	}
+
+	/**
+	 * Test method for
+	 * {@link org.jlinalg.Matrix#Matrix(org.jlinalg.Matrix, org.jlinalg.IRingElementFactory)}
+	 * .
+	 */
+	@Test
+	public void testMatrixIRingElementMatrixIRingElementFactoryOfRE_base()
+	{
+		Matrix<StringWrapper> matS = new Matrix<StringWrapper>(mat_1to9,
+				StringWrapper.FACTORY);
+		Matrix<RE> matRE1 = new Matrix<RE>(mat_1to9, getFactory());
+		Matrix<RE> matRE2 = new Matrix<RE>(matS, getFactory());
+		assertNotNull(matRE2);
+		assertEquals(matRE1, matRE2);
+	}
 }

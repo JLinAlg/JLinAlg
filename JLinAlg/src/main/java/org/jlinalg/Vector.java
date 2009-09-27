@@ -113,6 +113,20 @@ public class Vector<RE extends IRingElement<RE>>
 	}
 
 	/**
+	 * Create a new vector with elements of another type.
+	 * 
+	 * @param vector
+	 *            The vector to be converted
+	 * @param factory
+	 *            The factory that will be used to create the elements of the
+	 *            new vector.
+	 */
+	public Vector(Vector<?> vector, IRingElementFactory<RE> factory)
+	{
+		this(vector.entries, factory);
+	}
+
+	/**
 	 * Returns the length of the Vector.
 	 * 
 	 * @return the length

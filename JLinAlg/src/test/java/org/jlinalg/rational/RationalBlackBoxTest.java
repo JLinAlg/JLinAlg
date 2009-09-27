@@ -412,4 +412,5 @@ public class RationalBlackBoxTest
 					- r.doubleValue()) <= (d.abs()).doubleValue() / 1000);
 		}
 	}
+
 }
