@@ -247,6 +247,20 @@ public class Matrix<RE extends IRingElement<RE>>
 	}
 
 	/**
+	 * Convert a matrix to a new type
+	 * 
+	 * @param matrix
+	 *            the matrix to be converted
+	 * @param factory
+	 *            The factory with which the elements in the new matrix are
+	 *            created
+	 */
+	public Matrix(Matrix<?> matrix, IRingElementFactory<RE> factory)
+	{
+		this(matrix.entries, factory);
+	}
+
+	/**
 	 * Gets the number of rows of this Matrix.
 	 * 
 	 * @return number of rows
@@ -885,8 +899,7 @@ public class Matrix<RE extends IRingElement<RE>>
 	/**
 	 * Returns a matrix that is this Matrix with the Gauss-Jordan algorithm
 	 * executed on. In other words: It returns the reduced row echelon form of
-	 * this Matrix. N.B.: In General, this operation will fail, if not all
-	 * entries are FieldElements.
+	 * this Matrix.
 	 * 
 	 * @return matrix in reduced row-echelon form
 	 */
@@ -2040,7 +2053,7 @@ public class Matrix<RE extends IRingElement<RE>>
 
 	/**
 	 * @return the order of a matrix up to order Integer.MAX_VALUE
-	 * @see #order
+	 * @see #order(int)
 	 */
 	public int order()
 	{

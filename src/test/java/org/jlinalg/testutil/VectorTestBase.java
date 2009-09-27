@@ -88,6 +88,23 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 
 	/**
 	 * Test method for
+	 * {@link org.jlinalg.Vector#Vector(org.jlinalg.Vector, org.jlinalg.IRingElementFactory)}
+	 * .
+	 */
+	@Test
+	public void testVectorIRingElementVectorIRingElementFactoryOfRE_base()
+	{
+		Vector<StringWrapper> vecS = new Vector<StringWrapper>(vec_0_1_9,
+				StringWrapper.FACTORY);
+		Vector<RE> vecRE1 = new Vector<RE>(vec_0_1_9, getFactory());
+		Vector<RE> vecRE2 = new Vector<RE>(vecS, getFactory());
+		assertNotNull(vecRE2);
+		assertEquals(vec_0_1_9.length, vecS.length());
+		assertEquals(vecRE1, vecRE2);
+	}
+
+	/**
+	 * Test method for
 	 * {@link org.jlinalg.Vector#Vector(int, org.jlinalg.IRingElementFactory)}.
 	 */
 	@Test
