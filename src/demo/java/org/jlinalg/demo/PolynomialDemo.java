@@ -46,11 +46,6 @@ public class PolynomialDemo
 				.characteristicPolynomial();
 		System.out.println("char(a): " + characteristicPolynomial);
 
-		System.out.println("norm(char(a)): " + characteristicPolynomial.norm());
-
-		System.out.println("invert(norm(char(a))): "
-				+ characteristicPolynomial.norm().invert());
-
 		// calculate the minimal polynomial "min(a)"
 		Polynomial<Rational> minimalPolynomial = a.minimalPolynomial();
 		System.out.println("min(a): " + minimalPolynomial);
