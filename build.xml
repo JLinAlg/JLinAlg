@@ -41,7 +41,7 @@
           target: jar              
          ================================= -->
 	<target name="jar" description="Create the jar file of the API (tests and related files are excluded)">
-		<jar destfile="jlinalg-api_${version}.jar" compress="yes" description="JLinAlg API ${version}">
+		<jar destfile="jlinalg-${version}.jar" compress="yes" description="JLinAlg API ${version}">
 			<fileset dir="bin" id="id">
 				<include name="**/*" />
 				<exclude name="**/demo/*" />

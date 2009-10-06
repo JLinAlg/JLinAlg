@@ -163,14 +163,14 @@ public class Rational
 	 * used in {@link #Rational(String)} to parse numbers in exponential
 	 * denotation.
 	 */
-	private final static Pattern expPattern = Pattern
+	public final static Pattern expPattern = Pattern
 			.compile("([+-]?\\d+)\\.?(\\d*)([eE]([-+]?\\d+))?");
 
 	/**
 	 * used in {@link #Rational(String)} to parse numbers in fractional
 	 * denotation.
 	 */
-	private final static Pattern fracPattern = Pattern
+	public final static Pattern fracPattern = Pattern
 			.compile("([+-]?\\d+)/([-+]?\\d+)");
 
 	/**

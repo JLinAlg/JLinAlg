@@ -21,6 +21,16 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 		implements IRingElementFactory<RE>
 {
 
+	/**
+	 * @return a description of the factory
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString()
+	{
+		return "Factory: " + getClass().getName();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

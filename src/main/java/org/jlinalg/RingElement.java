@@ -80,18 +80,6 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 		return fun.apply((RE) this);
 	}
 
-	// /**
-	// * Returns absolute value of this element
-	// *
-	// * @return the absolute value
-	// */
-	// @SuppressWarnings("unchecked")
-	// @Override
-	// public RE abs()
-	// {
-	// return apply((MonadicOperator<RE>) AbsOperator.getInstance());
-	// }
-
 	/**
 	 * @return the absolute value of this field.
 	 */
@@ -105,11 +93,19 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	 * Checks whether this RingElement is mathematically less than another.
 	 * 
 	 * @param val
-	 * @return true if this RingElement is less than val, false otherwise
+	 * @return true if this RingElement is less than {@code val}, false
+	 *         otherwise
+	 * @throws InvalidOperationException
+	 *             if @c{@code this} and {@code val} are not instances of the
+	 *             same class
 	 */
 	@Override
 	public boolean lt(RE val)
 	{
+		if (getClass() != val.getClass())
+			throw new InvalidOperationException("cannot compare " + this
+					+ " in class" + getClass() + " and " + val + " in class "
+					+ val.getClass());
 		return compareTo(val) < 0;
 	}
 
@@ -118,10 +114,17 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	 * 
 	 * @param val
 	 * @return true if this RingElement is greater than val, false otherwise
+	 * @throws InvalidOperationException
+	 *             if @c{@code this} and {@code val} are not instances of the
+	 *             same class
 	 */
 	@Override
 	public boolean gt(RE val)
 	{
+		if (getClass() != val.getClass())
+			throw new InvalidOperationException("cannot compare " + this
+					+ " in class" + getClass() + " and " + val + " in class "
+					+ val.getClass());
 		return compareTo(val) > 0;
 	}
 
@@ -130,11 +133,19 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	 * another.
 	 * 
 	 * @param val
-	 * @return true if this RingElement is less than or equal to val, false
+	 * @return true if this RingElement is less than or equal to {@code val},
+	 *         false
 	 *         otherwise
+	 * @throws InvalidOperationException
+	 *             if {@code this} and {@code val} are not instances of the
+	 *             same class
 	 */
 	public boolean le(RE val)
 	{
+		if (getClass() != val.getClass())
+			throw new InvalidOperationException("cannot compare " + this
+					+ " in class" + getClass() + " and " + val + " in class "
+					+ val.getClass());
 		return compareTo(val) <= 0;
 	}
 
@@ -143,11 +154,18 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	 * to another.
 	 * 
 	 * @param val
-	 * @return true if this RingElement is greater than or equal to val, false
-	 *         otherwise
+	 * @return true if this RingElement is greater than or equal to {@code val},
+	 *         false otherwise
+	 * @throws InvalidOperationException
+	 *             if {@code this} and {@code val} are not instances of the
+	 *             same class
 	 */
 	public boolean ge(RE val)
 	{
+		if (getClass() != val.getClass())
+			throw new InvalidOperationException("cannot compare " + this
+					+ " in class" + getClass() + " and " + val + " in class "
+					+ val.getClass());
 		return compareTo(val) >= 0;
 	}
 

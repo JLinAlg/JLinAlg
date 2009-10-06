@@ -6,8 +6,12 @@ package org.jlinalg.testutil;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeTrue;
 
+import org.jlinalg.DivisionByZeroException;
 import org.jlinalg.IRingElement;
+import org.jlinalg.InvalidOperationException;
 import org.junit.Assume;
 import org.junit.Test;
 
@@ -93,21 +97,23 @@ public abstract class RingElementTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testAbs_base()
 	{
-		Assume
-				.assumeTrue(!methodIsDepreciated(getFactory().one(), "abs",
-						null));
-		assertEquals(getFactory().zero(), getFactory().zero().abs());
+		Assume.assumeTrue(dataTypeHasNegativeValues()
+				&& !methodIsDepreciated(getFactory().one(), "abs", null));
+		assertEquals(getFactory().toString(), getFactory().zero(), getFactory()
+				.zero().abs());
 		assertEquals(getFactory().one(), getFactory().one().abs());
 		assertEquals(getFactory().one(), getFactory().m_one().abs());
 		assertEquals(getFactory().get("7"), getFactory().get("-7").abs());
 	}
 
 	/**
-	 * Test method for {@link org.jlinalg.RingElement#norm()}.
+	 * Test method for {@link org.jlinalg.RingElement#norm()} ()except if the
+	 * method is deprecated).
 	 */
 	@Test
 	public void testNorm_base()
 	{
+		assumeTrue(!methodIsDepreciated(getFactory().one(), "norm", null));
 		assertEquals(getFactory().zero(), getFactory().zero().norm());
 		assertEquals(getFactory().one(), getFactory().one().norm());
 		assertEquals(getFactory().one(), getFactory().m_one().norm());
@@ -127,9 +133,12 @@ public abstract class RingElementTestBase<RE extends IRingElement<RE>>
 		assertTrue(getFactory().zero().lt(getFactory().one()));
 		assertFalse(getFactory().zero().lt(getFactory().zero()));
 		if (dataTypeHasNegativeValues()) {
-			assertTrue(getFactory().m_one().lt(getFactory().zero()));
-			assertFalse(getFactory().one().lt(getFactory().m_one()));
-			assertFalse(getFactory().zero().lt(getFactory().m_one()));
+			assertTrue(getFactory().toString(), getFactory().m_one().lt(
+					getFactory().zero()));
+			assertFalse(getFactory().toString(), getFactory().one().lt(
+					getFactory().m_one()));
+			assertFalse(getFactory().toString(), getFactory().zero().lt(
+					getFactory().m_one()));
 		}
 	}
 
@@ -146,8 +155,10 @@ public abstract class RingElementTestBase<RE extends IRingElement<RE>>
 		assertFalse(getFactory().zero().gt(getFactory().zero()));
 		assertFalse(getFactory().zero().gt(getFactory().one()));
 		if (dataTypeHasNegativeValues()) {
-			assertFalse(getFactory().m_one().gt(getFactory().zero()));
-			assertTrue(getFactory().zero().gt(getFactory().m_one()));
+			assertFalse("Factory: " + getFactory().getClass().getName(),
+					getFactory().m_one().gt(getFactory().zero()));
+			assertTrue("Factory: " + getFactory().getClass().getName(),
+					getFactory().zero().gt(getFactory().m_one()));
 		}
 	}
 
@@ -163,8 +174,10 @@ public abstract class RingElementTestBase<RE extends IRingElement<RE>>
 		assertTrue(getFactory().one().le(getFactory().one()));
 		assertFalse(getFactory().one().le(getFactory().zero()));
 		if (dataTypeHasNegativeValues()) {
-			assertTrue(getFactory().m_one().le(getFactory().zero()));
-			assertFalse(getFactory().zero().le(getFactory().m_one()));
+			assertTrue(getFactory().toString(), getFactory().m_one().le(
+					getFactory().zero()));
+			assertFalse(getFactory().toString(), getFactory().zero().le(
+					getFactory().m_one()));
 		}
 	}
 
@@ -180,8 +193,10 @@ public abstract class RingElementTestBase<RE extends IRingElement<RE>>
 		assertTrue(getFactory().one().ge(getFactory().one()));
 		assertTrue(getFactory().one().ge(getFactory().zero()));
 		if (dataTypeHasNegativeValues()) {
-			assertFalse(getFactory().m_one().ge(getFactory().zero()));
-			assertTrue(getFactory().zero().ge(getFactory().m_one()));
+			assertFalse(getFactory().toString(), getFactory().m_one().ge(
+					getFactory().zero()));
+			assertTrue(getFactory().toString(), getFactory().zero().ge(
+					getFactory().m_one()));
 		}
 	}
 
@@ -232,10 +247,20 @@ public abstract class RingElementTestBase<RE extends IRingElement<RE>>
 	/**
 	 * test whether the inversion of zero results in an exception
 	 */
-	@Test(expected = org.jlinalg.DivisionByZeroException.class)
 	public void invertZero_base()
 	{
-		getFactory().zero().invert();
+		try {
+			getFactory().zero().invert();
+		} catch (DivisionByZeroException e) {
+			return; // this is expected
+		} catch (InvalidOperationException e) {
+			// In certain cases other things can not be inverted,
+			// check the exception's message for the keyword "inverted"
+			if (e.getMessage().contains("invert")) return;
+			throw e; // This invalid operation was not expected...
+		}
+		fail(getFactory().zero().toString() + " from factory "
+				+ getFactory().toString() + " is apparently invertible");
 	}
 
 	/**

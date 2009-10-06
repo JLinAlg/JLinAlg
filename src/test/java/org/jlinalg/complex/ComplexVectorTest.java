@@ -64,12 +64,6 @@ public class ComplexVectorTest
 
 	@Ignore
 	@Override
-	public void testL2Norm_base()
-	{
-	}
-
-	@Ignore
-	@Override
 	public void testNycDist_base()
 	{
 	}

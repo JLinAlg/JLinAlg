@@ -177,6 +177,8 @@ public class FieldPLongFactory
 	 * @param p
 	 *            The number of elements in the field.
 	 * @return The inverse of val in Fp.
+	 * @exception InvalidOperationException
+	 *                if val cannot be inverted
 	 */
 	protected static long computeInverse(long val, long p)
 	{
@@ -297,4 +299,13 @@ public class FieldPLongFactory
 		return new FieldPLong((long) (p * random.nextDouble()), this);
 	}
 
+	/**
+	 * @return a description of the factory
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString()
+	{
+		return "Factory: " + getClass().getName() + " p=" + p;
+	}
 }

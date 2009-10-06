@@ -2,6 +2,7 @@ package org.jlinalg.field_p;
 
 import java.math.BigInteger;
 
+import org.jlinalg.DivisionByZeroException;
 import org.jlinalg.InvalidOperationException;
 
 /**
@@ -105,8 +106,8 @@ class FieldPBig
 	 * Computes the multiplicative inverse
 	 * 
 	 * @return The multiplicative inverse
-	 * @throws InvalidOperationException
-	 *             Thrown if trying to inverst 0.
+	 * @throws DivisionByZeroException
+	 *             Thrown if trying to invert 0.
 	 * @throws ArithmeticException
 	 *             Thrown if value is is not relatively prime to p.
 	 */
@@ -115,7 +116,7 @@ class FieldPBig
 			ArithmeticException
 	{
 		if (this.isZero()) {
-			throw new InvalidOperationException("Multiplicative inversion of 0");
+			throw new DivisionByZeroException("Multiplicative inversion of 0");
 		}
 		if (this.inverse == null) {
 			this.inverse = factory.get(value

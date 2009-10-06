@@ -1240,7 +1240,7 @@ public class Vector<RE extends IRingElement<RE>>
 	 *            the reduction
 	 * @return the result of the reduction
 	 */
-	private RE reduce(Reduction<RE> r)
+	public RE reduce(Reduction<RE> r)
 	{
 		r.init(this.getEntry(1));
 		for (int i = 2; i <= this.length(); i++) {

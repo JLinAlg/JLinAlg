@@ -173,9 +173,10 @@ public class ComplexTest
 	/**
 	 * Test method for {@link org.jlinalg.FieldElement#abs()}.
 	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	@Test(expected = InvalidOperationException.class)
-	public final void testAbs()
+	public final void testAbs_base()
 	{
 		f.zero().abs();
 	}

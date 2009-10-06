@@ -99,7 +99,7 @@
 <li>Go to the <a href="#Download">Download</a> section and get the latest version of JLinAlg.</li>
 <li>Set up your environment (We recommend to use <a href="http://www.eclipse.org">Eclipse</a> in any of the following two cases):
    <ul>
-      <li>If you want to use JLinAlg as a library, use jlinalg-v0.xx.jar contained in the Zip-file. 
+      <li>If you want to use JLinAlg as a library, use jlinalg-0.xx.jar contained in the Zip-file. 
           In Eclipse you can just add it to your project by going to Project -> Properties -> 
           java build path -> libraries. There you can use "Add Jars" (drag and drop jlinalg-0.xx.jar 
           to your project first) or "Add External Jars" and select the location of jlinalg-0.xx.jar</li>

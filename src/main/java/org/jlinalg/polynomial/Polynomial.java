@@ -11,6 +11,7 @@ import org.jlinalg.DivisionByZeroException;
 import org.jlinalg.IRingElement;
 import org.jlinalg.IRingElementFactory;
 import org.jlinalg.InvalidOperationException;
+import org.jlinalg.JLinAlgTypeProperties;
 import org.jlinalg.RingElement;
 
 /**
@@ -37,6 +38,7 @@ import org.jlinalg.RingElement;
  * @param <BASE>
  *            The type for the domain of the polynomials' coefficients.
  */
+@JLinAlgTypeProperties(isCompound = true)
 public class Polynomial<BASE extends IRingElement<BASE>>
 		extends RingElement<Polynomial<BASE>>
 		implements IRingElement<Polynomial<BASE>>
@@ -153,7 +155,7 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 			leftValue = leftCoefficients.get(leftKey);
 			rightValue = rightCoefficients.get(rightKey);
 
-			if (leftKey == rightKey) {
+			if (leftKey.equals(rightKey)) {
 				resultCoefficientsForIndexes.put(leftKey, leftValue
 						.add(rightValue));
 				leftIndex++;
@@ -592,8 +594,11 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 
 	/**
 	 * @throws InvalidOperationException
-	 * @see org.jlinalg.FieldElement#abs()
+	 *             when called.
+	 * @deprecated The absolute value of a polynomial is not anymore a
+	 *             polynomial.
 	 */
+	@Deprecated
 	@Override
 	public Polynomial<BASE> abs()
 	{
@@ -601,20 +606,31 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 				"The Abs() of a polynomial is not a polynomial anymore.");
 	}
 
+	// /**
+	// * It can be shown that the degree of a polynomial over a field satisfies
+	// * all of the requirements of a norm function in the Euclidean domain.
+	// That
+	// * is, given two polynomials f(x) and g(x), the degree of the product
+	// * f(x)*g(x) must be larger than both the degrees of f and g individually.
+	// * In fact, something stronger holds:
+	// * degree( f(x) * g(x) ) = degree(f(x)) + degree(g(x))
+	// *
+	// * @return the degree of this polynomial as a polynomial (of degree 0)
+	// */
+	// @Override
+	// public Polynomial<BASE> norm()
+	// {
+	// return new Polynomial<BASE>(this.getPolynomialFactory()
+	// .getBaseFactory().get(this.getDegree()));
+	// }
 	/**
-	 * It can be shown that the degree of a polynomial over a field satisfies
-	 * all of the requirements of a norm function in the euclidean domain. That
-	 * is, given two polynomials f(x) and g(x), the degree of the product
-	 * f(x)�g(x) must be larger than both the degrees of f and g individually.
-	 * In fact, something stronger holds:
-	 * degree( f(x) * g(x) ) = degree(f(x)) + degree(g(x))
-	 * 
-	 * @return the degree of this polynomial as a polynomial (of degree 0)
+	 * @deprecated
 	 */
 	@Override
+	@Deprecated
 	public Polynomial<BASE> norm()
 	{
-		return new Polynomial<BASE>(this.getPolynomialFactory()
-				.getBaseFactory().get(this.getDegree()));
+		throw new InvalidOperationException(
+				"The function norm() is not implemented for polynomials.");
 	}
 }

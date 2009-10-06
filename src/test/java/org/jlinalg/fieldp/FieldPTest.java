@@ -4,7 +4,6 @@
 package org.jlinalg.fieldp;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
@@ -15,7 +14,6 @@ import org.jlinalg.IRingElement;
 import org.jlinalg.IRingElementFactory;
 import org.jlinalg.field_p.FieldPFactoryMap;
 import org.jlinalg.testutil.RingElementTestBase;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -54,11 +52,6 @@ public class FieldPTest<RE extends IRingElement<RE>>
 		factory = (IRingElementFactory<RE>) FieldPFactoryMap.getFactory(o);
 	}
 
-	public void testFieldP_113_Test()
-	{
-		assertNotNull(factory);
-	}
-
 	@Override
 	public IRingElementFactory<RE> getFactory()
 	{
@@ -78,18 +71,8 @@ public class FieldPTest<RE extends IRingElement<RE>>
 	}
 
 	/**
-	 * test whether {@link IRingElement#abs()} can be executed and returns the
-	 * same element.
+	 * test {@link IRingElement#lt(IRingElement)}
 	 */
-	@Override
-	@Test
-	public void testAbs_base()
-	{
-		assertSame(getFactory().zero(), getFactory().zero().abs());
-		RE e = getFactory().get("7");
-		assertSame(e, e.abs());
-	}
-
 	@Test
 	public void testLt()
 	{
@@ -109,29 +92,5 @@ public class FieldPTest<RE extends IRingElement<RE>>
 		assertSame(getFactory().zero(), getFactory().zero().norm());
 		RE e = getFactory().get("7");
 		assertSame(e, e.norm());
-	}
-
-	@Override
-	@Test
-	@Ignore
-	public void testInvert_base()
-	{
-	}
-
-	@Override
-	@Test
-	@Ignore
-	public void testDivide_base()
-	{
-	}
-
-	/**
-	 * test whether the inversion of zero results in an exception
-	 */
-	@Override
-	@Test(expected = org.jlinalg.InvalidOperationException.class)
-	public void invertZero_base()
-	{
-		getFactory().zero().invert();
 	}
 }
