@@ -9,6 +9,7 @@ import org.jlinalg.IRingElement;
 import org.jlinalg.InvalidOperationException;
 import org.jlinalg.Matrix;
 import org.jlinalg.f2.F2.F2Factory;
+import org.jlinalg.fastrational.FastRationalFactory;
 import org.jlinalg.rational.Rational;
 import org.junit.Assume;
 import org.junit.Test;
@@ -47,7 +48,9 @@ public abstract class MatrixTestBase<RE extends IRingElement<RE>>
 		Assume.assumeTrue(!(getFactory() instanceof F2Factory));
 		testInversion_subroutine(TestMatrices.getM2x2A(getFactory()));
 		testInversion_subroutine(TestMatrices.getM2x2A_inv(getFactory()));
-		if (!dataTypeIsDiscreet()) // the matrix large includes fractions
+		if (!dataTypeIsDiscreet()
+				&& !(getFactory() instanceof FastRationalFactory))
+		// the matrix large includes fractions
 			testInversion_subroutine(TestMatrices
 					.getLargeInversible(getFactory()));
 	}

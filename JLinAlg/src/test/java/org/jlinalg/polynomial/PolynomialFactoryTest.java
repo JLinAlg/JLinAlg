@@ -1,5 +1,7 @@
 package org.jlinalg.polynomial;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.Collection;
 
 import org.jlinalg.IRingElement;
@@ -13,18 +15,31 @@ import org.junit.runners.Parameterized.Parameters;
 public class PolynomialFactoryTest<RE extends IRingElement<RE>>
 		extends FactoryTestBase<Polynomial<RE>>
 {
-
+	/**
+	 * @see PolynomialTest#data()
+	 */
 	@Parameters
 	public static Collection<Object[]> data()
 	{
 		return PolynomialTest.data();
 	}
 
+	/**
+	 * The fixture for this test.
+	 */
 	private IRingElementFactory<Polynomial<RE>> factory;
 
+	/**
+	 * The constructor for this test
+	 * 
+	 * @param factory
+	 *            a factory for polynomials
+	 */
+	@SuppressWarnings("unchecked")
 	public PolynomialFactoryTest(IRingElementFactory<Polynomial<RE>> factory)
 	{
 		this.factory = factory;
+		assertTrue(this.factory instanceof PolynomialFactory);
 	}
 
 	/*

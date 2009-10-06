@@ -60,7 +60,9 @@ public class PolynomialFactory<BASE extends IRingElement<BASE>>
 				.get(baseFactory);
 		if (factory == null) {
 			factory = new PolynomialFactory<RE>(baseFactory);
-			PolynomialFactoryMap.INSTANCE.put(baseFactory, factory);
+			PolynomialFactoryMap.INSTANCE.put(
+					(IRingElementFactory) baseFactory,
+					(PolynomialFactory) factory);
 		}
 		return factory;
 	}
@@ -74,14 +76,17 @@ public class PolynomialFactory<BASE extends IRingElement<BASE>>
 	 *                if it is attempted to create another factory for the same
 	 *                base type.
 	 */
-	@SuppressWarnings("boxing")
+	@SuppressWarnings( {
+			"boxing", "unchecked"
+	})
 	private PolynomialFactory(IRingElementFactory<BASE> baseFactory)
 	{
 		super();
 		if (PolynomialFactoryMap.INSTANCE.containsKey(baseFactory))
 			throw new InternalError("Try to recreate the same factory again.");
 		BASEFACTORY = baseFactory;
-		PolynomialFactoryMap.INSTANCE.put(BASEFACTORY, this);
+		PolynomialFactoryMap.INSTANCE.put((IRingElementFactory) BASEFACTORY,
+				(PolynomialFactory) this);
 
 		Map<Integer, BASE> coefficientForZero = new HashMap<Integer, BASE>();
 		coefficientForZero.put(0, baseFactory.zero());
@@ -296,4 +301,14 @@ public class PolynomialFactory<BASE extends IRingElement<BASE>>
 		throw new InvalidOperationException("Cannot create random polynomials.");
 	}
 
+	/**
+	 * @return a description of the factory
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString()
+	{
+		return "Factory: " + getClass().getName() + "[" + getBaseFactory()
+				+ "]";
+	}
 }

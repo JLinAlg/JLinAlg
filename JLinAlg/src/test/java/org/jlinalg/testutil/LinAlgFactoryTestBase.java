@@ -3,12 +3,13 @@ package org.jlinalg.testutil;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeTrue;
+
+import java.util.Random;
 
 import org.jlinalg.IRingElement;
-import org.jlinalg.LinAlgFactory;
 import org.jlinalg.Matrix;
 import org.jlinalg.Vector;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -21,25 +22,11 @@ public abstract class LinAlgFactoryTestBase<RE extends IRingElement<RE>>
 		extends TestBaseFixture<RE>
 {
 
-	/**
-	 * the fixture
-	 */
-	LinAlgFactory<RE> linAlgFactory = null;
-
-	/**
-	 * initialise {@link #linAlgFactory}.
-	 */
-	@Before
-	public void setup()
-	{
-		linAlgFactory = new LinAlgFactory<RE>(getFactory());
-	}
-
 	@Test
 	public void testLinAlgFactory_base()
 	{
 		assertNotNull(getFactory());
-		assertNotNull(linAlgFactory);
+		assertNotNull(getLinAlgFactory());
 	}
 
 	/**
@@ -48,7 +35,7 @@ public abstract class LinAlgFactoryTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testOnesIntInt_base()
 	{
-		Matrix<RE> ones = linAlgFactory.ones(3, 5);
+		Matrix<RE> ones = getLinAlgFactory().ones(3, 5);
 		assertEquals(3, ones.getRows());
 		assertEquals(5, ones.getCols());
 		for (int r = 1; r <= ones.getRows(); r++) {
@@ -64,7 +51,7 @@ public abstract class LinAlgFactoryTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testZerosIntInt_base()
 	{
-		Matrix<RE> zeros = linAlgFactory.zeros(3, 5);
+		Matrix<RE> zeros = getLinAlgFactory().zeros(3, 5);
 		assertEquals(3, zeros.getRows());
 		assertEquals(5, zeros.getCols());
 		for (int r = 1; r <= zeros.getRows(); r++) {
@@ -104,7 +91,11 @@ public abstract class LinAlgFactoryTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testUniformNoiseIntInt_base()
 	{
-		Matrix<RE> m = linAlgFactory.uniformNoise(numRandomNum,
+		assumeTrue(!methodIsDepreciated(getFactory(), "randomValue",
+				new Class<?>[] {
+					Random.class
+				}));
+		Matrix<RE> m = getLinAlgFactory().uniformNoise(numRandomNum,
 				numRandomNum / 2);
 		testRandomMatrix(m, numRandomNum, numRandomNum / 2);
 	}
@@ -115,7 +106,11 @@ public abstract class LinAlgFactoryTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testGaussianNoiseIntInt_base()
 	{
-		Matrix<RE> m = linAlgFactory.gaussianNoise(numRandomNum,
+		assumeTrue(!methodIsDepreciated(getFactory(), "gaussianRandomValue",
+				new Class<?>[] {
+					Random.class
+				}));
+		Matrix<RE> m = getLinAlgFactory().gaussianNoise(numRandomNum,
 				numRandomNum / 2);
 		testRandomMatrix(m, numRandomNum, numRandomNum / 2);
 	}
@@ -126,7 +121,7 @@ public abstract class LinAlgFactoryTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testOnesInt()
 	{
-		Vector<RE> ones = linAlgFactory.ones(7);
+		Vector<RE> ones = getLinAlgFactory().ones(7);
 		assertEquals(7, ones.length());
 		for (int i = 1; i <= 7; i++)
 			assertEquals(getFactory().one(), ones.getEntry(i));
@@ -138,7 +133,7 @@ public abstract class LinAlgFactoryTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testZerosInt()
 	{
-		Vector<RE> zeros = linAlgFactory.zeros(7);
+		Vector<RE> zeros = getLinAlgFactory().zeros(7);
 		assertEquals(7, zeros.length());
 		for (int i = 1; i <= 7; i++)
 			assertEquals(getFactory().zero(), zeros.getEntry(i));
@@ -155,7 +150,8 @@ public abstract class LinAlgFactoryTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testUniformNoiseInt_base()
 	{
-		Vector<RE> m = linAlgFactory.uniformNoise(numRandomNum);
+		assumeTrue(!methodIsDepreciated(getFactory(), "randomValue", null));
+		Vector<RE> m = getLinAlgFactory().uniformNoise(numRandomNum);
 		testRandomVector(m, numRandomNum);
 	}
 
@@ -166,7 +162,9 @@ public abstract class LinAlgFactoryTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testGaussianNoiseInt_base()
 	{
-		Vector<RE> m = linAlgFactory.gaussianNoise(numRandomNum);
+		assumeTrue(!methodIsDepreciated(getFactory(), "gaussianRandomValue",
+				null));
+		Vector<RE> m = getLinAlgFactory().gaussianNoise(numRandomNum);
 		testRandomVector(m, numRandomNum);
 	}
 
@@ -191,7 +189,7 @@ public abstract class LinAlgFactoryTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testIdentity()
 	{
-		Matrix<RE> id = linAlgFactory.identity(5);
+		Matrix<RE> id = getLinAlgFactory().identity(5);
 		assertEquals(5, id.getRows());
 		assertEquals(5, id.getCols());
 		for (int r = 1; r <= id.getRows(); r++) {

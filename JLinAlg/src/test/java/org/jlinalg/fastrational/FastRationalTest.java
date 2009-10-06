@@ -1,4 +1,4 @@
-package org.jlinalg.rational;
+package org.jlinalg.fastrational;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -8,42 +8,91 @@ import static org.junit.Assert.assertTrue;
 import java.math.BigInteger;
 
 import org.jlinalg.IRingElement;
-import org.jlinalg.IRingElementFactory;
 import org.jlinalg.Vector;
 import org.jlinalg.doublewrapper.DoubleWrapper;
-import org.jlinalg.rational.Rational.RationalFactory;
-import org.jlinalg.testutil.RingElementTestBase;
 import org.junit.Test;
 
 /**
- * Test class {@link Rational}
+ * Test class {@link FastRational}
  * 
  * @author Georg Thimm
  */
-public class RationalTest
-		extends RingElementTestBase<Rational>
+public class FastRationalTest
+		extends FastRationalTestBase
 {
 
-	private static RationalFactory rFac = Rational.FACTORY;
+	private static FastRationalFactory rFac = FastRational.FACTORY;
 
-	private static Rational zero = rFac.get(0, 1);
+	private static FastRational zero = rFac.get(0, 1);
 
-	private static Rational one = rFac.get(1, 1);
+	private static FastRational one = rFac.get(1, 1);
 
-	private static Rational one_third = rFac.get(1, 3);
+	private static FastRational one_third = rFac.get(1, 3);
 
-	private static Rational five_over_two = rFac.get(5, 2);
+	private static FastRational five_over_two = rFac.get(5, 2);
 
-	private static Rational ten = rFac.get(BigInteger.TEN);
+	private static FastRational ten = rFac.get(10);
 
-	private static Rational five_over_six = rFac.get(5, 6);
+	private static FastRational five_over_six = rFac.get(5, 6);
 
 	/**
-	 * test {@link Rational#subtract(org.jlinalg.IRingElement)} for selected
+	 * test {@link FastRational#divide(org.jlinalg.IRingElement)} for random
+	 * values
+	 */
+	@Test
+	public void testDivide()
+	{
+		assertEquals(one, one.divide(rFac.one()));
+		assertEquals(one_third, one_third.divide(one));
+		assertEquals(rFac.get(3, 1), one.divide(one_third));
+		assertEquals(zero, zero.divide(one));
+		assertEquals(rFac.get(15, 2), five_over_two.divide(one_third));
+		FastRational r = one.divide(rFac.m_one());
+		assertTrue("denominator negative: " + r.getDenominator(), r
+				.getDenominator() > 0L);
+		assertTrue(r.getNumerator() == -1);
+		assertEquals(rFac.get(13 * 4, 7 * 3), rFac.get(13, 7).divide(
+				rFac.get(3, 4)));
+		assertEquals(rFac.get(-13 * 4, 7 * 3), rFac.get(13, 7).divide(
+				rFac.get(-3, 4)));
+	}
+
+	/**
+	 * test {@link FastRational#invert()} for random values
+	 */
+	@Test
+	public void TestInvert()
+	{
+		assertEquals("1/1=1", rFac.one(), rFac.one().invert());
+		assertEquals(rFac.get(3), one_third.invert());
+		assertEquals(rFac.get(2, 5), five_over_two.invert());
+		assertEquals(rFac.get(-2, 5), five_over_two.negate().invert());
+	}
+
+	/**
+	 * test {@link FastRational#lt(org.jlinalg.IRingElement)}
+	 * {@link FastRational#gt(org.jlinalg.IRingElement)}
+	 * {@link FastRational#compareTo(org.jlinalg.IRingElement)}
+	 * {@link FastRational#equals(Object)}
+	 */
+	@Test
+	public void misc()
+	{
+		assertTrue(one.lt(five_over_two));
+		assertTrue(five_over_two.gt(one));
+		assertTrue(one.compareTo(rFac.one()) == 0);
+		FastRational n = five_over_two.negate();
+		assertTrue(n.lt(rFac.zero()));
+		assertTrue(n.negate().equals(five_over_two));
+		assertTrue(n.abs().equals(five_over_two));
+	}
+
+	/**
+	 * test {@link FastRational#subtract(org.jlinalg.IRingElement)} for selected
 	 * values.
 	 */
 	@Test
-	public void testSubtract()
+	public void TestSubtract()
 	{
 		assertEquals(rFac.get(2, 3), one.subtract(one_third));
 		assertEquals(rFac.get(-13, 6), one_third.subtract(five_over_two));
@@ -51,33 +100,32 @@ public class RationalTest
 	}
 
 	/**
-	 * test {@link Rational#abs()}
+	 * test {@link FastRational#abs()}
 	 */
 	@Test
 	public final void testAbs()
 	{
-		Rational r1 = rFac.get(-4, 5);
-		Rational r2 = rFac.get(4, 5);
-		assertEquals(r2, r1.abs());
-		assertEquals(r2, r2.abs());
+		FastRational r1 = rFac.get(-4, 5);
+		FastRational r2 = rFac.get(4, 5);
+		assertTrue(r1.abs().equals(r2));
 		assertEquals(rFac.get(91, 73), rFac.get(-91, 73).abs());
 	}
 
 	/**
-	 * test {@link Rational#add(org.jlinalg.IRingElement)}
+	 * test {@link FastRational#add(org.jlinalg.IRingElement)}
 	 */
 	@Test
 	public void testAdd()
 	{
 		assertEquals(rFac.get(11, 6), one.add(five_over_six));
-		Rational r = rFac.get(1, 6);
+		FastRational r = rFac.get(1, 6);
 		r = r.add(rFac.get(1, 3));
 		r = r.add(rFac.get(1, 2));
 		assertEquals(one, r);
 	}
 
 	/**
-	 * test {@link Rational#compareTo(org.jlinalg.IRingElement)} for some
+	 * test {@link FastRational#compareTo(org.jlinalg.IRingElement)} for some
 	 * values
 	 */
 	@Test
@@ -88,24 +136,24 @@ public class RationalTest
 		assertTrue(five_over_two.compareTo(one) > 0);
 		assertTrue(one_third.compareTo(five_over_two) < 0);
 		assertTrue(one_third.negate().compareTo(one) < 0);
-		Rational mhalf = rFac.get(-1, 2);
+		FastRational mhalf = rFac.get(-1, 2);
 		assertEquals(-1, mhalf.compareTo(getFactory().one()));
 	}
 
 	/**
-	 * test {@link Rational#compareTo(org.jlinalg.IRingElement)}
+	 * test {@link FastRational#compareTo(org.jlinalg.IRingElement)}
 	 */
 	@SuppressWarnings("unchecked")
 	@Test(expected = ClassCastException.class)
 	public void testCompareToFieldsExceptions()
 	{
-		Rational one = rFac.get(1, 1);
+		FastRational one = rFac.get(1, 1);
 		DoubleWrapper done = new DoubleWrapper(1);
 		((IRingElement) one).compareTo(done); // force the use of compare.
 	}
 
 	/**
-	 * test {@link RationalFactory#get(long, long)}
+	 * test {@link FastRationalFactory#get(long, long)}
 	 */
 	@Test
 	public final void testDoubleValue()
@@ -119,7 +167,7 @@ public class RationalTest
 	}
 
 	/**
-	 * test {@link Rational#equals(Object)}
+	 * test {@link FastRational#equals(Object)}
 	 */
 	@Test
 	public final void testEqualsObject()
@@ -129,18 +177,18 @@ public class RationalTest
 	}
 
 	/**
-	 * test {@link RationalFactory#get(long, long)}
+	 * test {@link FastRationalFactory#get(long, long)}
 	 */
 	@Test
-	public final void testGetNumeratorDeniminator()
+	public final void testGetNumeratorDenominator()
 	{
-		Rational r = rFac.get(100, 99);
-		assertTrue(r.getNumerator().intValue() == 100);
-		assertTrue(r.getDenominator().intValue() == 99);
+		FastRational r = rFac.get(100, 99);
+		assertTrue(r.getNumerator() == 100);
+		assertTrue(r.getDenominator() == 99);
 	}
 
 	/**
-	 * test {@link Rational.RationalFactory#get(Object)} for Strings
+	 * test {@link FastRational.FastRationalFactory#get(Object)} for Strings
 	 */
 	@Test
 	public void testGetStrings()
@@ -172,38 +220,38 @@ public class RationalTest
 						"-18/-82", rFac.get(-18, -82)
 				}
 		};
-		final RationalFactory fac = rFac;
+		final FastRationalFactory fac = rFac;
 		for (int i = 0; i < tests.length; i++) {
 			String s = (String) tests[i][0];
-			Rational r = (Rational) tests[i][1];
-			Rational sr = fac.get(s);
+			FastRational r = (FastRational) tests[i][1];
+			FastRational sr = fac.get(s);
 			assertEquals(r, sr);
 		}
 	}
 
 	/**
-	 * test {@link Rational#hashCode()}
+	 * test {@link FastRational#hashCode()}
 	 */
 	@Test
 	public void testHashCode()
 	{
-		Rational r1 = rFac.get(1, 2);
-		Rational r2 = rFac.get(1, 2);
+		FastRational r1 = rFac.get(1, 2);
+		FastRational r2 = rFac.get(1, 2);
 		assertEquals(r1.hashCode(), r1.hashCode());
 		assertEquals(r1.hashCode(), r2.hashCode());
 
-		Rational a = rFac.get(10, 11);
-		Rational b = rFac.get(10, 11);
-		Rational c = rFac.get(1, 1);
-		Rational d = rFac.get(1, 1);
+		FastRational a = rFac.get(10, 11);
+		FastRational b = rFac.get(10, 11);
+		FastRational c = rFac.get(1, 1);
+		FastRational d = rFac.get(1, 1);
 		assertTrue("hashcode not equal: " + a + " & " + b, a.hashCode() == b
 				.hashCode());
 		assertTrue("hashcode not equal: " + c + " & " + d, c.hashCode() == d
 				.hashCode());
-		Vector<Rational> v1 = new Vector<Rational>(2, rFac);
+		Vector<FastRational> v1 = new Vector<FastRational>(2, rFac);
 		v1.set(1, a);
 		v1.set(2, c);
-		Vector<Rational> v2 = new Vector<Rational>(2, rFac);
+		Vector<FastRational> v2 = new Vector<FastRational>(2, rFac);
 		v2.set(1, b);
 		v2.set(2, d);
 		assertTrue("hashcode not equal: " + v1 + " & " + v2,
@@ -211,13 +259,13 @@ public class RationalTest
 	}
 
 	/**
-	 * test le(Rational) and ge(Rational)
+	 * test le(FastRational) and ge(FastRational)
 	 */
 	@Test
 	public void testLeGe()
 	{
 		assertTrue(one.le(five_over_two));
-		assertFalse(one.ge(rFac.get(five_over_two)));
+		assertFalse(one.ge(five_over_two));
 		assertTrue(rFac.m_one().le(five_over_two));
 		assertFalse(rFac.m_one().ge(rFac.get(five_over_two)));
 		assertTrue(rFac.get(1.4E-12).le(rFac.get(1, 100000)));
@@ -230,16 +278,13 @@ public class RationalTest
 	@Test
 	public final void testM_one()
 	{
-		BigInteger m_one = new BigInteger("-1");
-		assertTrue(rFac.m_one().getNumerator().equals(m_one));
-		assertTrue(rFac.one().getDenominator().equals(BigInteger.ONE));
-		assertTrue((rFac.m_one()).getNumerator().equals(m_one));
-		assertTrue((rFac.m_one()).getDenominator().equals(BigInteger.ONE));
-		assertTrue(rFac.m_one().doubleValue() == -1.0);
+		assertEquals(-1, rFac.m_one().getNumerator());
+		assertEquals(1, rFac.m_one().getDenominator());
+		assertEquals(-1.0, rFac.m_one().doubleValue(), 0.0);
 	}
 
 	/**
-	 * test {@link Rational#multiply(org.jlinalg.IRingElement)}
+	 * test {@link FastRational#multiply(org.jlinalg.IRingElement)}
 	 */
 	@Test
 	public final void testMultiply()
@@ -259,7 +304,7 @@ public class RationalTest
 	}
 
 	/**
-	 * test {@link Rational#negate()}
+	 * test {@link FastRational#negate()}
 	 */
 	@Test
 	public final void testNegate()
@@ -268,7 +313,8 @@ public class RationalTest
 	}
 
 	/**
-	 * check whether {@link Rational#norm()} and {@link Rational#abs()} yield
+	 * check whether {@link FastRational#norm()} and {@link FastRational#abs()}
+	 * yield
 	 * the same results.
 	 */
 	@Test
@@ -287,45 +333,44 @@ public class RationalTest
 	@Test
 	public final void testOne()
 	{
-		assertTrue(rFac.one().getNumerator().equals(BigInteger.ONE));
-		assertTrue(rFac.one().getDenominator().equals(BigInteger.ONE));
-		assertTrue(rFac.one().getNumerator().equals(BigInteger.ONE));
-		assertTrue(rFac.one().getDenominator().equals(BigInteger.ONE));
-		assertTrue(rFac.one().doubleValue() == 1.0);
+		assertEquals(1, rFac.one().getNumerator());
+		assertEquals(1, rFac.one().getDenominator());
+		assertEquals(1, rFac.one().getNumerator());
+		assertEquals(1, rFac.one().getDenominator());
+		assertEquals(1.0, rFac.one().doubleValue(), 0.0);
 	}
 
 	/**
-	 * test {@link RationalFactory#get}
+	 * test {@link FastRationalFactory#get}
 	 */
 	@Test
-	public final void testRationalBigInteger()
+	public final void testFastRationalBigInteger()
 	{
 		assertEquals(rFac.zero(), rFac.get(BigInteger.ZERO));
-		Rational r = rFac.get(10, 1);
+		FastRational r = rFac.get(10, 1);
 		assertEquals(ten, r);
 	}
 
 	/**
-	 * test {@link Rational#equals(Object)}
+	 * test {@link FastRational#get(long,long,boolean)}
 	 */
 	@Test
-	public final void testRationalBigIntegerBigIntegerBoolean()
+	public final void testGetLongLongBoolean()
 	{
-		assertEquals(rFac.zero(), rFac.get(BigInteger.ZERO,
-				new BigInteger("1"), true));
-		Rational r = rFac.get(new BigInteger("10"), BigInteger.ONE, true);
+		assertEquals(rFac.zero(), rFac.get(0L, 1L, true));
+		FastRational r = rFac.get(10L, 1L, true);
 		assertEquals(r, ten);
-		r = rFac.get(new BigInteger("100"), BigInteger.TEN, true);
+		r = rFac.get(100L, 10L, true);
 		assertEquals(r, ten);
-		r = rFac.get(new BigInteger("3024"), new BigInteger("33264"), true);
+		r = rFac.get(3024L, 33264L, true);
 		assertTrue(r.equals(rFac.get(1, 11)));
 	}
 
 	/**
-	 * test {@link Rational#equals(Object)}
+	 * test {@link FastRational#get(double)}
 	 */
 	@Test
-	public final void testRationalDouble()
+	public final void testFastRationalDouble()
 	{
 		assertEquals(rFac.zero(), rFac.get(0.0));
 		assertEquals(one, rFac.get(1.0));
@@ -334,7 +379,7 @@ public class RationalTest
 	}
 
 	/**
-	 * test {@link Rational#toString()}
+	 * test {@link FastRational#toString()}
 	 */
 	@Test
 	public final void testToString()
@@ -352,8 +397,8 @@ public class RationalTest
 	@Test
 	public final void testZero()
 	{
-		assertEquals(BigInteger.ZERO, rFac.zero().getNumerator());
-		assertEquals(BigInteger.ONE, rFac.zero().getDenominator());
+		assertEquals(0, rFac.zero().getNumerator());
+		assertEquals(1, rFac.zero().getDenominator());
 	}
 
 	/**
@@ -362,40 +407,20 @@ public class RationalTest
 	@Test
 	public void testNonZeroDenominator()
 	{
-		assertEquals(1, rFac.zero().getDenominator().intValue());
-		Rational r = rFac.get(1, 77);
-		Rational p = rFac.get(1, 77);
-		assertEquals("1/77*0", 1, r.multiply(rFac.zero()).getDenominator()
-				.intValue());
-		assertEquals("1/77-1/77", 1, r.subtract(p).getDenominator().intValue());
-	}
-
-	@Override
-	public IRingElementFactory<Rational> getFactory()
-	{
-		return rFac;
+		assertEquals(1, rFac.zero().getDenominator());
+		FastRational r = rFac.get(1, 77);
+		FastRational p = rFac.get(1, 77);
+		assertEquals("1/77*0", 1, r.multiply(rFac.zero()).getDenominator());
+		assertEquals("1/77-1/77", 1, r.subtract(p).getDenominator());
 	}
 
 	@Test
 	public void testInvert()
 	{
-		assertEquals(rFac.get(3), one_third.invert());
-		assertEquals(rFac.get(2, 5), five_over_two.invert());
-		assertEquals(rFac.get(-2, 5), five_over_two.negate().invert());
+		assertEquals(rFac.one(), rFac.one().invert());
+		assertEquals(rFac.m_one(), rFac.m_one().invert());
 		assertEquals(rFac.get(13, 7), rFac.get(7, 13).invert());
 		assertEquals(rFac.get(-13, 7), rFac.get(-7, 13).invert());
-	}
-
-	@Test
-	public void testDivide()
-	{
-		assertEquals(one_third, one_third.divide(one));
-		assertEquals(rFac.get(3, 1), one.divide(one_third));
-		assertEquals(rFac.get(15, 2), five_over_two.divide(one_third));
-		assertEquals(rFac.get(13 * 4, 7 * 3), rFac.get(13, 7).divide(
-				rFac.get(3, 4)));
-		assertEquals(rFac.get(-13 * 4, 7 * 3), rFac.get(13, 7).divide(
-				rFac.get(-3, 4)));
 	}
 
 	/**

@@ -162,7 +162,7 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testL2Norm_base()
 	{
-		Assume.assumeTrue(!dataTypeIsDiscreet());
+		Assume.assumeTrue(hasMethod(getFactory().one(), "sqrt", null));
 		Vector<RE> vec = new Vector<RE>(vec_0_1_9, getFactory());
 		RE normSquare = vec.L2Norm();
 		normSquare = normSquare.multiply(normSquare);

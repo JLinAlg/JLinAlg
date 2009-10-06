@@ -2,6 +2,7 @@ package org.jlinalg.polynomial;
 
 import java.util.Hashtable;
 
+import org.jlinalg.IRingElement;
 import org.jlinalg.IRingElementFactory;
 
 /**
@@ -13,13 +14,14 @@ import org.jlinalg.IRingElementFactory;
  * @author Georg THimm (2008)
  */
 @SuppressWarnings("serial")
-public class PolynomialFactoryMap
-		extends Hashtable<IRingElementFactory<?>, PolynomialFactory<?>>
+class PolynomialFactoryMap<RE extends IRingElement<RE>>
+		extends Hashtable<IRingElementFactory<RE>, PolynomialFactory<RE>>
 {
 	/*
 	 * this is a singleton class
 	 */
-	public final static PolynomialFactoryMap INSTANCE = new PolynomialFactoryMap();
+	@SuppressWarnings("unchecked")
+	public final static PolynomialFactoryMap<?> INSTANCE = new PolynomialFactoryMap();
 
 	/**
 	 * No second instance of this class should be created

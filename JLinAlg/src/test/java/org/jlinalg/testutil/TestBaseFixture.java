@@ -208,11 +208,13 @@ public abstract class TestBaseFixture<RE extends IRingElement<RE>>
 	 */
 	protected void assertSimilar(RE v1, RE v2, String diff_)
 	{
-		if (dataTypeIsExact())
-			assertEquals(v1, v2);
+		if (dataTypeIsExact() || methodIsDepreciated(v1, "abs", null))
+			assertEquals("Factory: " + getFactory().getClass().getName(), v1,
+					v2);
 		else {
 			RE diff = getFactory().get(diff_);
-			assertTrue("diffenence between " + v1 + " and " + v2
+			assertTrue("Factory: " + getFactory().getClass().getName()
+					+ "; diffenence between " + v1 + " and " + v2
 					+ " is too big", v1.subtract(v2).abs().le(diff));
 		}
 	}

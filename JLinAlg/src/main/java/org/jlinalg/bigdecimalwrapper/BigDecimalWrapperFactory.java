@@ -255,4 +255,15 @@ public class BigDecimalWrapperFactory
 	{
 		return mathContext;
 	}
+
+	/**
+	 * @return a description of the factory
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString()
+	{
+		return "Factory: " + getClass().getName() + " MathContext="
+				+ mathContext.toString();
+	}
 }

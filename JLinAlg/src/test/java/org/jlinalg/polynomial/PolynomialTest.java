@@ -3,16 +3,19 @@
  */
 package org.jlinalg.polynomial;
 
+import static org.junit.Assume.assumeTrue;
+
 import java.util.Arrays;
 import java.util.Collection;
 
 import org.jlinalg.IRingElement;
-import org.jlinalg.IRingElementFactory;
 import org.jlinalg.complex.Complex;
+import org.jlinalg.complex.Complex.ComplexFactory;
 import org.jlinalg.doublewrapper.DoubleWrapper;
 import org.jlinalg.field_p.FieldPFactoryMap;
 import org.jlinalg.rational.Rational;
-import org.jlinalg.testutil.FactoryTestBase;
+import org.jlinalg.testutil.RingElementTestBase;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
@@ -22,7 +25,7 @@ import org.junit.runners.Parameterized.Parameters;
  */
 @RunWith(Parameterized.class)
 public class PolynomialTest<RE extends IRingElement<RE>>
-		extends FactoryTestBase<Polynomial<RE>>
+		extends RingElementTestBase<Polynomial<RE>>
 {
 	/**
 	 * a prime number from the Woodall series
@@ -34,36 +37,75 @@ public class PolynomialTest<RE extends IRingElement<RE>>
 	{
 		Object[][] data_ = {
 				{
-					Rational.FACTORY
-				}, {
-					Complex.FACTORY
-				}, {
-					DoubleWrapper.FACTORY
-				}, {
-					FieldPFactoryMap.getFactory(Long.valueOf(17L))
-				}, {
-					FieldPFactoryMap.getFactory(prime1)
+					PolynomialFactory.getFactory(Rational.FACTORY)
+				},
+				{
+					PolynomialFactory.getFactory(Complex.FACTORY)
+				},
+				{
+					PolynomialFactory.getFactory(DoubleWrapper.FACTORY)
+				},
+				{
+					PolynomialFactory.getFactory(FieldPFactoryMap
+							.getFactory(Long.valueOf(17L)))
+				},
+				{
+					PolynomialFactory.getFactory(FieldPFactoryMap
+							.getFactory(prime1))
 				}
 		};
 		return Arrays.asList(data_);
 	}
 
-	public PolynomialTest(IRingElementFactory<Polynomial<RE>> factory)
+	/**
+	 * @param factory
+	 *            a factory for a polynomial
+	 */
+	public PolynomialTest(PolynomialFactory<RE> factory)
 	{
 		this.factory = factory;
 	}
 
-	private IRingElementFactory<Polynomial<RE>> factory;
+	private PolynomialFactory<RE> factory;
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
 	 * @see org.jlinalg.testutil.TestBaseInterface#getFactory()
 	 */
 	@Override
-	public IRingElementFactory<Polynomial<RE>> getFactory()
+	public PolynomialFactory<RE> getFactory()
 	{
 		return factory;
 	}
 
+	@Override
+	@Test
+	public void testLt_base()
+	{
+		assumeTrue(!(getFactory().getBaseFactory() instanceof ComplexFactory));
+		super.testLt_base();
+	}
+
+	@Override
+	@Test
+	public void testGt_base()
+	{
+		assumeTrue(!(getFactory().getBaseFactory() instanceof ComplexFactory));
+		super.testGt_base();
+	}
+
+	@Override
+	@Test
+	public void testGe_base()
+	{
+		assumeTrue(!(getFactory().getBaseFactory() instanceof ComplexFactory));
+		super.testGe_base();
+	}
+
+	@Override
+	@Test
+	public void testLe_base()
+	{
+		assumeTrue(!(getFactory().getBaseFactory() instanceof ComplexFactory));
+		super.testLe_base();
+	}
 }
