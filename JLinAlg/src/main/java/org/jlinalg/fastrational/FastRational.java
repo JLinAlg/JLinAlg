@@ -1,25 +1,40 @@
 package org.jlinalg.fastrational;
 
+/**
+ * An implementation of ration numbers based on "long"s. No effort is taken to
+ * detect overflows in the numerator or denominator.
+ * 
+ * @author Georg Thimm
+ */
 import java.math.BigInteger;
 
 import org.jlinalg.DivisionByZeroException;
 import org.jlinalg.FieldElement;
+import org.jlinalg.InvalidOperationException;
 
 public class FastRational
 		extends FieldElement<FastRational>
 {
 
+	public final static FastRationalFactory FACTORY = FastRationalFactory.INSTANCE;
+
 	private static final long serialVersionUID = 1L;
 
-	public static final FastRationalFactory FACTORY = new FastRationalFactory();
-
+	private static final BigInteger MAX_INT_BIGINTEGER = new BigInteger(Long
+			.toString(Long.MAX_VALUE));
+	/**
+	 * the numerator of the rational
+	 */
 	private final long numerator;
 
+	/**
+	 * the denominator of the rational
+	 */
 	private final long denominator;
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
+	 * @return true if the both numbers have the same numerator and
+	 *         denominator
 	 * @see org.jlinalg.Rational#equals(java.lang.Object)
 	 */
 	@Override
@@ -33,9 +48,8 @@ public class FastRational
 		throw new Error("can no compare with object in class " + obj.getClass());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
+	 * @return true if the numerator is zero.
 	 * @see org.jlinalg.FieldElement#isZero()
 	 */
 	@Override
@@ -44,11 +58,30 @@ public class FastRational
 		return numerator == 0;
 	}
 
+	/**
+	 * for internal use only: create a new rational
+	 * 
+	 * @param numerator
+	 * @param denominator
+	 * @param cancel
+	 *            if true, find the GCD of numerator and denominator and divide
+	 *            both by it.
+	 * @exception InvalidOperationException
+	 *                if the numerator or denominator exceeds the range for
+	 *                "long" integers.
+	 */
 	protected FastRational(BigInteger numerator, BigInteger denominator,
 			boolean cancel)
 	{
+		if (numerator.abs().compareTo(MAX_INT_BIGINTEGER) > 0)
+			throw new InvalidOperationException("The  numerator " + numerator
+					+ " exceeds the permissible range.");
+		if (denominator.abs().compareTo(MAX_INT_BIGINTEGER) > 0)
+			throw new InvalidOperationException("The  denomiator "
+					+ denominator + " exceeds the permissible range.");
 		long n = numerator.longValue();
 		long d = denominator.longValue();
+
 		if (cancel) {
 			if (n == 0) {
 				this.numerator = 0;
@@ -71,6 +104,13 @@ public class FastRational
 		}
 	}
 
+	/**
+	 * calculate the greatest common divisor of a and b
+	 * 
+	 * @param a
+	 * @param b
+	 * @return
+	 */
 	public static long gcd(long a, long b)
 	{
 		while (b != 0) {
@@ -81,7 +121,28 @@ public class FastRational
 		return a;
 	}
 
-	protected FastRational(long n, long d, boolean cancel)
+	/**
+	 * Constructor for special numbers: unknown, not a number. Internal
+	 * representation uses "-1" for the denominator to distinguish such numbers
+	 * from others.
+	 * 
+	 * @param n
+	 *            if 1:unknown if 2: not-a-number;
+	 */
+	FastRational(long n)
+	{
+		numerator = n;
+		denominator = -1;
+	}
+
+	/**
+	 * constructor for internal use.
+	 * 
+	 * @param n
+	 * @param d
+	 * @param cancel
+	 */
+	FastRational(long n, long d, boolean cancel)
 	{
 		if (cancel) {
 			if (n == 0) {
@@ -118,6 +179,10 @@ public class FastRational
 		if (value < 0) {
 			isNegative = true;
 			value = Math.abs(value);
+		}
+		if (Math.abs(value) > 1e4) {
+			throw new InvalidOperationException("The double " + value
+					+ " is too big.");
 		}
 
 		String strValue = Double.toString(value);
@@ -161,9 +226,19 @@ public class FastRational
 		this.denominator = tmp.getDenominator();
 	}
 
+	/**
+	 * @return this divided by r
+	 */
 	@Override
 	public FastRational divide(FastRational r) throws DivisionByZeroException
 	{
+		if (r == FastRationalFactory.UNKNOWN
+				|| this == FastRationalFactory.UNKNOWN)
+			return FastRationalFactory.UNKNOWN;
+		if (r == FastRationalFactory.NOTANUMBER
+				|| this == FastRationalFactory.NOTANUMBER)
+			return FastRationalFactory.NOTANUMBER;
+
 		if (r.denominator == 0)
 			throw new DivisionByZeroException("can not divide by zero");
 		if (r.numerator == 1 && r.denominator == 1) return this;
@@ -188,6 +263,9 @@ public class FastRational
 	@Override
 	public FastRational negate()
 	{
+		if (this == FastRationalFactory.ZERO
+				|| this == FastRationalFactory.NOTANUMBER
+				|| this == FastRationalFactory.UNKNOWN) return this;
 		if (this == FastRationalFactory.ZERO) return this;
 		if (this == FastRationalFactory.ONE) return FastRationalFactory.M_ONE;
 		if (this == FastRationalFactory.M_ONE) return FastRationalFactory.ONE;
@@ -197,6 +275,13 @@ public class FastRational
 	@Override
 	public FastRational add(FastRational r)
 	{
+		if (r == FastRationalFactory.UNKNOWN
+				|| this == FastRationalFactory.UNKNOWN)
+			return FastRationalFactory.UNKNOWN;
+		if (r == FastRationalFactory.NOTANUMBER
+				|| this == FastRationalFactory.NOTANUMBER)
+			return FastRationalFactory.NOTANUMBER;
+
 		if (numerator == 0) return r;
 		if (r.numerator == 0) return this;
 		if (denominator == 1 && r.denominator == 1)
@@ -210,6 +295,13 @@ public class FastRational
 	@Override
 	public FastRational subtract(FastRational r)
 	{
+		if (r == FastRationalFactory.UNKNOWN
+				|| this == FastRationalFactory.UNKNOWN)
+			return FastRationalFactory.UNKNOWN;
+		if (r == FastRationalFactory.NOTANUMBER
+				|| this == FastRationalFactory.NOTANUMBER)
+			return FastRationalFactory.NOTANUMBER;
+
 		if (numerator == 0) return r.negate();
 		if (r.numerator == 0) return this;
 		if (denominator == 1 && r.denominator == 1)
@@ -319,7 +411,7 @@ public class FastRational
 	@Override
 	public FastRationalFactory getFactory()
 	{
-		return FastRational.FACTORY;
+		return FACTORY;
 	}
 
 	/**

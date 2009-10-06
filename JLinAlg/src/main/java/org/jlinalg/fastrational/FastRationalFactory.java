@@ -2,6 +2,7 @@ package org.jlinalg.fastrational;
 
 import java.util.Random;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jlinalg.DivisionByZeroException;
 import org.jlinalg.InvalidOperationException;
@@ -31,6 +32,10 @@ public class FastRationalFactory
 
 	final public static FastRational ZERO = new FastRational(0L, 1L, false);
 
+	final public static FastRational UNKNOWN = new FastRational(1);
+
+	final public static FastRational NOTANUMBER = new FastRational(2);
+
 	public FastRational get(final long n)
 	{
 		if (n == 0L) return ZERO;
@@ -38,6 +43,8 @@ public class FastRationalFactory
 		if (n == -1L) return M_ONE;
 		return new FastRational(n, 1, false);
 	}
+
+	public final static FastRationalFactory INSTANCE = new FastRationalFactory();
 
 	public FastRational get(final long n, final long d)
 	{
@@ -78,13 +85,21 @@ public class FastRationalFactory
 		throw new InvalidOperationException("Not implemented");
 	}
 
+	/**
+	 * regular expression for fractions. Used in {@link #get(Object)}.
+	 */
+	Pattern fraction = Pattern.compile("\\A(-?\\d{1,8})(?:/(\\d{1,8}))?\\z");
+
+	Pattern doublePattern = Pattern
+			.compile("\\A(-?(?:\\d+\\.\\d*|\\d+|\\.\\d+))\\z");
+
 	@Override
 	public FastRational get(int i)
 	{
 		if (i == 0) return ZERO;
 		if (i == 1) return ONE;
 		if (i == -1) return M_ONE;
-		return new FastRational(i);
+		return new FastRational(i, 1, false);
 	}
 
 	@Override
@@ -122,6 +137,7 @@ public class FastRationalFactory
 
 	/**
 	 * @exception InvalidOperationException
+	 * @deprecated as unimplemented
 	 */
 	@SuppressWarnings("deprecation")
 	@Deprecated
@@ -133,6 +149,7 @@ public class FastRationalFactory
 
 	/**
 	 * @exception InvalidOperationException
+	 * @deprecated as unimplemented
 	 */
 	@Deprecated
 	@Override
@@ -145,6 +162,7 @@ public class FastRationalFactory
 
 	/**
 	 * @exception InvalidOperationException
+	 * @deprecated as unimplemented
 	 */
 	@SuppressWarnings("deprecation")
 	@Deprecated
@@ -224,49 +242,23 @@ public class FastRationalFactory
 			return new FastRational(r.getNumerator().longValue(), r
 					.getDenominator().longValue(), false);
 		}
-		if (object instanceof String) {
-			try {
-				String number = (String) object;
-				Matcher m = Rational.expPattern.matcher(number);
-				long numerator;
-				long denominator;
-				if (m.matches()) {
-					// parse exponential writing.
-					int offset = m.group(2).length();
-					int power = 0;
-					if (m.group(3) != null)
-						power = Integer.parseInt(m.group(4)) - offset;
-					long mantissa = Long.parseLong(m.group(1)
-							.concat(m.group(2)));
-					if (power > 0) {
-						// exponent is positive
-						numerator = mantissa * long10toPower(power);
-						denominator = 1L;
-						return get(numerator, denominator, false);
-					}
-					// exponent is negative.
-					numerator = mantissa;
-					denominator = long10toPower(-power);
-					return get(numerator, denominator, true);
-
-				}
-				// consider fractional notation
-				m = Rational.fracPattern.matcher(number);
-				if (m.matches()) {
-					numerator = Long.parseLong(m.group(1));
-					denominator = Long.parseLong(m.group(2));
-					return get(numerator, denominator, true);
-				}
-				// at last, try whether this is a plain integer
-
-				numerator = Long.parseLong(number);
-				denominator = 1L;
-			} catch (NumberFormatException e) {
-				throw new InvalidOperationException(
-						object
-								+ " does not represent a rational number (exception was: "
-								+ e.getMessage() + ")");
+		if (object instanceof CharSequence) {
+			if ("".equals(object)) return null;
+			Matcher m = fraction.matcher((CharSequence) object);
+			if (m.matches()) {
+				if (m.group(2) == null || m.group(2).length() == 0)
+					return FastRational.FACTORY.get(Long.parseLong(m.group(1)),
+							1L, false);
+				return FastRational.FACTORY.get(Long.parseLong(m.group(1)),
+						Long.parseLong(m.group(2)), true);
 			}
+			m = doublePattern.matcher((CharSequence) object);
+			if (m.matches())
+				return FastRationalFactory.INSTANCE.get(Double
+						.parseDouble((String) object));
+
+			throw new InvalidOperationException("String " + object
+					+ " does not represent a valid fraction.");
 		}
 		// the dummy-case...
 		if (object instanceof FastRational) {
