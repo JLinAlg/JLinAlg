@@ -40,6 +40,7 @@ public class FastRational
 	@Override
 	public boolean equals(Object obj)
 	{
+		if (obj == null) return false;
 		if (this == obj) return true;
 		if (obj instanceof FastRational) {
 			FastRational r = (FastRational) obj;
@@ -180,7 +181,7 @@ public class FastRational
 			isNegative = true;
 			value = Math.abs(value);
 		}
-		if (Math.abs(value) > 1e4) {
+		if (Math.abs(value) > 1e9) {
 			throw new InvalidOperationException("The double " + value
 					+ " is too big.");
 		}

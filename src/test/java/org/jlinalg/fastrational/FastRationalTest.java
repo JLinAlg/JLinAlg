@@ -203,7 +203,7 @@ public class FastRationalTest
 				}, {
 						"4.5e2", rFac.get(450)
 				}, {
-						"-123.5432e7", rFac.get(-1235432000)
+						"-123.54e3", rFac.get(-123540)
 				}, {
 						"-3.5e5", rFac.get(-350000)
 				}, {

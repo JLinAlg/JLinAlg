@@ -165,6 +165,7 @@ public class BigDecimalWrapper
 	@Override
 	public boolean equals(Object obj)
 	{
+		if (obj == null) return false;
 		BigDecimalWrapper comp = (BigDecimalWrapper) obj;
 		return value.equals(comp.value);
 	}
