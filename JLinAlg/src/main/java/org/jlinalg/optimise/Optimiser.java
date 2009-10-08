@@ -16,10 +16,10 @@ import org.jlinalg.IRingElement;
  * </UL>
  * 
  * @author Georg Thimm
- * @param <RESIDUAL>
+ * @param <RE>
  *            the type of the residual
  */
-public interface Optimiser<RESIDUAL extends IRingElement<?>>
+public interface Optimiser<RE extends IRingElement<RE>>
 {
 	/**
 	 * Set the {@link Target} for the optimiser. Does not start the
@@ -28,7 +28,7 @@ public interface Optimiser<RESIDUAL extends IRingElement<?>>
 	 * @param target
 	 *            The target for the optimisation
 	 */
-	public void setTarget(Target<RESIDUAL> target);
+	public void setTarget(Target<RE> target);
 
 	/**
 	 * run the optimiser in the background. This is done in a second thread and
@@ -55,7 +55,7 @@ public interface Optimiser<RESIDUAL extends IRingElement<?>>
 	 *         intended for an observation of the progress of the optimisation
 	 *         only.
 	 */
-	public RESIDUAL getResidual();
+	public RE getResidual();
 
 	/**
 	 * @return the maximal number of optimisation steps taken by the optimiser

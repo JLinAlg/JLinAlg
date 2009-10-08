@@ -297,6 +297,7 @@ public class Rational
 	@Override
 	public boolean equals(Object obj)
 	{
+		if (obj == null) return false;
 		if (obj instanceof Complex) {
 			Complex comp = (Complex) obj;
 			if (!comp.getImaginary().isZero()) {

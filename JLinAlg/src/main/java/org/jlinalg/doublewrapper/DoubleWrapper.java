@@ -154,6 +154,7 @@ public class DoubleWrapper
 	@Override
 	public boolean equals(Object obj)
 	{
+		if (obj == null) return false;
 		DoubleWrapper comp = (DoubleWrapper) obj;
 		return this.value == comp.value;
 	}

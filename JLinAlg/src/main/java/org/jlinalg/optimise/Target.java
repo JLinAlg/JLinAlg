@@ -12,10 +12,10 @@ import org.jlinalg.IRingElement;
  * <code>{@link #minParameterValues}[i]</code> are of the same type.
  * 
  * @author Georg Thimm 2009
- * @param <RESIDUAL>
+ * @param <RE>
  *            The type of the residual.
  */
-public interface Target<RESIDUAL extends IRingElement<?>>
+public interface Target<RE extends IRingElement<RE>>
 {
 	/**
 	 * Give access to the residual for the parameters as they are stored in the
@@ -25,7 +25,7 @@ public interface Target<RESIDUAL extends IRingElement<?>>
 	 *         <code>null</code> if the parameters are not a valid state for the
 	 *         target.
 	 */
-	public RESIDUAL getResidual();
+	public RE getResidual();
 
 	/**
 	 * @return the parameters as they are stored in the target.

@@ -161,6 +161,7 @@ class FieldPLong
 	@Override
 	public boolean equals(Object o)
 	{
+		if (o == null) return false;
 		FieldPLong f = (FieldPLong) o;
 		if (f.factory != factory) {
 			throw new IllegalArgumentException(

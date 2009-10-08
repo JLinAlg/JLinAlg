@@ -142,7 +142,7 @@ public class ComplexFunction
 	 * @see org.jlinalg.optimise.Target#minParameterValues()
 	 */
 	@Override
-	public Rational[] minParameterValues()
+	public IRingElement<?>[] minParameterValues()
 	{
 		return null;
 	}

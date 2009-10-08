@@ -633,4 +633,22 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 		throw new InvalidOperationException(
 				"The function norm() is not implemented for polynomials.");
 	}
+
+	/**
+	 * the hashcode for polynomials is an xor-combination of all hashcodes of
+	 * the coefficients.
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode()
+	{
+		int hash = 0;
+		// the final value is independent of the sequence of the coefficients as
+		// xor on truth values forms an abelian group.
+		for (BASE b : coefficientsForExponents.values()) {
+			hash ^= b.hashCode();
+		}
+		return hash;
+	}
 }

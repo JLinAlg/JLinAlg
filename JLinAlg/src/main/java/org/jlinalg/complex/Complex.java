@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.jlinalg.DivisionByZeroException;
 import org.jlinalg.FieldElement;
+import org.jlinalg.IRingElement;
 import org.jlinalg.InvalidOperationException;
 import org.jlinalg.JLinAlgTypeProperties;
 import org.jlinalg.RingElementFactory;
@@ -161,6 +162,7 @@ public class Complex
 	@Override
 	public boolean equals(Object obj)
 	{
+		if (obj == null) return false;
 		if (obj instanceof Rational) {
 			Rational comp = (Rational) obj;
 			if (!this.imaginaryPart.isZero()) {

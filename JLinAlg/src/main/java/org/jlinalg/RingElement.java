@@ -61,6 +61,7 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	@Override
 	public boolean equals(Object obj)
 	{
+		if (obj == null) return false;
 		return this.compareTo((RE) obj) == 0;
 	}
 
