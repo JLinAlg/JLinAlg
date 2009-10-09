@@ -36,6 +36,7 @@ public class SquareOperatorTest<RE extends IRingElement<RE>>
 	@Test
 	public void test()
 	{
+		assumeTrue(!methodIsDepreciated(getFactory().one(), "abs", null));
 		IRingElementFactory<RE> f = getFactory();
 		testSqrSum(getLinAlgFactory().ones(5), f.get(5));
 		testSqrSum(getLinAlgFactory().ones(1), f.one());
@@ -46,6 +47,7 @@ public class SquareOperatorTest<RE extends IRingElement<RE>>
 	@Test
 	public void testOnFractions()
 	{
+		assumeTrue(!methodIsDepreciated(getFactory().one(), "abs", null));
 		assumeTrue(!dataTypeIsDiscreet());
 		IRingElementFactory<RE> f = getFactory();
 		testSqrSum(getLinAlgFactory().ones(5).multiply(f.get("1/2")), f
