@@ -9,6 +9,7 @@ import org.jlinalg.InvalidOperationException;
 import org.jlinalg.JLinAlgTypeProperties;
 import org.jlinalg.RingElementFactory;
 import org.jlinalg.rational.Rational;
+import org.jlinalg.rational.Rational.RationalFactory;
 
 /**
  * This class represents a complex number with two Rationals as a real- and
@@ -255,7 +256,7 @@ public class Complex
 	/**
 	 * The class defining the complex number factory.
 	 */
-	@JLinAlgTypeProperties(isExact = true, isDiscreet = false)
+	@JLinAlgTypeProperties(isCompound = true)
 	public class ComplexFactory
 			extends RingElementFactory<Complex>
 	{
@@ -442,6 +443,14 @@ public class Complex
 		public Complex randomValue()
 		{
 			return new Complex(random.nextDouble(), random.nextDouble());
+		}
+
+		/**
+		 * @return The factory for the rational and irrational part.
+		 */
+		public RationalFactory getBaseFactory()
+		{
+			return Rational.FACTORY;
 		}
 	}
 
