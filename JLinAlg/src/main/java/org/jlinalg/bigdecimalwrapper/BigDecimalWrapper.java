@@ -72,6 +72,7 @@ public class BigDecimalWrapper
 	 * @param val
 	 * @return sum
 	 */
+	@Override
 	public BigDecimalWrapper add(BigDecimalWrapper val)
 	{
 		if (FACTORY != val.FACTORY)
@@ -101,6 +102,7 @@ public class BigDecimalWrapper
 	 * @param val
 	 * @return product
 	 */
+	@Override
 	public BigDecimalWrapper multiply(BigDecimalWrapper val)
 	{
 		if (FACTORY != val.FACTORY)
@@ -134,6 +136,7 @@ public class BigDecimalWrapper
 	 * 
 	 * @return negated (-value)
 	 */
+	@Override
 	public BigDecimalWrapper negate()
 	{
 		return FACTORY.get(value.negate());
@@ -209,6 +212,7 @@ public class BigDecimalWrapper
 	 * @return -,+,0} as this object is less than, equal to, or greater than the
 	 *         specified object.
 	 */
+	@Override
 	public int compareTo(BigDecimalWrapper o)
 	{
 		return this.value.compareTo(o.value);
@@ -271,6 +275,7 @@ public class BigDecimalWrapper
 	/**
 	 * @return the singleton factory for this type.
 	 */
+	@Override
 	public BigDecimalWrapperFactory getFactory()
 	{
 		return FACTORY;
@@ -287,11 +292,6 @@ public class BigDecimalWrapper
 	static final Pattern fractionPattern = Pattern
 			.compile("\\s*([-+]{0,1}\\d+)\\s*/\\s*([-+]{0,1}\\d+)\\s*");
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.IRingElement#abs()
-	 */
 	@Override
 	public BigDecimalWrapper abs()
 	{

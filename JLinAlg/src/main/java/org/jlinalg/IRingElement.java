@@ -63,6 +63,7 @@ public interface IRingElement<RE extends IRingElement<RE>>
 	 * @return true if the two IRingElements are mathematically equal.
 	 */
 
+	@Override
 	public boolean equals(Object obj);
 
 	/**

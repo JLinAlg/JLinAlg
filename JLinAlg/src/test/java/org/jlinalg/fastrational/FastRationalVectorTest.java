@@ -136,11 +136,11 @@ public class FastRationalVectorTest
 		Vector<FastRational> v = new Vector<FastRational>(4,
 				FastRational.FACTORY);
 		v.setAll(FastRational.FACTORY.get(1, 2));
-		assertTrue("1/2^4=1/16", v.elementProduct().equals(
-				FastRational.FACTORY.get(1, 16)));
+		assertTrue("1/2^4=1/16",
+				v.elementProduct().equals(FastRational.FACTORY.get(1, 16)));
 		v.setAll(FastRational.FACTORY.get(0, 2));
-		assertTrue("0^4=0", v.elementProduct().equals(
-				FastRational.FACTORY.get(0, 1)));
+		assertTrue("0^4=0",
+				v.elementProduct().equals(FastRational.FACTORY.get(0, 1)));
 	}
 
 	/**
@@ -183,8 +183,8 @@ public class FastRationalVectorTest
 		for (int i = 1; i <= v3.length(); i++) {
 			v3.set(i, FastRational.FACTORY.get(i * 3 - 1, i));
 		}
-		assertTrue("comparison of vectors with different length", v1
-				.compareTo(v3) == 0);
+		assertTrue("comparison of vectors with different length",
+				v1.compareTo(v3) == 0);
 	}
 
 	/**
@@ -210,8 +210,8 @@ public class FastRationalVectorTest
 		Matrix<FastRational> minv = m.inverse();
 		assertNotNull(minv);
 		FastRational detinv = minv.det();
-		assertTrue("det reasonable", detinv.multiply(r).equals(
-				FastRational.FACTORY.get(1)));
+		assertTrue("det reasonable",
+				detinv.multiply(r).equals(FastRational.FACTORY.get(1)));
 		// System.out.println(m.toString());
 		// System.out.println(minv.toString());
 	}
@@ -263,11 +263,6 @@ public class FastRationalVectorTest
 		assertTrue("v1>v4 (inv)", v4.compareTo(v1) == -1);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.testutil.TestBaseInterface#getFactory()
-	 */
 	@Override
 	public IRingElementFactory<FastRational> getFactory()
 	{

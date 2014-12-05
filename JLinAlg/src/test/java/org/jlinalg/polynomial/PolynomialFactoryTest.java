@@ -35,18 +35,12 @@ public class PolynomialFactoryTest<RE extends IRingElement<RE>>
 	 * @param factory
 	 *            a factory for polynomials
 	 */
-	@SuppressWarnings("unchecked")
 	public PolynomialFactoryTest(IRingElementFactory<Polynomial<RE>> factory)
 	{
 		this.factory = factory;
 		assertTrue(this.factory instanceof PolynomialFactory);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.testutil.TestBaseInterface#getFactory()
-	 */
 	@Override
 	public IRingElementFactory<Polynomial<RE>> getFactory()
 	{

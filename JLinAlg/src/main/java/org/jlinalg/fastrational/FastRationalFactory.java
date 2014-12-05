@@ -36,6 +36,7 @@ public class FastRationalFactory
 
 	final public static FastRational NOTANUMBER = new FastRational(2);
 
+	@Override
 	public FastRational get(final long n)
 	{
 		if (n == 0L) return ZERO;

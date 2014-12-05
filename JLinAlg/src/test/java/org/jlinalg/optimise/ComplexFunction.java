@@ -79,11 +79,6 @@ public class ComplexFunction
 		return vector;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.optimise.Target#getParameters()
-	 */
 	@Override
 	public Rational[] getParameters()
 	{
@@ -95,11 +90,6 @@ public class ComplexFunction
 		return param;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.optimise.Target#getResidual()
-	 */
 	@Override
 	public Rational getResidual()
 	{
@@ -158,11 +148,6 @@ public class ComplexFunction
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString()
 	{
@@ -197,11 +182,6 @@ public class ComplexFunction
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.optimise.Target#getParameter(int)
-	 */
 	@Override
 	public IRingElement<?> getParameter(int index)
 	{

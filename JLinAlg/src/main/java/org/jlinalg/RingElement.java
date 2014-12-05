@@ -23,6 +23,7 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	 * 
 	 * @return true if zero
 	 */
+	@Override
 	public boolean isZero()
 	{
 		return this.equals(getFactory().zero());
@@ -46,6 +47,7 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	 * 
 	 * @return true if one
 	 */
+	@Override
 	public boolean isOne()
 	{
 		return this.equals(getFactory().one());
@@ -141,6 +143,7 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	 *             if {@code this} and {@code val} are not instances of the
 	 *             same class
 	 */
+	@Override
 	public boolean le(RE val)
 	{
 		if (getClass() != val.getClass())
@@ -161,6 +164,7 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	 *             if {@code this} and {@code val} are not instances of the
 	 *             same class
 	 */
+	@Override
 	public boolean ge(RE val)
 	{
 		if (getClass() != val.getClass())
@@ -171,7 +175,7 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	}
 
 	/**
-	 *@throws DivisionByZeroException
+	 * @throws DivisionByZeroException
 	 *             if a division is possible for the type, but <code>val</code>
 	 *             is
 	 *             the zero element.
@@ -187,12 +191,13 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	}
 
 	/**
-	 *@throws DivisionByZeroException
+	 * @throws DivisionByZeroException
 	 *             if an inversion is possible for the type, but the element is
 	 *             the zero element.
 	 * @throws InvalidOperationException
 	 *             as in the general case, an inversion is not possible.
 	 */
+	@Override
 	public RE invert() throws DivisionByZeroException,
 			InvalidOperationException
 	{

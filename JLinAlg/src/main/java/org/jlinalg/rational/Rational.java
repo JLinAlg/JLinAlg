@@ -204,7 +204,7 @@ public class Rational
 	/**
 	 * @param added
 	 *            the value to be added to <code>this</code>.
-	 *@return the result of adding this rational and another one.
+	 * @return the result of adding this rational and another one.
 	 */
 	@Override
 	public Rational add(Rational added)
@@ -236,6 +236,7 @@ public class Rational
 		return tmp;
 	}
 
+	@Override
 	public Rational negate()
 	{
 		return FACTORY.get(numerator.negate(), denominator, false);
@@ -310,6 +311,7 @@ public class Rational
 				.equals(comp.getDenominator()));
 	}
 
+	@Override
 	public int compareTo(Rational o)
 	{
 		Rational comp = this.subtract(o);
@@ -341,6 +343,7 @@ public class Rational
 	/**
 	 * give access to the factory for this type
 	 */
+	@Override
 	public IRingElementFactory<Rational> getFactory()
 	{
 		return FACTORY;
@@ -577,11 +580,7 @@ public class Rational
 			return randomValue();
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.jlinalg.IRingElementFactory#get(long)
-		 */
+		@Override
 		public Rational get(long i)
 		{
 			if (i == 0) return ZERO;
@@ -622,12 +621,6 @@ public class Rational
 			return new Rational(n, d, b);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.jlinalg.RingElementFactory#randomValue(java.util.Random,
-		 * org.jlinalg.IRingElement, org.jlinalg.IRingElement)
-		 */
 		@SuppressWarnings("deprecation")
 		@Override
 		@Deprecated
@@ -646,24 +639,12 @@ public class Rational
 			return get(random.nextGaussian());
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.jlinalg.IRingElementFactory#randomValue(org.jlinalg.IRingElement,
-		 * org.jlinalg.IRingElement)
-		 */
 		@Override
 		public Rational randomValue(Rational min, Rational max)
 		{
 			return get(randomValue().multiply(max.subtract(min))).add(min);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.jlinalg.IRingElementFactory#randomValue()
-		 */
 		@Override
 		public Rational randomValue()
 		{

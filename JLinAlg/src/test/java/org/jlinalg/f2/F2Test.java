@@ -11,6 +11,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.jlinalg.IRingElementFactory;
 import org.jlinalg.f2.F2.F2Factory;
+import org.jlinalg.rational.Rational;
 import org.jlinalg.testutil.RingElementTestBase;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -128,11 +129,6 @@ public class F2Test
 		assertSame(F2.ZERO, F2.ZERO.abs());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.testutil.TestBaseInterface#getFactory()
-	 */
 	@Override
 	public IRingElementFactory<F2> getFactory()
 	{
@@ -185,13 +181,13 @@ public class F2Test
 	@Test
 	public void testAdd_base()
 	{
-		assertEquals(getFactory().one(), getFactory().zero().add(
-				getFactory().one()));
-		assertEquals(getFactory().one(), getFactory().one().add(
-				getFactory().zero()));
-		assertEquals(getFactory().zero(), getFactory().one().add(
-				getFactory().m_one()));
-		assertEquals(getFactory().get("11"), getFactory().one().add(
-				getFactory().get("10")));
+		assertEquals(getFactory().one(),
+				getFactory().zero().add(getFactory().one()));
+		assertEquals(getFactory().one(),
+				getFactory().one().add(getFactory().zero()));
+		assertEquals(getFactory().zero(),
+				getFactory().one().add(getFactory().m_one()));
+		assertEquals(getFactory().get("11"),
+				getFactory().one().add(getFactory().get("10")));
 	}
 }

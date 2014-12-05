@@ -1,7 +1,7 @@
 package org.jlinalg.fastrational;
 
 /**
- * An implementation of ration numbers based on "long"s. No effort is taken to
+ * An implementation of rational numbers based on "long"s. No effort is taken to
  * detect overflows in the numerator or denominator.
  * 
  * @author Georg Thimm
@@ -20,8 +20,8 @@ public class FastRational
 
 	private static final long serialVersionUID = 1L;
 
-	private static final BigInteger MAX_INT_BIGINTEGER = new BigInteger(Long
-			.toString(Long.MAX_VALUE));
+	private static final BigInteger MAX_INT_BIGINTEGER = new BigInteger(
+			Long.toString(Long.MAX_VALUE));
 	/**
 	 * the numerator of the rational
 	 */
@@ -311,11 +311,6 @@ public class FastRational
 				* denominator, denominator * r.denominator, true);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.FieldElement#abs()
-	 */
 	@Override
 	public FastRational abs()
 	{
@@ -339,11 +334,6 @@ public class FastRational
 		return FastRational.FACTORY.get(n1 * n2, d1 * d2, false);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.Rational#invert()
-	 */
 	@Override
 	public FastRational invert() throws DivisionByZeroException
 	{
@@ -362,11 +352,6 @@ public class FastRational
 		return (double) numerator / denominator;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.FieldElement#gt(org.jlinalg.FieldElement)
-	 */
 	@Override
 	public boolean gt(FastRational r)
 	{
@@ -374,11 +359,6 @@ public class FastRational
 		return diff > 0;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.FieldElement#lt(org.jlinalg.FieldElement)
-	 */
 	@Override
 	public boolean lt(FastRational r)
 	{
@@ -398,11 +378,6 @@ public class FastRational
 		return Long.toString(numerator) + "/" + Long.toString(denominator);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode()
 	{

@@ -114,8 +114,8 @@ public class DoubleWrapperTest
 			if (!dw1.equals(DoubleWrapper.FACTORY.zero())) {
 				DoubleWrapper inv = dw1.invert();
 				assertFalse(inv.equals(dw1));
-				assertTrue(inv.invert().subtract(dw1).abs().le(
-						DoubleWrapper.FACTORY.get(0.00001)));
+				assertTrue(inv.invert().subtract(dw1).abs()
+						.le(DoubleWrapper.FACTORY.get(0.00001)));
 			}
 		}
 	}
@@ -178,9 +178,9 @@ public class DoubleWrapperTest
 				double d1 = dw1.doubleValue();
 				double d2 = dw2.doubleValue();
 
-				assertTrue(dw1 + "-" + dw2 + "!=" + d1 + "-" + d2, Math.abs(dw1
-						.subtract(dw2).doubleValue()
-						- (d1 - d2)) < 0.0001);
+				assertTrue(
+						dw1 + "-" + dw2 + "!=" + d1 + "-" + d2,
+						Math.abs(dw1.subtract(dw2).doubleValue() - (d1 - d2)) < 0.0001);
 			}
 		}
 	}
@@ -218,9 +218,9 @@ public class DoubleWrapperTest
 				double d1 = dw1.doubleValue();
 				double d2 = dw2.doubleValue();
 
-				assertTrue(dw1 + "+" + dw2 + "!=" + d1 + d2, Math.abs(dw1.add(
-						dw2).doubleValue()
-						- (d1 + d2)) < 0.0001);
+				assertTrue(
+						dw1 + "+" + dw2 + "!=" + d1 + d2,
+						Math.abs(dw1.add(dw2).doubleValue() - (d1 + d2)) < 0.0001);
 			}
 		}
 	}
@@ -242,9 +242,10 @@ public class DoubleWrapperTest
 			{
 				Double d1 = Double.valueOf(dw1.doubleValue());
 				Double d2 = Double.valueOf(dw2.doubleValue());
-				assertTrue(dw1 + ".compareTo(" + dw2 + ")=="
-						+ dw1.compareTo(dw2) + " but " + d1 + ".compareTo("
-						+ d2 + ")==" + d1.compareTo(d2),
+				assertTrue(
+						dw1 + ".compareTo(" + dw2 + ")==" + dw1.compareTo(dw2)
+								+ " but " + d1 + ".compareTo(" + d2 + ")=="
+								+ d1.compareTo(d2),
 						dw1.compareTo(dw2) == d1.compareTo(d2));
 			}
 		}
@@ -341,10 +342,10 @@ public class DoubleWrapperTest
 		DoubleWrapper b = DoubleWrapper.FACTORY.get(10.11);
 		DoubleWrapper c = DoubleWrapper.FACTORY.get(1.1);
 		DoubleWrapper d = DoubleWrapper.FACTORY.get(1.1);
-		assertTrue("hashcode not equal: " + a + " & " + b, a.hashCode() == b
-				.hashCode());
-		assertTrue("hashcode not equal: " + c + " & " + d, c.hashCode() == d
-				.hashCode());
+		assertTrue("hashcode not equal: " + a + " & " + b,
+				a.hashCode() == b.hashCode());
+		assertTrue("hashcode not equal: " + c + " & " + d,
+				c.hashCode() == d.hashCode());
 		Vector<DoubleWrapper> v1 = new Vector<DoubleWrapper>(2,
 				DoubleWrapper.FACTORY);
 		v1.set(1, a);
@@ -561,11 +562,6 @@ public class DoubleWrapperTest
 		assertEquals(dfac.get(Math.sqrt(1 + 25 + 121 + 16)), v.L2Norm());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.testutil.TestBaseInterface#getFactory()
-	 */
 	@Override
 	public IRingElementFactory<DoubleWrapper> getFactory()
 	{
