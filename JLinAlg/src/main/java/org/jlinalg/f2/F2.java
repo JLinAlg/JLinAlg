@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.jlinalg.DivisionByZeroException;
 import org.jlinalg.FieldElement;
+import org.jlinalg.IRingElement;
 import org.jlinalg.IRingElementFactory;
 import org.jlinalg.InvalidOperationException;
 import org.jlinalg.JLinAlgTypeProperties;
@@ -112,6 +113,7 @@ public class F2
 	 * 
 	 * @return negated <=> this value
 	 */
+	@Override
 	public F2 negate()
 	{
 		return this;
@@ -169,6 +171,7 @@ public class F2
 	 * @exception InvalidOperationException
 	 *                if val is not in {{@link #ONE},{@link #ZERO}.
 	 */
+	@Override
 	public int compareTo(F2 val)
 	{
 		if (!(val == ZERO || val == ONE))
@@ -191,6 +194,7 @@ public class F2
 	/**
 	 * @return a reference to the singleton factory for this type.
 	 */
+	@Override
 	public IRingElementFactory<F2> getFactory()
 	{
 		return FACTORY;
@@ -345,6 +349,7 @@ public class F2
 		 *         otherwise
 		 * @see org.jlinalg.IRingElementFactory#get(long)
 		 */
+		@Override
 		public F2 get(long d)
 		{
 			return (d % 2L) == 0 ? ZERO : ONE;
