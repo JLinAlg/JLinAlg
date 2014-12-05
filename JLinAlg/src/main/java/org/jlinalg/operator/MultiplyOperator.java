@@ -7,8 +7,8 @@ import org.jlinalg.IRingElement;
  * 
  * @author Simon Levy, Andreas Keilhauer, Georg Thimm
  */
-@SuppressWarnings( {
-		"deprecation", "unchecked"
+@SuppressWarnings({
+	"unchecked"
 })
 public class MultiplyOperator<RE extends IRingElement<RE>>
 		implements DyadicOperator<RE>
@@ -37,6 +37,7 @@ public class MultiplyOperator<RE extends IRingElement<RE>>
 	{
 	}
 
+	@Override
 	public RE apply(RE x, RE y)
 	{
 		return x.multiply(y);

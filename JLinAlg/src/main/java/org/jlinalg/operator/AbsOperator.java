@@ -10,8 +10,8 @@ import org.jlinalg.IRingElement;
  * @param <RE>
  *            a type implementing on {@link IRingElement}.
  */
-@SuppressWarnings( {
-		"deprecation", "unchecked"
+@SuppressWarnings({
+	"unchecked"
 })
 public class AbsOperator<RE extends IRingElement<RE>>
 		implements MonadicOperator<RE>
@@ -40,6 +40,7 @@ public class AbsOperator<RE extends IRingElement<RE>>
 	{
 	}
 
+	@Override
 	public RE apply(RE x)
 	{
 		return x.abs();

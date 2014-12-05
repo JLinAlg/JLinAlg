@@ -247,6 +247,7 @@ public class PolynomialFactory<BASE extends IRingElement<BASE>>
 	/**
 	 * @see org.jlinalg.IRingElementFactory#get(long)
 	 */
+	@Override
 	public Polynomial<BASE> get(long d)
 	{
 		return get(BASEFACTORY.get(d));

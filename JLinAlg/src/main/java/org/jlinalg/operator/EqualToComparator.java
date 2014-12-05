@@ -8,8 +8,8 @@ import org.jlinalg.IRingElement;
  * 
  * @author ???, Georg Thimm
  */
-@SuppressWarnings( {
-		"deprecation", "unchecked"
+@SuppressWarnings({
+	"unchecked"
 })
 public class EqualToComparator<RE extends IRingElement<RE>>
 		extends FEComparator<RE>

@@ -9,7 +9,6 @@ import org.jlinalg.IRingElement;
  * @param <RE>
  *            the type of the objects on which is operated
  */
-@SuppressWarnings("deprecation")
 public class NotOperator<RE extends IRingElement<RE>>
 		implements MonadicOperator<RE>
 {
@@ -38,6 +37,7 @@ public class NotOperator<RE extends IRingElement<RE>>
 	{
 	}
 
+	@Override
 	public RE apply(RE x)
 	{
 		return (x.isZero() ? x.getFactory().one() : x.getFactory().zero());
