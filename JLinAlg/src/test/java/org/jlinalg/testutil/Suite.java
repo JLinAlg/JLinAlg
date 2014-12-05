@@ -34,9 +34,9 @@ import org.junit.runners.model.RunnerBuilder;
  * following rules apply:
  * <ul>
  * <li>The explicitly specified classes (if any) are always run.</li>
- * <li>Any file in the class path (imported or not) having the postfix <{@code
- * .class} with its full class name matching the include-regular expression is
- * included in the test, except if its class name also matches the
+ * <li>Any file in the class path (imported or not) having the postfix <
+ * {@code .class} with its full class name matching the include-regular
+ * expression is included in the test, except if its class name also matches the
  * exclude-regular expression.</li>
  * <li>No effort is taken to exclude files which are not JUnit tests (or not
  * even java class files).</li>
@@ -71,15 +71,15 @@ public class Suite
 	@Inherited
 	public @interface SuiteClasses {
 		/**
-		 * @return the classes to be run irrespective of the settings of {@code
-		 *         #include()} and {@code exclude}
+		 * @return the classes to be run irrespective of the settings of
+		 *         {@code #include()} and {@code exclude}
 		 */
 		public Class<?>[] value() default {};
 
 		/**
 		 * @return the regular expression a class name has to match in order to
-		 *         be included into the test. Classes which match {@code
-		 *         include} <em>AND</em> {@code exclude} are <em>NOT</em>
+		 *         be included into the test. Classes which match
+		 *         {@code include} <em>AND</em> {@code exclude} are <em>NOT</em>
 		 *         included.
 		 */
 		public String include() default "";
@@ -96,13 +96,13 @@ public class Suite
 		SuiteClasses annotation = klass.getAnnotation(SuiteClasses.class);
 		if (annotation == null)
 			throw new InitializationError(String.format(
-					"class '%s' must have a SuiteClasses annotation", klass
-							.getName()));
+					"class '%s' must have a SuiteClasses annotation",
+					klass.getName()));
 		Pattern includePattern = Pattern.compile(annotation.include());
 		Pattern excludePattern = Pattern.compile(annotation.exclude());
 		if (annotation.include() != null && annotation.include().length() > 0) {
 			List<String> paths = Arrays.asList(System.getProperty(
-					"java.class.path").split(":"));
+					"java.class.path").split("[:;]"));
 			HashSet<String> names = new HashSet<String>();
 			for (String p : paths) {
 				File file = new File(p);
@@ -118,8 +118,8 @@ public class Suite
 				}
 			}
 			// System.err.println("Tests matching the pattern: " + names);
-			ArrayList<Class<?>> classes = new ArrayList<Class<?>>(Arrays
-					.asList(annotation.value()));
+			ArrayList<Class<?>> classes = new ArrayList<Class<?>>(
+					Arrays.asList(annotation.value()));
 			for (String name : names) {
 				try {
 					classes.add(ClassLoader.getSystemClassLoader().loadClass(
@@ -158,8 +158,8 @@ public class Suite
 		if (!file.isFile() || !file.getName().matches(".*\\.class"))
 			return null;
 		String klassName = (packageName.length() > 0) ? (packageName + "." + file
-				.getName().replace(".class", ""))
-				: file.getName().replace(".class", "");
+				.getName().replace(".class", "")) : file.getName().replace(
+				".class", "");
 		if (include.matcher(klassName).matches()
 				&& !exclude.matcher(klassName).matches()) return klassName;
 		return null;
@@ -197,9 +197,8 @@ public class Suite
 					collectClassNames(
 							file,
 							(packageName.length() > 0) ? (packageName + "." + file
-									.getName())
-									: file.getName(), includePattern,
-							excludePattern, names);
+									.getName()) : file.getName(),
+							includePattern, excludePattern, names);
 				}
 			}
 		}
