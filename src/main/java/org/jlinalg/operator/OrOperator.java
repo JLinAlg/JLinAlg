@@ -7,7 +7,7 @@ import org.jlinalg.IRingElement;
  * 
  * @author Simon Levy, Andreas Keilhauer, Georg Thimm
  */
-@SuppressWarnings( {
+@SuppressWarnings({
 		"deprecation", "unchecked"
 })
 public class OrOperator<RE extends IRingElement<RE>>
@@ -37,6 +37,7 @@ public class OrOperator<RE extends IRingElement<RE>>
 	{
 	}
 
+	@Override
 	public RE apply(RE x, RE y)
 	{
 		return ((x.isZero() && y.isZero()) ? x.getFactory().zero() : x

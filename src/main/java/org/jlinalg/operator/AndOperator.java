@@ -8,8 +8,8 @@ import org.jlinalg.IRingElement;
  * @author ???, Georg Thimm
  * @param <RE>
  */
-@SuppressWarnings( {
-		"deprecation", "unchecked"
+@SuppressWarnings({
+	"unchecked"
 })
 public class AndOperator<RE extends IRingElement<RE>>
 		implements DyadicOperator<RE>
@@ -39,6 +39,7 @@ public class AndOperator<RE extends IRingElement<RE>>
 	{
 	}
 
+	@Override
 	public RE apply(RE x, RE y)
 	{
 		return ((x.isZero() || y.isZero()) ? x.getFactory().zero() : x

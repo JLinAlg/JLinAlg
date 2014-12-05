@@ -10,8 +10,8 @@ import org.jlinalg.IRingElement;
  * @param <RE>
  *            the type of the elements to be compared.
  */
-@SuppressWarnings( {
-		"deprecation", "unchecked"
+@SuppressWarnings({
+	"unchecked"
 })
 public class LessThanComparator<RE extends IRingElement<RE>>
 		extends FEComparator<RE>

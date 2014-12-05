@@ -23,7 +23,6 @@ public interface DyadicOperatorOnFieldElements
 	 *            the value of the other element
 	 * @return the result of applying the function to <tt>x</tt> and <tt>y</tt>
 	 */
-	@SuppressWarnings("unchecked")
-	public FieldElement apply(FieldElement x, FieldElement y);
+	public FieldElement<?> apply(FieldElement<?> x, FieldElement<?> y);
 
 }

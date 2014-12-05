@@ -474,6 +474,7 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 		return this.coefficientsForExponents.lastKey();
 	}
 
+	@Override
 	public IRingElementFactory<Polynomial<BASE>> getFactory()
 	{
 		return polynomialFactory;

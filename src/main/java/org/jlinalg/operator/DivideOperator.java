@@ -9,7 +9,6 @@ import org.jlinalg.IRingElement;
  * @param <RE>
  *            a specialisation of {@link IRingElement}
  */
-@SuppressWarnings("deprecation")
 public class DivideOperator<RE extends IRingElement<RE>>
 		implements DyadicOperator<RE>
 {
@@ -38,6 +37,7 @@ public class DivideOperator<RE extends IRingElement<RE>>
 	{
 	}
 
+	@Override
 	public RE apply(RE x, RE y)
 	{
 		return x.multiply(y.invert());

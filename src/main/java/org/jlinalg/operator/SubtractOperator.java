@@ -7,7 +7,6 @@ import org.jlinalg.IRingElement;
  * 
  * @author Simon Levy, Andreas Keilhauer, Georg Thimm
  */
-@SuppressWarnings("deprecation")
 public class SubtractOperator<RE extends IRingElement<RE>>
 		implements DyadicOperator<RE>
 {
@@ -36,6 +35,7 @@ public class SubtractOperator<RE extends IRingElement<RE>>
 	{
 	}
 
+	@Override
 	public RE apply(RE x, RE y)
 	{
 		return x.subtract(y);

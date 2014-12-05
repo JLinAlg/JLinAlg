@@ -10,7 +10,6 @@ import org.jlinalg.IRingElement;
  * @param <RE>
  *            the type of the objects to be compared.
  */
-@SuppressWarnings("deprecation")
 public class GreaterThanComparator<RE extends IRingElement<RE>>
 		extends FEComparator<RE>
 {

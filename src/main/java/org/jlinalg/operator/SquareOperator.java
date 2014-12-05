@@ -13,8 +13,8 @@ import org.jlinalg.IRingElement;
  * @param <RE>
  *            see {@link MonadicOperator}
  */
-@SuppressWarnings( {
-		"unchecked", "deprecation"
+@SuppressWarnings({
+	"unchecked"
 })
 public class SquareOperator<RE extends IRingElement<RE>>
 		implements MonadicOperator<RE>
@@ -48,6 +48,7 @@ public class SquareOperator<RE extends IRingElement<RE>>
 	 *            the element to be squared.
 	 * @return the sqare of <code>x</code>.
 	 */
+	@Override
 	public RE apply(RE x)
 	{
 		return x.multiply(x);

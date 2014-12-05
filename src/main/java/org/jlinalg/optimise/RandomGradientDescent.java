@@ -60,6 +60,7 @@ public class RandomGradientDescent<RESIDUAL extends IRingElement<RESIDUAL>>
 	/**
 	 * @return the maxOptimisationSteps
 	 */
+	@Override
 	public int getMaxOptimisationSteps()
 	{
 		return maxOptimisationSteps;
@@ -69,6 +70,7 @@ public class RandomGradientDescent<RESIDUAL extends IRingElement<RESIDUAL>>
 	 * @param maxOptimisationSteps
 	 *            the maxOptimisationSteps to set
 	 */
+	@Override
 	public void setMaxOptimisationSteps(int maxOptimisationSteps)
 	{
 		this.maxOptimisationSteps = maxOptimisationSteps;
