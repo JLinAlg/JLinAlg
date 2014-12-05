@@ -156,8 +156,8 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 			rightValue = rightCoefficients.get(rightKey);
 
 			if (leftKey.equals(rightKey)) {
-				resultCoefficientsForIndexes.put(leftKey, leftValue
-						.add(rightValue));
+				resultCoefficientsForIndexes.put(leftKey,
+						leftValue.add(rightValue));
 				leftIndex++;
 				rightIndex++;
 			}
@@ -189,6 +189,7 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 		return resultCoefficientsForIndexes;
 	}
 
+	@Override
 	public int compareTo(final Polynomial<BASE> o)
 	{
 		final Polynomial<BASE> other = o;
@@ -214,6 +215,7 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 		return this.getDegree() - other.getDegree();
 	}
 
+	@Override
 	@SuppressWarnings("boxing")
 	public Polynomial<BASE> multiply(final Polynomial<BASE> other)
 	{
@@ -236,8 +238,8 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 			final SortedMap<Integer, BASE> currentCoefficientsShifted = new TreeMap<Integer, BASE>();
 			for (final Integer currentKey : currentCoefficients.keySet()) {
 				BASE v = currentCoefficients.get(currentKey);
-				currentCoefficientsShifted.put(currentKey + currentOtherKey, v
-						.multiply(currentOtherCoefficient));
+				currentCoefficientsShifted.put(currentKey + currentOtherKey,
+						v.multiply(currentOtherCoefficient));
 			}
 
 			resultCoefficientsForIndexes = this.addHelper(
@@ -248,6 +250,7 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 				polynomialFactory.BASEFACTORY);
 	}
 
+	@Override
 	public Polynomial<BASE> negate()
 	{
 		/*
@@ -315,7 +318,8 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 		if (this.getDegree() >= other.getDegree()) {
 
 			final Map<Integer, BASE> factorCoeffs = new HashMap<Integer, BASE>();
-			factorCoeffs.put(this.getHighestPower() - other.getHighestPower(),
+			factorCoeffs.put(
+					this.getHighestPower() - other.getHighestPower(),
 					this.getHighestCoefficient().divide(
 							other.getHighestCoefficient()));
 
@@ -373,9 +377,10 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 		{
 			final BASE currentCoefficient = this.coefficientsForExponents
 					.get(currentKey);
-			resultCoefficients.put(currentKey + 1, currentCoefficient
-					.multiply(polynomialFactory.getBaseFactory().get(
-							currentKey + 1).invert()));
+			resultCoefficients.put(
+					currentKey + 1,
+					currentCoefficient.multiply(polynomialFactory
+							.getBaseFactory().get(currentKey + 1).invert()));
 		}
 		return polynomialFactory.get(resultCoefficients,
 				polynomialFactory.BASEFACTORY);
@@ -469,11 +474,6 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 		return this.coefficientsForExponents.lastKey();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.IRingElement#getFactory()
-	 */
 	public IRingElementFactory<Polynomial<BASE>> getFactory()
 	{
 		return polynomialFactory;

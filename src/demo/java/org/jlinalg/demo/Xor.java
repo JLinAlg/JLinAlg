@@ -207,11 +207,11 @@ public class Xor
 
 			// report RMS error first, last, every 1000 epochs
 			if (i == 0 || i == NEPOCH - 1 || ((i + 1) % 1000) == 0) {
-				System.err.println("EPOCH: "
-						+ (i + 1)
-						+ "\tRMS ERROR: "
-						+ Math
-								.sqrt(((sqrerr.sum()).divide(errd))
+				System.err
+						.println("EPOCH: "
+								+ (i + 1)
+								+ "\tRMS ERROR: "
+								+ Math.sqrt(((sqrerr.sum()).divide(errd))
 										.doubleValue()));
 			}
 		}
@@ -246,6 +246,7 @@ public class Xor
 	private class SigmoidOperator
 			implements MonadicOperator<DoubleWrapper>
 	{
+		@Override
 		public DoubleWrapper apply(DoubleWrapper x)
 		{
 			double dx = x.getValue();
@@ -259,6 +260,7 @@ public class Xor
 	private class SigdervOperator
 			implements MonadicOperator<DoubleWrapper>
 	{
+		@Override
 		public DoubleWrapper apply(DoubleWrapper x)
 		{
 			double dx = (x).getValue();

@@ -73,7 +73,7 @@ public class LatexStreamTest
 		ls.print("This should be a closed LaTeX math environment:");
 		ls.startEquation(LatexStream.IN_TEXT);
 		ls.print("a=1");
-		ls = null;
+		ls.close();
 		System.gc();
 	}
 }

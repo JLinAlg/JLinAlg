@@ -145,11 +145,6 @@ class FieldPBig
 				+ "! You cannot compare them");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.FieldP#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object o)
 	{

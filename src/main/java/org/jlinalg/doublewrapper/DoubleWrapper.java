@@ -206,6 +206,7 @@ public class DoubleWrapper
 	/**
 	 * @return the singleton factory for this type.
 	 */
+	@Override
 	public DoubleWrapperFactory getFactory()
 	{
 		return FACTORY;
@@ -372,22 +373,12 @@ public class DoubleWrapper
 			return gaussianRandomValue();
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.jlinalg.IRingElementFactory#get(long)
-		 */
+		@Override
 		public DoubleWrapper get(long d)
 		{
 			return new DoubleWrapper(d);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.jlinalg.IRingElementFactory#randomValue(java.util.Random,
-		 * java.lang.Object, java.lang.Object)
-		 */
 		@SuppressWarnings("deprecation")
 		@Override
 		@Deprecated
@@ -398,24 +389,12 @@ public class DoubleWrapper
 			return randomValue(min, max);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.jlinalg.IRingElementFactory#gaussianRandomValue()
-		 */
 		@Override
 		public DoubleWrapper gaussianRandomValue()
 		{
 			return new DoubleWrapper(random.nextGaussian());
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.jlinalg.IRingElementFactory#randomValue(org.jlinalg.IRingElement,
-		 * org.jlinalg.IRingElement)
-		 */
 		@Override
 		public DoubleWrapper randomValue(DoubleWrapper min, DoubleWrapper max)
 		{
@@ -424,11 +403,6 @@ public class DoubleWrapper
 			return get(random.nextDouble() * (max_ - min_) + min_);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.jlinalg.IRingElementFactory#randomValue()
-		 */
 		@Override
 		public DoubleWrapper randomValue()
 		{

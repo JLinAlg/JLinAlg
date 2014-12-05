@@ -48,13 +48,13 @@ public class FastRationalTest
 		assertEquals(zero, zero.divide(one));
 		assertEquals(rFac.get(15, 2), five_over_two.divide(one_third));
 		FastRational r = one.divide(rFac.m_one());
-		assertTrue("denominator negative: " + r.getDenominator(), r
-				.getDenominator() > 0L);
+		assertTrue("denominator negative: " + r.getDenominator(),
+				r.getDenominator() > 0L);
 		assertTrue(r.getNumerator() == -1);
-		assertEquals(rFac.get(13 * 4, 7 * 3), rFac.get(13, 7).divide(
-				rFac.get(3, 4)));
-		assertEquals(rFac.get(-13 * 4, 7 * 3), rFac.get(13, 7).divide(
-				rFac.get(-3, 4)));
+		assertEquals(rFac.get(13 * 4, 7 * 3),
+				rFac.get(13, 7).divide(rFac.get(3, 4)));
+		assertEquals(rFac.get(-13 * 4, 7 * 3),
+				rFac.get(13, 7).divide(rFac.get(-3, 4)));
 	}
 
 	/**
@@ -244,10 +244,10 @@ public class FastRationalTest
 		FastRational b = rFac.get(10, 11);
 		FastRational c = rFac.get(1, 1);
 		FastRational d = rFac.get(1, 1);
-		assertTrue("hashcode not equal: " + a + " & " + b, a.hashCode() == b
-				.hashCode());
-		assertTrue("hashcode not equal: " + c + " & " + d, c.hashCode() == d
-				.hashCode());
+		assertTrue("hashcode not equal: " + a + " & " + b,
+				a.hashCode() == b.hashCode());
+		assertTrue("hashcode not equal: " + c + " & " + d,
+				c.hashCode() == d.hashCode());
 		Vector<FastRational> v1 = new Vector<FastRational>(2, rFac);
 		v1.set(1, a);
 		v1.set(2, c);

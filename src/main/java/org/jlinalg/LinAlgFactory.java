@@ -265,7 +265,6 @@ public class LinAlgFactory<RE extends IRingElement<RE>>
 	 * @deprecated use {@link RingElementFactory#convert(Matrix)} or an
 	 *             appropriate constructor of {@link Matrix}
 	 */
-	@SuppressWarnings("deprecation")
 	@Deprecated
 	public Matrix<RE> buildMatrix(double[][] theValues)
 			throws InvalidOperationException
@@ -283,7 +282,6 @@ public class LinAlgFactory<RE extends IRingElement<RE>>
 	 * @deprecated use {@link RingElementFactory#convert(Vector)} or an
 	 *             appropriate constructor of {@link Vector}
 	 */
-	@SuppressWarnings("deprecation")
 	@Deprecated
 	public Vector<RE> buildVector(double[] theValues)
 			throws InvalidOperationException

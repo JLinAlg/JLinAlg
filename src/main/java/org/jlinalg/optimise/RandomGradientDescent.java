@@ -100,11 +100,6 @@ public class RandomGradientDescent<RESIDUAL extends IRingElement<RESIDUAL>>
 			nParameters = currentParameters.length;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.lang.Thread#run()
-		 */
 		@Override
 		public void run()
 		{
@@ -181,11 +176,12 @@ public class RandomGradientDescent<RESIDUAL extends IRingElement<RESIDUAL>>
 		/**
 		 * find a minimum for varying parameter paraNum.
 		 */
-		@SuppressWarnings("unchecked")
 		private void changeParameter(final int paraNum)
 		{
+
 			IRingElement oldParam = target.getParameter(paraNum);
 			IRingElement step = maxStep[paraNum];
+
 			final IRingElement stop = step.divide(oldParam.getFactory().get(
 					"1e20"));
 			final IRingElement reduce = oldParam.getFactory().get(.5);
@@ -262,13 +258,11 @@ public class RandomGradientDescent<RESIDUAL extends IRingElement<RESIDUAL>>
 	/**
 	 * the minimal values for the parameters.
 	 */
-	@SuppressWarnings("unchecked")
 	private IRingElement[] min;
 
 	/**
 	 * the maximal values for the parameters
 	 */
-	@SuppressWarnings("unchecked")
 	private IRingElement[] max;
 
 	/**
@@ -279,14 +273,9 @@ public class RandomGradientDescent<RESIDUAL extends IRingElement<RESIDUAL>>
 	/**
 	 * the parameters of the currently optimised target.
 	 */
-	@SuppressWarnings("unchecked")
 	private IRingElement[] currentParameters;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.optimise.Optimiser#optimise()
-	 */
+	@Override
 	public Thread optimise()
 	{
 		if (worker != null)
@@ -300,12 +289,6 @@ public class RandomGradientDescent<RESIDUAL extends IRingElement<RESIDUAL>>
 		return worker;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jlinalg.optimise.Optimiser#setTarget(org.jlinalg.optimise.Target)
-	 */
 	@Override
 	public void setTarget(Target<RESIDUAL> target)
 	{
@@ -315,11 +298,6 @@ public class RandomGradientDescent<RESIDUAL extends IRingElement<RESIDUAL>>
 		this.target = target;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.optimise.Optimiser#state()
-	 */
 	@Override
 	public org.jlinalg.optimise.Optimiser.State getState()
 	{
@@ -328,11 +306,6 @@ public class RandomGradientDescent<RESIDUAL extends IRingElement<RESIDUAL>>
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.optimise.Optimiser#getResidual()
-	 */
 	@Override
 	public RESIDUAL getResidual()
 	{
@@ -341,11 +314,6 @@ public class RandomGradientDescent<RESIDUAL extends IRingElement<RESIDUAL>>
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.optimise.Optimiser#getOptimisationStepsTaken()
-	 */
 	@Override
 	public int getOptimisationStepsTaken()
 	{

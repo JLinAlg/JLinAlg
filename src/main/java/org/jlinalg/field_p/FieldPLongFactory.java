@@ -2,6 +2,7 @@ package org.jlinalg.field_p;
 
 import java.util.Random;
 
+import org.jlinalg.IRingElement;
 import org.jlinalg.InvalidOperationException;
 import org.jlinalg.JLinAlgTypeProperties;
 
@@ -85,11 +86,6 @@ public class FieldPLongFactory
 		return ONE;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see JLinAlg.FieldElement#m_one()
-	 */
 	@Override
 	public FieldPLong m_one()
 	{
@@ -216,7 +212,7 @@ public class FieldPLongFactory
 			throw new InvalidOperationException(val + " is not invertible in F"
 					+ p);
 		} // else {
-		// normalize y
+			// normalize y
 		while (y < 0) {
 			y += p;
 		}
@@ -236,11 +232,7 @@ public class FieldPLongFactory
 		return new FieldPLong(inverse, this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.IRingElementFactory#get(long)
-	 */
+	@Override
 	public FieldPLong get(long d)
 	{
 		d = normalize(d, p);

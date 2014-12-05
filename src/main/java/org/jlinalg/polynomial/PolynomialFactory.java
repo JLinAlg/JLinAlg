@@ -76,7 +76,7 @@ public class PolynomialFactory<BASE extends IRingElement<BASE>>
 	 *                if it is attempted to create another factory for the same
 	 *                base type.
 	 */
-	@SuppressWarnings( {
+	@SuppressWarnings({
 			"boxing", "unchecked"
 	})
 	private PolynomialFactory(IRingElementFactory<BASE> baseFactory)
@@ -193,8 +193,8 @@ public class PolynomialFactory<BASE extends IRingElement<BASE>>
 			}
 			BASE baseElement = (BASE) ((Map<?, ?>) o).values().toArray()[0];
 
-			return new Polynomial<BASE>((Map<Integer, BASE>) o, baseElement
-					.getFactory());
+			return new Polynomial<BASE>((Map<Integer, BASE>) o,
+					baseElement.getFactory());
 		}
 		return get(BASEFACTORY.get(o));
 	}

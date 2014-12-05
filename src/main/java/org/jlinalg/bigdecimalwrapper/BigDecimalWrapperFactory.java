@@ -186,11 +186,7 @@ public class BigDecimalWrapperFactory
 		return gaussianRandomValue();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.IRingElementFactory#get(long)
-	 */
+	@Override
 	public BigDecimalWrapper get(long d)
 	{
 		return new BigDecimalWrapper(new BigDecimal(d, mathContext), this);
@@ -209,24 +205,12 @@ public class BigDecimalWrapperFactory
 		return randomValue(min, max);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.IRingElementFactory#gaussianRandomValue()
-	 */
 	@Override
 	public BigDecimalWrapper gaussianRandomValue()
 	{
 		return get(random.nextGaussian());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jlinalg.IRingElementFactory#randomValue(org.jlinalg.IRingElement,
-	 * org.jlinalg.IRingElement)
-	 */
 	@Override
 	public BigDecimalWrapper randomValue(BigDecimalWrapper min,
 			BigDecimalWrapper max)

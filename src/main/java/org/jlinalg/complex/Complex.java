@@ -100,6 +100,7 @@ public class Complex
 	/**
 	 * Returns the result of this Complex added to another one.
 	 */
+	@Override
 	public Complex add(Complex val)
 	{
 		Complex added = val;
@@ -112,6 +113,7 @@ public class Complex
 	/**
 	 * Returns the result of this Complex multiplied with another one.
 	 */
+	@Override
 	public Complex multiply(Complex val)
 	{
 		Complex mult = val;
@@ -123,6 +125,7 @@ public class Complex
 		return new Complex(newRealPart, newImaginaryPart);
 	}
 
+	@Override
 	public Complex negate()
 	{
 		return new Complex(realPart.negate(), imaginaryPart.negate());
@@ -221,6 +224,7 @@ public class Complex
 	 *         the specified object.
 	 */
 
+	@Override
 	public int compareTo(Complex o)
 	{
 		Rational normThis = norm().realPart;
@@ -228,6 +232,7 @@ public class Complex
 		return normThis.compareTo(normOther);
 	}
 
+	@Override
 	public ComplexFactory getFactory()
 	{
 		return FACTORY;
@@ -376,6 +381,7 @@ public class Complex
 		 * @return a complex number with the imaginary part equals to zero
 		 *         * @see org.jlinalg.IRingElementFactory#get(long)
 		 */
+		@Override
 		public Complex get(long d)
 		{
 			return new Complex(d, 0.0);
@@ -406,39 +412,25 @@ public class Complex
 			return randomValue(min, max);
 		}
 
-		/**
-		 * (non-Javadoc)
-		 * 
-		 * @see org.jlinalg.IRingElementFactory#gaussianRandomValue()
-		 */
 		@Override
 		public Complex gaussianRandomValue()
 		{
 			return new Complex(random.nextGaussian(), random.nextGaussian());
 		}
 
-		/**
-		 * @see org.jlinalg.IRingElementFactory#randomValue(org.jlinalg.IRingElement,
-		 *      org.jlinalg.IRingElement)
-		 */
 		@Override
 		public Complex randomValue(Complex min_, Complex max_)
 		{
 			Complex min = min_;
 			Complex max = max_;
-			Rational r = max.realPart.subtract(min.realPart).multiply(
-					Rational.FACTORY.randomValue()).add(min.realPart);
+			Rational r = max.realPart.subtract(min.realPart)
+					.multiply(Rational.FACTORY.randomValue()).add(min.realPart);
 			Rational i = max.imaginaryPart.subtract(min.imaginaryPart)
-					.multiply(Rational.FACTORY.randomValue()).add(
-							min.imaginaryPart);
+					.multiply(Rational.FACTORY.randomValue())
+					.add(min.imaginaryPart);
 			return new Complex(r, i);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.jlinalg.IRingElementFactory#randomValue()
-		 */
 		@Override
 		public Complex randomValue()
 		{

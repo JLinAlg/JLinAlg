@@ -153,11 +153,6 @@ class FieldPLong
 		return inverse;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.FieldP#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object o)
 	{

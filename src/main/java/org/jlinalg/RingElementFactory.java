@@ -31,39 +31,19 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 		return "Factory: " + getClass().getName();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.IRingElementFactory#getArray(int)
-	 */
+	@Override
 	public abstract RE[] getArray(int size);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.IRingElementFactory#getArray(int, int)
-	 */
+	@Override
 	public abstract RE[][] getArray(int rows, int columns);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.IRingElementFactory#one()
-	 */
+	@Override
 	public abstract RE one();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.IRingElementFactory#zero()
-	 */
+	@Override
 	public abstract RE zero();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.IRingElementFactory#m_one()
-	 */
+	@Override
 	public abstract RE m_one();
 
 	/**
@@ -72,6 +52,7 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 	 * 
 	 * @see org.jlinalg.IRingElementFactory#get(java.lang.Object)
 	 */
+	@Override
 	public RE get(Object o)
 	{
 		if (!(o instanceof String)) {
@@ -105,24 +86,17 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 				+ " in factory " + getClass().getCanonicalName());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.IRingElementFactory#get(int)
-	 */
+	@Override
 	public abstract RE get(int i);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jlinalg.IRingElementFactory#get(double)
-	 */
+	@Override
 	public abstract RE get(double d);
 
 	/**
 	 * @deprecated
 	 * @deprecated use {@link #gaussianRandomValue()}
 	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	@Deprecated
 	public abstract RE gaussianRandomValue(Random random);
@@ -130,6 +104,7 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 	/**
 	 * @deprecated use {@link #randomValue()}
 	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	@Deprecated
 	public abstract RE randomValue(Random random);
@@ -142,6 +117,7 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 	 * @return a random value inclusive of min, and exclusive of max for
 	 *         continous domains and inclusive for others.
 	 */
+	@Override
 	public abstract RE randomValue(RE min, RE max);
 
 	/**
@@ -178,6 +154,7 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 	 *            the vector to be converted
 	 * @return a vector of type <RE>
 	 */
+	@Override
 	public Vector<RE> convert(final Vector<? extends IRingElement<?>> from)
 	{
 		Vector<RE> to = new Vector<RE>(from.length(), this);

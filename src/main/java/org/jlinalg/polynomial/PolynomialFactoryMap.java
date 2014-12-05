@@ -20,7 +20,6 @@ class PolynomialFactoryMap<RE extends IRingElement<RE>>
 	/*
 	 * this is a singleton class
 	 */
-	@SuppressWarnings("unchecked")
 	public final static PolynomialFactoryMap<?> INSTANCE = new PolynomialFactoryMap();
 
 	/**

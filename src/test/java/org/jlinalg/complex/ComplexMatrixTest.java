@@ -7,9 +7,8 @@ public class ComplexMatrixTest
 		extends MatrixTestBase<Complex>
 {
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public IRingElementFactory getFactory()
+	public IRingElementFactory<Complex> getFactory()
 	{
 		return Complex.FACTORY;
 	}
