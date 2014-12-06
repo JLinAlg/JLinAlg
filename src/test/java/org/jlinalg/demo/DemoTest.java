@@ -3,14 +3,6 @@
  */
 package org.jlinalg.demo;
 
-import org.jlinalg.demo.EigenvaluesDemo;
-import org.jlinalg.demo.F2Demo;
-import org.jlinalg.demo.FieldPDemo;
-import org.jlinalg.demo.LinearEquationSystemDemo;
-import org.jlinalg.demo.MatrixOperationsDemo;
-import org.jlinalg.demo.PolynomialDemo;
-import org.jlinalg.demo.RandomGradientSearchDemo;
-import org.jlinalg.demo.Xor;
 import org.junit.Test;
 
 /**
@@ -26,13 +18,18 @@ public class DemoTest
 	@Test
 	public void testMain() throws InterruptedException
 	{
+		ArbitraryPrecisionDemo.main(null);
+		CharacteristicPolynomialDemo.main(null);
 		EigenvaluesDemo.main(null);
 		F2Demo.main(null);
 		FieldPDemo.main(null);
+		HilbertMatrixDemo.main(null);
 		LinearEquationSystemDemo.main(null);
 		MatrixOperationsDemo.main(null);
-		Xor.main(null);
 		PolynomialDemo.main(null);
 		RandomGradientSearchDemo.main(null);
+		RationalFunctionDemo.main(null);
+		Xor.main(null);
+
 	}
 }

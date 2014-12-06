@@ -21,16 +21,16 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * @author Georg Thimm
+ * @author Georg Thimm, Andreas Keilhauer
  */
 public abstract class VectorTestBase<RE extends IRingElement<RE>>
 		extends TestBaseFixture<RE>
 {
-	final static String[] vec_0_1_9 = {
+	protected final static String[] vec_0_1_9 = {
 			"0", "1", "9"
 	};
 
-	final static String[] vec_0_1_2 = {
+	protected final static String[] vec_0_1_2 = {
 			"0", "1", "2"
 	};
 
@@ -46,7 +46,7 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	final static String[] vec_1_2_2 = {
 			"1", "2", "2"
 	};
-	final static String[] vec_m1_m2_2 = {
+	protected final static String[] vec_m1_m2_2 = {
 			"-1", "-2", "2"
 	};
 	protected final static String[] vec_m2_3_6 = {
@@ -154,6 +154,18 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 		vec = new Vector<RE>(vec_m1_m2_2, getFactory());
 		norm = vec.L1Norm();
 		assertEquals(getFactory().get("5"), norm);
+	}
+
+	/**
+	 * Test method for {@link org.jlinalg.Vector#L1Norm()}.
+	 */
+	@Test
+	public void testSquaredDistance()
+	{
+		Vector<RE> vec = new Vector<RE>(vec_0_1_9, getFactory());
+		Assume.assumeTrue(dataTypeHasNegativeValues());
+		Vector<RE> vec2 = new Vector<RE>(vec_m1_m2_2, getFactory());
+		assertEquals(getFactory().get("59"), vec.squaredDistance(vec2));
 	}
 
 	/**

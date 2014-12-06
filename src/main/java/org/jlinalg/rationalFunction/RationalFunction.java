@@ -6,6 +6,12 @@ import org.jlinalg.IRingElementFactory;
 import org.jlinalg.InvalidOperationException;
 import org.jlinalg.polynomial.Polynomial;
 
+/**
+ * Class that represents a rational function over a given BASE.
+ * 
+ * @author Andreas Andreas Keilhauer
+ * @param <BASE>
+ */
 public class RationalFunction<BASE extends IRingElement<BASE>>
 		extends FieldElement<RationalFunction<BASE>>
 {
@@ -96,6 +102,18 @@ public class RationalFunction<BASE extends IRingElement<BASE>>
 	public Polynomial<BASE> getDenominator()
 	{
 		return denominator;
+	}
+
+	@Override
+	public RationalFunction<BASE> invert()
+	{
+		return new RationalFunction<BASE>(this.denominator, this.numerator);
+	}
+
+	@Override
+	public String toString()
+	{
+		return this.numerator.toString() + " / " + this.denominator.toString();
 	}
 
 }

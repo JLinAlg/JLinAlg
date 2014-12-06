@@ -191,6 +191,38 @@ public class Vector<RE extends IRingElement<RE>>
 	}
 
 	/**
+	 * Returns the Squared Euclidean distance between this
+	 * Vector and another. This is not a metric as it does not satisfy the
+	 * triangle equation, but it is very useful (e.g. for optimisation
+	 * problems).
+	 * 
+	 * @param anotherVector
+	 * @return MSquared Euclidean distance between this and anotherVector
+	 */
+	public RE squaredDistance(Vector<RE> anotherVector)
+	{
+		RE sum = this.subtract(anotherVector)
+				.apply(((MonadicOperator<RE>) SquareOperator.getInstance()))
+				.sum();
+		return sum;
+	}
+
+	/**
+	 * Returns the Euclidean distance (L2 norm of differences) between this
+	 * Vector and another.
+	 * 
+	 * @param anotherVector
+	 * @return Euclidean distance between this and anotherVector
+	 * @throws InvalidOperationException
+	 *             if Vectors have unequal lengths or RE does not implement the
+	 *             method sqrt()
+	 */
+	public RE distance(Vector<RE> anotherVector)
+	{
+		return subtract(anotherVector).L2Norm();
+	}
+
+	/**
 	 * Returns the cosine between this Vector and another. Cosine is the dot
 	 * product of the vectors, divided by the product of their lengths.
 	 * N.B.: In General this operation will fail, if not all entries are
@@ -1369,4 +1401,5 @@ public class Vector<RE extends IRingElement<RE>>
 			entries[i] = vector.entries[i];
 		}
 	}
+
 }
