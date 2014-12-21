@@ -9,7 +9,7 @@ import org.jlinalg.polynomial.Polynomial;
 /**
  * Class that represents a rational function over a given BASE.
  * 
- * @author Andreas Andreas Keilhauer
+ * @author Andreas Keilhauer
  * @param <BASE>
  */
 public class RationalFunction<BASE extends IRingElement<BASE>>
@@ -24,9 +24,42 @@ public class RationalFunction<BASE extends IRingElement<BASE>>
 	private Polynomial<BASE> numerator;
 	private Polynomial<BASE> denominator;
 
-	public RationalFunction(Polynomial<BASE> numerator,
-			Polynomial<BASE> denominator)
+	/**
+	 * the singleton factory for rational functions
+	 */
+	private final RationalFunctionFactory<BASE> rationalFunctionFactory;
+
+	@SuppressWarnings("unchecked")
+	public RationalFunction(BASE value)
 	{
+		if (value == null) {
+			throw new InvalidOperationException("value cannot be null!");
+		}
+		this.rationalFunctionFactory = (RationalFunctionFactory<BASE>) RationalFunctionFactoryMap.INSTANCE
+				.get(value.getFactory());
+		this.numerator = new Polynomial<BASE>(value);
+		this.denominator = new Polynomial<BASE>(value.getFactory().one());
+	}
+
+	@SuppressWarnings("unchecked")
+	public RationalFunction(Polynomial<BASE> numerator,
+			Polynomial<BASE> denominator,
+			final IRingElementFactory<BASE> baseFactory)
+	{
+		if (baseFactory == null) {
+			throw new InvalidOperationException(
+					"The factory of a Polynomial cannot be null!");
+		}
+		if (numerator == null) {
+			throw new InvalidOperationException(
+					"The numerator of a rational function cannot be null!");
+		}
+		if (denominator == null) {
+			throw new InvalidOperationException(
+					"The denominator of a rational function cannot be null!");
+		}
+		this.rationalFunctionFactory = (RationalFunctionFactory<BASE>) RationalFunctionFactoryMap.INSTANCE
+				.get(baseFactory);
 		this.numerator = numerator;
 		this.denominator = denominator;
 	}
@@ -42,14 +75,15 @@ public class RationalFunction<BASE extends IRingElement<BASE>>
 		gcdBD = b.gcd(d);
 		p1 = a.multiply(d.divide(gcdBD)).add(c.multiply(b.divide(gcdBD)));
 		q1 = b.multiply(d).divide(gcdBD);
-		return new RationalFunction<BASE>(p1, q1);
+		return new RationalFunction<BASE>(p1, q1,
+				rationalFunctionFactory.BASEFACTORY);
 	}
 
 	@Override
 	public RationalFunction<BASE> negate()
 	{
 		return new RationalFunction<BASE>(this.numerator.negate(),
-				this.denominator);
+				this.denominator, rationalFunctionFactory.BASEFACTORY);
 	}
 
 	@Override
@@ -61,7 +95,24 @@ public class RationalFunction<BASE extends IRingElement<BASE>>
 				factor.getNumerator().divide(d2));
 		Polynomial<BASE> newDenominator = this.denominator.divide(d2).multiply(
 				factor.getDenominator().divide(d1));
-		return new RationalFunction<BASE>(newNumerator, newDenominator);
+		return new RationalFunction<BASE>(newNumerator, newDenominator,
+				rationalFunctionFactory.BASEFACTORY);
+	}
+
+	/**
+	 * The degree of a rational function is the maximum of the degrees of the
+	 * numerator and the denominator polynomials.
+	 * 
+	 * @return the degree of this RationalFunction
+	 */
+	public int degree()
+	{
+		int degreeNumerator = this.getNumerator().getDegree();
+		int degreeDenominator = this.getDenominator().getDegree();
+		if (degreeNumerator > degreeDenominator) {
+			return degreeNumerator;
+		}
+		return degreeDenominator;
 	}
 
 	@Override
@@ -74,10 +125,35 @@ public class RationalFunction<BASE extends IRingElement<BASE>>
 		double ratio1 = degreeNumerator1 / degreeDenominator1;
 		double ratio2 = degreeNumerator2 / degreeDenominator2;
 		if (ratio1 == ratio2) {
-			// TODO: Continue here
-			return 0;
+			BASE coefficientNumerator1 = this.getNumerator()
+					.getHighestCoefficient();
+			BASE coefficientDenominator1 = this.getDenominator()
+					.getHighestCoefficient();
+			BASE coefficientNumerator2 = o.getNumerator()
+					.getHighestCoefficient();
+			BASE coefficientDenominator2 = o.getDenominator()
+					.getHighestCoefficient();
+			BASE compareRatio = coefficientNumerator1.multiply(
+					coefficientDenominator2).subtract(
+					coefficientDenominator1.multiply(coefficientNumerator2));
+			if (compareRatio.isZero()) {
+				return this.withoutHighestPower().compareTo(
+						o.withoutHighestPower());
+			}
+			BASE zero = compareRatio.getFactory().zero();
+			if (compareRatio.lt(zero)) {
+				return -1;
+			}
+			return 1;
 		}
 		return new Double(ratio1).compareTo(new Double(ratio2));
+	}
+
+	public RationalFunction<BASE> withoutHighestPower()
+	{
+		return new RationalFunction<BASE>(numerator.withoutHighestPower(),
+				denominator.withoutHighestPower(),
+				rationalFunctionFactory.BASEFACTORY);
 	}
 
 	@Override
@@ -90,8 +166,7 @@ public class RationalFunction<BASE extends IRingElement<BASE>>
 	@Override
 	public IRingElementFactory<RationalFunction<BASE>> getFactory()
 	{
-		// TODO: Add Factory here
-		return null;
+		return rationalFunctionFactory;
 	}
 
 	public Polynomial<BASE> getNumerator()
@@ -107,13 +182,15 @@ public class RationalFunction<BASE extends IRingElement<BASE>>
 	@Override
 	public RationalFunction<BASE> invert()
 	{
-		return new RationalFunction<BASE>(this.denominator, this.numerator);
+		return new RationalFunction<BASE>(this.denominator, this.numerator,
+				rationalFunctionFactory.BASEFACTORY);
 	}
 
 	@Override
 	public String toString()
 	{
-		return this.numerator.toString() + " / " + this.denominator.toString();
+		return "(" + this.numerator.toString() + ") / ("
+				+ this.denominator.toString() + ")";
 	}
 
 }

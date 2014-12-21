@@ -198,21 +198,20 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 					&& this.getHighestCoefficient().equals(
 							other.getHighestCoefficient()))
 			{
-				Polynomial<BASE> thisWithoutHightestPower = new Polynomial<BASE>(
-						this.getCoefficientsForExponents().headMap(
-								this.getHighestPower()), this
-								.getPolynomialFactory().getBaseFactory());
-				Polynomial<BASE> otherWithoutHightestPower = new Polynomial<BASE>(
-						other.getCoefficientsForExponents().headMap(
-								other.getHighestPower()), other
-								.getPolynomialFactory().getBaseFactory());
-				return thisWithoutHightestPower
-						.compareTo(otherWithoutHightestPower);
+				return this.withoutHighestPower().compareTo(
+						other.withoutHighestPower());
 			}
 			return this.getHighestCoefficient().compareTo(
 					other.getHighestCoefficient());
 		}
 		return this.getDegree() - other.getDegree();
+	}
+
+	public Polynomial<BASE> withoutHighestPower()
+	{
+		return new Polynomial<BASE>(this.getCoefficientsForExponents().headMap(
+				this.getHighestPower()), this.getPolynomialFactory()
+				.getBaseFactory());
 	}
 
 	@Override
