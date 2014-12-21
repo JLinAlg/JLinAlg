@@ -217,7 +217,7 @@ public class RationalFunctionFactory<BASE extends IRingElement<BASE>>
 	public boolean equals(Object obj)
 	{
 		if (this == obj) return true;
-		if (!(obj instanceof PolynomialFactory)) return false;
+		if (!(obj instanceof RationalFunctionFactory)) return false;
 		return BASEFACTORY.equals(((RationalFunctionFactory<BASE>) obj)
 				.getBaseFactory());
 	}
