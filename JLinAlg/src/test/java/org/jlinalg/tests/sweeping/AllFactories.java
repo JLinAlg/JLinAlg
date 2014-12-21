@@ -11,6 +11,7 @@ import org.jlinalg.fastrational.FastRational;
 import org.jlinalg.field_p.FieldPFactoryMap;
 import org.jlinalg.polynomial.PolynomialFactory;
 import org.jlinalg.rational.Rational;
+import org.jlinalg.rationalFunction.RationalFunctionFactory;
 
 public class AllFactories
 {
@@ -39,6 +40,10 @@ public class AllFactories
 					PolynomialFactory.getFactory(Rational.FACTORY)
 				}, {
 					PolynomialFactory.getFactory(DoubleWrapper.FACTORY)
+				}, {
+					RationalFunctionFactory.getFactory(Rational.FACTORY)
+				}, {
+					RationalFunctionFactory.getFactory(DoubleWrapper.FACTORY)
 				}
 		};
 		return Arrays.asList(data_);

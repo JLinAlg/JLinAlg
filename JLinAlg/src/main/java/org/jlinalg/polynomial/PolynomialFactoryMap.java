@@ -20,7 +20,7 @@ class PolynomialFactoryMap<RE extends IRingElement<RE>>
 	/*
 	 * this is a singleton class
 	 */
-	public final static PolynomialFactoryMap<?> INSTANCE = new PolynomialFactoryMap();
+	public final static PolynomialFactoryMap<?> INSTANCE = new PolynomialFactoryMap<>();
 
 	/**
 	 * No second instance of this class should be created
@@ -28,6 +28,13 @@ class PolynomialFactoryMap<RE extends IRingElement<RE>>
 	private PolynomialFactoryMap()
 	{
 		super();
+	}
+
+	@Override
+	public PolynomialFactory<RE> put(IRingElementFactory<RE> key,
+			PolynomialFactory<RE> value)
+	{
+		return super.put(key, value);
 	}
 
 }
