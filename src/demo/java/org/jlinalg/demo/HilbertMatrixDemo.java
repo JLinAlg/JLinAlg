@@ -40,9 +40,9 @@ public class HilbertMatrixDemo
 					factoryRational.ones(dimension));
 			// System.out.println(solutionExact);
 
-			System.out.println("d = "
+			System.out.println("dimension = "
 					+ dimension
-					+ ": "
+					+ " -> error =  "
 					+ solutionExact.squaredDistance(convert(solution))
 							.doubleValue());
 		}
