@@ -157,6 +157,7 @@
     each other.</li>
   <li><a href="Xor.html">Xor.java</a>: Exclusive-Or neural net problem using JLinAlg.</li>
   <li><a href="HilbertMatrixDemo.java.html">HilbertMatrixDemo.java</a>: This demo shows how the squared distance between the real solution of an equation system to the one that is found when using floating point arithmetic, grows exponentially when the dimension of the Hilbert matrix increases.</li>
+  <li><a href="ArbitraryPrecisionDemo.java.html">ArbitraryPrecisionDemo.java</a>: Demonstration that shows how quickly floating point numbers can cause rounding errors and how you can avoid these using arbitrary precision (Rational).
 </ul>
 
 <a name="Members"></a>	
