@@ -177,11 +177,12 @@
 <ul>
   <li> <a href="https://sourceforge.net/projects/jlinalg/" target="_blank">JLinAlg 
     at Sourceforge</a>: Project website at Sourceforge</li>
+  <li> <a href="http://whatsoftwarecando.org/?cat=47">Articles about JLinAlg</a> on WhatSoftwareCanDo.org.</li>
   <li> <a href="http://www.keilhauer.eu/ProPra" target="_blank">Regression 2003</a>: Program for regression analysis (uses JLinAlg)</li>
   <li> <a href="http://snarli.sourceforge.net" target="_blank">SNARLI</a>: Java-library 
     for neural networks (uses JLinALg)</li>
     <li><a href="http://www.adam.ntu.edu.sg/~mgeorg/">Crystal Net tools</a> analyse auto- and isomorphisms of infinite nets (representing often crystals ;-) and needs vectors and matrices with rational numbers for this.
-  <li> ... your own project is still missing? Use our <a href="https://sourceforge.net/forum/?group_id=71387">forums</a> at Sourceforge and tell us about it!</li>
+  <li> <a href="http://krum.rz.uni-mannheim.de/jas/">JAS</a>: The Java Algebra System (JAS) is an object oriented, type safe and multi-threaded approach to computer algebra. It also has an <a href="http://krum.rz.uni-mannheim.de/jas/download.html">adapter for JLinAlg</a>.
 </ul>
 <br>
 <hr>
