@@ -2,7 +2,7 @@
 <html>
 <head>
 <META http-equiv=Content-Type content="text/html; charset=UTF-8">
-<title>Exported from Notepad++</title>
+<title>HilbertMatrixDemo.java</title>
 <style type="text/css">
 span {
 	font-family: 'Courier New';
@@ -10,9 +10,6 @@ span {
 	color: #000000;
 }
 .sc0 {
-}
-.sc2 {
-	color: #008000;
 }
 .sc3 {
 	color: #008080;
@@ -73,17 +70,14 @@ span {
                     </span><span class="sc11">m</span><span class="sc10">.</span><span class="sc11">getFactory</span><span class="sc10">());</span><span class="sc0">
             </span><span class="sc11">Vector</span><span class="sc10">&lt;</span><span class="sc11">DoubleWrapper</span><span class="sc10">&gt;</span><span class="sc0"> </span><span class="sc11">solution</span><span class="sc0"> </span><span class="sc10">=</span><span class="sc0"> </span><span class="sc11">LinSysSolver</span><span class="sc10">.</span><span class="sc11">solve</span><span class="sc10">(</span><span class="sc11">m</span><span class="sc10">,</span><span class="sc0">
                     </span><span class="sc11">factory</span><span class="sc10">.</span><span class="sc11">ones</span><span class="sc10">(</span><span class="sc11">dimension</span><span class="sc10">));</span><span class="sc0">
-            </span><span class="sc2">// System.out.println(solution);
-</span><span class="sc0">
+
             </span><span class="sc11">Matrix</span><span class="sc10">&lt;</span><span class="sc11">Rational</span><span class="sc10">&gt;</span><span class="sc0"> </span><span class="sc11">mExact</span><span class="sc0"> </span><span class="sc10">=</span><span class="sc0"> </span><span class="sc11">createHilbertMatrix</span><span class="sc10">(</span><span class="sc11">dimension</span><span class="sc10">,</span><span class="sc0">
                     </span><span class="sc11">Rational</span><span class="sc10">.</span><span class="sc11">FACTORY</span><span class="sc10">);</span><span class="sc0">
-            </span><span class="sc2">// System.out.println(mExact);
-</span><span class="sc0">            </span><span class="sc11">LinAlgFactory</span><span class="sc10">&lt;</span><span class="sc11">Rational</span><span class="sc10">&gt;</span><span class="sc0"> </span><span class="sc11">factoryRational</span><span class="sc0"> </span><span class="sc10">=</span><span class="sc0"> </span><span class="sc5">new</span><span class="sc0"> </span><span class="sc11">LinAlgFactory</span><span class="sc10">&lt;&gt;(</span><span class="sc0">
+            </span><span class="sc11">LinAlgFactory</span><span class="sc10">&lt;</span><span class="sc11">Rational</span><span class="sc10">&gt;</span><span class="sc0"> </span><span class="sc11">factoryRational</span><span class="sc0"> </span><span class="sc10">=</span><span class="sc0"> </span><span class="sc5">new</span><span class="sc0"> </span><span class="sc11">LinAlgFactory</span><span class="sc10">&lt;&gt;(</span><span class="sc0">
                     </span><span class="sc11">mExact</span><span class="sc10">.</span><span class="sc11">getFactory</span><span class="sc10">());</span><span class="sc0">
             </span><span class="sc11">Vector</span><span class="sc10">&lt;</span><span class="sc11">Rational</span><span class="sc10">&gt;</span><span class="sc0"> </span><span class="sc11">solutionExact</span><span class="sc0"> </span><span class="sc10">=</span><span class="sc0"> </span><span class="sc11">LinSysSolver</span><span class="sc10">.</span><span class="sc11">solve</span><span class="sc10">(</span><span class="sc11">mExact</span><span class="sc10">,</span><span class="sc0">
                     </span><span class="sc11">factoryRational</span><span class="sc10">.</span><span class="sc11">ones</span><span class="sc10">(</span><span class="sc11">dimension</span><span class="sc10">));</span><span class="sc0">
-            </span><span class="sc2">// System.out.println(solutionExact);
-</span><span class="sc0">
+
             </span><span class="sc11">System</span><span class="sc10">.</span><span class="sc11">out</span><span class="sc10">.</span><span class="sc11">println</span><span class="sc10">(</span><span class="sc6">"dimension = "</span><span class="sc0">
                     </span><span class="sc10">+</span><span class="sc0"> </span><span class="sc11">dimension</span><span class="sc0">
                     </span><span class="sc10">+</span><span class="sc0"> </span><span class="sc6">" -&gt; error =  "</span><span class="sc0">

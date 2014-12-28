@@ -29,16 +29,13 @@ public class HilbertMatrixDemo
 					m.getFactory());
 			Vector<DoubleWrapper> solution = LinSysSolver.solve(m,
 					factory.ones(dimension));
-			// System.out.println(solution);
 
 			Matrix<Rational> mExact = createHilbertMatrix(dimension,
 					Rational.FACTORY);
-			// System.out.println(mExact);
 			LinAlgFactory<Rational> factoryRational = new LinAlgFactory<>(
 					mExact.getFactory());
 			Vector<Rational> solutionExact = LinSysSolver.solve(mExact,
 					factoryRational.ones(dimension));
-			// System.out.println(solutionExact);
 
 			System.out.println("dimension = "
 					+ dimension

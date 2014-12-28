@@ -12,8 +12,8 @@ import org.jlinalg.rational.Rational;
  */
 public class ArbitraryPrecisionDemo
 {
-	private static String INTERMEDIATE_CALCULATION_STR = "(3 / 5000) * 5000";
-	private static String FIRST_CALCULATION_STR = "1 / ((3 / 5000) * 5000 + 3)";
+	private final static String INTERMEDIATE_CALCULATION_STR = "(3 / 5000) * 5000";
+	private final static String FIRST_CALCULATION_STR = "1 / ((3 / 5000) * 5000 + 3)";
 
 	/**
 	 * start the demonstration
