@@ -14,7 +14,7 @@
 <div align="center"> 
   This is the one and only homepage of the JLinAlg-project,<br>
     an open source and easy-to-use Java-library for linear algebra that<br>
-    is licensed under the <a href="http://www.gnu.org/copyleft/gpl.html" target="_blank">GNU General Public License</a> (GPL).
+    is licensed under the <a href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</a> (GPL).
 </div>
 <br>
 <br>
@@ -123,7 +123,7 @@
   <li><a href="http://sourceforge.net/projects/jlinalg/files/jlinalg_0.6.zip/download">JLinAlg-v0.6</a>: 
     The complete source code including Eclipse project files, the API as a jar-file and javadoc in one zip-file.</li>
 	
-  <li><a href="https://sourceforge.net/project/showfiles.php?group_id=71387" target="_blank">Earlier 
+  <li><a href="https://sourceforge.net/project/showfiles.php?group_id=71387">Earlier 
     versions</a>: Other releases at Sourceforge.</li>
 </ul>
 <a name="Documentation"></a>
@@ -131,9 +131,9 @@
  
 <h2>Documentation</h2>
 <ul>
-  	<li><a href="/javadocs" target="_blank">JLinalg API-Documentation</a> (generated Javadoc): Quite 
+  	<li><a href="/javadocs">JLinalg API-Documentation</a> (generated Javadoc): Quite 
     thorough documentation of every method and constructor.</li>
-  	<li>Browse the history of our <a href="http://sourceforge.net/p/jlinalg/code/HEAD/tree/">SVN repository</a> or, even further back, the one in our old <a href="http://jlinalg.cvs.sourceforge.net/jlinalg/" target="_blank">CVS repository</a>.</li>
+  	<li>Browse the history of our <a href="http://sourceforge.net/p/jlinalg/code/HEAD/tree/">SVN repository</a> or, even further back, the one in our old <a href="http://jlinalg.cvs.sourceforge.net/jlinalg/">CVS repository</a>.</li>
 </ul>
 <a name="Examples"></a>
  
@@ -162,8 +162,8 @@
 
 <a name="Members"></a>	
 <h2>Project Members</h2>
-<ul><li><a href="http://www.keilhauer.eu" target="_blank">Andreas Keilhauer</a>: Freelance software engineer and founder of JLinAlg, Germany</li>
-	<li><a href="http://www.cs.wlu.edu/~levy" target="_blank">Simon D. Levy</a>: Assoc. Professor, Washington and Lee University, USA</li>
+<ul><li><a href="http://www.keilhauer.eu">Andreas Keilhauer</a>: Freelance software engineer and founder of JLinAlg, Germany</li>
+	<li><a href="http://www.cs.wlu.edu/~levy">Simon D. Levy</a>: Assoc. Professor, Washington and Lee University, USA</li>
 	<li><a href="http://pp.info.uni-karlsruhe.de/personhp/andreas_lochbihler.php">Andreas Lochbihler</a>: Postdoc at the ETH Zurich, Switzerland</li>
 	<li><a href="mailto:oekmen@in.tum.de">Safak &Ouml;kmen</a>: Computer Scientist, TU Munich, Germany.
 	<li><a href="http://www.adam.ntu.edu.sg/~mgeorg">Georg Lothar Thimm</a>: Asst. Professor, Nanyang Technological University, Singapore</li>
@@ -175,11 +175,11 @@
  
 <h2>Links</h2>
 <ul>
-  <li> <a href="https://sourceforge.net/projects/jlinalg/" target="_blank">JLinAlg 
+  <li> <a href="https://sourceforge.net/projects/jlinalg/">JLinAlg 
     at Sourceforge</a>: Project website at Sourceforge</li>
   <li> <a href="http://whatsoftwarecando.org/?cat=47">Articles about JLinAlg</a> on WhatSoftwareCanDo.org.</li>
-  <li> <a href="http://www.keilhauer.eu/ProPra" target="_blank">Regression 2003</a>: Program for regression analysis (uses JLinAlg)</li>
-  <li> <a href="http://snarli.sourceforge.net" target="_blank">SNARLI</a>: Java-library 
+  <li> <a href="http://www.keilhauer.eu/ProPra">Regression 2003</a>: Program for regression analysis (uses JLinAlg)</li>
+  <li> <a href="http://snarli.sourceforge.net">SNARLI</a>: Java-library 
     for neural networks (uses JLinALg)</li>
     <li><a href="http://www.adam.ntu.edu.sg/~mgeorg/">Crystal Net tools</a> analyse auto- and isomorphisms of infinite nets (representing often crystals ;-) and needs vectors and matrices with rational numbers for this.
   <li> <a href="http://krum.rz.uni-mannheim.de/jas/">JAS</a>: The Java Algebra System (JAS) is an object oriented, type safe and multi-threaded approach to computer algebra. It also has an <a href="http://krum.rz.uni-mannheim.de/jas/download.html">adapter for JLinAlg</a>.
