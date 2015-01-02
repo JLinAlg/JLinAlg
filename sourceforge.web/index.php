@@ -1,8 +1,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>JLinAlg</title>
+<title>JLinAlg - Open Source And Easy-to-Use Java-library For Linear Algebra</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="description" content="JLinAlg - Open Source And Easy-to-Use Java Library For Linear Algebra">
 <link href="common.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -12,9 +13,8 @@
 <br>
 <br>
 <div align="center"> 
-  This is the one and only homepage of the JLinAlg-project,<br>
-    an open source and easy-to-use Java-library for linear algebra that<br>
-    is licensed under the <a href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</a> (GPL).
+  JLinAlg is an open source and easy-to-use Java library for linear algebra.<br>
+    It is licensed under the <a href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</a> (GPL).
 </div>
 <br>
 <br>
