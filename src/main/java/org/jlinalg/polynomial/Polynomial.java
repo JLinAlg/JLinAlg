@@ -498,6 +498,14 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 			return another.gcd(this);
 		}
 
+		if (another.isZero()) {
+			return this;
+		}
+
+		if (another.isOne()) {
+			return another;
+		}
+
 		final PolynomialLongDivisionResult<BASE> divisionResult = this
 				.longDivision(another);
 		final Polynomial<BASE> remainder = divisionResult.getRemainder();
