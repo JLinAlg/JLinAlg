@@ -14,7 +14,7 @@ import org.jlinalg.IRingElementFactory;
  * @author Georg THimm (2008)
  */
 @SuppressWarnings("serial")
-class PolynomialFactoryMap<RE extends IRingElement<RE>>
+public class PolynomialFactoryMap<RE extends IRingElement<RE>>
 		extends Hashtable<IRingElementFactory<RE>, PolynomialFactory<RE>>
 {
 	/*

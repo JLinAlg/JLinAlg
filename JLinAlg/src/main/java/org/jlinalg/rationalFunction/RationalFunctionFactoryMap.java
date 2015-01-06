@@ -32,4 +32,11 @@ public class RationalFunctionFactoryMap<RE extends IRingElement<RE>>
 	{
 		super();
 	}
+
+	@Override
+	public RationalFunctionFactory<RE> put(IRingElementFactory<RE> key,
+			RationalFunctionFactory<RE> value)
+	{
+		return super.put(key, value);
+	}
 }

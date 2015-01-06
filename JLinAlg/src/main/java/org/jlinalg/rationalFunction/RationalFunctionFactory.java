@@ -1,5 +1,6 @@
 package org.jlinalg.rationalFunction;
 
+import java.util.Map;
 import java.util.Random;
 
 import org.jlinalg.IRingElement;
@@ -144,6 +145,52 @@ public class RationalFunctionFactory<BASE extends IRingElement<BASE>>
 			Polynomial<BASE> denominator, IRingElementFactory<BASE> basefactory)
 	{
 		return new RationalFunction<BASE>(numerator, denominator, basefactory);
+	}
+
+	/**
+	 * Create a rational function with a given numerator. The denominator will
+	 * be set to one.
+	 * 
+	 * @param numerator
+	 * @param basefactory
+	 * @return the polynomial created from the map.
+	 */
+	public RationalFunction<BASE> get(Polynomial<BASE> numerator,
+			IRingElementFactory<BASE> basefactory)
+	{
+		return new RationalFunction<BASE>(numerator, basefactory);
+	}
+
+	/**
+	 * Create a RationalFunction from a {@link Map}<Integer,? extends
+	 * {@link IRingElement}> or an instance of {@link IRingElement}. <BR>
+	 * Preferred method: {@link #get(Map, IRingElementFactory)}
+	 * 
+	 * @param o
+	 *            an object which can be translated into a coefficient for this
+	 *            polynomial.
+	 * @return a polynomial consisting of a single constant: the value of
+	 *         <code>o</code>
+	 */
+	@Override
+	public RationalFunction<BASE> get(Object o)
+	{
+		if (o instanceof IRingElement<?>) {
+			return new RationalFunction<BASE>((BASE) o);
+		}
+
+		if (o instanceof Map<?, ?>) {
+			if (((Map<?, ?>) o).isEmpty()) {
+				throw new InvalidOperationException(
+						"can not create a polynomial from an empty map");
+			}
+			BASE baseElement = (BASE) ((Map<?, ?>) o).values().toArray()[0];
+
+			return new RationalFunction<BASE>(new Polynomial<BASE>(
+					(Map<Integer, BASE>) o, baseElement.getFactory()),
+					baseElement.getFactory());
+		}
+		return get(BASEFACTORY.get(o));
 	}
 
 	@Override

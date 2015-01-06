@@ -3,6 +3,7 @@
  */
 package org.jlinalg.polynomial;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assume.assumeTrue;
 
 import java.util.Arrays;
@@ -107,5 +108,14 @@ public class PolynomialTest<RE extends IRingElement<RE>>
 	{
 		assumeTrue(!(getFactory().getBaseFactory() instanceof ComplexFactory));
 		super.testLe_base();
+	}
+
+	@Test
+	public void testGcd()
+	{
+		assertEquals(getFactory().get(5),
+				getFactory().get(0).gcd(getFactory().get(5)));
+		assertEquals(getFactory().get(1),
+				getFactory().get(1).gcd(getFactory().get(5)));
 	}
 }

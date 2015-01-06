@@ -5,6 +5,7 @@ import org.jlinalg.IRingElement;
 import org.jlinalg.IRingElementFactory;
 import org.jlinalg.InvalidOperationException;
 import org.jlinalg.polynomial.Polynomial;
+import org.jlinalg.polynomial.PolynomialFactoryMap;
 
 /**
  * Class that represents a rational function over a given BASE.
@@ -64,6 +65,14 @@ public class RationalFunction<BASE extends IRingElement<BASE>>
 		this.denominator = denominator;
 	}
 
+	@SuppressWarnings("unchecked")
+	public RationalFunction(Polynomial<BASE> numerator,
+			final IRingElementFactory<BASE> baseFactory)
+	{
+		this(numerator, (Polynomial<BASE>) PolynomialFactoryMap.INSTANCE.get(
+				baseFactory).one(), baseFactory);
+	}
+
 	@Override
 	public RationalFunction<BASE> add(RationalFunction<BASE> added)
 	{
@@ -118,49 +127,110 @@ public class RationalFunction<BASE extends IRingElement<BASE>>
 	@Override
 	public int compareTo(RationalFunction<BASE> o)
 	{
-		double degreeNumerator1 = this.getNumerator().getDegree();
-		double degreeNumerator2 = o.getNumerator().getDegree();
-		double degreeDenominator1 = this.getDenominator().getDegree();
-		double degreeDenominator2 = o.getDenominator().getDegree();
-		double ratio1 = degreeNumerator1 / degreeDenominator1;
-		double ratio2 = degreeNumerator2 / degreeDenominator2;
-		if (ratio1 == ratio2) {
-			BASE coefficientNumerator1 = this.getNumerator()
-					.getHighestCoefficient();
-			BASE coefficientDenominator1 = this.getDenominator()
-					.getHighestCoefficient();
-			BASE coefficientNumerator2 = o.getNumerator()
-					.getHighestCoefficient();
-			BASE coefficientDenominator2 = o.getDenominator()
-					.getHighestCoefficient();
-			BASE compareRatio = coefficientNumerator1.multiply(
-					coefficientDenominator2).subtract(
-					coefficientDenominator1.multiply(coefficientNumerator2));
-			if (compareRatio.isZero()) {
+		int degreeNumerator1 = this.getNumerator().getDegree();
+		int degreeDenominator1 = this.getDenominator().getDegree();
+		int degreeNumerator2 = o.getNumerator().getDegree();
+		int degreeDenominator2 = o.getDenominator().getDegree();
+		int degree1Compared = degreeNumerator1 - degreeDenominator1;
+		int degree2Compared = degreeNumerator2 - degreeDenominator2;
+		if (degree1Compared == degree2Compared) {
+			BASE coefficientNumerator1 = null;
+			BASE coefficientDenominator1 = null;
+			IRingElementFactory<BASE> baseFactory = ((RationalFunctionFactory<BASE>) o
+					.getFactory()).getBaseFactory();
+			if (degree1Compared == 0) {
+				coefficientNumerator1 = this.getNumerator()
+						.getHighestCoefficient();
+				coefficientDenominator1 = this.getDenominator()
+						.getHighestCoefficient();
+			}
+			else if (degreeNumerator1 > 0) {
+				coefficientNumerator1 = this.getNumerator()
+						.getHighestCoefficient();
+				coefficientDenominator1 = baseFactory.one();
+			}
+			else {
+				coefficientNumerator1 = baseFactory.one();
+				coefficientDenominator1 = this.getDenominator()
+						.getHighestCoefficient();
+			}
+			BASE coefficientNumerator2 = null;
+			BASE coefficientDenominator2 = null;
+			if (degree2Compared == 0) {
+				coefficientNumerator2 = o.getNumerator()
+						.getHighestCoefficient();
+				coefficientDenominator2 = o.getDenominator()
+						.getHighestCoefficient();
+			}
+			else if (degree2Compared > 0) {
+				coefficientNumerator2 = o.getNumerator()
+						.getHighestCoefficient();
+				coefficientDenominator2 = baseFactory.one();
+			}
+			else {
+				coefficientNumerator2 = baseFactory.one();
+				coefficientDenominator2 = o.getDenominator()
+						.getHighestCoefficient();
+			}
+			BASE leftSide = coefficientNumerator1
+					.multiply(coefficientDenominator2);
+			BASE rightSide = coefficientDenominator1
+					.multiply(coefficientNumerator2);
+			if (leftSide.equals(rightSide)) {
+				if (coefficientNumerator1.isZero()) {
+					return 0;
+				}
 				return this.withoutHighestPower().compareTo(
 						o.withoutHighestPower());
 			}
-			BASE zero = compareRatio.getFactory().zero();
-			if (compareRatio.lt(zero)) {
+			if (leftSide.lt(rightSide)) {
 				return -1;
 			}
 			return 1;
 		}
-		return new Double(ratio1).compareTo(new Double(ratio2));
+		return new Double(degree1Compared)
+				.compareTo(new Double(degree2Compared));
+	}
+
+	@Override
+	public boolean isZero()
+	{
+		return this.numerator.isZero();
 	}
 
 	public RationalFunction<BASE> withoutHighestPower()
 	{
-		return new RationalFunction<BASE>(numerator.withoutHighestPower(),
-				denominator.withoutHighestPower(),
-				rationalFunctionFactory.BASEFACTORY);
+		if (numerator.getDegree() > denominator.getDegree()) {
+			return new RationalFunction<BASE>(numerator.withoutHighestPower(),
+					denominator, rationalFunctionFactory.BASEFACTORY);
+		}
+		else if (numerator.getDegree() < denominator.getDegree()) {
+			return new RationalFunction<BASE>(numerator,
+					denominator.withoutHighestPower(),
+					rationalFunctionFactory.BASEFACTORY);
+		}
+		else {
+			return new RationalFunction<BASE>(numerator.withoutHighestPower(),
+					denominator.withoutHighestPower(),
+					rationalFunctionFactory.BASEFACTORY);
+		}
+
 	}
 
+	@Deprecated
 	@Override
 	public RationalFunction<BASE> abs()
 	{
 		throw new InvalidOperationException(
 				"The Abs() of a rational function is not a rational function anymore.");
+	}
+
+	@Override
+	@Deprecated
+	public RationalFunction<BASE> norm()
+	{
+		throw new InvalidOperationException(
+				"The function norm() is not implemented for polynomials.");
 	}
 
 	@Override
@@ -193,4 +263,15 @@ public class RationalFunction<BASE extends IRingElement<BASE>>
 				+ this.denominator.toString() + ")";
 	}
 
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((denominator == null) ? 0 : denominator.hashCode());
+		result = prime * result
+				+ ((numerator == null) ? 0 : numerator.hashCode());
+		return result;
+	}
 }
