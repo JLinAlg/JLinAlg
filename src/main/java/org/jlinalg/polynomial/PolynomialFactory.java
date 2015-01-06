@@ -173,17 +173,15 @@ public class PolynomialFactory<BASE extends IRingElement<BASE>>
 	 * @return a polynomial consisting of a single constant: the value of
 	 *         <code>o</code>
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public Polynomial<BASE> get(Object o)
 	{
 		// create a polynomial consisting of a single constant.
 		if (o instanceof IRingElement<?>) {
-			IRingElement<?> e = (IRingElement<?>) o;
-			Map<Integer, IRingElement<?>> coefficientForOne = new HashMap<Integer, IRingElement<?>>();
+			BASE e = (BASE) o;
+			Map<Integer, BASE> coefficientForOne = new HashMap<Integer, BASE>();
 			coefficientForOne.put(new Integer(0), e);
-			return new Polynomial<BASE>((Map<Integer, BASE>) coefficientForOne,
-					(IRingElementFactory<BASE>) e.getFactory());
+			return new Polynomial<BASE>(coefficientForOne, e.getFactory());
 		}
 
 		if (o instanceof Map<?, ?>) {
