@@ -13,8 +13,8 @@
 <br>
 <br>
 <div align="center"> 
-  JLinAlg is an open source and easy-to-use Java library for linear algebra.<br>
-    It is licensed under the <a href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</a> (GPL).
+JLinAlg is an open source and easy to use Java library for linear algebra.<br>
+It is licensed under the <a href="http://www.gnu.org/copyleft/lgpl.html"><strong>LGPL</strong></a> (changed from GPL on December, 10th 2015).
 </div>
 <br>
 <br>
@@ -177,7 +177,7 @@
 <ul>
   <li> <a href="https://sourceforge.net/projects/jlinalg/">JLinAlg 
     at Sourceforge</a>: Project website at Sourceforge</li>
-  <li> <a href="http://whatsoftwarecando.org/?cat=47">Articles about JLinAlg</a> on WhatSoftwareCanDo.org.</li>
+  <li> <a href="http://www.whatsoftwarecando.org/?cat=47">Articles about JLinAlg</a> on <a href="http://www.whatsoftwarecando.org">WhatSoftwareCanDo.org</a></li>
   <li> <a href="http://www.keilhauer.eu/ProPra">Regression 2003</a>: Program for regression analysis (uses JLinAlg)</li>
   <li> <a href="http://snarli.sourceforge.net">SNARLI</a>: Java-library 
     for neural networks (uses JLinALg)</li>
