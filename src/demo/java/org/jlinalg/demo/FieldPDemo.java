@@ -1,10 +1,18 @@
-/**
- * This demonstration of the class FieldP shows that in vector spaces over
- * finite fields there can be linear dependent vectors which are all orthogonal
- * to each other.<br>
- * This also demonstrates the use of a dynamic factory
+/*
+ * This file is part of JLinAlg (<http://jlinalg.sourceforge.net/>).
  * 
- * @author Andreas Lochbihler, Georg Thimm
+ * JLinAlg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * 
+ * JLinAlg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with JLinALg. If not, see <http://www.gnu.org/licenses/>.
  */
 package org.jlinalg.demo;
 
@@ -14,6 +22,14 @@ import org.jlinalg.field_p.FieldP;
 import org.jlinalg.field_p.FieldPAbstractFactory;
 import org.jlinalg.field_p.FieldPFactoryMap;
 
+/**
+ * This demonstration of the class FieldP shows that in vector spaces over
+ * finite fields there can be linear dependent vectors which are all orthogonal
+ * to each other.<br>
+ * This also demonstrates the use of a dynamic factory
+ * 
+ * @author Andreas Lochbihler, Georg Thimm
+ */
 public class FieldPDemo
 {
 	/**

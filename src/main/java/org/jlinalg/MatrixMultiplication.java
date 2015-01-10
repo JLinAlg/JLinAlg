@@ -1,25 +1,20 @@
-package org.jlinalg;
-
 /*
- * Copyright 2008, Andreas Keilhauer, Marco Bodrato
+ * This file is part of JLinAlg (<http://jlinalg.sourceforge.net/>).
  * 
- * This file is part of JLinAlg library.
+ * JLinAlg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
  * 
- * The JLinAlg java library is free software; you can redistribute
- * it and/or modify it under the terms of the GNU General Public
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or (at your option) any later version.
+ * JLinAlg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
  * 
- * The JLinAlg java library distributed in the hope that it
- * will be useful, but WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with the JLinAlg java Library; see the file COPYING. If not,
- * write to the Free Software Foundation, Inc., 51 Franklin Street,
- * Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with JLinALg. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.jlinalg;
 
 /**
  * This includes some different methods of multiplying two matrices.
@@ -27,7 +22,6 @@ package org.jlinalg;
  * @author Andreas Keilhauer
  * @author Marco Bodrato
  */
-
 public class MatrixMultiplication
 {
 
