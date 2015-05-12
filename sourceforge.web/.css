@@ -1,0 +1,74 @@
+/*
+Webcpp v0.8.1 compatible StyleSheet
+http://webcpp.sf.net
+Theme: 
+*/
+
+body
+{
+background-color: #ffffff
+}
+
+.webcpp a:link    {color:#00b800}
+.webcpp a:visited {color:#00ff00}
+.webcpp a:active  {color:#224fff}
+.webcpp a:hover   {color:#a900a9}
+
+.webcpp pre
+{
+color: #000000
+}
+
+.webcpp font
+{
+font-size:100%
+}
+
+.webcpp .symbols
+{
+color: #0077dd
+}
+
+.webcpp .preproc
+{
+color: #a900a9
+}
+
+.webcpp .integer
+{
+color: #ff0032
+}
+
+.webcpp .floatpt
+{
+color: #ff23a6
+}
+
+.webcpp .dblquot
+{
+color: #00b800
+}
+
+.webcpp .sinquot
+{
+color: #00b86b
+}
+
+.webcpp .keyword
+{
+color: #224fff;
+font-weight: bold
+}
+
+.webcpp .keytype
+{
+color: #ff9933;
+font-weight: bold
+}
+
+.webcpp .comment
+{
+color: #00ff00;
+font-style: italic
+}
+
