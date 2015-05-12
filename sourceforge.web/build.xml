@@ -47,6 +47,7 @@
 			</sequential>
 		</macrodef>
 		
+		<mkdir dir="code"/>
 		<j2html JAVA="../src/demo/java/org/jlinalg/demo/ArbitraryPrecisionDemo.java" HTML="code/ArbitraryPrecisionDemo.html" />
 		<j2html JAVA="../src/demo/java/org/jlinalg/demo/EigenvaluesDemo.java" HTML="code/EigenvaluesDemo.html" />
 		<j2html JAVA="../src/main/java/org/jlinalg/f2/F2.java" HTML="code/F2.html" />
@@ -90,14 +91,7 @@
 	</target>
 
 	<target name="clean" description="clean up">
-		<delete>
-			<fileset dir=".">
-				<include name="*Demo.html" />
-				<includesfile name="jlinalg.css" />
-				<includesfile name="F2.html" />
-				<includesfile name="Xor.html" />
-			</fileset>
-		</delete>
+		<delete dir="code" />
 	</target>
 
 	<target name="all" depends="web" description="copy everything to sourceforge.">
