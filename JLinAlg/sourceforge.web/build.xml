@@ -42,7 +42,7 @@
 					<arg value="@{JAVA}" />
 					<arg value="@{HTML}" />
 					<arg value="-X" />
-					<arg value="-c=jlinalg.css" />
+					<arg value="-c=jlinalg" />
 				</exec>
 			</sequential>
 		</macrodef>
