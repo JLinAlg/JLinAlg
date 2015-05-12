@@ -142,22 +142,22 @@ It is licensed under the <a href="http://www.gnu.org/copyleft/lgpl.html"><strong
 <ul>
   <li>The class F2 represents an element of the modulo 2 field F2 and a factory as inner class. 
    F2 is a field,
-   just like the rational numbers. The examples in  <a href="F2Demo.html">F2Demo.java</a> illustrate how to create elements in F2 using the 
-    factory, how to create matrices, and to operate on them. The file <a href="F2.html">F2.java</a> shows how to implement a type and a factory.</li>
-  <li><a href="LinearEquationSystemDemo.html">LinearEquationSystemDemo.java</a>: 
+   just like the rational numbers. The examples in  <a href="code/F2Demo.html">F2Demo.java</a> illustrate how to create elements in F2 using the 
+    factory, how to create matrices, and to operate on them. The file <a href="code/F2.html">F2.java</a> shows how to implement a type and a factory.</li>
+  <li><a href="code/LinearEquationSystemDemo.html">LinearEquationSystemDemo.java</a>: 
   	This example shows how to 
     calculate a solution or its solution space.</li>
-  <li><a href="MatrixOperationsDemo.html">MatrixOperationsDemo.java</a>: How to calculate them for 
+  <li><a href="code/MatrixOperationsDemo.html">MatrixOperationsDemo.java</a>: How to calculate them for 
     matrices over arbitrary fields.</li>
-  <li><a href="EigenvaluesDemo.html">EigenvaluesDemo.java</a>: This example 
+  <li><a href="code/EigenvaluesDemo.html">EigenvaluesDemo.java</a>: This example 
     shows how JLinAlg can do eigenvalue computation 
     with real matrices (matrices with DoubleWrapper entries).</li>
-  <li><a href="FieldPDemo.html">FieldPDemo.java</a>: This demonstration of the class FieldP shows that in vector spaces over 
+  <li><a href="code/FieldPDemo.html">FieldPDemo.java</a>: This demonstration of the class FieldP shows that in vector spaces over 
     finite fields there can be linear dependent vectors which are all orthogonal to 
     each other.</li>
-  <li><a href="Xor.html">Xor.java</a>: Exclusive-Or neural net problem using JLinAlg.</li>
-  <li><a href="HilbertMatrixDemo.java.html">HilbertMatrixDemo.java</a>: This demo shows how the squared distance between the real solution of an equation system to the one that is found when using floating point arithmetic, grows exponentially when the dimension of the Hilbert matrix increases.</li>
-  <li><a href="ArbitraryPrecisionDemo.java.html">ArbitraryPrecisionDemo.java</a>: Demonstration that shows how quickly floating point numbers can cause rounding errors and how you can avoid these using arbitrary precision (Rational).
+  <li><a href="code/Xor.html">Xor.java</a>: Exclusive-Or neural net problem using JLinAlg.</li>
+  <li><a href="code/HilbertMatrixDemo.html">HilbertMatrixDemo.java</a>: This demo shows how the squared distance between the real solution of an equation system to the one that is found when using floating point arithmetic, grows exponentially when the dimension of the Hilbert matrix increases.</li>
+  <li><a href="code/ArbitraryPrecisionDemo.html">ArbitraryPrecisionDemo.java</a>: Demonstration that shows how quickly floating point numbers can cause rounding errors and how you can avoid these using arbitrary precision (Rational).
 </ul>
 
 <a name="Members"></a>	
@@ -177,7 +177,7 @@ It is licensed under the <a href="http://www.gnu.org/copyleft/lgpl.html"><strong
 <ul>
   <li> <a href="https://sourceforge.net/projects/jlinalg/">JLinAlg 
     at Sourceforge</a>: Project website at Sourceforge</li>
-  <li> <a href="http://www.whatsoftwarecando.org/?cat=47">Articles about JLinAlg</a> on <a href="http://www.whatsoftwarecando.org">WhatSoftwareCanDo.org</a></li>
+  <li> <a href="http://www.whatsoftwarecando.org/category/jlinalg">Articles about JLinAlg</a> on <a href="http://www.whatsoftwarecando.org">WhatSoftwareCanDo.org</a></li>
   <li> <a href="http://www.keilhauer.eu/ProPra">Regression 2003</a>: Program for regression analysis (uses JLinAlg)</li>
   <li> <a href="http://snarli.sourceforge.net">SNARLI</a>: Java-library 
     for neural networks (uses JLinALg)</li>
