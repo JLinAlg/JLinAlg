@@ -14,7 +14,7 @@
 <br>
 <div align="center"> 
 JLinAlg is an open source and easy to use Java library for linear algebra.<br>
-It is licensed under the <a href="http://www.gnu.org/copyleft/lgpl.html"><strong>LGPL</strong></a> (changed from GPL on December, 10th 2015).
+It is licensed under the <a href="http://www.gnu.org/copyleft/lgpl.html"><strong>LGPL</strong></a> (changed from GPL on December, 10th 2014).
 </div>
 <br>
 <br>

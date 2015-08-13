@@ -85,7 +85,7 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 
 	/**
 	 * Returns the result of applying a specified function to this
-	 * FielkdElement. New functions can be applied to a RingElement by
+	 * FieldElement. New functions can be applied to a RingElement by
 	 * sub-classing the abstract <tt>MonadicOperator</tt> class.
 	 * 
 	 * @param fun
