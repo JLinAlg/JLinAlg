@@ -16,6 +16,7 @@
  */
 package org.jlinalg;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
@@ -27,6 +28,7 @@ import java.util.Random;
  */
 @JLinAlgTypeProperties(isExact = false)
 public interface IRingElementFactory<RE extends IRingElement<RE>>
+		extends Serializable
 {
 
 	/**
