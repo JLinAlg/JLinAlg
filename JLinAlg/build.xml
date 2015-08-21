@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project name="JLinAlg" default="jar">
 	<property name="junit.path" value="/usr/share/java/junit4.jar"/>
-	<property name="version" value="0.6" />
+	<property name="version" value="0.7pre" />
 	<!-- - - - - - - - - - - - - - - - - - 
           target: init                      
          - - - - - - - - - - - - - - - - - -->
