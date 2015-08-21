@@ -59,14 +59,14 @@ Get webcpp at http://webcpp.sf.net
 		<font CLASS=keyword>for</font> (<font CLASS=keytype>int</font> dimension <font CLASS=symbols>=</font> <font CLASS=integer>1</font>; dimension &lt;<font CLASS=symbols>=</font> <font CLASS=integer>50</font>; dimension++) {
 			Matrix&lt;DoubleWrapper&gt; m <font CLASS=symbols>=</font> createHilbertMatrix(dimension,
 					DoubleWrapper.FACTORY);
-			LinAlgFactory&lt;DoubleWrapper&gt; factory <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> LinAlgFactory&lt;&gt;(
+			LinAlgFactory&lt;DoubleWrapper&gt; factory <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> LinAlgFactory&lt;DoubleWrapper&gt;(
 					m.getFactory());
 			Vector&lt;DoubleWrapper&gt; solution <font CLASS=symbols>=</font> LinSysSolver.solve(m,
 					factory.ones(dimension));
 
 			Matrix&lt;Rational&gt; mExact <font CLASS=symbols>=</font> createHilbertMatrix(dimension,
 					Rational.FACTORY);
-			LinAlgFactory&lt;Rational&gt; factoryRational <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> LinAlgFactory&lt;&gt;(
+			LinAlgFactory&lt;Rational&gt; factoryRational <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> LinAlgFactory&lt;Rational&gt;(
 					mExact.getFactory());
 			Vector&lt;Rational&gt; solutionExact <font CLASS=symbols>=</font> LinSysSolver.solve(mExact,
 					factoryRational.ones(dimension));

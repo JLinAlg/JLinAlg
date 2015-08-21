@@ -59,6 +59,7 @@
 		<j2html JAVA="../src/demo/java/org/jlinalg/demo/Xor.java" HTML="code/Xor.html" />
 		<!-- this is necessary as webcpp overwrites jlinalg.css -->
 		<copy file="jlinalg.css.save" tofile="code/jlinalg.css" overwrite="true" />
+		<delete file="jlinalg.css" />
 	</target>
 
 	<target name="web" depends="init,java2html,copyjavafiles,copyjavadoc" description="copy the web pages">
