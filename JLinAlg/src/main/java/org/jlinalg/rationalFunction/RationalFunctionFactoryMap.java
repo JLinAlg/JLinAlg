@@ -39,7 +39,7 @@ public class RationalFunctionFactoryMap<RE extends IRingElement<RE>>
 	/*
 	 * this is a singleton class
 	 */
-	public final static RationalFunctionFactoryMap<?> INSTANCE = new RationalFunctionFactoryMap<>();
+	public final static RationalFunctionFactoryMap<?> INSTANCE = new RationalFunctionFactoryMap();
 
 	/**
 	 * No second instance of this class should be created

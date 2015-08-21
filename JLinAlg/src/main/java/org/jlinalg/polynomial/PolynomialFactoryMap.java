@@ -36,7 +36,7 @@ public class PolynomialFactoryMap<RE extends IRingElement<RE>>
 	/*
 	 * this is a singleton class
 	 */
-	public final static PolynomialFactoryMap<?> INSTANCE = new PolynomialFactoryMap<>();
+	public final static PolynomialFactoryMap<?> INSTANCE = new PolynomialFactoryMap();
 
 	/**
 	 * No second instance of this class should be created

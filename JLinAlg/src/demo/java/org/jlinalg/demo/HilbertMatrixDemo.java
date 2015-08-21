@@ -41,14 +41,14 @@ public class HilbertMatrixDemo
 		for (int dimension = 1; dimension <= 50; dimension++) {
 			Matrix<DoubleWrapper> m = createHilbertMatrix(dimension,
 					DoubleWrapper.FACTORY);
-			LinAlgFactory<DoubleWrapper> factory = new LinAlgFactory<>(
+			LinAlgFactory<DoubleWrapper> factory = new LinAlgFactory<DoubleWrapper>(
 					m.getFactory());
 			Vector<DoubleWrapper> solution = LinSysSolver.solve(m,
 					factory.ones(dimension));
 
 			Matrix<Rational> mExact = createHilbertMatrix(dimension,
 					Rational.FACTORY);
-			LinAlgFactory<Rational> factoryRational = new LinAlgFactory<>(
+			LinAlgFactory<Rational> factoryRational = new LinAlgFactory<Rational>(
 					mExact.getFactory());
 			Vector<Rational> solutionExact = LinSysSolver.solve(mExact,
 					factoryRational.ones(dimension));
