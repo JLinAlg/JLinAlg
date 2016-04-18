@@ -182,7 +182,7 @@ It is licensed under the <a href="http://www.gnu.org/copyleft/lgpl.html"><strong
   <li> <a href="http://snarli.sourceforge.net">SNARLI</a>: Java-library 
     for neural networks (uses JLinALg)</li>
     <li><a href="http://www.adam.ntu.edu.sg/~mgeorg/">Crystal Net tools</a> analyse auto- and isomorphisms of infinite nets (representing often crystals ;-) and needs vectors and matrices with rational numbers for this.
-  <li> <a href="http://krum.rz.uni-mannheim.de/jas/">JAS</a>: The Java Algebra System (JAS) is an object oriented, type safe and multi-threaded approach to computer algebra. It also has an <a href="http://krum.rz.uni-mannheim.de/jas/download.html">adapter for JLinAlg</a>.
+  <li> <a href="http://krum.rz.uni-mannheim.de/jas/">JAS</a>: The Java Algebra System (JAS) is an object oriented, type safe and multi-threaded approach to computer algebra. It also has an <a href="http://krum.rz.uni-mannheim.de/jas/doc/download.html">adapter for JLinAlg</a>.
 </ul>
 <br>
 <hr>
