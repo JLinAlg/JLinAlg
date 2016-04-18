@@ -120,7 +120,7 @@ It is licensed under the <a href="http://www.gnu.org/copyleft/lgpl.html"><strong
  
 <h2>Download</h2>
 <ul>
-  <li><a href="http://sourceforge.net/projects/jlinalg/files/jlinalg_0.7.zip/download">JLinAlg-v0.7</a>: 
+  <li><a href="https://sourceforge.net/projects/jlinalg/files/latest/download">JLinAlg-v0.7</a>: 
     The complete source code including Eclipse project files, the API as a jar-file and javadoc in one zip-file.</li>
 	
   <li><a href="https://sourceforge.net/project/showfiles.php?group_id=71387">Earlier 
