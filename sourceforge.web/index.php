@@ -114,6 +114,7 @@ It is licensed under the <a href="http://www.gnu.org/copyleft/lgpl.html"><strong
 <li>Get to know JLinAlg. Have a look at the <a href="#Examples">examples</a> and the <a href="#Documentation">documentation</a> (both also included in the Zip-File).</li>
 <li>Do something cool with it.</li>
 <li>Use our <a href="https://sourceforge.net/forum/?group_id=71387">forums</a> at Sourceforge and tell us about it!</li>
+<li>If you find a bug, please use our <a href="https://sourceforge.net/p/jlinalg/bugs/">bug tracker</a> or <a href="#Members">contact us</a> directly to let us know.</li>
 </ol>
 <a name="Download"></a>
  
