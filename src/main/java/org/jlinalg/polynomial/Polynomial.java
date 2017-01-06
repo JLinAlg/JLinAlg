@@ -24,6 +24,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jlinalg.DivisionByZeroException;
+import org.jlinalg.EuclideanAlgorithm;
+import org.jlinalg.IEuclideanRingElement;
 import org.jlinalg.IRingElement;
 import org.jlinalg.IRingElementFactory;
 import org.jlinalg.InvalidOperationException;
@@ -57,7 +59,7 @@ import org.jlinalg.RingElement;
 @JLinAlgTypeProperties(isCompound = true)
 public class Polynomial<BASE extends IRingElement<BASE>>
 		extends RingElement<Polynomial<BASE>>
-		implements IRingElement<Polynomial<BASE>>
+		implements IEuclideanRingElement<Polynomial<BASE>>
 {
 	/**
 	 * 
@@ -210,7 +212,7 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 	{
 		final Polynomial<BASE> other = o;
 		if (this.getDegree() == other.getDegree()) {
-			if (getHighestPower().intValue() != 0
+			if (getDegree() != 0
 					&& this.getHighestCoefficient().equals(
 							other.getHighestCoefficient()))
 			{
@@ -289,7 +291,8 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 	@Override
 	public boolean isZero()
 	{
-		return this.getDegree() == 0 && this.getHighestCoefficient().isZero();
+		return this.getHighestPower().intValue() == 0
+				&& this.getHighestCoefficient().isZero();
 	}
 
 	/**
@@ -303,12 +306,10 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 	/**
 	 * @return the degree of this polynomial
 	 */
+	@Override
 	public int getDegree()
 	{
-		if (this.coefficientsForExponents.isEmpty()) {
-			return 0;
-		}
-		return this.coefficientsForExponents.lastKey().intValue();
+		return getHighestPower().intValue();
 	}
 
 	/**
@@ -319,41 +320,43 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 	 * @return the result of the division
 	 */
 	@SuppressWarnings("boxing")
-	public PolynomialLongDivisionResult<BASE> longDivision(
-			final Polynomial<BASE> other)
+	@Override
+	public DivisionResultWithRest<Polynomial<BASE>> euclideanDivision(
+			Polynomial<BASE> divisor)
 	{
 		if (this.isZero()) {
-			return new PolynomialLongDivisionResult<BASE>(this, this);
+			return new DivisionResultWithRest<Polynomial<BASE>>(this, this);
 		}
-		if (other.isZero()) {
+		if (divisor.isZero()) {
 			throw new DivisionByZeroException(
 					"Zero polynomial cannot be used as divisor!");
 		}
 
-		if (this.getDegree() >= other.getDegree()) {
+		if (this.getDegree() >= divisor.getDegree()) {
 
 			final Map<Integer, BASE> factorCoeffs = new HashMap<Integer, BASE>();
 			factorCoeffs.put(
-					this.getHighestPower() - other.getHighestPower(),
+					this.getDegree() - divisor.getDegree(),
 					this.getHighestCoefficient().divide(
-							other.getHighestCoefficient()));
+							divisor.getHighestCoefficient()));
 
 			final Polynomial<BASE> factor = polynomialFactory.get(factorCoeffs,
 					polynomialFactory.BASEFACTORY);
 
-			final Polynomial<BASE> subtrahend = factor.multiply(other);
+			final Polynomial<BASE> subtrahend = factor.multiply(divisor);
 
 			final Polynomial<BASE> newDividend = this.subtract(subtrahend);
 
-			final PolynomialLongDivisionResult<BASE> newResult = newDividend
-					.longDivision(other);
+			final DivisionResultWithRest<Polynomial<BASE>> newResult = newDividend
+					.euclideanDivision(divisor);
 
-			return new PolynomialLongDivisionResult<BASE>(factor.add(newResult
-					.getQuotient()), newResult.getRemainder());
+			return new DivisionResultWithRest<Polynomial<BASE>>(
+					factor.add(newResult.getQuotient()),
+					newResult.getRemainder());
 
 		}
-		return new PolynomialLongDivisionResult<BASE>(polynomialFactory.zero(),
-				this);
+		return new DivisionResultWithRest<Polynomial<BASE>>(
+				polynomialFactory.zero(), this);
 	}
 
 	/**
@@ -480,11 +483,10 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 	/**
 	 * @return the highest power in this polynomial (or zero)
 	 */
-	@SuppressWarnings("boxing")
 	public Integer getHighestPower()
 	{
 		if (this.coefficientsForExponents.isEmpty()) {
-			return 0;
+			return new Integer(0);
 		}
 		return this.coefficientsForExponents.lastKey();
 	}
@@ -503,38 +505,9 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 		return polynomialFactory;
 	}
 
-	/**
-	 * @param another
-	 *            a polynomial
-	 * @return the GCD of this and <code>another</code> polynomial
-	 */
 	public Polynomial<BASE> gcd(final Polynomial<BASE> another)
 	{
-		if (another.gt(this)) {
-			return another.gcd(this);
-		}
-
-		if (another.isZero()) {
-			return this;
-		}
-
-		if (another.isOne()) {
-			return another;
-		}
-
-		final PolynomialLongDivisionResult<BASE> divisionResult = this
-				.longDivision(another);
-		final Polynomial<BASE> remainder = divisionResult.getRemainder();
-
-		if (remainder.isZero()) {
-			return another;
-		}
-		else if (remainder.getDegree() == 0) {
-			return this.polynomialFactory.one();
-		}
-		else {
-			return another.gcd(remainder);
-		}
+		return EuclideanAlgorithm.gcd(this, another);
 	}
 
 	/**
@@ -546,7 +519,7 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 			return this.divide(this.getHighestCoefficient());
 		}
 		final Polynomial<BASE> gcd = this.gcd(this.differentiate());
-		final Polynomial<BASE> unnormalized = this.longDivision(gcd)
+		final Polynomial<BASE> unnormalized = this.euclideanDivision(gcd)
 				.getQuotient();
 		return unnormalized.divide(unnormalized.getHighestCoefficient());
 	}
@@ -563,8 +536,8 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 	public Polynomial<BASE> divide(final Polynomial<BASE> val)
 	{
 		if (val != null) {
-			final PolynomialLongDivisionResult<BASE> divisionResult = this
-					.longDivision(val);
+			final DivisionResultWithRest<Polynomial<BASE>> divisionResult = this
+					.euclideanDivision(val);
 			if (divisionResult.getRemainder().isZero()) {
 				return divisionResult.getQuotient();
 			}
@@ -675,4 +648,5 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 		}
 		return hash;
 	}
+
 }

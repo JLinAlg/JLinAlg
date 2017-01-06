@@ -43,6 +43,9 @@ import org.jlinalg.RingElementFactory;
 public class PolynomialFactory<BASE extends IRingElement<BASE>>
 		extends RingElementFactory<Polynomial<BASE>>
 {
+
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * the basic empty polynomial.
 	 */

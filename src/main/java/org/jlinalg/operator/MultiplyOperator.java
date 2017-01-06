@@ -32,6 +32,7 @@ public class MultiplyOperator<RE extends IRingElement<RE>>
 	/**
 	 * The singleton for this class.
 	 */
+	@SuppressWarnings("rawtypes")
 	private static final DyadicOperator<? extends IRingElement<?>> INSTANCE = new MultiplyOperator();
 
 	/**
@@ -45,11 +46,8 @@ public class MultiplyOperator<RE extends IRingElement<RE>>
 	/**
 	 * The constructor should only be called to create the singleton instance
 	 * (see {@link #getInstance()}.
-	 * 
-	 * @deprecated use {@link #getInstance()}
 	 */
-	@Deprecated
-	public MultiplyOperator()
+	private MultiplyOperator()
 	{
 	}
 

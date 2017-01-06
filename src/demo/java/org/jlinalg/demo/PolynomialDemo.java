@@ -53,6 +53,6 @@ public class PolynomialDemo
 		System.out.println("Diff(poly): " + polynomial.differentiate());
 		System.out.println("min(poly): " + polynomial.minimalPolynomial());
 		System.out.println("poly / min(poly): "
-				+ polynomial.longDivision(polynomial.minimalPolynomial()));
+				+ polynomial.euclideanDivision(polynomial.minimalPolynomial()));
 	}
 }

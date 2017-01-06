@@ -37,6 +37,8 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 		implements IRingElementFactory<RE>
 {
 
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * @return a description of the factory
 	 * @see java.lang.Object#toString()

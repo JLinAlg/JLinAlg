@@ -115,7 +115,7 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	 * @return true if this RingElement is less than {@code val}, false
 	 *         otherwise
 	 * @throws InvalidOperationException
-	 *             if @c{@code this} and {@code val} are not instances of the
+	 *             if @code this} and {@code val} are not instances of the
 	 *             same class
 	 */
 	@Override
@@ -134,7 +134,7 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	 * @param val
 	 * @return true if this RingElement is greater than val, false otherwise
 	 * @throws InvalidOperationException
-	 *             if @c{@code this} and {@code val} are not instances of the
+	 *             if {@code this} and {@code val} are not instances of the
 	 *             same class
 	 */
 	@Override

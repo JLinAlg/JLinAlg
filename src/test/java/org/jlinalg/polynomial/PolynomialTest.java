@@ -21,6 +21,8 @@ import static org.junit.Assume.assumeTrue;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.jlinalg.IRingElement;
 import org.jlinalg.complex.Complex;
@@ -126,9 +128,19 @@ public class PolynomialTest<RE extends IRingElement<RE>>
 	@Test
 	public void testGcd()
 	{
+		assertEquals(getFactory().get(10),
+				getFactory().get(25).gcd(getFactory().get(10)));
 		assertEquals(getFactory().get(5),
 				getFactory().get(0).gcd(getFactory().get(5)));
-		assertEquals(getFactory().get(1),
+		assertEquals(getFactory().get(5),
 				getFactory().get(1).gcd(getFactory().get(5)));
+
+		Map<Integer, RE> maps = new HashMap<Integer, RE>();
+		maps.put(1, getFactory().getBaseFactory().get(10));
+		Polynomial<RE> p = new Polynomial<RE>(maps, getFactory()
+				.getBaseFactory());
+		System.out.println(p.multiply(getFactory().get(2)).gcd(
+				p.multiply(getFactory().get(3))));
+
 	}
 }

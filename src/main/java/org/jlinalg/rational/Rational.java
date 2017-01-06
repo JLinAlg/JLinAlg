@@ -404,6 +404,9 @@ public class Rational
 	public class RationalFactory
 			extends RingElementFactory<Rational>
 	{
+
+		private static final long serialVersionUID = 1L;
+
 		/**
 		 * this should only be used by {@link Rational} to create a single
 		 * instance.

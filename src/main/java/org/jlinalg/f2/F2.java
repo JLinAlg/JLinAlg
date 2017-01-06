@@ -239,6 +239,9 @@ public class F2
 	public class F2Factory
 			extends RingElementFactory<F2>
 	{
+
+		private static final long serialVersionUID = 1L;
+
 		/**
 		 * create an array to hold <code>size</code> F2-instances.
 		 */
