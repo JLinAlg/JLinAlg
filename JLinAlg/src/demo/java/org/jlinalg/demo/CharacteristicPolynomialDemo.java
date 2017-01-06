@@ -68,8 +68,10 @@ public class CharacteristicPolynomialDemo
 		System.out.println("min(a): " + minimalPolynomial);
 
 		// use a long division to calculate "char(a) / min(a)"
-		System.out.println("char(a) / min(a): "
-				+ characteristicPolynomial.longDivision(minimalPolynomial));
+		System.out
+				.println("char(a) / min(a): "
+						+ characteristicPolynomial
+								.euclideanDivision(minimalPolynomial));
 
 		// integrate "char(a)"
 		System.out.println("Int(char(a)): "

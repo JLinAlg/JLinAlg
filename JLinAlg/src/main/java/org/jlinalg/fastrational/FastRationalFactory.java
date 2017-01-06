@@ -42,6 +42,9 @@ import org.jlinalg.rational.Rational;
 public class FastRationalFactory
 		extends RingElementFactory<FastRational>
 {
+
+	private static final long serialVersionUID = 1L;
+
 	final public static FastRational M_ONE = new FastRational(-1L, 1L, false);
 
 	final public static FastRational ONE = new FastRational(1L, 1L, false);

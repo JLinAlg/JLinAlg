@@ -45,6 +45,8 @@ public class RationalFunctionFactory<BASE extends IRingElement<BASE>>
 		extends RingElementFactory<RationalFunction<BASE>>
 {
 
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * the basic empty rational function.
 	 */
