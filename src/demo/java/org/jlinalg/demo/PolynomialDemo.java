@@ -54,7 +54,7 @@ public class PolynomialDemo
 		System.out.println("min(poly) = " + polynomial.minimalPolynomial());
 		System.out.println("poly / min(poly): "
 				+ polynomial.euclideanDivision(polynomial.minimalPolynomial()));
-		System.out.println("gcd(poly, min(poly) = "
+		System.out.println("gcd(poly, min(poly)) = "
 				+ polynomial.gcd(polynomial.minimalPolynomial()));
 	}
 }
