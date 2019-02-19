@@ -41,7 +41,8 @@ import org.junit.runners.Parameterized.Parameters;
  */
 @RunWith(Parameterized.class)
 public class PolynomialTest<RE extends IRingElement<RE>>
-		extends RingElementTestBase<Polynomial<RE>>
+		extends
+		RingElementTestBase<Polynomial<RE>>
 {
 	/**
 	 * a prime number from the Woodall series
@@ -53,21 +54,17 @@ public class PolynomialTest<RE extends IRingElement<RE>>
 	{
 		Object[][] data_ = {
 				{
-					PolynomialFactory.getFactory(Rational.FACTORY)
-				},
-				{
-					PolynomialFactory.getFactory(Complex.FACTORY)
-				},
-				{
-					PolynomialFactory.getFactory(DoubleWrapper.FACTORY)
-				},
-				{
-					PolynomialFactory.getFactory(FieldPFactoryMap
-							.getFactory(Long.valueOf(17L)))
-				},
-				{
-					PolynomialFactory.getFactory(FieldPFactoryMap
-							.getFactory(prime1))
+						PolynomialFactory.getFactory(Rational.FACTORY)
+				}, {
+						PolynomialFactory.getFactory(Complex.FACTORY)
+				}, {
+						PolynomialFactory.getFactory(DoubleWrapper.FACTORY)
+				}, {
+						PolynomialFactory.getFactory(
+								FieldPFactoryMap.getFactory(Long.valueOf(17L)))
+				}, {
+						PolynomialFactory
+								.getFactory(FieldPFactoryMap.getFactory(prime1))
 				}
 		};
 		return Arrays.asList(data_);
@@ -137,10 +134,10 @@ public class PolynomialTest<RE extends IRingElement<RE>>
 
 		Map<Integer, RE> maps = new HashMap<Integer, RE>();
 		maps.put(1, getFactory().getBaseFactory().get(10));
-		Polynomial<RE> p = new Polynomial<RE>(maps, getFactory()
-				.getBaseFactory());
-		System.out.println(p.multiply(getFactory().get(2)).gcd(
-				p.multiply(getFactory().get(3))));
-
+		Polynomial<RE> p = new Polynomial<RE>(maps,
+				getFactory().getBaseFactory());
+		assertEquals(p.divide(p.getHighestCoefficient()),
+				p.multiply(getFactory().get(3))
+						.gcd(p.multiply(getFactory().get(2))));
 	}
 }
