@@ -29,15 +29,11 @@ public class EuclideanAlgorithm
 	public static <RE extends IEuclideanRingElement<RE>> RE gcd(final RE first,
 			final RE second)
 	{
-		int firstDegree = first.getDegree();
-		int secondDegree = second.getDegree();
-
-		if (/* second.gt(first) */secondDegree > firstDegree) {
-			return gcd(second, first);
-		}
-
 		if (second.isZero()) {
 			return first;
+		}
+		if (second.gt(first)) {
+			return gcd(second, first);
 		}
 
 		final DivisionResultWithRest<RE> divisionResult = first

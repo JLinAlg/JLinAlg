@@ -126,18 +126,21 @@ public class PolynomialTest<RE extends IRingElement<RE>>
 	public void testGcd()
 	{
 		assertEquals(getFactory().get(10),
-				getFactory().get(25).gcd(getFactory().get(10)));
+				getFactory().get(15).gcd(getFactory().get(10)));
 		assertEquals(getFactory().get(5),
 				getFactory().get(0).gcd(getFactory().get(5)));
-		assertEquals(getFactory().get(5),
+		assertEquals(getFactory().get(1),
 				getFactory().get(1).gcd(getFactory().get(5)));
 
 		Map<Integer, RE> maps = new HashMap<Integer, RE>();
 		maps.put(1, getFactory().getBaseFactory().get(10));
 		Polynomial<RE> p = new Polynomial<RE>(maps,
 				getFactory().getBaseFactory());
-		assertEquals(p.divide(p.getHighestCoefficient()),
-				p.multiply(getFactory().get(3))
-						.gcd(p.multiply(getFactory().get(2))));
+		Polynomial<RE> left = p.divide(p.getHighestCoefficient());
+		Polynomial<RE> right = p.multiply(getFactory().get(3))
+				.gcd(p.multiply(getFactory().get(2)));
+		System.out.println(left);
+		System.out.println(right);
+		assertEquals(left, right);
 	}
 }

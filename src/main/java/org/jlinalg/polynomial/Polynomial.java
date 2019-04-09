@@ -310,7 +310,6 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 	/**
 	 * @return the degree of this polynomial
 	 */
-	@Override
 	public int getDegree()
 	{
 		return getHighestPower().intValue();
