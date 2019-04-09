@@ -68,16 +68,19 @@ It is licensed under the <a href="http://www.gnu.org/copyleft/lgpl.html"><strong
 <h2>Features</h2>
 
 <ul>
+  <li>RingElements and FieldElements with operations like addition, subtraction, multiplication and - for FieldElements - division.</li>
+  <li>Euclidean division and Euclidean algorithm on any RingElements (Matrix, Polynomials, Rationals, Complex numbers etc.).
   <li>Basic matrix and vector operations like scalar product and matrix multiplication. 
      Also: Fast matrix multiplication using the Strassen- and the Strassen-Winograd algorithms.</li>
-  <li>Matrices and vectors can be filled with arbitrary field elements like  
-     rational numbers, complex numbers or even prime fields.</li>
+  <li>Matrices and vectors can be filled with arbitrary field elements like rational numbers, complex numbers or even prime fields.</li>
 	
   <li>Compute the inverse or the determinant of a matrix.</li>
   <li>Gauss- and Gauss-Jordan algorithm are available.</li>
   <li>Calculate a solution or the solution space of a linear equation system.</li>
   <li>Calculate the eigenvalues of real matrices.</li>
-	
+  
+  <li>Univariate polynomials including polynomial division and calculating the GCD</li>
+  
   <li>All operations can be done without rounding errors 
   	 (except for numeric data types like DoubleWrapper).</li>
   <li>Element-wise mathematical and logical operations on vectors and matrices.</li>
@@ -88,7 +91,6 @@ It is licensed under the <a href="http://www.gnu.org/copyleft/lgpl.html"><strong
     Gaussian (normally distributed) noise.</li>
   <li>Application of user-defined functions to all elements of a matrix 
 	 or vector (or pairs of matrices and vectors).</li>
-
 </ul>
 
 <a name="GettingStarted"></a>
@@ -159,6 +161,7 @@ It is licensed under the <a href="http://www.gnu.org/copyleft/lgpl.html"><strong
   <li><a href="code/Xor.html">Xor.java</a>: Exclusive-Or neural net problem using JLinAlg.</li>
   <li><a href="code/HilbertMatrixDemo.html">HilbertMatrixDemo.java</a>: This demo shows how the squared distance between the real solution of an equation system to the one that is found when using floating point arithmetic, grows exponentially when the dimension of the Hilbert matrix increases.</li>
   <li><a href="code/ArbitraryPrecisionDemo.html">ArbitraryPrecisionDemo.java</a>: Demonstration that shows how quickly floating point numbers can cause rounding errors and how you can avoid these using arbitrary precision (Rational).
+  <li><a href="code/PolynomialDemo.html">PolynomialDemo.java</a>: Some operations on polynomials (including calculating the GCD using the Euclidean algorithm).
 </ul>
 
 <a name="Members"></a>	

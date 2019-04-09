@@ -37,7 +37,6 @@ public class PolynomialDemo
 	 * @param argv
 	 *            is ignored
 	 */
-	@SuppressWarnings("boxing")
 	public static void main(String[] argv)
 	{
 		PolynomialFactory<Rational> factory = PolynomialFactory
@@ -48,12 +47,15 @@ public class PolynomialDemo
 		coefficients.put(1, Rational.FACTORY.get(2));
 		coefficients.put(0, Rational.FACTORY.get(1));
 		Polynomial<Rational> polynomial = factory.get(coefficients);
+		// 1+2*x+1*x^2
 		System.out.println("poly = " + polynomial);
+		// Try some operations on the polynomial...
 		System.out.println("Int(poly) = " + polynomial.integrate());
 		System.out.println("Diff(poly) = " + polynomial.differentiate());
 		System.out.println("min(poly) = " + polynomial.minimalPolynomial());
 		System.out.println("poly / min(poly): "
 				+ polynomial.euclideanDivision(polynomial.minimalPolynomial()));
+		// ...including a GCD calculation...
 		System.out.println("gcd(poly, min(poly)) = "
 				+ polynomial.gcd(polynomial.minimalPolynomial()));
 	}

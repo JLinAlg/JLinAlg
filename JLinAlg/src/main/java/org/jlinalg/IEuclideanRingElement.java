@@ -18,12 +18,11 @@
 package org.jlinalg;
 
 public interface IEuclideanRingElement<RE extends IEuclideanRingElement<RE>>
-		extends IRingElement<RE>
+		extends
+		IRingElement<RE>
 {
 
 	DivisionResultWithRest<RE> euclideanDivision(RE divisor);
-
-	int getDegree(); // TODO: Notwendig???
 
 	public class DivisionResultWithRest<RE extends IEuclideanRingElement<RE>>
 	{

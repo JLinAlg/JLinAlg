@@ -56,6 +56,7 @@
 		<j2html JAVA="../src/demo/java/org/jlinalg/demo/HilbertMatrixDemo.java" HTML="code/HilbertMatrixDemo.html" />
 		<j2html JAVA="../src/demo/java/org/jlinalg/demo/LinearEquationSystemDemo.java" HTML="code/LinearEquationSystemDemo.html" />
 		<j2html JAVA="../src/demo/java/org/jlinalg/demo/MatrixOperationsDemo.java" HTML="code/MatrixOperationsDemo.html" />
+		<j2html JAVA="../src/demo/java/org/jlinalg/demo/PolynomialDemo.java" HTML="code/PolynomialDemo.html" />
 		<j2html JAVA="../src/demo/java/org/jlinalg/demo/Xor.java" HTML="code/Xor.html" />
 		<!-- this is necessary as webcpp overwrites jlinalg.css -->
 		<copy file="jlinalg.css.save" tofile="code/jlinalg.css" overwrite="true" />
