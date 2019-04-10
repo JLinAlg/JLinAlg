@@ -134,6 +134,7 @@ It is licensed under the <a href="http://www.gnu.org/copyleft/lgpl.html"><strong
  
 <h2>Documentation</h2>
 <ul>
+  	<li><a href="structure.html">JLinalg - structure: packages and classes</a>
   	<li><a href="/javadocs">JLinalg API-Documentation</a> (generated Javadoc): Quite 
     thorough documentation of every method and constructor.</li>
   	<li>Browse the history of our <a href="http://sourceforge.net/p/jlinalg/code/HEAD/tree/">SVN repository</a> or, even further back, the one in our old <a href="http://jlinalg.cvs.sourceforge.net/jlinalg/">CVS repository</a>.</li>
