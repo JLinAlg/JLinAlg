@@ -45,7 +45,7 @@ public class AllFactories
 				}, {
 					Complex.FACTORY
 				}, {
-					FieldPFactoryMap.getFactory(new Long(43L))
+					FieldPFactoryMap.getFactory(Long.valueOf(43L))
 				}, {
 					F2.FACTORY
 				}, {

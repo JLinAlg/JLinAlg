@@ -1,0 +1,23 @@
+
+
+ant.importBuild 'build.xml'
+
+
+buildweb{ 
+  dependsOn ':webBuildAnt' 
+  doLast {
+    println "The website is created"
+   }  
+}
+ copyToSourceforge{
+    dependsOn ':webCopyAnt' 
+   doLast {
+    println "The website is created"
+   }   
+}
+task  clean () {
+           group = 'Sourceforge Web'
+          description = 'Clean the web content'
+         delete 'code'
+}
+

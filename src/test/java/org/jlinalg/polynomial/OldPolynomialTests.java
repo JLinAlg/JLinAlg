@@ -31,7 +31,7 @@ import org.jlinalg.doublewrapper.DoubleWrapper;
 import org.jlinalg.field_p.FieldPAbstractFactory;
 import org.jlinalg.field_p.FieldPFactoryMap;
 import org.jlinalg.rational.Rational;
-import org.jlinalg.rational.Rational.RationalFactory;
+import org.jlinalg.rational.RationalFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -51,13 +51,12 @@ public class OldPolynomialTests
 	/**
 	 * @throws java.lang.Exception
 	 */
-	@SuppressWarnings("boxing")
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception
 	{
 		rationalPolyFactory = PolynomialFactory.getFactory(Rational.FACTORY);
 
-		Map<Integer, Rational> coeff1 = new HashMap<Integer, Rational>();
+		Map<Integer, Rational> coeff1 = new HashMap<>();
 		coeff1.put(0, Rational.FACTORY.get(1));
 		coeff1.put(1, Rational.FACTORY.get(2));
 		coeff1.put(2, Rational.FACTORY.get(3, 5));
@@ -66,7 +65,7 @@ public class OldPolynomialTests
 		poly1 = rationalPolyFactory.get(coeff1, Rational.FACTORY);
 		System.out.println("poly1: " + poly1);
 
-		Map<Integer, IRingElement<?>> coeff2 = new HashMap<Integer, IRingElement<?>>();
+		Map<Integer, IRingElement<?>> coeff2 = new HashMap<>();
 		coeff2.put(0, Rational.FACTORY.get(2));
 		coeff2.put(1, Rational.FACTORY.get(1));
 		poly2 = rationalPolyFactory.get(coeff2);
@@ -94,14 +93,14 @@ public class OldPolynomialTests
 		compareResult(poly2.add(poly1).add(rationalPolyFactory.zero()),
 				"3+3*x+3/5*x^2+1*x^3+(-1)*x^4");
 		compareResult(poly2.add(rationalPolyFactory.one()), "3+1*x");
-		compareResult(poly2.add(rationalPolyFactory.one()).add(
-				rationalPolyFactory.m_one()), poly2Value);
-		compareResult(poly1.add(rationalPolyFactory.one()).add(
-				rationalPolyFactory.m_one()), poly1Value);
-		compareResult(rationalPolyFactory.m_one().add(poly2).add(
-				rationalPolyFactory.one()), poly2Value);
-		compareResult(rationalPolyFactory.m_one().add(poly1).add(
-				rationalPolyFactory.one()), poly1Value);
+		compareResult(poly2.add(rationalPolyFactory.one())
+				.add(rationalPolyFactory.m_one()), poly2Value);
+		compareResult(poly1.add(rationalPolyFactory.one())
+				.add(rationalPolyFactory.m_one()), poly1Value);
+		compareResult(rationalPolyFactory.m_one().add(poly2)
+				.add(rationalPolyFactory.one()), poly2Value);
+		compareResult(rationalPolyFactory.m_one().add(poly1)
+				.add(rationalPolyFactory.one()), poly1Value);
 	}
 
 	/**
@@ -160,21 +159,21 @@ public class OldPolynomialTests
 		compareResult(poly1.subtract(poly2), "-1+1*x+3/5*x^2+1*x^3+(-1)*x^4");
 		compareResult(poly2.subtract(poly1),
 				"1+(-1)*x+(-3/5)*x^2+(-1)*x^3+1*x^4");
-		compareResult(poly1.subtract(poly2)
-				.subtract(rationalPolyFactory.zero()),
+		compareResult(
+				poly1.subtract(poly2).subtract(rationalPolyFactory.zero()),
 				"-1+1*x+3/5*x^2+1*x^3+(-1)*x^4");
-		compareResult(poly2.subtract(poly1)
-				.subtract(rationalPolyFactory.zero()),
+		compareResult(
+				poly2.subtract(poly1).subtract(rationalPolyFactory.zero()),
 				"1+(-1)*x+(-3/5)*x^2+(-1)*x^3+1*x^4");
 		compareResult(poly2.subtract(rationalPolyFactory.one()), "1+1*x");
-		compareResult(poly2.subtract(rationalPolyFactory.one()).subtract(
-				rationalPolyFactory.m_one()), poly2Value);
-		compareResult(poly1.subtract(rationalPolyFactory.one()).subtract(
-				rationalPolyFactory.m_one()), poly1Value);
-		compareResult(rationalPolyFactory.m_one().subtract(poly2).add(
-				rationalPolyFactory.one()).negate(), poly2Value);
-		compareResult(rationalPolyFactory.m_one().subtract(poly1).add(
-				rationalPolyFactory.one()).negate(), poly1Value);
+		compareResult(poly2.subtract(rationalPolyFactory.one())
+				.subtract(rationalPolyFactory.m_one()), poly2Value);
+		compareResult(poly1.subtract(rationalPolyFactory.one())
+				.subtract(rationalPolyFactory.m_one()), poly1Value);
+		compareResult(rationalPolyFactory.m_one().subtract(poly2)
+				.add(rationalPolyFactory.one()).negate(), poly2Value);
+		compareResult(rationalPolyFactory.m_one().subtract(poly1)
+				.add(rationalPolyFactory.one()).negate(), poly1Value);
 	}
 
 	/**
@@ -198,10 +197,10 @@ public class OldPolynomialTests
 	@Test
 	public void testCompareFactoriesFieldP()
 	{
-		FieldPAbstractFactory<?> f1 = FieldPFactoryMap.getFactory(Long
-				.valueOf(17L));
-		FieldPAbstractFactory<?> f2 = FieldPFactoryMap.getFactory(Long
-				.valueOf(17L));
+		FieldPAbstractFactory<?> f1 = FieldPFactoryMap
+				.getFactory(Long.valueOf(17L));
+		FieldPAbstractFactory<?> f2 = FieldPFactoryMap
+				.getFactory(Long.valueOf(17L));
 		assertTrue(f1.equals(f2));
 		assertSame(f1, f2);
 		f2 = FieldPFactoryMap.getFactory(Long.valueOf(19L));

@@ -46,9 +46,9 @@ public class ComplexVectorTest
 	@Test
 	public void testMax_base()
 	{
-		Vector<Complex> v = new Vector<Complex>(vec_m2_3_6, getFactory());
+		Vector<Complex> v = new Vector<>(vec_m2_3_6, getFactory());
 		assertEquals(getFactory().get("6"), v.max());
-		v = new Vector<Complex>(new String[] {
+		v = new Vector<>(new String[] {
 				"0", "-3", "2", "0"
 		}, getFactory());
 		assertEquals(getFactory().get("-3"), v.max());

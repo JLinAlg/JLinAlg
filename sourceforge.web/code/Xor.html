@@ -8,7 +8,7 @@ Get webcpp at http://webcpp.sf.net
 
 <html>
 <head>
-<title>../src/demo/java/org/jlinalg/demo/Xor.java</title>
+<title>Xor.java</title>
 <link rel="stylesheet" type="text/css" href="jlinalg.css"/>
 </head>
 <body>
@@ -52,7 +52,6 @@ Get webcpp at http://webcpp.sf.net
 	<font CLASS=comment>/**
 	 * inpat holds the input part of the training patterns
 	 */</font>
-	@SuppressWarnings(<font CLASS=dblquot>"boxing"</font>)
 	<font CLASS=keyword>private</font> <font CLASS=keytype>static</font> Double[][] inpat <font CLASS=symbols>=</font> {
 			{
 					<font CLASS=integer>0</font>., <font CLASS=integer>0</font>.
@@ -68,16 +67,15 @@ Get webcpp at http://webcpp.sf.net
 	<font CLASS=comment>/**
 	 * tgpat holds the target part of the training patterns
 	 */</font>
-	@SuppressWarnings(<font CLASS=dblquot>"boxing"</font>)
 	<font CLASS=keyword>private</font> <font CLASS=keytype>static</font> Double[][] tgpat <font CLASS=symbols>=</font> {
 			{
-				<font CLASS=integer>0</font>.
+					<font CLASS=integer>0</font>.
 			}, {
-				<font CLASS=integer>1</font>.
+					<font CLASS=integer>1</font>.
 			}, {
-				<font CLASS=integer>1</font>.
+					<font CLASS=integer>1</font>.
 			}, {
-				<font CLASS=integer>0</font>.
+					<font CLASS=integer>0</font>.
 			}
 	};
 
@@ -146,7 +144,7 @@ Get webcpp at http://webcpp.sf.net
 	 */</font>
 	<font CLASS=keyword>public</font> Xor()
 	{
-		df <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> LinAlgFactory&lt;DoubleWrapper&gt;(DoubleWrapper.FACTORY);
+		df <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> LinAlgFactory&lt;&gt;(DoubleWrapper.FACTORY);
 
 		<font CLASS=comment>// this allows us to generalize to new problems</font>
 		ninp <font CLASS=symbols>=</font> inpat[<font CLASS=integer>0</font>].length;
@@ -197,7 +195,7 @@ Get webcpp at http://webcpp.sf.net
 			<font CLASS=comment>// loop over patterns</font>
 			<font CLASS=keyword>for</font> (<font CLASS=keytype>int</font> j <font CLASS=symbols>=</font> <font CLASS=integer>0</font>; j &lt; npat; <font CLASS=symbols>++</font>j) {
 
-				Vector&lt;DoubleWrapper&gt; ai <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Vector&lt;DoubleWrapper&gt;(inpat[j],
+				Vector&lt;DoubleWrapper&gt; ai <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Vector&lt;&gt;(inpat[j],
 						DoubleWrapper.FACTORY);
 
 				// run forward pass
@@ -205,7 +203,7 @@ Get webcpp at http://webcpp.sf.net
 				Vector&lt;DoubleWrapper&gt; ao <font CLASS=symbols>=</font> ah.multiply(who).add(bo).apply(sgop);
 
 				// compute output error/delta from target
-				Vector&lt;DoubleWrapper&gt; eo <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Vector&lt;DoubleWrapper&gt;(tgpat[j],
+				Vector&lt;DoubleWrapper&gt; eo <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Vector&lt;&gt;(tgpat[j],
 						DoubleWrapper.FACTORY).subtract(ao);
 				Vector&lt;DoubleWrapper&gt; dlo <font CLASS=symbols>=</font> eo.arrayMultiply(ao.apply(sdop));
 
@@ -224,14 +222,14 @@ Get webcpp at http://webcpp.sf.net
 			}
 
 			<font CLASS=comment>// update weight and biases</font>
-			wih <font CLASS=symbols>=</font> wih.add(dwih.divide(npatd).multiply(eta)).add(
-					dwih1.divide(npatd).multiply(mu));
-			who <font CLASS=symbols>=</font> who.add(dwho.divide(npatd).multiply(eta)).add(
-					dwho1.divide(npatd).multiply(mu));
-			bh <font CLASS=symbols>=</font> bh.add(dbh.divide(npatd).multiply(eta)).add(
-					dbh1.divide(npatd).multiply(mu));
-			bo <font CLASS=symbols>=</font> bo.add(dbo.divide(npatd).multiply(eta)).add(
-					dbo1.divide(npatd).multiply(mu));
+			wih <font CLASS=symbols>=</font> wih.add(dwih.divide(npatd).multiply(eta))
+					.add(dwih1.divide(npatd).multiply(mu));
+			who <font CLASS=symbols>=</font> who.add(dwho.divide(npatd).multiply(eta))
+					.add(dwho1.divide(npatd).multiply(mu));
+			bh <font CLASS=symbols>=</font> bh.add(dbh.divide(npatd).multiply(eta))
+					.add(dbh1.divide(npatd).multiply(mu));
+			bo <font CLASS=symbols>=</font> bo.add(dbo.divide(npatd).multiply(eta))
+					.add(dbo1.divide(npatd).multiply(mu));
 
 			<font CLASS=comment>// recall weight, bias changes for momentum on next epoch</font>
 			dwih1 <font CLASS=symbols>=</font> dwih;
@@ -241,12 +239,8 @@ Get webcpp at http://webcpp.sf.net
 
 			<font CLASS=comment>// report RMS error first, last, every 1000 epochs</font>
 			<font CLASS=keyword>if</font> (i <font CLASS=symbols>==</font> <font CLASS=integer>0</font> <font CLASS=symbols>||</font> i == NEPOCH - <font CLASS=integer>1</font> || ((i + <font CLASS=integer>1</font>) % <font CLASS=integer>1000</font>) <font CLASS=symbols>==</font> <font CLASS=integer>0</font>) {
-				System.err
-						.println(<font CLASS=dblquot>"EPOCH: "</font>
-								<font CLASS=symbols>+</font> (i <font CLASS=symbols>+</font> <font CLASS=integer>1</font>)
-								<font CLASS=symbols>+</font> <font CLASS=dblquot>"\tRMS ERROR: "</font>
-								<font CLASS=symbols>+</font> Math.sqrt(((sqrerr.sum()).divide(errd))
-										.doubleValue()));
+				System.err.println(<font CLASS=dblquot>"EPOCH: "</font> <font CLASS=symbols>+</font> (i <font CLASS=symbols>+</font> <font CLASS=integer>1</font>) + <font CLASS=dblquot>"\tRMS ERROR: "</font> + Math
+						.sqrt(((sqrerr.sum()).divide(errd)).doubleValue()));
 			}
 		}
 	}
@@ -260,9 +254,9 @@ Get webcpp at http://webcpp.sf.net
 
 		<font CLASS=keyword>for</font> (<font CLASS=keytype>int</font> j <font CLASS=symbols>=</font> <font CLASS=integer>0</font>; j &lt; npat; <font CLASS=symbols>++</font>j) {
 
-			Vector&lt;DoubleWrapper&gt; ai <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Vector&lt;DoubleWrapper&gt;(inpat[j],
+			Vector&lt;DoubleWrapper&gt; ai <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Vector&lt;&gt;(inpat[j],
 					DoubleWrapper.FACTORY);
-			Vector&lt;DoubleWrapper&gt; tg <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Vector&lt;DoubleWrapper&gt;(tgpat[j],
+			Vector&lt;DoubleWrapper&gt; tg <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Vector&lt;&gt;(tgpat[j],
 					DoubleWrapper.FACTORY);
 
 			<font CLASS=comment>// run forward pass</font>
@@ -278,7 +272,8 @@ Get webcpp at http://webcpp.sf.net
 	 * operator defining the sigmoid squashing function
 	 */</font>
 	<font CLASS=keyword>private</font> <font CLASS=keyword>class</font> SigmoidOperator
-			<font CLASS=keyword>implements</font> MonadicOperator&lt;DoubleWrapper&gt;
+			<font CLASS=keyword>implements</font>
+			MonadicOperator&lt;DoubleWrapper&gt;
 	{
 		@Override
 		<font CLASS=keyword>public</font> DoubleWrapper apply(DoubleWrapper x)
@@ -292,7 +287,8 @@ Get webcpp at http://webcpp.sf.net
 	 * operator defining the first derivative of the sigmoid w.r.t. activation
 	 */</font>
 	<font CLASS=keyword>private</font> <font CLASS=keyword>class</font> SigdervOperator
-			<font CLASS=keyword>implements</font> MonadicOperator&lt;DoubleWrapper&gt;
+			<font CLASS=keyword>implements</font>
+			MonadicOperator&lt;DoubleWrapper&gt;
 	{
 		@Override
 		<font CLASS=keyword>public</font> DoubleWrapper apply(DoubleWrapper x)

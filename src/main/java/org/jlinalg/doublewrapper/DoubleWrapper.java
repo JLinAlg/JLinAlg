@@ -17,7 +17,6 @@
 package org.jlinalg.doublewrapper;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,8 +37,10 @@ import org.jlinalg.rational.Rational;
  */
 
 public class DoubleWrapper
-		extends FieldElement<DoubleWrapper>
-		implements IRingElement<DoubleWrapper>
+		extends
+		FieldElement<DoubleWrapper>
+		implements
+		IRingElement<DoubleWrapper>
 {
 	/**
 	 * 
@@ -128,8 +129,8 @@ public class DoubleWrapper
 			throws DivisionByZeroException
 	{
 		if (val.isZero()) {
-			throw new DivisionByZeroException("Tried to divide " + this + "by"
-					+ val + ".");
+			throw new DivisionByZeroException(
+					"Tried to divide " + this + "by" + val + ".");
 		}
 		return new DoubleWrapper(this.value / (val).value);
 	}
@@ -201,7 +202,8 @@ public class DoubleWrapper
 	 * 
 	 * @param o
 	 *            the object
-	 * @return -,+,0} as this object is less than, equal to, or greater than the
+	 * @return {-,+,0} if this object is less than, equal to, or greater than
+	 *         the
 	 *         specified object.
 	 */
 	@Override
@@ -262,9 +264,13 @@ public class DoubleWrapper
 	 */
 	@JLinAlgTypeProperties(isExact = false, isDiscreet = false)
 	public class DoubleWrapperFactory
-			extends RingElementFactory<DoubleWrapper>
-			implements IRingElementFactory<DoubleWrapper>
+			extends
+			RingElementFactory<DoubleWrapper>
+			implements
+			IRingElementFactory<DoubleWrapper>
 	{
+		private static final long serialVersionUID = 1L;
+
 		/**
 		 * only used (once) by {@link DoubleWrapper} to instantiate
 		 * {@link DoubleWrapper#FACTORY}
@@ -302,8 +308,8 @@ public class DoubleWrapper
 					}
 					return new DoubleWrapper(Double.parseDouble(s));
 				} catch (NumberFormatException e) {
-					throw new InvalidOperationException("String " + o
-							+ " does not represent a double.");
+					throw new InvalidOperationException(
+							"String " + o + " does not represent a double.");
 				}
 			}
 			if (o instanceof Rational) {
@@ -315,28 +321,29 @@ public class DoubleWrapper
 				try {
 					java.lang.reflect.Method method = e.getFactory().getClass()
 							.getDeclaredMethod("doubleValue");
-					if (method.getReturnType().getClass().equals(Double.class))
+					if (method.getReturnType().getClass()
+							.equals(Double.class))
 					{
 						Double d = (Double) method.invoke(e);
 						return get(d.doubleValue());
 					}
 				} catch (SecurityException e1) {
-					throw new InvalidOperationException("SecurityException "
-							+ e1.getMessage());
+					throw new InvalidOperationException(
+							"SecurityException " + e1.getMessage());
 				} catch (NoSuchMethodException e1) {
 					// bad luck - try something else...
 				} catch (IllegalArgumentException e1) {
 					// this should not happen.
-					throw new InternalError("IllegalArgumentException "
-							+ e1.getMessage());
+					throw new InternalError(
+							"IllegalArgumentException " + e1.getMessage());
 				} catch (IllegalAccessException e1) {
 					// this should not happen.
-					throw new InternalError("IllegalAccessException "
-							+ e1.getMessage());
+					throw new InternalError(
+							"IllegalAccessException " + e1.getMessage());
 				} catch (InvocationTargetException e1) {
 					// this should not happen.
-					throw new InternalError("InvocationTargetException "
-							+ e1.getMessage());
+					throw new InternalError(
+							"InvocationTargetException " + e1.getMessage());
 				}
 			}
 			return super.get(o);
@@ -360,14 +367,6 @@ public class DoubleWrapper
 			return ONE;
 		}
 
-		@SuppressWarnings("deprecation")
-		@Override
-		@Deprecated
-		public DoubleWrapper randomValue(Random random)
-		{
-			return new DoubleWrapper(random.nextDouble());
-		}
-
 		@Override
 		public DoubleWrapper zero()
 		{
@@ -380,29 +379,10 @@ public class DoubleWrapper
 			return new DoubleWrapper[size];
 		}
 
-		@SuppressWarnings("deprecation")
-		@Override
-		@Deprecated
-		public DoubleWrapper gaussianRandomValue(
-				@SuppressWarnings("unused") Random random)
-		{
-			return gaussianRandomValue();
-		}
-
 		@Override
 		public DoubleWrapper get(long d)
 		{
 			return new DoubleWrapper(d);
-		}
-
-		@SuppressWarnings("deprecation")
-		@Override
-		@Deprecated
-		public DoubleWrapper randomValue(
-				@SuppressWarnings("unused") Random random, DoubleWrapper min,
-				DoubleWrapper max)
-		{
-			return randomValue(min, max);
 		}
 
 		@Override
@@ -424,7 +404,6 @@ public class DoubleWrapper
 		{
 			return new DoubleWrapper(random.nextDouble());
 		}
-
 	}
 
 	/**
@@ -435,4 +414,5 @@ public class DoubleWrapper
 	{
 		return (value >= 0) ? this : FACTORY.get(-value);
 	}
+
 }

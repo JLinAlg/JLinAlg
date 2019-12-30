@@ -26,7 +26,10 @@ import org.jlinalg.operator.MonadicOperator;
  * @author Andreas, Georg Thimm
  */
 public abstract class RingElement<RE extends IRingElement<RE>>
-		implements IRingElement<RE>, Comparable<RE>, Serializable
+		implements
+		IRingElement<RE>,
+		Comparable<RE>,
+		Serializable
 {
 
 	/**
@@ -79,7 +82,9 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	@Override
 	public boolean equals(Object obj)
 	{
-		if (obj == null) return false;
+		if (obj == null) {
+			return false;
+		}
 		return this.compareTo((RE) obj) == 0;
 	}
 
@@ -121,10 +126,9 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	@Override
 	public boolean lt(RE val)
 	{
-		if (getClass() != val.getClass())
-			throw new InvalidOperationException("cannot compare " + this
-					+ " in class" + getClass() + " and " + val + " in class "
-					+ val.getClass());
+		if (getClass() != val.getClass()) throw new InvalidOperationException(
+				"cannot compare " + this + " in class" + getClass() + " and "
+						+ val + " in class " + val.getClass());
 		return compareTo(val) < 0;
 	}
 
@@ -140,10 +144,9 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	@Override
 	public boolean gt(RE val)
 	{
-		if (getClass() != val.getClass())
-			throw new InvalidOperationException("cannot compare " + this
-					+ " in class" + getClass() + " and " + val + " in class "
-					+ val.getClass());
+		if (getClass() != val.getClass()) throw new InvalidOperationException(
+				"cannot compare " + this + " in class" + getClass() + " and "
+						+ val + " in class " + val.getClass());
 		return compareTo(val) > 0;
 	}
 
@@ -162,10 +165,9 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	@Override
 	public boolean le(RE val)
 	{
-		if (getClass() != val.getClass())
-			throw new InvalidOperationException("cannot compare " + this
-					+ " in class" + getClass() + " and " + val + " in class "
-					+ val.getClass());
+		if (getClass() != val.getClass()) throw new InvalidOperationException(
+				"cannot compare " + this + " in class" + getClass() + " and "
+						+ val + " in class " + val.getClass());
 		return compareTo(val) <= 0;
 	}
 
@@ -183,10 +185,9 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	@Override
 	public boolean ge(RE val)
 	{
-		if (getClass() != val.getClass())
-			throw new InvalidOperationException("cannot compare " + this
-					+ " in class" + getClass() + " and " + val + " in class "
-					+ val.getClass());
+		if (getClass() != val.getClass()) throw new InvalidOperationException(
+				"cannot compare " + this + " in class" + getClass() + " and "
+						+ val + " in class " + val.getClass());
 		return compareTo(val) >= 0;
 	}
 
@@ -214,12 +215,14 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	 *             as in the general case, an inversion is not possible.
 	 */
 	@Override
-	public RE invert() throws DivisionByZeroException,
-			InvalidOperationException
+	public RE invert() throws DivisionByZeroException, InvalidOperationException
 	{
 		throw new InvalidOperationException("RingElements of type "
 				+ this.getClass().getCanonicalName() + " cannot be inverted! "
 				+ this.getClass() + " objects cannot be inverted.");
 	}
+
+	@Override
+	public abstract int hashCode();
 
 }

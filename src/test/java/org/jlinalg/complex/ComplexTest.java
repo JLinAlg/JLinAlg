@@ -25,7 +25,7 @@ import java.util.Arrays;
 import org.jlinalg.InvalidOperationException;
 import org.jlinalg.complex.Complex.ComplexFactory;
 import org.jlinalg.rational.Rational;
-import org.jlinalg.rational.Rational.RationalFactory;
+import org.jlinalg.rational.RationalFactory;
 import org.jlinalg.testutil.RingElementTestBase;
 import org.junit.Test;
 

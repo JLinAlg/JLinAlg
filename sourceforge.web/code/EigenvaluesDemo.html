@@ -8,7 +8,7 @@ Get webcpp at http://webcpp.sf.net
 
 <html>
 <head>
-<title>../src/demo/java/org/jlinalg/demo/EigenvaluesDemo.java</title>
+<title>EigenvaluesDemo.java</title>
 <link rel="stylesheet" type="text/css" href="jlinalg.css"/>
 </head>
 <body>
@@ -58,7 +58,7 @@ Get webcpp at http://webcpp.sf.net
 		d3 <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> DoubleWrapper(<font CLASS=floatpt>3.0</font>);
 
 		<font CLASS=comment>// create a diagonal matrix</font>
-		Matrix&lt;DoubleWrapper&gt; diagonalMatrix <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Matrix&lt;DoubleWrapper&gt;(
+		Matrix&lt;DoubleWrapper&gt; diagonalMatrix <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Matrix&lt;&gt;(
 				<font CLASS=keyword>new</font> DoubleWrapper[][]
 				{
 						{
@@ -76,7 +76,7 @@ Get webcpp at http://webcpp.sf.net
 		System.out.println(<font CLASS=dblquot>"All eigenvalues: "</font> <font CLASS=symbols>+</font> diagonalMatrix.eig());
 
 		<font CLASS=comment>// In general, the eigenvalues of a real matrix can be complex:</font>
-		Matrix&lt;DoubleWrapper&gt; m <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Matrix&lt;DoubleWrapper&gt;(
+		Matrix&lt;DoubleWrapper&gt; m <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Matrix&lt;&gt;(
 				<font CLASS=keyword>new</font> DoubleWrapper[][]
 				{
 						{

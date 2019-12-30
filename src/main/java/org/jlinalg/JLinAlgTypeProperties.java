@@ -41,7 +41,7 @@ public @interface JLinAlgTypeProperties {
 	boolean isDiscreet() default true;
 
 	/**
-	 * @return true if the data type includes negative numbers (i.e. -1<0 is
+	 * @return true if the data type includes negative numbers (i.e. -1&lt;0 is
 	 *         true)
 	 */
 	boolean hasNegativeValues() default true;

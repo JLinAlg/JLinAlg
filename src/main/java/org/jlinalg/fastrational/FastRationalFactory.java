@@ -16,7 +16,6 @@
  */
 package org.jlinalg.fastrational;
 
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +39,8 @@ import org.jlinalg.rational.Rational;
  */
 @JLinAlgTypeProperties(hasNegativeValues = true, isCompound = false, isDiscreet = false, isExact = true)
 public class FastRationalFactory
-		extends RingElementFactory<FastRational>
+		extends
+		RingElementFactory<FastRational>
 {
 
 	private static final long serialVersionUID = 1L;
@@ -73,9 +73,8 @@ public class FastRationalFactory
 
 	public FastRational get(long numerator, long denominator, boolean cancel)
 	{
-		if (denominator == 0)
-			throw new DivisionByZeroException("illegal denominator "
-					+ numerator + "/" + denominator);
+		if (denominator == 0) throw new DivisionByZeroException(
+				"illegal denominator " + numerator + "/" + denominator);
 		if (numerator == 0) return ZERO;
 		if (cancel) {
 			long cancelledBy = FastRational.gcd(denominator, numerator);
@@ -91,18 +90,6 @@ public class FastRationalFactory
 			if (numerator == -1) return M_ONE;
 		}
 		return new FastRational(numerator, denominator, false);
-	}
-
-	/**
-	 * @exception InvalidOperationException
-	 */
-	@SuppressWarnings("deprecation")
-	@Deprecated
-	@Override
-	public FastRational gaussianRandomValue(
-			@SuppressWarnings("unused") Random random)
-	{
-		throw new InvalidOperationException("Not implemented");
 	}
 
 	/**
@@ -160,35 +147,9 @@ public class FastRationalFactory
 	 * @exception InvalidOperationException
 	 * @deprecated as unimplemented
 	 */
-	@SuppressWarnings("deprecation")
-	@Deprecated
-	@Override
-	public FastRational randomValue(@SuppressWarnings("unused") Random random)
-	{
-		throw new InvalidOperationException("Not implemented");
-	}
-
-	/**
-	 * @exception InvalidOperationException
-	 * @deprecated as unimplemented
-	 */
 	@Deprecated
 	@Override
 	public FastRational randomValue(
-			@SuppressWarnings("unused") FastRational min,
-			@SuppressWarnings("unused") FastRational max)
-	{
-		throw new InvalidOperationException("Not implemented");
-	}
-
-	/**
-	 * @exception InvalidOperationException
-	 * @deprecated as unimplemented
-	 */
-	@SuppressWarnings("deprecation")
-	@Deprecated
-	@Override
-	public FastRational randomValue(@SuppressWarnings("unused") Random random,
 			@SuppressWarnings("unused") FastRational min,
 			@SuppressWarnings("unused") FastRational max)
 	{
@@ -202,6 +163,8 @@ public class FastRationalFactory
 	}
 
 	/**
+	 * Not implemented.
+	 * 
 	 * @exception InvalidOperationException
 	 */
 	@Deprecated
@@ -229,9 +192,9 @@ public class FastRationalFactory
 	 * classes are permissible:
 	 * <UL>
 	 * <li>those extending on {@link java.lang.Number},
-	 * <li> {@link Rational},
-	 * <li> {@link DoubleWrapper}
-	 * <li> {@link String} in the form of integers, exponential or fractional
+	 * <li>{@link Rational},
+	 * <li>{@link DoubleWrapper}
+	 * <li>{@link String} in the form of integers, exponential or fractional
 	 * representation.
 	 * </UL>
 	 * If the argument is a FastRational, it is returned. Should the given
@@ -260,8 +223,8 @@ public class FastRationalFactory
 		}
 		if (object instanceof Rational) {
 			Rational r = (Rational) object;
-			return new FastRational(r.getNumerator().longValue(), r
-					.getDenominator().longValue(), false);
+			return new FastRational(r.getNumerator().longValue(),
+					r.getDenominator().longValue(), false);
 		}
 		if (object instanceof CharSequence) {
 			if ("".equals(object)) return null;
@@ -274,9 +237,8 @@ public class FastRationalFactory
 						Long.parseLong(m.group(2)), true);
 			}
 			m = doublePattern.matcher((CharSequence) object);
-			if (m.matches())
-				return FastRationalFactory.INSTANCE.get(Double
-						.parseDouble((String) object));
+			if (m.matches()) return FastRationalFactory.INSTANCE
+					.get(Double.parseDouble((String) object));
 
 			throw new InvalidOperationException("String " + object
 					+ " does not represent a valid fraction.");

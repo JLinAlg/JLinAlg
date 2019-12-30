@@ -83,9 +83,9 @@ public class FastRationalMatrixTest
 			for (int k = 0; k < fes3[0].length; k++) {
 				fes3[i][k] = FastRational.FACTORY.get(-i, k + 1);
 			}
-		m1 = new Matrix<FastRational>(fes1);
-		m2 = new Matrix<FastRational>(fes2);
-		m3 = new Matrix<FastRational>(fes3);
+		m1 = new Matrix<>(fes1);
+		m2 = new Matrix<>(fes2);
+		m3 = new Matrix<>(fes3);
 	}
 
 	/**
@@ -143,7 +143,7 @@ public class FastRationalMatrixTest
 	 */
 	private void _setRowFromMatrix(Matrix<FastRational> m0)
 	{
-		Matrix<FastRational> m = new Matrix<FastRational>(m0.getRows(), m0
+		Matrix<FastRational> m = new Matrix<>(m0.getRows(), m0
 				.getCols(), FastRational.FACTORY);
 		for (int r = 1; r <= m0.getRows(); r++)
 			m.setRowFromMatrix(r, m0, r);
@@ -169,7 +169,7 @@ public class FastRationalMatrixTest
 	 */
 	private void _setColFromMatrix(Matrix<FastRational> m0)
 	{
-		Matrix<FastRational> m = new Matrix<FastRational>(m0.getRows(), m0
+		Matrix<FastRational> m = new Matrix<>(m0.getRows(), m0
 				.getCols(), m0.getFactory());
 		for (int c = 1; c <= m0.getCols(); c++)
 			m.setColFromMatrix(c, m0, c);
@@ -182,7 +182,7 @@ public class FastRationalMatrixTest
 	@Test
 	public void testSetRow_()
 	{
-		Matrix<FastRational> m = new Matrix<FastRational>(7, 4,
+		Matrix<FastRational> m = new Matrix<>(7, 4,
 				FastRational.FACTORY);
 		for (int i = 1; i <= m.getRows(); i++)
 			m.setRow(i, FastRational.FACTORY.get(i, 8));
@@ -193,7 +193,7 @@ public class FastRationalMatrixTest
 						+ "," + c + "]", v.equals(m.get(r, c)));
 		}
 
-		m = new Matrix<FastRational>(17, 41, FastRational.FACTORY);
+		m = new Matrix<>(17, 41, FastRational.FACTORY);
 		for (int i = 1; i <= m.getRows(); i++)
 			m.setRow(i, FastRational.FACTORY.get(i, 81));
 		for (int r = 1; r <= 17; r++) {
@@ -210,7 +210,7 @@ public class FastRationalMatrixTest
 	@Test
 	public void testMean_()
 	{
-		Matrix<FastRational> m = new Matrix<FastRational>(3, 4,
+		Matrix<FastRational> m = new Matrix<>(3, 4,
 				FastRational.FACTORY);
 		for (int r = 1; r <= m.getRows(); r++) {
 			for (int c = 1; c <= m.getCols(); c++) {
@@ -230,7 +230,7 @@ public class FastRationalMatrixTest
 
 	Matrix<FastRational> fractions(final int k)
 	{
-		Matrix<FastRational> m = new Matrix<FastRational>(k, k,
+		Matrix<FastRational> m = new Matrix<>(k, k,
 				FastRational.FACTORY);
 		for (int c = 1; c <= k; c++)
 			for (int r = 1; r <= k; r++)
@@ -240,7 +240,7 @@ public class FastRationalMatrixTest
 
 	Matrix<FastRational> funny(final int k)
 	{
-		Matrix<FastRational> m = new Matrix<FastRational>(k, k,
+		Matrix<FastRational> m = new Matrix<>(k, k,
 				FastRational.FACTORY);
 		for (int c = 1; c <= k; c++)
 			for (int r = 1; r <= k; r++)

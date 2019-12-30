@@ -37,7 +37,7 @@ public class DoubleWrapperMatrixTest
 	@Test
 	public void testMean()
 	{
-		Matrix<DoubleWrapper> m = new Matrix<DoubleWrapper>(3, 4,
+		Matrix<DoubleWrapper> m = new Matrix<>(3, 4,
 				DoubleWrapper.FACTORY);
 		for (int r = 1; r <= m.getRows(); r++) {
 			for (int c = 1; c <= m.getCols(); c++) {

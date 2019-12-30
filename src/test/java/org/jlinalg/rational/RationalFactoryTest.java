@@ -23,7 +23,6 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import org.jlinalg.IRingElementFactory;
-import org.jlinalg.rational.Rational.RationalFactory;
 import org.jlinalg.testutil.LinAlgFactoryTestBase;
 import org.junit.Test;
 
@@ -31,7 +30,8 @@ import org.junit.Test;
  * @author Georg Thimm
  */
 public class RationalFactoryTest
-		extends LinAlgFactoryTestBase<Rational>
+		extends
+		LinAlgFactoryTestBase<Rational>
 {
 	private static RationalFactory rFac = Rational.FACTORY;
 
@@ -61,14 +61,14 @@ public class RationalFactoryTest
 		assertSame(rFac.zero(), rFac.get("-0.0"));
 		assertSame(rFac.one(), rFac.get(1));
 
-		assertTrue(11.0 == rFac.get(new Double(11)).doubleValue());
-		assertEquals(rFac.one(), rFac.get(new Double(1)));
-		assertEquals(rFac.m_one(), rFac.get(new Double(-1)));
-		assertTrue(11.0 == rFac.get(new Double(11)).doubleValue());
-		assertSame(rFac.one(), rFac.get(new Integer(1)));
-		assertSame(rFac.m_one(), rFac.get(new Integer(-1)));
-		assertSame(rFac.zero(), rFac.get(new Integer(0)));
-		assertTrue(rFac.get(new Integer(0)) == rFac.zero());
+		assertTrue(11.0 == rFac.get(Double.valueOf(11)).doubleValue());
+		assertEquals(rFac.one(), rFac.get(Double.valueOf(1)));
+		assertEquals(rFac.m_one(), rFac.get(Double.valueOf(-1)));
+		assertTrue(11.0 == rFac.get(Double.valueOf(11)).doubleValue());
+		assertSame(rFac.one(), rFac.get(Integer.valueOf(1)));
+		assertSame(rFac.m_one(), rFac.get(Integer.valueOf(-1)));
+		assertSame(rFac.zero(), rFac.get(Integer.valueOf(0)));
+		assertTrue(rFac.get(Integer.valueOf(0)) == rFac.zero());
 		assertEquals(rFac.get(1, 11), rFac.get(3024, 33264));
 	}
 

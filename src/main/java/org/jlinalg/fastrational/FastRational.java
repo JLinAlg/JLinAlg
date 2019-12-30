@@ -27,9 +27,12 @@ import java.math.BigInteger;
 import org.jlinalg.DivisionByZeroException;
 import org.jlinalg.FieldElement;
 import org.jlinalg.InvalidOperationException;
+import org.jlinalg.JLinAlgTypeProperties;
 
+@JLinAlgTypeProperties(isDiscreet = true, isExact = true)
 public class FastRational
-		extends FieldElement<FastRational>
+		extends
+		FieldElement<FastRational>
 {
 
 	public final static FastRationalFactory FACTORY = FastRationalFactory.INSTANCE;
@@ -51,7 +54,6 @@ public class FastRational
 	/**
 	 * @return true if the both numbers have the same numerator and
 	 *         denominator
-	 * @see org.jlinalg.Rational#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj)
@@ -62,7 +64,8 @@ public class FastRational
 			FastRational r = (FastRational) obj;
 			return r.numerator == numerator && r.denominator == denominator;
 		}
-		throw new Error("can no compare with object in class " + obj.getClass());
+		throw new Error(
+				"can no compare with object in class " + obj.getClass());
 	}
 
 	/**
@@ -94,8 +97,8 @@ public class FastRational
 			throw new InvalidOperationException("The  numerator " + numerator
 					+ " exceeds the permissible range.");
 		if (denominator.abs().compareTo(MAX_INT_BIGINTEGER) > 0)
-			throw new InvalidOperationException("The  denomiator "
-					+ denominator + " exceeds the permissible range.");
+			throw new InvalidOperationException("The  denomiator " + denominator
+					+ " exceeds the permissible range.");
 		long n = numerator.longValue();
 		long d = denominator.longValue();
 
@@ -198,8 +201,8 @@ public class FastRational
 			value = Math.abs(value);
 		}
 		if (Math.abs(value) > 1e9) {
-			throw new InvalidOperationException("The double " + value
-					+ " is too big.");
+			throw new InvalidOperationException(
+					"The double " + value + " is too big.");
 		}
 
 		String strValue = Double.toString(value);
@@ -220,19 +223,18 @@ public class FastRational
 
 		long newNumerator = Long.parseLong(preDotString);
 		long newNumerator2 = Long.parseLong(postDotString);
-		long newDenominator = FastRationalFactory.long10toPower(postDotString
-				.length());
+		long newDenominator = FastRationalFactory
+				.long10toPower(postDotString.length());
 
 		FastRational tmp = (new FastRational(newNumerator, 1, false))
 				.add(new FastRational(newNumerator2, newDenominator, true));
 		if (exp > 0) {
-			tmp = tmp.multiply(new FastRational(FastRationalFactory
-					.long10toPower(exp), 1, false));
+			tmp = tmp.multiply(new FastRational(
+					FastRationalFactory.long10toPower(exp), 1, false));
 		}
 		else {
-			if (exp < 0)
-				tmp = tmp.multiply(new FastRational(1, FastRationalFactory
-						.long10toPower(-exp), false));
+			if (exp < 0) tmp = tmp.multiply(new FastRational(1,
+					FastRationalFactory.long10toPower(-exp), false));
 		}
 
 		long numerator = tmp.getNumerator();
@@ -260,11 +262,10 @@ public class FastRational
 			throw new DivisionByZeroException("can not divide by zero");
 		if (r.numerator == 1 && r.denominator == 1) return this;
 		if (numerator == 1 && denominator == 1) {
-			if (r.numerator > 0)
-				return FastRational.FACTORY.get(r.denominator, r.numerator,
-						false);
-			return FastRational.FACTORY
-					.get(-r.denominator, -r.numerator, false);
+			if (r.numerator > 0) return FastRational.FACTORY.get(r.denominator,
+					r.numerator, false);
+			return FastRational.FACTORY.get(-r.denominator, -r.numerator,
+					false);
 		}
 		long g = gcd(numerator, r.numerator);
 		long n1 = numerator / g;
@@ -282,7 +283,8 @@ public class FastRational
 	{
 		if (this == FastRationalFactory.ZERO
 				|| this == FastRationalFactory.NOTANUMBER
-				|| this == FastRationalFactory.UNKNOWN) return this;
+				|| this == FastRationalFactory.UNKNOWN)
+			return this;
 		if (this == FastRationalFactory.ZERO) return this;
 		if (this == FastRationalFactory.ONE) return FastRationalFactory.M_ONE;
 		if (this == FastRationalFactory.M_ONE) return FastRationalFactory.ONE;
@@ -305,8 +307,9 @@ public class FastRational
 			return new FastRational(numerator + r.numerator, 1, false);
 		// long g = gcd( denominator , r.denominator);
 
-		return FastRational.FACTORY.get(numerator * r.denominator + r.numerator
-				* denominator, denominator * r.denominator, true);
+		return FastRational.FACTORY.get(
+				numerator * r.denominator + r.numerator * denominator,
+				denominator * r.denominator, true);
 	}
 
 	@Override
@@ -323,8 +326,9 @@ public class FastRational
 		if (r.numerator == 0) return this;
 		if (denominator == 1 && r.denominator == 1)
 			return FastRational.FACTORY.get(numerator - r.numerator, 1, false);
-		return FastRational.FACTORY.get(numerator * r.denominator - r.numerator
-				* denominator, denominator * r.denominator, true);
+		return FastRational.FACTORY.get(
+				numerator * r.denominator - r.numerator * denominator,
+				denominator * r.denominator, true);
 	}
 
 	@Override
@@ -337,8 +341,7 @@ public class FastRational
 	@Override
 	public FastRational multiply(FastRational r)
 	{
-		if (numerator == 0 || r.numerator == 0)
-			return FastRationalFactory.ZERO;
+		if (numerator == 0 || r.numerator == 0) return FastRationalFactory.ZERO;
 		if (this.equals(FastRationalFactory.ONE)) return r;
 		if (r.equals(FastRationalFactory.ONE)) return this;
 		long g = gcd(numerator, r.denominator);

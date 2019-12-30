@@ -32,18 +32,18 @@ import org.junit.runners.Parameterized;
  */
 @RunWith(Parameterized.class)
 public class SquareOperatorTest<RE extends IRingElement<RE>>
-		extends OperatorTestBase<RE>
+		extends
+		OperatorTestBase<RE>
 {
 	final MonadicOperator<RE> operator;
 
 	/**
 	 * Constructor: used by the test suite runner.
 	 */
-	@SuppressWarnings("unchecked")
 	public SquareOperatorTest(IRingElementFactory<RE> factory)
 	{
 		super(factory);
-		operator = (MonadicOperator<RE>) SquareOperator.getInstance();
+		operator = factory.getSquareOperator();
 	}
 
 	@Test
@@ -63,10 +63,10 @@ public class SquareOperatorTest<RE extends IRingElement<RE>>
 		assumeTrue(!methodIsDepreciated(getFactory().one(), "abs", null));
 		assumeTrue(!dataTypeIsDiscreet());
 		IRingElementFactory<RE> f = getFactory();
-		testSqrSum(getLinAlgFactory().ones(5).multiply(f.get("1/2")), f
-				.get("5/4"));
-		testSqrSum(getLinAlgFactory().ones(7).multiply(f.get("1/3")), f
-				.get("7/9"));
+		testSqrSum(getLinAlgFactory().ones(5).multiply(f.get("1/2")),
+				f.get("5/4"));
+		testSqrSum(getLinAlgFactory().ones(7).multiply(f.get("1/3")),
+				f.get("7/9"));
 	}
 
 	/**

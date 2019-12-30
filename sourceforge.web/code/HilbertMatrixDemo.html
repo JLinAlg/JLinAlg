@@ -8,7 +8,7 @@ Get webcpp at http://webcpp.sf.net
 
 <html>
 <head>
-<title>../src/demo/java/org/jlinalg/demo/HilbertMatrixDemo.java</title>
+<title>HilbertMatrixDemo.java</title>
 <link rel="stylesheet" type="text/css" href="jlinalg.css"/>
 </head>
 <body>
@@ -59,14 +59,14 @@ Get webcpp at http://webcpp.sf.net
 		<font CLASS=keyword>for</font> (<font CLASS=keytype>int</font> dimension <font CLASS=symbols>=</font> <font CLASS=integer>1</font>; dimension &lt;<font CLASS=symbols>=</font> <font CLASS=integer>50</font>; dimension++) {
 			Matrix&lt;DoubleWrapper&gt; m <font CLASS=symbols>=</font> createHilbertMatrix(dimension,
 					DoubleWrapper.FACTORY);
-			LinAlgFactory&lt;DoubleWrapper&gt; factory <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> LinAlgFactory&lt;DoubleWrapper&gt;(
+			LinAlgFactory&lt;DoubleWrapper&gt; factory <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> LinAlgFactory&lt;&gt;(
 					m.getFactory());
 			Vector&lt;DoubleWrapper&gt; solution <font CLASS=symbols>=</font> LinSysSolver.solve(m,
 					factory.ones(dimension));
 
 			Matrix&lt;Rational&gt; mExact <font CLASS=symbols>=</font> createHilbertMatrix(dimension,
 					Rational.FACTORY);
-			LinAlgFactory&lt;Rational&gt; factoryRational <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> LinAlgFactory&lt;Rational&gt;(
+			LinAlgFactory&lt;Rational&gt; factoryRational <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> LinAlgFactory&lt;&gt;(
 					mExact.getFactory());
 			Vector&lt;Rational&gt; solutionExact <font CLASS=symbols>=</font> LinSysSolver.solve(mExact,
 					factoryRational.ones(dimension));
@@ -83,7 +83,7 @@ Get webcpp at http://webcpp.sf.net
 	<font CLASS=keyword>private</font> <font CLASS=keytype>static</font> &lt;RE <font CLASS=keyword>extends</font> FieldElement&lt;RE&gt;&gt; Matrix&lt;RE&gt; createHilbertMatrix(
 			<font CLASS=keytype>int</font> dimension, IRingElementFactory&lt;RE&gt; factory)
 	{
-		Matrix&lt;RE&gt; hilbertMatrix <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Matrix&lt;RE&gt;(dimension, dimension, factory);
+		Matrix&lt;RE&gt; hilbertMatrix <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Matrix&lt;&gt;(dimension, dimension, factory);
 		RE one <font CLASS=symbols>=</font> factory.one();
 		<font CLASS=keyword>for</font> (<font CLASS=keytype>int</font> row <font CLASS=symbols>=</font> <font CLASS=integer>1</font>; row &lt;<font CLASS=symbols>=</font> hilbertMatrix.getRows(); row<font CLASS=symbols>++</font>) {
 			RE rowNumber <font CLASS=symbols>=</font> factory.get(row);
@@ -98,7 +98,7 @@ Get webcpp at http://webcpp.sf.net
 
 	<font CLASS=keyword>private</font> <font CLASS=keytype>static</font> Vector&lt;Rational&gt; convert(Vector&lt;DoubleWrapper&gt; vector)
 	{
-		Vector&lt;Rational&gt; converted <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Vector&lt;Rational&gt;(vector.length(),
+		Vector&lt;Rational&gt; converted <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Vector&lt;&gt;(vector.length(),
 				Rational.FACTORY);
 		<font CLASS=keyword>for</font> (<font CLASS=keytype>int</font> i <font CLASS=symbols>=</font> <font CLASS=integer>1</font>; i &lt;<font CLASS=symbols>=</font> vector.length(); i++) {
 			converted.set(i, Rational.FACTORY.get(vector.getEntry(i)));

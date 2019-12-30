@@ -171,7 +171,7 @@ It is licensed under the <a href="http://www.gnu.org/copyleft/lgpl.html"><strong
 	<li><a href="http://www.cs.wlu.edu/~levy">Simon D. Levy</a>: Assoc. Professor, Washington and Lee University, USA</li>
 	<li><a href="http://pp.info.uni-karlsruhe.de/personhp/andreas_lochbihler.php">Andreas Lochbihler</a>: Postdoc at the ETH Zurich, Switzerland</li>
 	<li><a href="mailto:oekmen@in.tum.de">Safak &Ouml;kmen</a>: Computer Scientist, TU Munich, Germany.
-	<li><a href="http://www.adam.ntu.edu.sg/~mgeorg">Georg Lothar Thimm</a>: Asst. Professor, Nanyang Technological University, Singapore</li>
+	<li><a href="http://www.adam.ntu.edu.sg/~mgeorg">Georg Thimm</a>: Seniour Software Architect,  Germany</li>
 	<li>Christian W&uuml;rzebesser: former Research Associate, EAWAG, Zurich, Switzerland</li>
 	<li>... and perhaps you, too. Use our <a href="https://sourceforge.net/forum/?group_id=71387">forums</a> at Sourceforge and contact us!</li>
 </ul>

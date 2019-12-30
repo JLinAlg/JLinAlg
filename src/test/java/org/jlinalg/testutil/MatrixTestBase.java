@@ -31,8 +31,10 @@ import org.junit.Assume;
 import org.junit.Test;
 
 public abstract class MatrixTestBase<RE extends IRingElement<RE>>
-		extends TestBaseFixture<RE>
-		implements TestBaseInterface<RE>
+		extends
+		TestBaseFixture<RE>
+		implements
+		TestBaseInterface<RE>
 {
 
 	protected static final String[][] mat_1to9 = {
@@ -66,9 +68,9 @@ public abstract class MatrixTestBase<RE extends IRingElement<RE>>
 		testInversion_subroutine(TestMatrices.getM2x2A_inv(getFactory()));
 		if (!dataTypeIsDiscreet()
 				&& !(getFactory() instanceof FastRationalFactory))
-		// the matrix large includes fractions
-			testInversion_subroutine(TestMatrices
-					.getLargeInversible(getFactory()));
+			// the matrix large includes fractions
+			testInversion_subroutine(
+					TestMatrices.getLargeInversible(getFactory()));
 	}
 
 	/**
@@ -153,9 +155,10 @@ public abstract class MatrixTestBase<RE extends IRingElement<RE>>
 	{
 		assertNotNull(getFactory().get("5"));
 		assertNotNull(getLinAlgFactory());
-		assertEquals("Trace of matrix\n" + getLinAlgFactory().identity(5)
-				+ " is wrong", getFactory().get("5"), getLinAlgFactory()
-				.identity(5).trace());
+		assertEquals(
+				"Trace of matrix\n" + getLinAlgFactory().identity(5)
+						+ " is wrong",
+				getFactory().get("5"), getLinAlgFactory().identity(5).trace());
 		assertEquals("Trace zero matrix=0", getFactory().get("0"),
 				getLinAlgFactory().zeros(4, 4).trace());
 	}
@@ -166,8 +169,8 @@ public abstract class MatrixTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testAdd_base()
 	{
-		Matrix<RE> m0 = new Matrix<RE>(mat_1to9, getFactory());
-		Matrix<RE> m1 = new Matrix<RE>(mat_2to10, getFactory());
+		Matrix<RE> m0 = new Matrix<>(mat_1to9, getFactory());
+		Matrix<RE> m1 = new Matrix<>(mat_2to10, getFactory());
 		Matrix<RE> ones = getLinAlgFactory().ones(3, 3);
 		m0 = m0.add(ones);
 		assertEquals(m0, m1);
@@ -198,7 +201,7 @@ public abstract class MatrixTestBase<RE extends IRingElement<RE>>
 						"8", "9", "10"
 				}
 		};
-		Matrix<RE> m = new Matrix<RE>(values, getFactory());
+		Matrix<RE> m = new Matrix<>(values, getFactory());
 
 		assertEquals(3, m.rank());
 		m = m.transpose();
@@ -223,7 +226,7 @@ public abstract class MatrixTestBase<RE extends IRingElement<RE>>
 						"0", "0", "5"
 				}
 		};
-		Matrix<RE> m = new Matrix<RE>(values, getFactory());
+		Matrix<RE> m = new Matrix<>(values, getFactory());
 
 		testDetSub(m, getFactory().get("10"));
 		String[][] values2 = {
@@ -235,8 +238,8 @@ public abstract class MatrixTestBase<RE extends IRingElement<RE>>
 						"1", "2", "-5"
 				}
 		};
-		testDetSub(new Matrix<RE>(values2, getFactory()), getFactory()
-				.get("-8"));
+		testDetSub(new Matrix<>(values2, getFactory()),
+				getFactory().get("-8"));
 
 		m = getLinAlgFactory().identity(5);
 		m.multiplyReplace(getFactory().m_one());
@@ -276,10 +279,10 @@ public abstract class MatrixTestBase<RE extends IRingElement<RE>>
 						Integer.valueOf(0), "1", "2"
 
 				}, {
-						Rational.FACTORY.get(3), new Long(4), new Double(5),
+						Rational.FACTORY.get(3), Long.valueOf(4), Double.valueOf(5),
 				}
 		};
-		Matrix<RE> m = new Matrix<RE>(o, getFactory());
+		Matrix<RE> m = new Matrix<>(o, getFactory());
 		assertNotNull(m);
 		assertEquals(o.length, m.getRows());
 		assertEquals(o[0].length, m.getCols());
@@ -287,8 +290,8 @@ public abstract class MatrixTestBase<RE extends IRingElement<RE>>
 		for (int row = 1; row <= m.getRows(); row++) {
 			for (int col = 1; col <= m.getCols(); col++) {
 				String s = m.get(row, col).toString();
-				assertEquals("element " + m.get(row, col) + " is wrong.",
-						count, Integer.parseInt(s.substring(0, 1)));
+				assertEquals("element " + m.get(row, col) + " is wrong.", count,
+						Integer.parseInt(s.substring(0, 1)));
 				count++;
 			}
 		}
@@ -301,8 +304,8 @@ public abstract class MatrixTestBase<RE extends IRingElement<RE>>
 	public final void testOrder_base()
 	{
 		if (!dataTypeIsExact()) {
-			System.out.println("Skip test Matrix.order() for factory "
-					+ getFactory());
+			System.out.println(
+					"Skip test Matrix.order() for factory " + getFactory());
 			return;
 		}
 		int o = getLinAlgFactory().identity(3).order(10);
@@ -332,10 +335,10 @@ public abstract class MatrixTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testMatrixIRingElementMatrixIRingElementFactoryOfRE_base()
 	{
-		Matrix<StringWrapper> matS = new Matrix<StringWrapper>(mat_1to9,
+		Matrix<StringWrapper> matS = new Matrix<>(mat_1to9,
 				StringWrapper.FACTORY);
-		Matrix<RE> matRE1 = new Matrix<RE>(mat_1to9, getFactory());
-		Matrix<RE> matRE2 = new Matrix<RE>(matS, getFactory());
+		Matrix<RE> matRE1 = new Matrix<>(mat_1to9, getFactory());
+		Matrix<RE> matRE2 = new Matrix<>(matS, getFactory());
 		assertNotNull(matRE2);
 		assertEquals(matRE1, matRE2);
 	}

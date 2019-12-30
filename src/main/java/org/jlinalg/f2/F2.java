@@ -16,11 +16,8 @@
  */
 package org.jlinalg.f2;
 
-import java.util.Random;
-
 import org.jlinalg.DivisionByZeroException;
 import org.jlinalg.FieldElement;
-import org.jlinalg.IRingElement;
 import org.jlinalg.IRingElementFactory;
 import org.jlinalg.InvalidOperationException;
 import org.jlinalg.JLinAlgTypeProperties;
@@ -35,7 +32,8 @@ import org.jlinalg.RingElementFactory;
  * @author Andreas Keilhauer, Georg Thimm
  */
 public class F2
-		extends FieldElement<F2>
+		extends
+		FieldElement<F2>
 {
 	/**
 	 * 
@@ -58,15 +56,15 @@ public class F2
 	 * 
 	 * @param val
 	 *            a F2-value
-	 * @return sum <=> logical XOR
+	 * @return sum &lt;=&gt; logical XOR
 	 * @exception InvalidOperationException
 	 *                if val is not in {{@link #ONE},{@link #ZERO} .
 	 */
 	@Override
 	public F2 add(F2 val)
 	{
-		if (!(val == ZERO || val == ONE))
-			throw new InvalidOperationException("illegal argument " + val + ".");
+		if (!(val == ZERO || val == ONE)) throw new InvalidOperationException(
+				"illegal argument " + val + ".");
 		if (val == this) return ZERO;
 		return ONE;
 	}
@@ -76,7 +74,7 @@ public class F2
 	 * 
 	 * @param val
 	 *            a F2-value
-	 * @return difference <=> logical XOR
+	 * @return difference &lt;=&gt; logical XOR
 	 * @exception InvalidOperationException
 	 *                if val is not in {{@link #ONE},{@link #ZERO} .
 	 */
@@ -90,7 +88,7 @@ public class F2
 	 * Calculates the product of this element and another one.
 	 * 
 	 * @param val
-	 * @return product <=> logical AND
+	 * @return product &lt;=&gt; logical AND
 	 * @exception InvalidOperationException
 	 *                if val is not in {{@link #ONE},{@link #ZERO} .
 	 */
@@ -105,7 +103,8 @@ public class F2
 	 * Calculates the quotient of this FieldElement and another one.
 	 * 
 	 * @param val
-	 * @return quotient <=> this value if val = 1m2 and undefined (Exception)
+	 * @return quotient &lt;=&gt; this value if val = 1m2 and undefined
+	 *         (Exception)
 	 *         otherwise
 	 * @exception InvalidOperationException
 	 *                if val == 0m2
@@ -115,8 +114,8 @@ public class F2
 	@Override
 	public F2 divide(F2 val)
 	{
-		if (!(val == ZERO || val == ONE))
-			throw new InvalidOperationException("illegal argument " + val + ".");
+		if (!(val == ZERO || val == ONE)) throw new InvalidOperationException(
+				"illegal argument " + val + ".");
 		if (val == ONE) {
 			return this;
 		}
@@ -127,7 +126,7 @@ public class F2
 	 * Calculates the inverse element of addition for this element. This is
 	 * incidentally for F2 <code>this</code>.
 	 * 
-	 * @return negated <=> this value
+	 * @return negated &lt;=&gt; this value
 	 */
 	@Override
 	public F2 negate()
@@ -190,8 +189,8 @@ public class F2
 	@Override
 	public int compareTo(F2 val)
 	{
-		if (!(val == ZERO || val == ONE))
-			throw new InvalidOperationException("illegal argument " + val + ".");
+		if (!(val == ZERO || val == ONE)) throw new InvalidOperationException(
+				"illegal argument " + val + ".");
 		if (this == val) return 0;
 		if (this == ZERO) return -1;
 		return 1;
@@ -237,7 +236,8 @@ public class F2
 	 */
 	@JLinAlgTypeProperties(isExact = true, isDiscreet = true, hasNegativeValues = false)
 	public class F2Factory
-			extends RingElementFactory<F2>
+			extends
+			RingElementFactory<F2>
 	{
 
 		private static final long serialVersionUID = 1L;
@@ -267,8 +267,8 @@ public class F2
 					int i = Integer.parseInt(s);
 					return get(i);
 				} catch (NumberFormatException e) {
-					throw new InvalidOperationException(s
-							+ " can not be translated into a F2 element.");
+					throw new InvalidOperationException(
+							s + " can not be translated into a F2 element.");
 				}
 			}
 			if (o instanceof Integer) {
@@ -332,17 +332,6 @@ public class F2
 		}
 
 		/**
-		 * @return the same as {@link #randomValue()}
-		 */
-		@SuppressWarnings("deprecation")
-		@Override
-		@Deprecated
-		public F2 gaussianRandomValue(@SuppressWarnings("unused") Random random)
-		{
-			return randomValue();
-		}
-
-		/**
 		 * create an array to hold <code>rows</code> time <code>columns</code>
 		 * F2-instances.
 		 */
@@ -350,17 +339,6 @@ public class F2
 		public F2[][] getArray(int rows, int columns)
 		{
 			return new F2[rows][columns];
-		}
-
-		/**
-		 * @return the same as {@link #randomValue()}
-		 */
-		@SuppressWarnings("deprecation")
-		@Override
-		@Deprecated
-		public F2 randomValue(@SuppressWarnings("unused") Random random)
-		{
-			return randomValue();
 		}
 
 		/**
@@ -375,26 +353,9 @@ public class F2
 		}
 
 		/**
-		 * All parameters are ignored.
-		 * 
-		 * @see org.jlinalg.IRingElementFactory#randomValue(Random,
-		 *      IRingElement, IRingElement)
-		 */
-		@SuppressWarnings("deprecation")
-		@Override
-		@Deprecated
-		public F2 randomValue(@SuppressWarnings("unused") Random random,
-				@SuppressWarnings("unused") F2 min,
-				@SuppressWarnings("unused") F2 max)
-		{
-			return randomValue();
-		}
-
-		/**
 		 * @return the same as {@link #randomValue()}
 		 */
 		@Override
-		@Deprecated
 		public F2 gaussianRandomValue()
 		{
 			return randomValue();
@@ -405,7 +366,6 @@ public class F2
 		 *         ignored.
 		 */
 		@Override
-		@Deprecated
 		public F2 randomValue(@SuppressWarnings("unused") F2 min,
 				@SuppressWarnings("unused") F2 max)
 		{

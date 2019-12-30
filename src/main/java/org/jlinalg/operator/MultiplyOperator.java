@@ -23,33 +23,10 @@ import org.jlinalg.IRingElement;
  * 
  * @author Simon Levy, Andreas Keilhauer, Georg Thimm
  */
-@SuppressWarnings({
-	"unchecked"
-})
 public class MultiplyOperator<RE extends IRingElement<RE>>
-		implements DyadicOperator<RE>
+		implements
+		DyadicOperator<RE>
 {
-	/**
-	 * The singleton for this class.
-	 */
-	@SuppressWarnings("rawtypes")
-	private static final DyadicOperator<? extends IRingElement<?>> INSTANCE = new MultiplyOperator();
-
-	/**
-	 * @return the singleton instance for this operator.
-	 */
-	public static DyadicOperator<? extends IRingElement<?>> getInstance()
-	{
-		return INSTANCE;
-	}
-
-	/**
-	 * The constructor should only be called to create the singleton instance
-	 * (see {@link #getInstance()}.
-	 */
-	private MultiplyOperator()
-	{
-	}
 
 	@Override
 	public RE apply(RE x, RE y)

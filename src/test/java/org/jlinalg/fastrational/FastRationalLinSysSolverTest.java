@@ -60,7 +60,7 @@ public class FastRationalLinSysSolverTest
 	@Test
 	public void test1()
 	{
-		Matrix<Rational> a = new Matrix<Rational>(new Rational[][]
+		Matrix<Rational> a = new Matrix<>(new Rational[][]
 		{
 				{
 						r1, r0
@@ -69,11 +69,11 @@ public class FastRationalLinSysSolverTest
 						r0, r1
 				}
 		});
-		Vector<Rational> b = new Vector<Rational>(new Rational[]
+		Vector<Rational> b = new Vector<>(new Rational[]
 		{
 				r0, r0
 		});
-		assertTrue(new Vector<Rational>(new Rational[]
+		assertTrue(new Vector<>(new Rational[]
 		{
 				r0, r0
 		}).equals(LinSysSolver.solve(a, b)));
@@ -88,7 +88,7 @@ public class FastRationalLinSysSolverTest
 	@Test
 	public void test2()
 	{
-		Matrix<Rational> a = new Matrix<Rational>(new Rational[][]
+		Matrix<Rational> a = new Matrix<>(new Rational[][]
 		{
 				{
 						r1, r1
@@ -97,19 +97,19 @@ public class FastRationalLinSysSolverTest
 						r1, r1
 				}
 		});
-		Vector<Rational> b = new Vector<Rational>(new Rational[]
+		Vector<Rational> b = new Vector<>(new Rational[]
 		{
 				r1, r1
 		});
 
 		assertEquals(LinSysSolver.solutionSpace(a, b), LinSysSolver
 				.solutionSpace(a, b).normalize());
-		assertEquals(new Vector<Rational>(new Rational[]
+		assertEquals(new Vector<>(new Rational[]
 		{
 				r1, r0
 		}), LinSysSolver.solve(a, b));
 		assertEquals(1, LinSysSolver.solutionSpace(a, b).getDimension());
-		assertEquals(new Vector<Rational>(new Rational[]
+		assertEquals(new Vector<>(new Rational[]
 		{
 				r1, r1.negate()
 		}), LinSysSolver.solutionSpace(a, b).getGeneratingSystem()[0]);
@@ -122,7 +122,7 @@ public class FastRationalLinSysSolverTest
 	@Test
 	public void test3()
 	{
-		Matrix<Rational> a = new Matrix<Rational>(new Rational[][]
+		Matrix<Rational> a = new Matrix<>(new Rational[][]
 		{
 				{
 						r0, r1, r2
@@ -134,20 +134,20 @@ public class FastRationalLinSysSolverTest
 						r6, r7, r8
 				}
 		});
-		Vector<Rational> b = new Vector<Rational>(new Rational[]
+		Vector<Rational> b = new Vector<>(new Rational[]
 		{
 				r1, r2, r3
 		});
-		assertEquals(new Vector<Rational>(new Rational[]
+		assertEquals(new Vector<>(new Rational[]
 		{
 				r2.divide(r3).negate(), r1, r0
 		}), LinSysSolver.solve(a, b));
-		assertEquals(new Vector<Rational>(new Rational[]
+		assertEquals(new Vector<>(new Rational[]
 		{
 				r2.divide(r3).negate(), r1, r0
 		}), LinSysSolver.solutionSpace(a, b).getInhomogenousPart());
 		assertEquals(1, LinSysSolver.solutionSpace(a, b).getDimension());
-		assertEquals(new Vector<Rational>(new Rational[]
+		assertEquals(new Vector<>(new Rational[]
 		{
 				r1.negate(), r2, r1.negate()
 		}), LinSysSolver.solutionSpace(a, b).getGeneratingSystem()[0]);

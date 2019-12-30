@@ -39,7 +39,8 @@ import org.jlinalg.Vector;
  * @author Georg Thimm
  */
 public abstract class TestBaseFixture<RE extends IRingElement<RE>>
-		implements TestBaseInterface<RE>
+		implements
+		TestBaseInterface<RE>
 {
 
 	private LinAlgFactory<RE> linAlgFactory = null;
@@ -51,7 +52,7 @@ public abstract class TestBaseFixture<RE extends IRingElement<RE>>
 	final public LinAlgFactory<RE> getLinAlgFactory()
 	{
 		if (linAlgFactory == null) {
-			linAlgFactory = new LinAlgFactory<RE>(getFactory());
+			linAlgFactory = new LinAlgFactory<>(getFactory());
 		}
 		return linAlgFactory;
 	}
@@ -82,14 +83,14 @@ public abstract class TestBaseFixture<RE extends IRingElement<RE>>
 		if (annotation.isCompound()) {
 			Object baseFactory;
 			try {
-				baseFactory = getFactory().getClass().getMethod(
-						"getBaseFactory", (Class<?>[]) null).invoke(
-						getFactory());
+				baseFactory = getFactory().getClass()
+						.getMethod("getBaseFactory", (Class<?>[]) null)
+						.invoke(getFactory());
 			} catch (Exception e) {
 				throw new InternalError(e.toString());
 			}
-			annotation = baseFactory.getClass().getAnnotation(
-					JLinAlgTypeProperties.class);
+			annotation = baseFactory.getClass()
+					.getAnnotation(JLinAlgTypeProperties.class);
 			assertNotNull(baseFactory.getClass().getName(), annotation);
 		}
 		return annotation;
@@ -130,10 +131,10 @@ public abstract class TestBaseFixture<RE extends IRingElement<RE>>
 	public boolean methodIsDepreciated(Object object, String name,
 			Class<?>[] argTypes)
 	{
-		Method method;
 		try {
+			Method method;
 			method = object.getClass().getMethod(name, argTypes);
-			assertNotNull(method);
+
 			Deprecated annotation = method.getAnnotation(Deprecated.class);
 			// System.err.println(getFactory().getClass().getName() + " "
 			// + method.toGenericString() + " " + annotation);
@@ -179,9 +180,10 @@ public abstract class TestBaseFixture<RE extends IRingElement<RE>>
 			RE diff = getFactory().get(diff_);
 			for (int r = 1; r <= v1.getRows(); r++) {
 				for (int c = 1; c <= v1.getCols(); c++) {
-					assertTrue("diffenence between " + v1 + " and " + v2
-							+ " is too big", v1.get(r, c)
-							.subtract(v2.get(r, c)).abs().le(diff));
+					assertTrue(
+							"diffenence between " + v1 + " and " + v2
+									+ " is too big",
+							v1.get(r, c).subtract(v2.get(r, c)).abs().le(diff));
 				}
 			}
 		}
@@ -203,9 +205,10 @@ public abstract class TestBaseFixture<RE extends IRingElement<RE>>
 		else {
 			RE diff = getFactory().get(diff_);
 			for (int i = 1; i <= v1.length(); i++) {
-				assertTrue("diffenence between " + v1.toString() + " and "
-						+ v2.toString() + " is too big", v1.getEntry(i)
-						.subtract(v2.getEntry(i)).abs().le(diff));
+				assertTrue(
+						"diffenence between " + v1.toString() + " and "
+								+ v2.toString() + " is too big",
+						v1.getEntry(i).subtract(v2.getEntry(i)).abs().le(diff));
 			}
 		}
 	}

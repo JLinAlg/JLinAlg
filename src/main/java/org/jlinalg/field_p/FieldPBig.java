@@ -27,8 +27,9 @@ import org.jlinalg.InvalidOperationException;
  * 
  * @author Andreas Lochbihler, Georg Thimm
  */
-class FieldPBig
-		extends FieldP<FieldPBig>
+public class FieldPBig
+		extends
+		FieldP<FieldPBig>
 {
 	/**
 	 * 
@@ -59,7 +60,7 @@ class FieldPBig
 	 * value.
 	 * 
 	 * @param value
-	 *            Any representant of the desired equivalence class. Value is
+	 *            Any instance of the desired equivalence class. Value is
 	 *            assumed to be in the range 1..(p-1). For internal use only.
 	 * @param factory
 	 *            the factory producing elements in Fp (typically the caller of
@@ -84,9 +85,9 @@ class FieldPBig
 		if (val.factory == factory) {
 			return factory.get(value.add(val.value));
 		}
-		throw new IllegalArgumentException(val
-				+ " is from a different field Fp than " + this
-				+ "! You cannot add them.");
+		throw new IllegalArgumentException(
+				val + " is from a different field Fp than " + this
+						+ "! You cannot add them.");
 	}
 
 	/**
@@ -102,9 +103,9 @@ class FieldPBig
 		if (val.factory == factory) {
 			return factory.get(this.value.multiply(val.value));
 		}
-		throw new IllegalArgumentException(val
-				+ " is from a different field Fp than " + this
-				+ "! You cannot multiply them.");
+		throw new IllegalArgumentException(
+				val + " is from a different field Fp than " + this
+						+ "! You cannot multiply them.");
 	}
 
 	/**
@@ -128,15 +129,15 @@ class FieldPBig
 	 *             Thrown if value is is not relatively prime to p.
 	 */
 	@Override
-	public FieldPBig invert() throws InvalidOperationException,
-			ArithmeticException
+	public FieldPBig invert()
+			throws InvalidOperationException, ArithmeticException
 	{
 		if (this.isZero()) {
 			throw new DivisionByZeroException("Multiplicative inversion of 0");
 		}
 		if (this.inverse == null) {
-			this.inverse = factory.get(value
-					.modInverse(((FieldPBigFactory) factory).p));
+			this.inverse = factory
+					.get(value.modInverse(((FieldPBigFactory) factory).p));
 			inverse.inverse = this;
 		}
 		return inverse;
@@ -156,9 +157,9 @@ class FieldPBig
 		if (par.factory == factory) {
 			return value.compareTo(par.value);
 		}
-		throw new IllegalArgumentException(par
-				+ " is from a differend field than " + this
-				+ "! You cannot compare them");
+		throw new IllegalArgumentException(
+				par + " is from a differend field than " + this
+						+ "! You cannot compare them");
 	}
 
 	@Override

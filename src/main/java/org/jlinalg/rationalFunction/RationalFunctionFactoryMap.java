@@ -32,14 +32,16 @@ import org.jlinalg.IRingElementFactory;
  * @author Andreas Keilhauer (2014)
  */
 @SuppressWarnings("serial")
-public class RationalFunctionFactoryMap<RE extends IRingElement<RE>>
-		extends Hashtable<IRingElementFactory<RE>, RationalFunctionFactory<RE>>
+public final class RationalFunctionFactoryMap<RE extends IRingElement<RE>>
+		extends
+		Hashtable<IRingElementFactory<RE>, RationalFunctionFactory<RE>>
 {
 
 	/*
 	 * this is a singleton class
 	 */
-	public final static RationalFunctionFactoryMap<?> INSTANCE = new RationalFunctionFactoryMap();
+	@SuppressWarnings("rawtypes")
+	private final static RationalFunctionFactoryMap<?> INSTANCE = new RationalFunctionFactoryMap();
 
 	/**
 	 * No second instance of this class should be created
@@ -54,5 +56,26 @@ public class RationalFunctionFactoryMap<RE extends IRingElement<RE>>
 			RationalFunctionFactory<RE> value)
 	{
 		return super.put(key, value);
+	}
+
+	public static <RE extends IRingElement<RE>> RationalFunctionFactory<RE> getFactory(
+			RE value)
+	{
+		return getFactory(value.getFactory());
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <RE extends IRingElement<RE>> RationalFunctionFactory<RE> getFactory(
+			IRingElementFactory<RE> baseFactory)
+	{
+		RationalFunctionFactory<RE> factory = (RationalFunctionFactory<RE>) INSTANCE
+				.get(baseFactory);
+		if (factory == null) {
+			factory = new RationalFunctionFactory<>(baseFactory);
+			RationalFunctionFactoryMap.INSTANCE.put(
+					(IRingElementFactory) baseFactory,
+					(RationalFunctionFactory) factory);
+		}
+		return (RationalFunctionFactory<RE>) INSTANCE.get(baseFactory);
 	}
 }

@@ -34,7 +34,8 @@ import org.junit.Test;
  * @author Georg Thimm
  */
 public class FastRationalTest
-		extends FastRationalTestBase
+		extends
+		FastRationalTestBase
 {
 
 	private static FastRationalFactory rFac = FastRational.FACTORY;
@@ -159,7 +160,9 @@ public class FastRationalTest
 	/**
 	 * test {@link FastRational#compareTo(org.jlinalg.IRingElement)}
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({
+			"unchecked", "rawtypes"
+	})
 	@Test(expected = ClassCastException.class)
 	public void testCompareToFieldsExceptions()
 	{
@@ -174,12 +177,12 @@ public class FastRationalTest
 	@Test
 	public final void testDoubleValue()
 	{
-		assertTrue(rFac.zero().doubleValue() + "!=0.0", rFac.zero()
-				.doubleValue() == 0.0);
+		assertTrue(rFac.zero().doubleValue() + "!=0.0",
+				rFac.zero().doubleValue() == 0.0);
 		assertTrue(rFac.one().doubleValue() + "!=1.0",
 				rFac.one().doubleValue() == 1.0);
-		assertTrue(rFac.m_one().doubleValue() + "!=-1.0", rFac.m_one()
-				.doubleValue() == -1.0);
+		assertTrue(rFac.m_one().doubleValue() + "!=-1.0",
+				rFac.m_one().doubleValue() == -1.0);
 	}
 
 	/**
@@ -264,10 +267,10 @@ public class FastRationalTest
 				a.hashCode() == b.hashCode());
 		assertTrue("hashcode not equal: " + c + " & " + d,
 				c.hashCode() == d.hashCode());
-		Vector<FastRational> v1 = new Vector<FastRational>(2, rFac);
+		Vector<FastRational> v1 = new Vector<>(2, rFac);
 		v1.set(1, a);
 		v1.set(2, c);
-		Vector<FastRational> v2 = new Vector<FastRational>(2, rFac);
+		Vector<FastRational> v2 = new Vector<>(2, rFac);
 		v2.set(1, b);
 		v2.set(2, d);
 		assertTrue("hashcode not equal: " + v1 + " & " + v2,
@@ -316,7 +319,8 @@ public class FastRationalTest
 		assertEquals(zero, rFac.one().multiply(rFac.zero()));
 		assertEquals(rFac.zero(), rFac.one().multiply(rFac.zero()));
 		assertEquals(rFac.zero(), one.multiply(zero));
-		assertEquals(rFac.get(-6, 15), rFac.get(1, 3).multiply(rFac.get(-6, 5)));
+		assertEquals(rFac.get(-6, 15),
+				rFac.get(1, 3).multiply(rFac.get(-6, 5)));
 	}
 
 	/**

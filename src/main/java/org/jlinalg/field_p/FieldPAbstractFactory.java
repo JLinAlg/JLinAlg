@@ -29,8 +29,11 @@ import org.jlinalg.RingElementFactory;
  */
 @JLinAlgTypeProperties(isExact = true, isDiscreet = true, hasNegativeValues = false)
 public abstract class FieldPAbstractFactory<RE extends FieldP<RE>>
-		extends RingElementFactory<RE>
+		extends
+		RingElementFactory<RE>
 {
+	private static final long serialVersionUID = 1L;
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public RE[][] getArray(int rows, int columns)
@@ -44,5 +47,4 @@ public abstract class FieldPAbstractFactory<RE extends FieldP<RE>>
 	{
 		return (RE[]) new FieldP[size];
 	}
-
 }

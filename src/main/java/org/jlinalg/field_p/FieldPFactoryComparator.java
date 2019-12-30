@@ -19,7 +19,8 @@ package org.jlinalg.field_p;
 import java.util.Comparator;
 
 class FieldPFactoryComparator<T>
-		implements Comparator<Comparable<? super T>>
+		implements
+		Comparator<Comparable<? super T>>
 {
 	/**
 	 * If o1 and o2 are of the same class, return the value for a normal

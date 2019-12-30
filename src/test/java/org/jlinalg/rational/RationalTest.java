@@ -27,7 +27,6 @@ import org.jlinalg.IRingElement;
 import org.jlinalg.IRingElementFactory;
 import org.jlinalg.Vector;
 import org.jlinalg.doublewrapper.DoubleWrapper;
-import org.jlinalg.rational.Rational.RationalFactory;
 import org.jlinalg.testutil.RingElementTestBase;
 import org.junit.Test;
 
@@ -37,7 +36,8 @@ import org.junit.Test;
  * @author Georg Thimm
  */
 public class RationalTest
-		extends RingElementTestBase<Rational>
+		extends
+		RingElementTestBase<Rational>
 {
 
 	private static RationalFactory rFac = Rational.FACTORY;
@@ -111,7 +111,9 @@ public class RationalTest
 	/**
 	 * test {@link Rational#compareTo(org.jlinalg.IRingElement)}
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({
+			"unchecked", "rawtypes"
+	})
 	@Test(expected = ClassCastException.class)
 	public void testCompareToFieldsExceptions()
 	{
@@ -126,12 +128,12 @@ public class RationalTest
 	@Test
 	public final void testDoubleValue()
 	{
-		assertTrue(rFac.zero().doubleValue() + "!=0.0", rFac.zero()
-				.doubleValue() == 0.0);
+		assertTrue(rFac.zero().doubleValue() + "!=0.0",
+				rFac.zero().doubleValue() == 0.0);
 		assertTrue(rFac.one().doubleValue() + "!=1.0",
 				rFac.one().doubleValue() == 1.0);
-		assertTrue(rFac.m_one().doubleValue() + "!=-1.0", rFac.m_one()
-				.doubleValue() == -1.0);
+		assertTrue(rFac.m_one().doubleValue() + "!=-1.0",
+				rFac.m_one().doubleValue() == -1.0);
 	}
 
 	/**
@@ -156,7 +158,7 @@ public class RationalTest
 	}
 
 	/**
-	 * test {@link Rational.RationalFactory#get(Object)} for Strings
+	 * test {@link RationalFactory#get(Object)} for Strings
 	 */
 	@Test
 	public void testGetStrings()
@@ -212,14 +214,14 @@ public class RationalTest
 		Rational b = rFac.get(10, 11);
 		Rational c = rFac.get(1, 1);
 		Rational d = rFac.get(1, 1);
-		assertTrue("hashcode not equal: " + a + " & " + b, a.hashCode() == b
-				.hashCode());
-		assertTrue("hashcode not equal: " + c + " & " + d, c.hashCode() == d
-				.hashCode());
-		Vector<Rational> v1 = new Vector<Rational>(2, rFac);
+		assertTrue("hashcode not equal: " + a + " & " + b,
+				a.hashCode() == b.hashCode());
+		assertTrue("hashcode not equal: " + c + " & " + d,
+				c.hashCode() == d.hashCode());
+		Vector<Rational> v1 = new Vector<>(2, rFac);
 		v1.set(1, a);
 		v1.set(2, c);
-		Vector<Rational> v2 = new Vector<Rational>(2, rFac);
+		Vector<Rational> v2 = new Vector<>(2, rFac);
 		v2.set(1, b);
 		v2.set(2, d);
 		assertTrue("hashcode not equal: " + v1 + " & " + v2,
@@ -271,7 +273,8 @@ public class RationalTest
 		assertEquals(zero, rFac.one().multiply(rFac.zero()));
 		assertEquals(rFac.zero(), rFac.one().multiply(rFac.zero()));
 		assertEquals(rFac.zero(), one.multiply(zero));
-		assertEquals(rFac.get(-6, 15), rFac.get(1, 3).multiply(rFac.get(-6, 5)));
+		assertEquals(rFac.get(-6, 15),
+				rFac.get(1, 3).multiply(rFac.get(-6, 5)));
 	}
 
 	/**
@@ -327,8 +330,8 @@ public class RationalTest
 	@Test
 	public final void testRationalBigIntegerBigIntegerBoolean()
 	{
-		assertEquals(rFac.zero(), rFac.get(BigInteger.ZERO,
-				new BigInteger("1"), true));
+		assertEquals(rFac.zero(),
+				rFac.get(BigInteger.ZERO, new BigInteger("1"), true));
 		Rational r = rFac.get(new BigInteger("10"), BigInteger.ONE, true);
 		assertEquals(r, ten);
 		r = rFac.get(new BigInteger("100"), BigInteger.TEN, true);
@@ -381,8 +384,8 @@ public class RationalTest
 		assertEquals(1, rFac.zero().getDenominator().intValue());
 		Rational r = rFac.get(1, 77);
 		Rational p = rFac.get(1, 77);
-		assertEquals("1/77*0", 1, r.multiply(rFac.zero()).getDenominator()
-				.intValue());
+		assertEquals("1/77*0", 1,
+				r.multiply(rFac.zero()).getDenominator().intValue());
 		assertEquals("1/77-1/77", 1, r.subtract(p).getDenominator().intValue());
 	}
 
@@ -408,10 +411,10 @@ public class RationalTest
 		assertEquals(one_third, one_third.divide(one));
 		assertEquals(rFac.get(3, 1), one.divide(one_third));
 		assertEquals(rFac.get(15, 2), five_over_two.divide(one_third));
-		assertEquals(rFac.get(13 * 4, 7 * 3), rFac.get(13, 7).divide(
-				rFac.get(3, 4)));
-		assertEquals(rFac.get(-13 * 4, 7 * 3), rFac.get(13, 7).divide(
-				rFac.get(-3, 4)));
+		assertEquals(rFac.get(13 * 4, 7 * 3),
+				rFac.get(13, 7).divide(rFac.get(3, 4)));
+		assertEquals(rFac.get(-13 * 4, 7 * 3),
+				rFac.get(13, 7).divide(rFac.get(-3, 4)));
 	}
 
 	/**

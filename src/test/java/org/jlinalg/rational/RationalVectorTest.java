@@ -25,7 +25,6 @@ import org.jlinalg.IRingElementFactory;
 import org.jlinalg.InvalidOperationException;
 import org.jlinalg.Matrix;
 import org.jlinalg.Vector;
-import org.jlinalg.rational.Rational.RationalFactory;
 import org.jlinalg.testutil.VectorTestBase;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -93,9 +92,9 @@ public class RationalVectorTest
 	public static void initVectors()
 	{
 
-		v1a = new Vector<Rational>(dim, Rational.FACTORY);
-		v1b = new Vector<Rational>(dim, Rational.FACTORY);
-		v2 = new Vector<Rational>(dim, Rational.FACTORY);
+		v1a = new Vector<>(dim, Rational.FACTORY);
+		v1b = new Vector<>(dim, Rational.FACTORY);
+		v2 = new Vector<>(dim, Rational.FACTORY);
 		for (int i = 1; i <= v1a.length(); i++) {
 			v1a.set(i, Rational.FACTORY.get(i, dim));
 			v1b.set(i, Rational.FACTORY.get(i, dim));
@@ -140,7 +139,7 @@ public class RationalVectorTest
 	@Test(expected = InvalidOperationException.class)
 	public void testVectorSetDimMissmatch()
 	{
-		Vector<Rational> v = new Vector<Rational>(dim + 1, Rational.FACTORY);
+		Vector<Rational> v = new Vector<>(dim + 1, Rational.FACTORY);
 		v.set(v1a);
 	}
 
@@ -150,7 +149,7 @@ public class RationalVectorTest
 	@Test
 	public final void testElementProduct()
 	{
-		Vector<Rational> v = new Vector<Rational>(4, Rational.FACTORY);
+		Vector<Rational> v = new Vector<>(4, Rational.FACTORY);
 		v.setAll(Rational.FACTORY.get(1, 2));
 		assertTrue("1/2^4=1/16",
 				v.elementProduct().equals(Rational.FACTORY.get(1, 16)));
@@ -165,11 +164,11 @@ public class RationalVectorTest
 	@Test
 	public final void testCompareTo()
 	{
-		Vector<Rational> v1 = new Vector<Rational>(3, Rational.FACTORY);
+		Vector<Rational> v1 = new Vector<>(3, Rational.FACTORY);
 		for (int i = 1; i <= v1.length(); i++) {
 			v1.set(i, Rational.FACTORY.get(i * 3 - 1, i));
 		}
-		Vector<Rational> v2 = new Vector<Rational>(3, Rational.FACTORY);
+		Vector<Rational> v2 = new Vector<>(3, Rational.FACTORY);
 		for (int i = 1; i <= v2.length(); i++) {
 			v2.set(i, Rational.FACTORY.get(i * 3 - 1, i));
 		}
@@ -187,11 +186,11 @@ public class RationalVectorTest
 	@Test(expected = org.jlinalg.InvalidOperationException.class)
 	public final void testCompareToException()
 	{
-		Vector<Rational> v1 = new Vector<Rational>(3, Rational.FACTORY);
+		Vector<Rational> v1 = new Vector<>(3, Rational.FACTORY);
 		for (int i = 1; i <= v1.length(); i++) {
 			v1.set(i, Rational.FACTORY.get(i * 3 - 1, i));
 		}
-		Vector<Rational> v3 = new Vector<Rational>(4, Rational.FACTORY);
+		Vector<Rational> v3 = new Vector<>(4, Rational.FACTORY);
 		for (int i = 1; i <= v3.length(); i++) {
 			v3.set(i, Rational.FACTORY.get(i * 3 - 1, i));
 		}
@@ -206,7 +205,7 @@ public class RationalVectorTest
 	public void testDeterminante()
 	{
 		int dim = 3;
-		Matrix<Rational> m = new Matrix<Rational>(dim, dim, Rational.FACTORY);
+		Matrix<Rational> m = new Matrix<>(dim, dim, Rational.FACTORY);
 		for (int i = 1; i <= dim; i++) {
 			for (int j = 1; j <= dim; j++) {
 				if (i == j)
@@ -233,7 +232,7 @@ public class RationalVectorTest
 	@Before
 	public void setup()
 	{
-		v1 = new Vector<Rational>(3, rFac);
+		v1 = new Vector<>(3, rFac);
 		for (int i = 1; i <= 3; i++)
 			v1.set(i, rFac.zero());
 		v_zero = v1.copy();
@@ -242,7 +241,7 @@ public class RationalVectorTest
 		v4 = v1.copy();
 		v4.set(3, rFac.get(1, -2));
 
-		w = new Vector<Rational>(4, rFac);
+		w = new Vector<>(4, rFac);
 		for (int i = 1; i <= 4; i++)
 			w.set(i, rFac.zero());
 	}

@@ -36,7 +36,8 @@ import org.junit.Test;
  * @author Georg Thimm (2009)
  */
 public class DoubleWrapperTest
-		extends RingElementTestBase<DoubleWrapper>
+		extends
+		RingElementTestBase<DoubleWrapper>
 {
 	/**
 	 * a variable used in the tests
@@ -100,7 +101,7 @@ public class DoubleWrapperTest
 		d = DoubleWrapper.FACTORY.get(2.5);
 		e = DoubleWrapper.FACTORY.get(5.0 / 6.0);
 
-		v1 = new Vector<DoubleWrapper>(3, DoubleWrapper.FACTORY);
+		v1 = new Vector<>(3, DoubleWrapper.FACTORY);
 		for (int i = 1; i <= 3; i++)
 			v1.set(i, DoubleWrapper.FACTORY.zero());
 		v2 = v1.copy();
@@ -109,7 +110,7 @@ public class DoubleWrapperTest
 		v4 = v1.copy();
 		v4.set(3, DoubleWrapper.FACTORY.get(-0.5));
 
-		w = new Vector<DoubleWrapper>(4, DoubleWrapper.FACTORY);
+		w = new Vector<>(4, DoubleWrapper.FACTORY);
 		for (int i = 1; i <= 4; i++)
 			w.set(i, DoubleWrapper.FACTORY.zero());
 
@@ -121,8 +122,8 @@ public class DoubleWrapperTest
 	@Test
 	public void invert()
 	{
-		for (DoubleWrapper dw1 : new RandomNumberList<DoubleWrapper>(
-				DoubleWrapper.FACTORY, 20))
+		for (DoubleWrapper dw1 : new RandomNumberList<>(DoubleWrapper.FACTORY,
+				20))
 		{
 			if (!dw1.equals(DoubleWrapper.FACTORY.zero())) {
 				DoubleWrapper inv = dw1.invert();
@@ -140,8 +141,7 @@ public class DoubleWrapperTest
 	public void matrixInverse()
 	{
 		// inverse for [2,-1;-1,1]
-		Matrix<DoubleWrapper> m = new Matrix<DoubleWrapper>(2, 2,
-				DoubleWrapper.FACTORY);
+		Matrix<DoubleWrapper> m = new Matrix<>(2, 2, DoubleWrapper.FACTORY);
 		m.set(1, 1, DoubleWrapper.FACTORY.get(2));
 		m.set(1, 2, DoubleWrapper.FACTORY.get(-1));
 		m.set(2, 1, DoubleWrapper.FACTORY.get(-1));
@@ -180,20 +180,19 @@ public class DoubleWrapperTest
 	public void subtract()
 	{
 		assertTrue(a.subtract(b).equals(DoubleWrapper.FACTORY.zero()));
-		for (DoubleWrapper dw1 : new RandomNumberList<DoubleWrapper>(
-				DoubleWrapper.FACTORY, 20))
+		for (DoubleWrapper dw1 : new RandomNumberList<>(DoubleWrapper.FACTORY,
+				20))
 		{
 			assertTrue(dw1.toString(), dw1.equals(dw1));
 
-			for (DoubleWrapper dw2 : new RandomNumberList<DoubleWrapper>(
+			for (DoubleWrapper dw2 : new RandomNumberList<>(
 					DoubleWrapper.FACTORY, 20))
 			{
 				double d1 = dw1.doubleValue();
 				double d2 = dw2.doubleValue();
 
-				assertTrue(
-						dw1 + "-" + dw2 + "!=" + d1 + "-" + d2,
-						Math.abs(dw1.subtract(dw2).doubleValue() - (d1 - d2)) < 0.0001);
+				assertTrue(dw1 + "-" + dw2 + "!=" + d1 + "-" + d2, Math.abs(
+						dw1.subtract(dw2).doubleValue() - (d1 - d2)) < 0.0001);
 			}
 		}
 	}
@@ -204,8 +203,8 @@ public class DoubleWrapperTest
 	@Test
 	public final void testAbs()
 	{
-		for (DoubleWrapper dw1 : new RandomNumberList<DoubleWrapper>(
-				DoubleWrapper.FACTORY, 20))
+		for (DoubleWrapper dw1 : new RandomNumberList<>(DoubleWrapper.FACTORY,
+				20))
 		{
 			double d1 = Math.abs(dw1.doubleValue());
 			DoubleWrapper abs = dw1.abs();
@@ -220,20 +219,19 @@ public class DoubleWrapperTest
 	@Test
 	public void testAdd()
 	{
-		for (DoubleWrapper dw1 : new RandomNumberList<DoubleWrapper>(
-				DoubleWrapper.FACTORY, 20))
+		for (DoubleWrapper dw1 : new RandomNumberList<>(DoubleWrapper.FACTORY,
+				20))
 		{
 			assertTrue(dw1.toString(), dw1.equals(dw1));
 
-			for (DoubleWrapper dw2 : new RandomNumberList<DoubleWrapper>(
+			for (DoubleWrapper dw2 : new RandomNumberList<>(
 					DoubleWrapper.FACTORY, 20))
 			{
 				double d1 = dw1.doubleValue();
 				double d2 = dw2.doubleValue();
 
-				assertTrue(
-						dw1 + "+" + dw2 + "!=" + d1 + d2,
-						Math.abs(dw1.add(dw2).doubleValue() - (d1 + d2)) < 0.0001);
+				assertTrue(dw1 + "+" + dw2 + "!=" + d1 + d2, Math
+						.abs(dw1.add(dw2).doubleValue() - (d1 + d2)) < 0.0001);
 			}
 		}
 	}
@@ -245,12 +243,12 @@ public class DoubleWrapperTest
 	@Test
 	public void testCompare()
 	{
-		for (DoubleWrapper dw1 : new RandomNumberList<DoubleWrapper>(
-				DoubleWrapper.FACTORY, 20))
+		for (DoubleWrapper dw1 : new RandomNumberList<>(DoubleWrapper.FACTORY,
+				20))
 		{
 			assertTrue(dw1.toString(), dw1.equals(dw1));
 
-			for (DoubleWrapper dw2 : new RandomNumberList<DoubleWrapper>(
+			for (DoubleWrapper dw2 : new RandomNumberList<>(
 					DoubleWrapper.FACTORY, 20))
 			{
 				Double d1 = Double.valueOf(dw1.doubleValue());
@@ -301,12 +299,12 @@ public class DoubleWrapperTest
 		assertTrue(r1 + "=-1", r1.equals(DoubleWrapper.FACTORY.m_one()));
 		r1 = DoubleWrapper.FACTORY.get(1);
 		assertTrue(r1 + "!=1", r1.equals(DoubleWrapper.FACTORY.one()));
-		for (DoubleWrapper dw1 : new RandomNumberList<DoubleWrapper>(
-				DoubleWrapper.FACTORY, 20))
+		for (DoubleWrapper dw1 : new RandomNumberList<>(DoubleWrapper.FACTORY,
+				20))
 		{
 			assertTrue(dw1.toString(), dw1.equals(dw1));
 
-			for (DoubleWrapper dw2 : new RandomNumberList<DoubleWrapper>(
+			for (DoubleWrapper dw2 : new RandomNumberList<>(
 					DoubleWrapper.FACTORY, 20))
 			{
 				double d1 = dw1.doubleValue();
@@ -359,12 +357,10 @@ public class DoubleWrapperTest
 				a.hashCode() == b.hashCode());
 		assertTrue("hashcode not equal: " + c + " & " + d,
 				c.hashCode() == d.hashCode());
-		Vector<DoubleWrapper> v1 = new Vector<DoubleWrapper>(2,
-				DoubleWrapper.FACTORY);
+		Vector<DoubleWrapper> v1 = new Vector<>(2, DoubleWrapper.FACTORY);
 		v1.set(1, a);
 		v1.set(2, c);
-		Vector<DoubleWrapper> v2 = new Vector<DoubleWrapper>(2,
-				DoubleWrapper.FACTORY);
+		Vector<DoubleWrapper> v2 = new Vector<>(2, DoubleWrapper.FACTORY);
 		v2.set(1, b);
 		v2.set(2, d);
 		assertTrue("hashcode not equal: " + v1 + " & " + v2,
@@ -378,12 +374,13 @@ public class DoubleWrapperTest
 	public final void testInvert()
 	{
 		DoubleWrapper d = DoubleWrapper.FACTORY.get(-1);
-		assertTrue("1/-1)=-1", d.invert().equals(DoubleWrapper.FACTORY.m_one()));
+		assertTrue("1/-1)=-1",
+				d.invert().equals(DoubleWrapper.FACTORY.m_one()));
 		d = DoubleWrapper.FACTORY.get(1);
 		assertTrue("1/1=1", d.invert().equals(DoubleWrapper.FACTORY.one()));
 
-		for (DoubleWrapper d1 : new RandomNumberList<DoubleWrapper>(
-				DoubleWrapper.FACTORY, 10))
+		for (DoubleWrapper d1 : new RandomNumberList<>(DoubleWrapper.FACTORY,
+				10))
 		{
 			DoubleWrapper d2 = d1.invert();
 			assertTrue("1/(1/" + d1 + "))!=" + d2.invert(), d2.invert()
@@ -414,10 +411,10 @@ public class DoubleWrapperTest
 	@Test
 	public void testLeGe()
 	{
-		for (DoubleWrapper r1 : new RandomNumberList<DoubleWrapper>(
-				DoubleWrapper.FACTORY, 10))
+		for (DoubleWrapper r1 : new RandomNumberList<>(DoubleWrapper.FACTORY,
+				10))
 		{
-			for (DoubleWrapper r2 : new RandomNumberList<DoubleWrapper>(
+			for (DoubleWrapper r2 : new RandomNumberList<>(
 					DoubleWrapper.FACTORY, 10))
 			{
 				if (r1.doubleValue() <= r2.doubleValue()) {
@@ -430,8 +427,8 @@ public class DoubleWrapperTest
 				}
 			}
 		}
-		assertTrue(DoubleWrapper.FACTORY.get(1.4E-12).le(
-				DoubleWrapper.FACTORY.get(1e-6)));
+		assertTrue(DoubleWrapper.FACTORY.get(1.4E-12)
+				.le(DoubleWrapper.FACTORY.get(1e-6)));
 	}
 
 	/**
@@ -458,30 +455,30 @@ public class DoubleWrapperTest
 		assertTrue(b.equals(a));
 		assertSmallDiff(e, d.multiply(c));
 		assertSmallDiff(e, c.multiply(d));
-		assertTrue(DoubleWrapper.FACTORY.get(0).equals(
-				DoubleWrapper.FACTORY.zero().multiply(e)));
-		assertTrue(DoubleWrapper.FACTORY.zero().equals(
-				DoubleWrapper.FACTORY.zero().multiply(e)));
-		assertTrue(DoubleWrapper.FACTORY.zero().equals(
-				DoubleWrapper.FACTORY.get(0).multiply(e)));
-		assertTrue(DoubleWrapper.FACTORY.zero().equals(
-				b.multiply(DoubleWrapper.FACTORY.zero())));
-		assertTrue(DoubleWrapper.FACTORY.zero().equals(
-				a.multiply(DoubleWrapper.FACTORY.get(0))));
+		assertTrue(DoubleWrapper.FACTORY.get(0)
+				.equals(DoubleWrapper.FACTORY.zero().multiply(e)));
+		assertTrue(DoubleWrapper.FACTORY.zero()
+				.equals(DoubleWrapper.FACTORY.zero().multiply(e)));
+		assertTrue(DoubleWrapper.FACTORY.zero()
+				.equals(DoubleWrapper.FACTORY.get(0).multiply(e)));
+		assertTrue(DoubleWrapper.FACTORY.zero()
+				.equals(b.multiply(DoubleWrapper.FACTORY.zero())));
+		assertTrue(DoubleWrapper.FACTORY.zero()
+				.equals(a.multiply(DoubleWrapper.FACTORY.get(0))));
 
-		for (DoubleWrapper dw1 : new RandomNumberList<DoubleWrapper>(
-				DoubleWrapper.FACTORY, 20))
+		for (DoubleWrapper dw1 : new RandomNumberList<>(DoubleWrapper.FACTORY,
+				20))
 		{
-			for (DoubleWrapper dw2 : new RandomNumberList<DoubleWrapper>(
+			for (DoubleWrapper dw2 : new RandomNumberList<>(
 					DoubleWrapper.FACTORY, 20))
 			{
 				double d1 = dw1.doubleValue();
 				double d2 = dw2.doubleValue();
-				assertTrue(dw1 + "*" + dw2 + "!=" + d1 + "*" + d2, dw1
-						.multiply(dw2).doubleValue() == d1 * d2);
+				assertTrue(dw1 + "*" + dw2 + "!=" + d1 + "*" + d2,
+						dw1.multiply(dw2).doubleValue() == d1 * d2);
 				if (d2 != 0.0)
-					assertTrue(dw1 + "/" + dw2 + "!=" + d1 + "/" + d2, dw1
-							.divide(dw2).doubleValue() == d1 / d2);
+					assertTrue(dw1 + "/" + dw2 + "!=" + d1 + "/" + d2,
+							dw1.divide(dw2).doubleValue() == d1 / d2);
 			}
 		}
 	}
@@ -506,11 +503,12 @@ public class DoubleWrapperTest
 		DoubleWrapper r1 = DoubleWrapper.FACTORY.get(-1);
 		assertTrue("-(-1)=1", r1.negate().equals(DoubleWrapper.FACTORY.one()));
 		r1 = DoubleWrapper.FACTORY.get(1);
-		assertTrue("-(1)=-1", r1.negate().equals(DoubleWrapper.FACTORY.m_one()));
+		assertTrue("-(1)=-1",
+				r1.negate().equals(DoubleWrapper.FACTORY.m_one()));
 		r1 = DoubleWrapper.FACTORY.get(0);
 		assertTrue("-(0)=0", r1.negate().equals(DoubleWrapper.FACTORY.zero()));
-		for (DoubleWrapper d : new RandomNumberList<DoubleWrapper>(
-				DoubleWrapper.FACTORY, 30))
+		for (DoubleWrapper d : new RandomNumberList<>(DoubleWrapper.FACTORY,
+				30))
 		{
 			DoubleWrapper e = d.negate();
 			if (!d.equals(DoubleWrapper.FACTORY.zero()))
@@ -563,8 +561,7 @@ public class DoubleWrapperTest
 	public void testL2Norm() throws Exception
 	{
 		DoubleWrapperFactory dfac = DoubleWrapper.FACTORY;
-		LinAlgFactory<DoubleWrapper> linFac = new LinAlgFactory<DoubleWrapper>(
-				dfac);
+		LinAlgFactory<DoubleWrapper> linFac = new LinAlgFactory<>(dfac);
 		Vector<DoubleWrapper> v = linFac.zeros(4);
 		assertEquals(dfac.zero(), v.L2Norm());
 		v.setAll(dfac.get(4));

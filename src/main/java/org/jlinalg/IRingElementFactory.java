@@ -19,6 +19,10 @@ package org.jlinalg;
 import java.io.Serializable;
 import java.util.Random;
 
+import org.jlinalg.operator.DyadicOperator;
+import org.jlinalg.operator.FEComparator;
+import org.jlinalg.operator.MonadicOperator;
+
 /**
  * The interface defining the factory for ring elements.
  * 
@@ -28,7 +32,8 @@ import java.util.Random;
  */
 @JLinAlgTypeProperties(isExact = false)
 public interface IRingElementFactory<RE extends IRingElement<RE>>
-		extends Serializable
+		extends
+		Serializable
 {
 
 	/**
@@ -111,18 +116,6 @@ public interface IRingElementFactory<RE extends IRingElement<RE>>
 	public abstract RE get(double d);
 
 	/**
-	 * @deprecated use {@link #gaussianRandomValue()}
-	 */
-	@Deprecated
-	public abstract RE gaussianRandomValue(Random random);
-
-	/**
-	 * @deprecated use {@link #randomValue()}
-	 */
-	@Deprecated
-	public abstract RE randomValue(Random random);
-
-	/**
 	 * @param min
 	 * @param max
 	 * @return a uniformly distributed value in the range of [min,max]
@@ -148,12 +141,6 @@ public interface IRingElementFactory<RE extends IRingElement<RE>>
 	public abstract RE randomValue();
 
 	/**
-	 * @deprecated use {@link #randomValue(IRingElement, IRingElement)}
-	 */
-	@Deprecated
-	public abstract RE randomValue(Random random, RE min, RE max);
-
-	/**
 	 * convert vectors to the type represented by this factory.
 	 * 
 	 * @param from
@@ -175,4 +162,34 @@ public interface IRingElementFactory<RE extends IRingElement<RE>>
 	 * The default random number generator for use in .
 	 */
 	static Random random = new Random();
+
+	public abstract DyadicOperator<RE> getSubtractOperator();
+
+	public abstract DyadicOperator<RE> getAndOperator();
+
+	public abstract DyadicOperator<RE> getDivideOperator();
+
+	public abstract MonadicOperator<RE> getNotOperator();
+
+	public abstract DyadicOperator<RE> getAddOperator();
+
+	public abstract FEComparator<RE> getGreaterThanOrEqualToComparator();
+
+	public abstract FEComparator<RE> getLessThanComparator();
+
+	public abstract FEComparator<RE> getLessThanOrEqualToComparator();
+
+	public abstract FEComparator<RE> getNotEqualToComparator();
+
+	public abstract FEComparator<RE> getGreaterThanComparator();
+
+	public abstract MonadicOperator<RE> getAbsOperator();
+
+	public abstract MonadicOperator<RE> getSquareOperator();
+
+	public abstract DyadicOperator<RE> getMultiplyOperator();
+
+	public abstract FEComparator<RE> getEqualToComparator();
+
+	public abstract DyadicOperator<RE> getOrOperator();
 }

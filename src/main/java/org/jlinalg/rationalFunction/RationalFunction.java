@@ -30,35 +30,28 @@ import org.jlinalg.polynomial.PolynomialFactoryMap;
  * @param <BASE>
  */
 public class RationalFunction<BASE extends IRingElement<BASE>>
-		extends FieldElement<RationalFunction<BASE>>
+		extends
+		FieldElement<RationalFunction<BASE>>
 {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private Polynomial<BASE> numerator;
 	private Polynomial<BASE> denominator;
 
-	/**
-	 * the singleton factory for rational functions
-	 */
-	private final RationalFunctionFactory<BASE> rationalFunctionFactory;
+	private final IRingElementFactory<BASE> baseFactory;
 
-	@SuppressWarnings("unchecked")
+	// @SuppressWarnings("unchecked")
 	public RationalFunction(BASE value)
 	{
 		if (value == null) {
 			throw new InvalidOperationException("value cannot be null!");
 		}
-		this.rationalFunctionFactory = (RationalFunctionFactory<BASE>) RationalFunctionFactoryMap.INSTANCE
-				.get(value.getFactory());
-		this.numerator = new Polynomial<BASE>(value);
-		this.denominator = new Polynomial<BASE>(value.getFactory().one());
+
+		this.baseFactory = value.getFactory();
+		this.numerator = new Polynomial<>(value);
+		this.denominator = new Polynomial<>(value.getFactory().one());
 	}
 
-	@SuppressWarnings("unchecked")
 	public RationalFunction(Polynomial<BASE> numerator,
 			Polynomial<BASE> denominator,
 			final IRingElementFactory<BASE> baseFactory)
@@ -75,18 +68,16 @@ public class RationalFunction<BASE extends IRingElement<BASE>>
 			throw new InvalidOperationException(
 					"The denominator of a rational function cannot be null!");
 		}
-		this.rationalFunctionFactory = (RationalFunctionFactory<BASE>) RationalFunctionFactoryMap.INSTANCE
-				.get(baseFactory);
+		this.baseFactory = baseFactory;
 		this.numerator = numerator;
 		this.denominator = denominator;
 	}
 
-	@SuppressWarnings("unchecked")
 	public RationalFunction(Polynomial<BASE> numerator,
 			final IRingElementFactory<BASE> baseFactory)
 	{
-		this(numerator, (Polynomial<BASE>) PolynomialFactoryMap.INSTANCE.get(
-				baseFactory).one(), baseFactory);
+		this(numerator, PolynomialFactoryMap.getFactory(baseFactory).one(),
+				baseFactory);
 	}
 
 	@Override
@@ -100,15 +91,14 @@ public class RationalFunction<BASE extends IRingElement<BASE>>
 		gcdBD = b.gcd(d);
 		p1 = a.multiply(d.divide(gcdBD)).add(c.multiply(b.divide(gcdBD)));
 		q1 = b.multiply(d).divide(gcdBD);
-		return new RationalFunction<BASE>(p1, q1,
-				rationalFunctionFactory.BASEFACTORY);
+		return new RationalFunction<>(p1, q1, baseFactory);
 	}
 
 	@Override
 	public RationalFunction<BASE> negate()
 	{
-		return new RationalFunction<BASE>(this.numerator.negate(),
-				this.denominator, rationalFunctionFactory.BASEFACTORY);
+		return new RationalFunction<>(this.numerator.negate(), this.denominator,
+				baseFactory);
 	}
 
 	@Override
@@ -116,12 +106,12 @@ public class RationalFunction<BASE extends IRingElement<BASE>>
 	{
 		Polynomial<BASE> d1 = this.numerator.gcd(factor.getDenominator());
 		Polynomial<BASE> d2 = this.denominator.gcd(factor.getNumerator());
-		Polynomial<BASE> newNumerator = this.numerator.divide(d1).multiply(
-				factor.getNumerator().divide(d2));
-		Polynomial<BASE> newDenominator = this.denominator.divide(d2).multiply(
-				factor.getDenominator().divide(d1));
-		return new RationalFunction<BASE>(newNumerator, newDenominator,
-				rationalFunctionFactory.BASEFACTORY);
+		Polynomial<BASE> newNumerator = this.numerator.divide(d1)
+				.multiply(factor.getNumerator().divide(d2));
+		Polynomial<BASE> newDenominator = this.denominator.divide(d2)
+				.multiply(factor.getDenominator().divide(d1));
+		return new RationalFunction<>(newNumerator, newDenominator,
+				baseFactory);
 	}
 
 	/**
@@ -196,16 +186,16 @@ public class RationalFunction<BASE extends IRingElement<BASE>>
 				if (coefficientNumerator1.isZero()) {
 					return 0;
 				}
-				return this.withoutHighestPower().compareTo(
-						o.withoutHighestPower());
+				return this.withoutHighestPower()
+						.compareTo(o.withoutHighestPower());
 			}
 			if (leftSide.lt(rightSide)) {
 				return -1;
 			}
 			return 1;
 		}
-		return new Double(degree1Compared)
-				.compareTo(new Double(degree2Compared));
+		return Double.valueOf(degree1Compared)
+				.compareTo(Double.valueOf(degree2Compared));
 	}
 
 	@Override
@@ -217,18 +207,16 @@ public class RationalFunction<BASE extends IRingElement<BASE>>
 	public RationalFunction<BASE> withoutHighestPower()
 	{
 		if (numerator.getDegree() > denominator.getDegree()) {
-			return new RationalFunction<BASE>(numerator.withoutHighestPower(),
-					denominator, rationalFunctionFactory.BASEFACTORY);
+			return new RationalFunction<>(numerator.withoutHighestPower(),
+					denominator, baseFactory);
 		}
 		else if (numerator.getDegree() < denominator.getDegree()) {
-			return new RationalFunction<BASE>(numerator,
-					denominator.withoutHighestPower(),
-					rationalFunctionFactory.BASEFACTORY);
+			return new RationalFunction<>(numerator,
+					denominator.withoutHighestPower(), baseFactory);
 		}
 		else {
-			return new RationalFunction<BASE>(numerator.withoutHighestPower(),
-					denominator.withoutHighestPower(),
-					rationalFunctionFactory.BASEFACTORY);
+			return new RationalFunction<>(numerator.withoutHighestPower(),
+					denominator.withoutHighestPower(), baseFactory);
 		}
 
 	}
@@ -252,7 +240,7 @@ public class RationalFunction<BASE extends IRingElement<BASE>>
 	@Override
 	public IRingElementFactory<RationalFunction<BASE>> getFactory()
 	{
-		return rationalFunctionFactory;
+		return RationalFunctionFactory.getFactory(baseFactory);
 	}
 
 	public Polynomial<BASE> getNumerator()
@@ -268,8 +256,8 @@ public class RationalFunction<BASE extends IRingElement<BASE>>
 	@Override
 	public RationalFunction<BASE> invert()
 	{
-		return new RationalFunction<BASE>(this.denominator, this.numerator,
-				rationalFunctionFactory.BASEFACTORY);
+		return new RationalFunction<>(this.denominator, this.numerator,
+				baseFactory);
 	}
 
 	@Override

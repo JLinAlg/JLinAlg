@@ -8,7 +8,7 @@ Get webcpp at http://webcpp.sf.net
 
 <html>
 <head>
-<title>../src/demo/java/org/jlinalg/demo/F2Demo.java</title>
+<title>F2Demo.java</title>
 <link rel="stylesheet" type="text/css" href="jlinalg.css"/>
 </head>
 <body>
@@ -81,11 +81,11 @@ Get webcpp at http://webcpp.sf.net
 	{
 		System.out.println(<font CLASS=dblquot>"=========== Example 2 ============"</font>);
 		<font CLASS=comment>// create a identity matrix using LinAlgFactory</font>
-		LinAlgFactory&lt;F2&gt; f2LinAlgFactory <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> LinAlgFactory&lt;F2&gt;(F2.FACTORY);
+		LinAlgFactory&lt;F2&gt; f2LinAlgFactory <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> LinAlgFactory&lt;&gt;(F2.FACTORY);
 		Matrix&lt;F2&gt; m1 <font CLASS=symbols>=</font> f2LinAlgFactory.identity(<font CLASS=integer>3</font>);
 		System.out.println(<font CLASS=dblquot>"m1=\n"</font> <font CLASS=symbols>+</font> m1);
 		<font CLASS=comment>// create a matrix directly</font>
-		Matrix&lt;F2&gt; m2 <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Matrix&lt;F2&gt;(<font CLASS=integer>3</font>, <font CLASS=integer>3</font>, F2.FACTORY);
+		Matrix&lt;F2&gt; m2 <font CLASS=symbols>=</font> <font CLASS=keyword>new</font> Matrix&lt;&gt;(<font CLASS=integer>3</font>, <font CLASS=integer>3</font>, F2.FACTORY);
 		<font CLASS=comment>// set all entries to one</font>
 		m2.setAll(F2.FACTORY.one());
 		System.out.println(<font CLASS=dblquot>"m2=\n"</font> <font CLASS=symbols>+</font> m2);

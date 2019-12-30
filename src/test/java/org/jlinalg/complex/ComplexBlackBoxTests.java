@@ -37,8 +37,8 @@ public class ComplexBlackBoxTests
 	@Test
 	public final void testDivideIRingElement()
 	{
-		for (Complex c1 : new RandomNumberList<Complex>(f, 10)) {
-			for (Complex c2 : new RandomNumberList<Complex>(f, 10)) {
+		for (Complex c1 : new RandomNumberList<>(f, 10)) {
+			for (Complex c2 : new RandomNumberList<>(f, 10)) {
 				Complex r = c1.divide(c2);
 				assertTrue(r.multiply(c2).equals(c1));
 			}
@@ -51,7 +51,7 @@ public class ComplexBlackBoxTests
 	@Test
 	public final void testIsZero()
 	{
-		for (Complex c : new RandomNumberList<Complex>(f, 20)) {
+		for (Complex c : new RandomNumberList<>(f, 20)) {
 			if (!c.equals(f.zero())) assertFalse(c.isZero());
 		}
 	}
@@ -62,7 +62,7 @@ public class ComplexBlackBoxTests
 	@Test
 	public final void testIsOne()
 	{
-		for (Complex c : new RandomNumberList<Complex>(f, 20)) {
+		for (Complex c : new RandomNumberList<>(f, 20)) {
 			if (!c.equals(f.one())) assertFalse(c.equals(f.one()));
 		}
 	}
@@ -74,7 +74,7 @@ public class ComplexBlackBoxTests
 	@Test
 	public final void testLt()
 	{
-		for (Complex c : new RandomNumberList<Complex>(f, 20)) {
+		for (Complex c : new RandomNumberList<>(f, 20)) {
 			if (!c.equals(f.zero())) assertTrue(f.zero().lt(c));
 		}
 	}
@@ -86,7 +86,7 @@ public class ComplexBlackBoxTests
 	@Test
 	public final void testGt()
 	{
-		for (Complex c : new RandomNumberList<Complex>(f, 20)) {
+		for (Complex c : new RandomNumberList<>(f, 20)) {
 			if (!c.equals(f.zero())) assertTrue(c.gt(f.zero()));
 		}
 	}
@@ -98,7 +98,7 @@ public class ComplexBlackBoxTests
 	@Test
 	public final void testLe()
 	{
-		for (Complex c : new RandomNumberList<Complex>(f, 20)) {
+		for (Complex c : new RandomNumberList<>(f, 20)) {
 			assertTrue(f.zero().le(c));
 		}
 	}
@@ -110,7 +110,7 @@ public class ComplexBlackBoxTests
 	@Test
 	public final void testGe()
 	{
-		for (Complex c : new RandomNumberList<Complex>(f, 20)) {
+		for (Complex c : new RandomNumberList<>(f, 20)) {
 			assertTrue(c.ge(f.zero()));
 		}
 	}
@@ -122,8 +122,8 @@ public class ComplexBlackBoxTests
 	@Test
 	public final void testSubtractIRingElement()
 	{
-		for (Complex c1 : new RandomNumberList<Complex>(f, 10)) {
-			for (Complex c2 : new RandomNumberList<Complex>(f, 10)) {
+		for (Complex c1 : new RandomNumberList<>(f, 10)) {
+			for (Complex c2 : new RandomNumberList<>(f, 10)) {
 				Complex r = c1.subtract(c2);
 				assertTrue(c2.negate().add(c1).equals(r));
 			}
@@ -137,12 +137,12 @@ public class ComplexBlackBoxTests
 	@Test
 	public final void testCompareTo()
 	{
-		for (Complex c1 : new RandomNumberList<Complex>(f, 10)) {
+		for (Complex c1 : new RandomNumberList<>(f, 10)) {
 			if (c1.equals(Complex.FACTORY.zero()))
 				assertTrue(c1.compareTo(Complex.FACTORY.zero()) == 0);
 			else
 				assertTrue(c1.compareTo(Complex.FACTORY.zero()) > 0);
-			for (Complex c2 : new RandomNumberList<Complex>(f, 10)) {
+			for (Complex c2 : new RandomNumberList<>(f, 10)) {
 				if (c1.getReal().equals(c2.getReal())
 						&& c1.getImaginary().equals(c2.getImaginary()))
 					assertTrue(c1.compareTo(c2) == 0);
@@ -159,7 +159,7 @@ public class ComplexBlackBoxTests
 	@Test
 	public final void testInvert()
 	{
-		for (Complex c1 : new RandomNumberList<Complex>(f, 10)) {
+		for (Complex c1 : new RandomNumberList<>(f, 10)) {
 			assertTrue(c1.multiply(c1.invert()).equals(Complex.FACTORY.one()));
 		}
 	}
@@ -171,8 +171,8 @@ public class ComplexBlackBoxTests
 	@Test
 	public final void testMultiply()
 	{
-		for (Complex c1 : new RandomNumberList<Complex>(f, 10)) {
-			for (Complex c2 : new RandomNumberList<Complex>(f, 10)) {
+		for (Complex c1 : new RandomNumberList<>(f, 10)) {
+			for (Complex c2 : new RandomNumberList<>(f, 10)) {
 				Complex r = c1.multiply(c2);
 				assertTrue(r.norm().equals(c1.norm().multiply(c2.norm())));
 			}
@@ -186,12 +186,12 @@ public class ComplexBlackBoxTests
 	@Test
 	public final void testAdd()
 	{
-		for (Complex c1 : new RandomNumberList<Complex>(f, 10)) {
-			for (Complex c2 : new RandomNumberList<Complex>(f, 10)) {
+		for (Complex c1 : new RandomNumberList<>(f, 10)) {
+			for (Complex c2 : new RandomNumberList<>(f, 10)) {
 				Complex r = c1.add(c2);
 				assertTrue(r.getReal().equals(c1.getReal().add(c2.getReal())));
-				assertTrue(r.getImaginary().equals(
-						c1.getImaginary().add(c2.getImaginary())));
+				assertTrue(r.getImaginary()
+						.equals(c1.getImaginary().add(c2.getImaginary())));
 			}
 		}
 	}

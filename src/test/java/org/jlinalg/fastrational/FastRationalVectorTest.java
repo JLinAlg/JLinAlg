@@ -91,9 +91,9 @@ public class FastRationalVectorTest
 	public static void initVectors()
 	{
 
-		v1a = new Vector<FastRational>(dim, FastRational.FACTORY);
-		v1b = new Vector<FastRational>(dim, FastRational.FACTORY);
-		v2 = new Vector<FastRational>(dim, FastRational.FACTORY);
+		v1a = new Vector<>(dim, FastRational.FACTORY);
+		v1b = new Vector<>(dim, FastRational.FACTORY);
+		v2 = new Vector<>(dim, FastRational.FACTORY);
 		for (int i = 1; i <= v1a.length(); i++) {
 			v1a.set(i, FastRational.FACTORY.get(i, dim));
 			v1b.set(i, FastRational.FACTORY.get(i, dim));
@@ -138,7 +138,7 @@ public class FastRationalVectorTest
 	@Test(expected = InvalidOperationException.class)
 	public void testVectorSetDimMissmatch()
 	{
-		Vector<FastRational> v = new Vector<FastRational>(dim + 1,
+		Vector<FastRational> v = new Vector<>(dim + 1,
 				FastRational.FACTORY);
 		v.set(v1a);
 	}
@@ -149,7 +149,7 @@ public class FastRationalVectorTest
 	@Test
 	public final void testElementProduct()
 	{
-		Vector<FastRational> v = new Vector<FastRational>(4,
+		Vector<FastRational> v = new Vector<>(4,
 				FastRational.FACTORY);
 		v.setAll(FastRational.FACTORY.get(1, 2));
 		assertTrue("1/2^4=1/16",
@@ -165,12 +165,12 @@ public class FastRationalVectorTest
 	@Test
 	public final void testCompareTo()
 	{
-		Vector<FastRational> v1 = new Vector<FastRational>(3,
+		Vector<FastRational> v1 = new Vector<>(3,
 				FastRational.FACTORY);
 		for (int i = 1; i <= v1.length(); i++) {
 			v1.set(i, FastRational.FACTORY.get(i * 3 - 1, i));
 		}
-		Vector<FastRational> v2 = new Vector<FastRational>(3,
+		Vector<FastRational> v2 = new Vector<>(3,
 				FastRational.FACTORY);
 		for (int i = 1; i <= v2.length(); i++) {
 			v2.set(i, FastRational.FACTORY.get(i * 3 - 1, i));
@@ -189,12 +189,12 @@ public class FastRationalVectorTest
 	@Test(expected = org.jlinalg.InvalidOperationException.class)
 	public final void testCompareToException()
 	{
-		Vector<FastRational> v1 = new Vector<FastRational>(3,
+		Vector<FastRational> v1 = new Vector<>(3,
 				FastRational.FACTORY);
 		for (int i = 1; i <= v1.length(); i++) {
 			v1.set(i, FastRational.FACTORY.get(i * 3 - 1, i));
 		}
-		Vector<FastRational> v3 = new Vector<FastRational>(4,
+		Vector<FastRational> v3 = new Vector<>(4,
 				FastRational.FACTORY);
 		for (int i = 1; i <= v3.length(); i++) {
 			v3.set(i, FastRational.FACTORY.get(i * 3 - 1, i));
@@ -210,7 +210,7 @@ public class FastRationalVectorTest
 	public void testDeterminante()
 	{
 		int dim = 3;
-		Matrix<FastRational> m = new Matrix<FastRational>(dim, dim,
+		Matrix<FastRational> m = new Matrix<>(dim, dim,
 				FastRational.FACTORY);
 		for (int i = 1; i <= dim; i++) {
 			for (int j = 1; j <= dim; j++) {
@@ -238,7 +238,7 @@ public class FastRationalVectorTest
 	@Before
 	public void setup()
 	{
-		v1 = new Vector<FastRational>(3, getFactory());
+		v1 = new Vector<>(3, getFactory());
 		for (int i = 1; i <= 3; i++)
 			v1.set(i, getFactory().zero());
 		v_zero = v1.copy();
@@ -247,7 +247,7 @@ public class FastRationalVectorTest
 		v4 = v1.copy();
 		v4.set(3, getFactory().get("1/-2"));
 
-		w = new Vector<FastRational>(4, getFactory());
+		w = new Vector<>(4, getFactory());
 		for (int i = 1; i <= 4; i++)
 			w.set(i, getFactory().zero());
 	}

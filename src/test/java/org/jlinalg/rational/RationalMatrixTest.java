@@ -83,9 +83,9 @@ public class RationalMatrixTest
 			for (int k = 0; k < fes3[0].length; k++) {
 				fes3[i][k] = Rational.FACTORY.get(-i, k + 1);
 			}
-		m1 = new Matrix<Rational>(fes1);
-		m2 = new Matrix<Rational>(fes2);
-		m3 = new Matrix<Rational>(fes3);
+		m1 = new Matrix<>(fes1);
+		m2 = new Matrix<>(fes2);
+		m3 = new Matrix<>(fes3);
 	}
 
 	/**
@@ -143,7 +143,7 @@ public class RationalMatrixTest
 	 */
 	private void _setRowFromMatrix(Matrix<Rational> m0)
 	{
-		Matrix<Rational> m = new Matrix<Rational>(m0.getRows(), m0.getCols(),
+		Matrix<Rational> m = new Matrix<>(m0.getRows(), m0.getCols(),
 				Rational.FACTORY);
 		for (int r = 1; r <= m0.getRows(); r++)
 			m.setRowFromMatrix(r, m0, r);
@@ -169,7 +169,7 @@ public class RationalMatrixTest
 	 */
 	private void _setColFromMatrix(Matrix<Rational> m0)
 	{
-		Matrix<Rational> m = new Matrix<Rational>(m0.getRows(), m0.getCols(),
+		Matrix<Rational> m = new Matrix<>(m0.getRows(), m0.getCols(),
 				m0.getFactory());
 		for (int c = 1; c <= m0.getCols(); c++)
 			m.setColFromMatrix(c, m0, c);
@@ -182,7 +182,7 @@ public class RationalMatrixTest
 	@Test
 	public void testSetRow_()
 	{
-		Matrix<Rational> m = new Matrix<Rational>(7, 4, Rational.FACTORY);
+		Matrix<Rational> m = new Matrix<>(7, 4, Rational.FACTORY);
 		for (int i = 1; i <= m.getRows(); i++)
 			m.setRow(i, Rational.FACTORY.get(i, 8));
 		for (int r = 1; r <= 7; r++) {
@@ -192,7 +192,7 @@ public class RationalMatrixTest
 						+ "," + c + "]", v.equals(m.get(r, c)));
 		}
 
-		m = new Matrix<Rational>(17, 41, Rational.FACTORY);
+		m = new Matrix<>(17, 41, Rational.FACTORY);
 		for (int i = 1; i <= m.getRows(); i++)
 			m.setRow(i, Rational.FACTORY.get(i, 81));
 		for (int r = 1; r <= 17; r++) {
@@ -209,7 +209,7 @@ public class RationalMatrixTest
 	@Test
 	public void testMean_()
 	{
-		Matrix<Rational> m = new Matrix<Rational>(3, 4, Rational.FACTORY);
+		Matrix<Rational> m = new Matrix<>(3, 4, Rational.FACTORY);
 		for (int r = 1; r <= m.getRows(); r++) {
 			for (int c = 1; c <= m.getCols(); c++) {
 				m.set(r, c, Rational.FACTORY.get(r, c));
@@ -228,7 +228,7 @@ public class RationalMatrixTest
 
 	Matrix<Rational> fractions(final int k)
 	{
-		Matrix<Rational> m = new Matrix<Rational>(k, k, Rational.FACTORY);
+		Matrix<Rational> m = new Matrix<>(k, k, Rational.FACTORY);
 		for (int c = 1; c <= k; c++)
 			for (int r = 1; r <= k; r++)
 				m.set(r, c, Rational.FACTORY.get(r, c));
@@ -237,7 +237,7 @@ public class RationalMatrixTest
 
 	Matrix<Rational> funny(final int k)
 	{
-		Matrix<Rational> m = new Matrix<Rational>(k, k, Rational.FACTORY);
+		Matrix<Rational> m = new Matrix<>(k, k, Rational.FACTORY);
 		for (int c = 1; c <= k; c++)
 			for (int r = 1; r <= k; r++)
 				m.set(r, c, Rational.FACTORY.get(r + c, c * c));

@@ -43,13 +43,14 @@ import org.jlinalg.rational.Rational;
  * Printing a Vector or a Matrix object outside an equation, results into a
  * LatexStreamError. <br>
  * After a call to {@link #printVectorsAsRows()} or
- * {@link #printVectorsAsColumns()}, all vectors ar printed as rows or as
+ * {@link #printVectorsAsColumns()}, all vectors are printed as rows or as
  * columns, respectively.
  * 
  * @author Georg Thimm
  */
 public class LatexStream
-		extends PrintStream
+		extends
+		PrintStream
 {
 
 	/**
@@ -75,12 +76,12 @@ public class LatexStream
 	 * @throws FileNotFoundException
 	 * @throws UnsupportedEncodingException
 	 */
-	public LatexStream(File file, String csn) throws FileNotFoundException,
-			UnsupportedEncodingException
+	public LatexStream(File file, String csn)
+			throws FileNotFoundException, UnsupportedEncodingException
 	{
 		super(file, csn);
-		if (!csn.equals("US-ASCII"))
-			throw new UnsupportedEncodingException("only US-ASCII is supported");
+		if (!csn.equals("US-ASCII")) throw new UnsupportedEncodingException(
+				"only US-ASCII is supported");
 	}
 
 	/**
@@ -103,7 +104,8 @@ public class LatexStream
 	{
 		super(out, autoFlush, encoding);
 		if (!encoding.equals("US-ASCII"))
-			throw new UnsupportedEncodingException("only US-ASCII is supported");
+			throw new UnsupportedEncodingException(
+					"only US-ASCII is supported");
 	}
 
 	/**
@@ -133,8 +135,8 @@ public class LatexStream
 			throws FileNotFoundException, UnsupportedEncodingException
 	{
 		super(fileName, csn);
-		if (!csn.equals("US-ASCII"))
-			throw new UnsupportedEncodingException("only US-ASCII is supported");
+		if (!csn.equals("US-ASCII")) throw new UnsupportedEncodingException(
+				"only US-ASCII is supported");
 	}
 
 	/**
@@ -398,14 +400,5 @@ public class LatexStream
 			endEquation();
 		}
 		super.close();
-	}
-
-	@Override
-	protected void finalize() throws Throwable
-	{
-		if (equationSet != NONE) {
-			endEquation();
-		}
-		super.finalize();
 	}
 }

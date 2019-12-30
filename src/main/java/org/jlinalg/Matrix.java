@@ -21,25 +21,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jlinalg.complex.Complex;
-import org.jlinalg.operator.AddOperator;
-import org.jlinalg.operator.AndOperator;
-import org.jlinalg.operator.DivideOperator;
 import org.jlinalg.operator.DyadicOperator;
-import org.jlinalg.operator.EqualToComparator;
 import org.jlinalg.operator.FEComparator;
-import org.jlinalg.operator.GreaterThanComparator;
-import org.jlinalg.operator.GreaterThanOrEqualToComparator;
-import org.jlinalg.operator.LessThanComparator;
-import org.jlinalg.operator.LessThanOrEqualToComparator;
 import org.jlinalg.operator.MaxReduction;
 import org.jlinalg.operator.MinReduction;
 import org.jlinalg.operator.MonadicOperator;
-import org.jlinalg.operator.MultiplyOperator;
-import org.jlinalg.operator.NotEqualToComparator;
-import org.jlinalg.operator.NotOperator;
-import org.jlinalg.operator.OrOperator;
 import org.jlinalg.operator.Reduction;
-import org.jlinalg.operator.SubtractOperator;
 import org.jlinalg.operator.SumReduction;
 import org.jlinalg.polynomial.Polynomial;
 import org.jlinalg.polynomial.PolynomialFactory;
@@ -52,7 +39,8 @@ import org.jlinalg.polynomial.PolynomialFactory;
  *            the type of the elements in the matrix.
  */
 public class Matrix<RE extends IRingElement<RE>>
-		implements Serializable
+		implements
+		Serializable
 {
 
 	/**
@@ -192,8 +180,8 @@ public class Matrix<RE extends IRingElement<RE>>
 		if (theEntries.length == 0 || theEntries[0].length == 0
 				|| theEntries[0][0] == null)
 		{
-			throw new InvalidOperationException("Cannot extract factory from "
-					+ theEntries);
+			throw new InvalidOperationException(
+					"Cannot extract factory from " + theEntries);
 		}
 		this.entries = theEntries;
 		FACTORY = entries[0][0].getFactory();
@@ -253,8 +241,8 @@ public class Matrix<RE extends IRingElement<RE>>
 		if (entries.length == 0 || entries[0].length == 0
 				|| entries[0][0] == null)
 		{
-			throw new InvalidOperationException("Cannot extract factory from "
-					+ theEntries);
+			throw new InvalidOperationException(
+					"Cannot extract factory from " + theEntries);
 		}
 		this.numOfRows = rows;
 		this.numOfCols = cols;
@@ -325,10 +313,9 @@ public class Matrix<RE extends IRingElement<RE>>
 								+ ". Only row indices from 1 to "
 								+ this.numOfRows + " valid");
 			}
-			throw new InvalidOperationException(
-					"Accessed invalid column index " + colIndex
-							+ ". Only column indices " + "from 1 to "
-							+ this.numOfCols + " valid");
+			throw new InvalidOperationException("Accessed invalid column index "
+					+ colIndex + ". Only column indices " + "from 1 to "
+					+ this.numOfCols + " valid");
 		}
 	}
 
@@ -354,10 +341,9 @@ public class Matrix<RE extends IRingElement<RE>>
 								+ ". Only row indices from 1 to "
 								+ this.numOfRows + " valid");
 			}
-			throw new InvalidOperationException(
-					"Accessed invalid column index " + colIndex
-							+ ". Only column indices " + "from 1 to "
-							+ this.numOfCols + " valid");
+			throw new InvalidOperationException("Accessed invalid column index "
+					+ colIndex + ". Only column indices " + "from 1 to "
+					+ this.numOfCols + " valid");
 		}
 	}
 
@@ -379,7 +365,7 @@ public class Matrix<RE extends IRingElement<RE>>
 						+ this.numOfRows + " valid");
 			}
 		}
-		return new Vector<RE>(rowEntries);
+		return new Vector<>(rowEntries);
 	}
 
 	/**
@@ -401,7 +387,7 @@ public class Matrix<RE extends IRingElement<RE>>
 			}
 
 		}
-		return new Vector<RE>(colEntries);
+		return new Vector<>(colEntries);
 	}
 
 	/**
@@ -476,7 +462,7 @@ public class Matrix<RE extends IRingElement<RE>>
 	public Matrix<RE> withoutRow(int rowIndex)
 	{
 		// Exception still missing here
-		Matrix<RE> tmp = new Matrix<RE>(this.getRows() - 1, this.getCols(),
+		Matrix<RE> tmp = new Matrix<>(this.getRows() - 1, this.getCols(),
 				FACTORY);
 		int counter = 0;
 		for (int i = 1; i <= this.getRows(); i++) {
@@ -500,7 +486,7 @@ public class Matrix<RE extends IRingElement<RE>>
 	public Matrix<RE> withoutCol(int colIndex)
 	{
 		// Exception still missing here
-		Matrix<RE> tmp = new Matrix<RE>(this.getRows(), this.getCols() - 1,
+		Matrix<RE> tmp = new Matrix<>(this.getRows(), this.getCols() - 1,
 				FACTORY);
 		int counter = 0;
 		for (int i = 1; i <= this.getCols(); i++) {
@@ -537,12 +523,12 @@ public class Matrix<RE extends IRingElement<RE>>
 		}
 
 		if (colIndex < 1 || colIndex > this.getCols() + 1) {
-			throw new InvalidOperationException(colIndex
-					+ " is not a valid column index for inserting " + vector
-					+ " into\n" + this);
+			throw new InvalidOperationException(
+					colIndex + " is not a valid column index for inserting "
+							+ vector + " into\n" + this);
 		}
 
-		Matrix<RE> tmp = new Matrix<RE>(this.getRows(), this.getCols() + 1,
+		Matrix<RE> tmp = new Matrix<>(this.getRows(), this.getCols() + 1,
 				FACTORY);
 		int colOffset = 0;
 		for (int col = 1; col <= tmp.getCols(); col++) {
@@ -574,18 +560,18 @@ public class Matrix<RE extends IRingElement<RE>>
 			throws InvalidOperationException
 	{
 		if (this.getCols() != vector.length()) {
-			throw new InvalidOperationException("This vector\n" + vector
-					+ "\n cannot be inserted into the " + "Matrix\n" + this
-					+ " as a row vector");
+			throw new InvalidOperationException(
+					"This vector\n" + vector + "\n cannot be inserted into the "
+							+ "Matrix\n" + this + " as a row vector");
 		}
 
 		if (rowIndex < 1 || rowIndex > this.getRows() + 1) {
-			throw new InvalidOperationException(rowIndex
-					+ " is not a valid row index for inserting " + vector
-					+ " into\n" + this);
+			throw new InvalidOperationException(
+					rowIndex + " is not a valid row index for inserting "
+							+ vector + " into\n" + this);
 		}
 
-		Matrix<RE> tmp = new Matrix<RE>(this.getRows() + 1, this.getCols(),
+		Matrix<RE> tmp = new Matrix<>(this.getRows() + 1, this.getCols(),
 				FACTORY);
 		int rowOffset = 0;
 		for (int row = 1; row <= tmp.getRows(); row++) {
@@ -618,7 +604,7 @@ public class Matrix<RE extends IRingElement<RE>>
 
 	public Matrix<RE> getMatrix(int i0, int i1, int j0, int j1)
 	{
-		Matrix<RE> X = new Matrix<RE>(i1 - i0 + 1, j1 - j0 + 1, FACTORY);
+		Matrix<RE> X = new Matrix<>(i1 - i0 + 1, j1 - j0 + 1, FACTORY);
 		RE[][] B = X.getEntries();
 		try {
 			for (int i = i0; i <= i1; i++) {
@@ -627,7 +613,8 @@ public class Matrix<RE extends IRingElement<RE>>
 				}
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
-			throw new ArrayIndexOutOfBoundsException("Submatrix exceeds matrix");
+			throw new ArrayIndexOutOfBoundsException(
+					"Submatrix exceeds matrix");
 		}
 		return X;
 	}
@@ -648,7 +635,7 @@ public class Matrix<RE extends IRingElement<RE>>
 
 	public Matrix<RE> getMatrix(int[] r, int j0, int j1)
 	{
-		Matrix<RE> X = new Matrix<RE>(r.length, j1 - j0 + 1, FACTORY);
+		Matrix<RE> X = new Matrix<>(r.length, j1 - j0 + 1, FACTORY);
 		RE[][] B = X.getEntries();
 		try {
 			for (int i = 0; i < r.length; i++) {
@@ -657,7 +644,8 @@ public class Matrix<RE extends IRingElement<RE>>
 				}
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
-			throw new ArrayIndexOutOfBoundsException("Submatrix exceeds matrix");
+			throw new ArrayIndexOutOfBoundsException(
+					"Submatrix exceeds matrix");
 		}
 		return X;
 	}
@@ -711,7 +699,7 @@ public class Matrix<RE extends IRingElement<RE>>
 						.add(anotherMatrixEntries[row][col]);
 			}
 		}
-		return new Matrix<RE>(resultMatrixEntries);
+		return new Matrix<>(resultMatrixEntries);
 	}
 
 	/**
@@ -720,10 +708,9 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @param scalar
 	 * @return this + scalar
 	 */
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> add(RE scalar)
 	{
-		return operate(scalar, (DyadicOperator<RE>) AddOperator.getInstance());
+		return operate(scalar, FACTORY.getAddOperator());
 	}
 
 	/**
@@ -735,12 +722,10 @@ public class Matrix<RE extends IRingElement<RE>>
 	 *             if matrices differ in size
 	 */
 
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> subtract(Matrix<RE> anotherMatrix)
 			throws InvalidOperationException
 	{
-		return operate(anotherMatrix, (DyadicOperator<RE>) SubtractOperator
-				.getInstance(), "diff");
+		return operate(anotherMatrix, FACTORY.getSubtractOperator(), "diff");
 	}
 
 	/**
@@ -749,11 +734,9 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @param scalar
 	 * @return this - scalar
 	 */
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> subtract(RE scalar)
 	{
-		return operate(scalar, (DyadicOperator<RE>) SubtractOperator
-				.getInstance());
+		return operate(scalar, FACTORY.getSubtractOperator());
 	}
 
 	/**
@@ -763,11 +746,9 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @return multiplied Matrix
 	 */
 
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> multiply(RE scalar)
 	{
-		return operate(scalar, (DyadicOperator<RE>) MultiplyOperator
-				.getInstance());
+		return operate(scalar, FACTORY.getMultiplyOperator());
 	}
 
 	/**
@@ -776,11 +757,9 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @param scalar
 	 * @return divided Matrix
 	 */
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> divide(RE scalar)
 	{
-		return operate(scalar, (DyadicOperator<RE>) DivideOperator
-				.getInstance());
+		return operate(scalar, FACTORY.getDivideOperator());
 	}
 
 	/**
@@ -802,7 +781,7 @@ public class Matrix<RE extends IRingElement<RE>>
 			throw new InvalidOperationException(err);
 		}
 
-		Vector<RE> resultVector = new Vector<RE>(numOfRows, FACTORY);
+		Vector<RE> resultVector = new Vector<>(numOfRows, FACTORY);
 		for (int i = 1; i <= numOfRows; i++) {
 			resultVector.set(i, this.getRow(i).multiply(vector));
 		}
@@ -831,13 +810,13 @@ public class Matrix<RE extends IRingElement<RE>>
 		int resultRows = this.numOfRows;
 		int resultCols = anotherMatrix.getCols();
 
-		Matrix<RE> resultMatrix = new Matrix<RE>(resultRows, resultCols,
+		Matrix<RE> resultMatrix = new Matrix<>(resultRows, resultCols,
 				anotherMatrix.FACTORY);
 
 		for (int i = 1; i <= resultRows; i++) {
 			for (int j = 1; j <= resultCols; j++) {
-				resultMatrix.set(i, j, this.getRow(i).multiply(
-						anotherMatrix.getCol(j)));
+				resultMatrix.set(i, j,
+						this.getRow(i).multiply(anotherMatrix.getCol(j)));
 			}
 		}
 		return resultMatrix;
@@ -851,7 +830,8 @@ public class Matrix<RE extends IRingElement<RE>>
 
 	public Matrix<RE> copy()
 	{
-		Matrix<RE> tmp = new Matrix<RE>(this.getRows(), this.getCols(), FACTORY);
+		Matrix<RE> tmp = new Matrix<>(this.getRows(), this.getCols(),
+				FACTORY);
 		for (int row = 1; row <= this.getRows(); row++) {
 			for (int col = 1; col <= this.getCols(); col++) {
 				tmp.set(row, col, this.get(row, col));
@@ -935,7 +915,8 @@ public class Matrix<RE extends IRingElement<RE>>
 			if (diagonalEntry.isZero()) {
 				// search for non zero entry
 				boolean found = false;
-				for (int candidate = row + 1; candidate <= tmp.getRows(); candidate++)
+				for (int candidate = row + 1; candidate <= tmp
+						.getRows(); candidate++)
 				{
 					if (!tmp.get(candidate, colCounter).isZero()) {
 						tmp.swapRows(row, candidate);
@@ -970,8 +951,8 @@ public class Matrix<RE extends IRingElement<RE>>
 
 				for (int k = colCounter; k <= tmp.getCols(); k++) {
 					RE oldEntry = tmp.get(j, k);
-					tmp.set(j, k, oldEntry.subtract(tmp.get(row, k).multiply(
-							factor)));
+					tmp.set(j, k, oldEntry
+							.subtract(tmp.get(row, k).multiply(factor)));
 				}
 			}
 		}
@@ -1001,7 +982,8 @@ public class Matrix<RE extends IRingElement<RE>>
 			if (diagonalEntry.isZero()) {
 				// search for non zero entry
 				boolean found = false;
-				for (int candidate = row + 1; candidate <= tmp.getRows(); candidate++)
+				for (int candidate = row + 1; candidate <= tmp
+						.getRows(); candidate++)
 				{
 					if (!tmp.get(candidate, colCounter).isZero()) {
 						tmp.swapRows(row, candidate);
@@ -1024,16 +1006,16 @@ public class Matrix<RE extends IRingElement<RE>>
 
 			for (int j = row; j <= tmp.getRows(); j++) {
 
-				RE factor = tmp.get(j, colCounter).multiply(
-						diagonalEntry.invert());
+				RE factor = tmp.get(j, colCounter)
+						.multiply(diagonalEntry.invert());
 				if (row == j || factor.isZero()) {
 					continue;
 				}
 
 				for (int k = colCounter; k <= tmp.getCols(); k++) {
 					RE oldEntry = tmp.get(j, k);
-					tmp.set(j, k, oldEntry.subtract(factor.multiply(tmp.get(
-							row, k))));
+					tmp.set(j, k, oldEntry
+							.subtract(factor.multiply(tmp.get(row, k))));
 				}
 			}
 		}
@@ -1117,7 +1099,8 @@ public class Matrix<RE extends IRingElement<RE>>
 	 */
 	public Matrix<RE> transpose()
 	{
-		Matrix<RE> tmp = new Matrix<RE>(this.getCols(), this.getRows(), FACTORY);
+		Matrix<RE> tmp = new Matrix<>(this.getCols(), this.getRows(),
+				FACTORY);
 		for (int row = 1; row <= this.getRows(); row++) {
 			for (int col = 1; col <= this.getCols(); col++) {
 				tmp.set(col, row, this.get(row, col));
@@ -1133,12 +1116,10 @@ public class Matrix<RE extends IRingElement<RE>>
 	 */
 	public RE trace()
 	{
-		if (numOfCols != numOfRows)
-			throw new InvalidOperationException(
-					"The trace is only defined for square matrices");
-		if (numOfCols == 0)
-			throw new InvalidOperationException(
-					"The trace is only be calculated for matrices with with a minimal size 1X1.");
+		if (numOfCols != numOfRows) throw new InvalidOperationException(
+				"The trace is only defined for square matrices");
+		if (numOfCols == 0) throw new InvalidOperationException(
+				"The trace is only be calculated for matrices with with a minimal size 1X1.");
 		RE t = entries[0][0];
 		for (int i = 1; i < numOfCols; i++) {
 			t = extracted(t, i);
@@ -1166,7 +1147,8 @@ public class Matrix<RE extends IRingElement<RE>>
 		if (this.get(0, 0) instanceof Complex)
 			throw new InvalidOperationException(
 					"This can not be used for complex matrices.");
-		Matrix<RE> tmp = new Matrix<RE>(this.getCols(), this.getRows(), FACTORY);
+		Matrix<RE> tmp = new Matrix<>(this.getCols(), this.getRows(),
+				FACTORY);
 		for (int row = 1; row <= this.getRows(); row++) {
 			for (int col = 1; col <= this.getCols(); col++) {
 				RE test = this.get(row, col);
@@ -1195,7 +1177,8 @@ public class Matrix<RE extends IRingElement<RE>>
 		{
 			for (int row = 1; row <= this.getRows(); row++) {
 				for (int col = 1; col <= this.getCols(); col++) {
-					if (!this.get(row, col).equals(anotherMatrix.get(row, col)))
+					if (!this.get(row, col)
+							.equals(anotherMatrix.get(row, col)))
 					{
 						return false;
 					}
@@ -1242,7 +1225,7 @@ public class Matrix<RE extends IRingElement<RE>>
 			}
 		}
 
-		Matrix<RE> tmp2 = new Matrix<RE>(entries2);
+		Matrix<RE> tmp2 = new Matrix<>(entries2);
 
 		int colCounter = 0;
 
@@ -1255,7 +1238,8 @@ public class Matrix<RE extends IRingElement<RE>>
 			if (diagonalEntry.isZero()) {
 				// search for non zero entry
 				boolean found = false;
-				for (int candidate = row + 1; candidate <= tmp.getRows(); candidate++)
+				for (int candidate = row + 1; candidate <= tmp
+						.getRows(); candidate++)
 				{
 					if (!tmp.get(candidate, colCounter).isZero()) {
 						tmp.swapRows(row, candidate);
@@ -1267,8 +1251,8 @@ public class Matrix<RE extends IRingElement<RE>>
 
 				if (!found) {
 					/* Because there is no inverse of this... */
-					throw new InvalidOperationException("The matrix \n" + this
-							+ "\ncannot be inverted.");
+					throw new InvalidOperationException(
+							"The matrix \n" + this + "\ncannot be inverted.");
 				}
 				diagonalEntry = tmp.get(row, colCounter);
 			}
@@ -1290,10 +1274,10 @@ public class Matrix<RE extends IRingElement<RE>>
 				for (int k = 1; k <= tmp.getCols(); k++) {
 					RE oldEntry = tmp.get(j, k);
 					RE oldEntry2 = tmp2.get(j, k);
-					tmp.set(j, k, oldEntry.subtract(tmp.get(row, k).multiply(
-							factor)));
-					tmp2.set(j, k, oldEntry2.subtract(tmp2.get(row, k)
-							.multiply(factor)));
+					tmp.set(j, k, oldEntry
+							.subtract(tmp.get(row, k).multiply(factor)));
+					tmp2.set(j, k, oldEntry2
+							.subtract(tmp2.get(row, k).multiply(factor)));
 				}
 			}
 		}
@@ -1306,11 +1290,9 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * 
 	 * @param scalar
 	 */
-	@SuppressWarnings("unchecked")
 	public void divideReplace(RE scalar)
 	{
-		operateReplace(scalar, (DyadicOperator<RE>) DivideOperator
-				.getInstance());
+		operateReplace(scalar, FACTORY.getDivideOperator());
 	}
 
 	/**
@@ -1321,12 +1303,10 @@ public class Matrix<RE extends IRingElement<RE>>
 	 *             if the matrices have different sizes
 	 */
 
-	@SuppressWarnings("unchecked")
 	public void divideReplace(Matrix<RE> anotherMatrix)
 			throws InvalidOperationException
 	{
-		operateReplace(anotherMatrix, (DyadicOperator<RE>) DivideOperator
-				.getInstance(), "divide");
+		operateReplace(anotherMatrix, FACTORY.getDivideOperator(), "divide");
 	}
 
 	/**
@@ -1334,11 +1314,9 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * 
 	 * @param scalar
 	 */
-	@SuppressWarnings("unchecked")
 	public void multiplyReplace(RE scalar)
 	{
-		operateReplace(scalar, (DyadicOperator<RE>) MultiplyOperator
-				.getInstance());
+		operateReplace(scalar, FACTORY.getMultiplyOperator());
 	}
 
 	/**
@@ -1348,12 +1326,11 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @throws InvalidOperationException
 	 *             if the matrices have different sizes
 	 */
-	@SuppressWarnings("unchecked")
 	public void multiplyReplace(Matrix<RE> anotherMatrix)
 			throws InvalidOperationException
 	{
-		operateReplace(anotherMatrix, (DyadicOperator<RE>) MultiplyOperator
-				.getInstance(), "multiply");
+		operateReplace(anotherMatrix, FACTORY.getMultiplyOperator(),
+				"multiply");
 	}
 
 	/**
@@ -1361,10 +1338,9 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * 
 	 * @param scalar
 	 */
-	@SuppressWarnings("unchecked")
 	public void addReplace(RE scalar)
 	{
-		operateReplace(scalar, (DyadicOperator<RE>) AddOperator.getInstance());
+		operateReplace(scalar, FACTORY.getAddOperator());
 	}
 
 	/**
@@ -1374,11 +1350,9 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @throws InvalidOperationException
 	 *             if the matrices have different sizes
 	 */
-	@SuppressWarnings("unchecked")
 	public void addReplace(Matrix<RE> anotherMatrix)
 	{
-		operateReplace(anotherMatrix, (DyadicOperator<RE>) AddOperator
-				.getInstance(), "add");
+		operateReplace(anotherMatrix, FACTORY.getAddOperator(), "add");
 	}
 
 	/**
@@ -1386,10 +1360,9 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * 
 	 * @param scalar
 	 */
-	@SuppressWarnings("unchecked")
 	public void subtractReplace(RE scalar)
 	{
-		operate(scalar, (DyadicOperator<RE>) SubtractOperator.getInstance());
+		operate(scalar, FACTORY.getSubtractOperator());
 	}
 
 	/**
@@ -1399,11 +1372,10 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @throws InvalidOperationException
 	 *             if the matrices have different sizes
 	 */
-	@SuppressWarnings("unchecked")
 	public void subtractReplace(Matrix<RE> anotherMatrix)
 	{
-		operateReplace(anotherMatrix, (DyadicOperator<RE>) SubtractOperator
-				.getInstance(), "subtract");
+		operateReplace(anotherMatrix, FACTORY.getSubtractOperator(),
+				"subtract");
 	}
 
 	/**
@@ -1415,11 +1387,9 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @throws InvalidOperationException
 	 *             if the matrices have different sizes
 	 */
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> and(Matrix<RE> anotherMatrix)
 	{
-		return operate(anotherMatrix, (DyadicOperator<RE>) AndOperator
-				.getInstance(), "AND");
+		return operate(anotherMatrix, FACTORY.getAndOperator(), "AND");
 	}
 
 	/**
@@ -1432,11 +1402,9 @@ public class Matrix<RE extends IRingElement<RE>>
 	 *             if the matrices have different sizes
 	 */
 
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> or(Matrix<RE> anotherMatrix)
 	{
-		return operate(anotherMatrix, (DyadicOperator<RE>) OrOperator
-				.getInstance(), "OR");
+		return operate(anotherMatrix, FACTORY.getOrOperator(), "OR");
 	}
 
 	/**
@@ -1445,10 +1413,9 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * 
 	 * @return Matrix of 1's and 0's
 	 */
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> not()
 	{
-		return this.apply((MonadicOperator<RE>) NotOperator.getInstance());
+		return this.apply(FACTORY.getNotOperator());
 	}
 
 	/**
@@ -1460,11 +1427,9 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @throws InvalidOperationException
 	 *             if the matrices have different sizes
 	 */
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> lt(Matrix<RE> anotherMatrix)
 	{
-		return comparison(anotherMatrix, (FEComparator<RE>) LessThanComparator
-				.getInstance(), "LT");
+		return comparison(anotherMatrix, FACTORY.getLessThanComparator(), "LT");
 	}
 
 	/**
@@ -1474,11 +1439,9 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @param scalar
 	 * @return Matrix of ones and zeros
 	 */
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> lt(RE scalar)
 	{
-		return comparison(scalar, (FEComparator<RE>) LessThanComparator
-				.getInstance());
+		return comparison(scalar, FACTORY.getLessThanComparator());
 	}
 
 	/**
@@ -1490,12 +1453,10 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @throws InvalidOperationException
 	 *             if the matrices have different sizes
 	 */
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> le(Matrix<RE> anotherMatrix)
 	{
 		return comparison(anotherMatrix,
-				(FEComparator<RE>) LessThanOrEqualToComparator.getInstance(),
-				"LE");
+				FACTORY.getLessThanOrEqualToComparator(), "LE");
 	}
 
 	/**
@@ -1505,11 +1466,9 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @param scalar
 	 * @return Matrix of ones and zeros
 	 */
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> le(RE scalar)
 	{
-		return comparison(scalar,
-				(FEComparator<RE>) LessThanOrEqualToComparator.getInstance());
+		return comparison(scalar, FACTORY.getLessThanOrEqualToComparator());
 	}
 
 	/**
@@ -1521,11 +1480,10 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @throws InvalidOperationException
 	 *             if the matrices have different sizes
 	 */
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> gt(Matrix<RE> anotherMatrix)
 	{
-		return comparison(anotherMatrix,
-				(FEComparator<RE>) GreaterThanComparator.getInstance(), "GT");
+		return comparison(anotherMatrix, FACTORY.getGreaterThanComparator(),
+				"GT");
 	}
 
 	/**
@@ -1535,11 +1493,9 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @param scalar
 	 * @return Matrix of ones and zeros
 	 */
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> gt(RE scalar)
 	{
-		return comparison(scalar, (FEComparator<RE>) GreaterThanComparator
-				.getInstance());
+		return comparison(scalar, FACTORY.getGreaterThanComparator());
 	}
 
 	/**
@@ -1551,13 +1507,10 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @throws InvalidOperationException
 	 *             if the matrices have different sizes
 	 */
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> ge(Matrix<RE> anotherMatrix)
 	{
-		return comparison(
-				anotherMatrix,
-				(FEComparator<RE>) GreaterThanOrEqualToComparator.getInstance(),
-				"GE");
+		return comparison(anotherMatrix,
+				FACTORY.getGreaterThanOrEqualToComparator(), "GE");
 	}
 
 	/**
@@ -1567,11 +1520,9 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @param scalar
 	 * @return Matrix of ones and zeros
 	 */
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> ge(RE scalar)
 	{
-		return comparison(scalar,
-				(FEComparator<RE>) GreaterThanOrEqualToComparator.getInstance());
+		return comparison(scalar, FACTORY.getGreaterThanOrEqualToComparator());
 	}
 
 	/**
@@ -1583,11 +1534,10 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @throws InvalidOperationException
 	 *             if the matrices have different sizes
 	 */
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> eq(Matrix<RE> anotherMatrix)
 	{
-		return comparison(anotherMatrix, (FEComparator<RE>) EqualToComparator
-				.getInstance(), "EQ");
+		return comparison(anotherMatrix, FACTORY.getNotEqualToComparator(),
+				"EQ");
 	}
 
 	/**
@@ -1597,11 +1547,9 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @param scalar
 	 * @return Matrix of ones and zeros
 	 */
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> eq(RE scalar)
 	{
-		return comparison(scalar, (FEComparator<RE>) EqualToComparator
-				.getInstance());
+		return comparison(scalar, FACTORY.getNotEqualToComparator());
 	}
 
 	/**
@@ -1613,12 +1561,11 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @throws InvalidOperationException
 	 *             if the matrices have different sizes
 	 */
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> ne(Matrix<RE> anotherMatrix)
 	{
 
-		return comparison(anotherMatrix,
-				(FEComparator<RE>) NotEqualToComparator.getInstance(), "NE");
+		return comparison(anotherMatrix, FACTORY.getNotEqualToComparator(),
+				"NE");
 	}
 
 	/**
@@ -1628,11 +1575,9 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @param scalar
 	 * @return Matrix of ones and zeros
 	 */
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> ne(RE scalar)
 	{
-		return comparison(scalar, (FEComparator<RE>) NotEqualToComparator
-				.getInstance());
+		return comparison(scalar, FACTORY.getNotEqualToComparator());
 	}
 
 	/**
@@ -1663,7 +1608,7 @@ public class Matrix<RE extends IRingElement<RE>>
 	 */
 	public Matrix<RE> apply(MonadicOperator<RE> monadicOperator)
 	{
-		Matrix<RE> matrix = new Matrix<RE>(this.getRows(), this.getCols(),
+		Matrix<RE> matrix = new Matrix<>(this.getRows(), this.getCols(),
 				FACTORY);
 
 		for (int i = 1; i <= matrix.getRows(); i++) {
@@ -1689,8 +1634,8 @@ public class Matrix<RE extends IRingElement<RE>>
 
 		for (int i = 1; i <= this.getRows(); i++) {
 			for (int j = 1; j <= this.getCols(); j++) {
-				this.set(i, j, fun.apply(this.get(i, j), anotherMatrix
-						.get(i, j)));
+				this.set(i, j,
+						fun.apply(this.get(i, j), anotherMatrix.get(i, j)));
 			}
 		}
 	}
@@ -1709,13 +1654,13 @@ public class Matrix<RE extends IRingElement<RE>>
 	{
 		check_sizes(anotherMatrix, fun.getClass().getName());
 
-		Matrix<RE> matrix = new Matrix<RE>(this.getRows(), this.getCols(),
+		Matrix<RE> matrix = new Matrix<>(this.getRows(), this.getCols(),
 				FACTORY);
 
 		for (int i = 1; i <= matrix.getRows(); i++) {
 			for (int j = 1; j <= this.getCols(); j++) {
-				matrix.set(i, j, fun.apply(this.get(i, j), anotherMatrix.get(i,
-						j)));
+				matrix.set(i, j,
+						fun.apply(this.get(i, j), anotherMatrix.get(i, j)));
 			}
 		}
 		return matrix;
@@ -1751,7 +1696,7 @@ public class Matrix<RE extends IRingElement<RE>>
 	 */
 	public Matrix<RE> apply(RE scalar, DyadicOperator<RE> fun)
 	{
-		Matrix<RE> matrix = new Matrix<RE>(this.getRows(), this.getCols(),
+		Matrix<RE> matrix = new Matrix<>(this.getRows(), this.getCols(),
 				FACTORY);
 
 		for (int i = 1; i <= matrix.getRows(); i++) {
@@ -1771,12 +1716,11 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * @throws InvalidOperationException
 	 *             if the matrices have different sizes
 	 */
-	@SuppressWarnings("unchecked")
 	public Matrix<RE> arrayMultiply(Matrix<RE> anotherMatrix)
 			throws InvalidOperationException
 	{
-		return operate(anotherMatrix, (DyadicOperator<RE>) MultiplyOperator
-				.getInstance(), "arrayMultiply");
+		return operate(anotherMatrix, FACTORY.getMultiplyOperator(),
+				"arrayMultiply");
 	}
 
 	/**
@@ -1913,11 +1857,11 @@ public class Matrix<RE extends IRingElement<RE>>
 	{
 		check_sizes(matrix2, funName);
 
-		Matrix<RE> matrix3 = new Matrix<RE>(numOfRows, numOfCols, FACTORY);
+		Matrix<RE> matrix3 = new Matrix<>(numOfRows, numOfCols, FACTORY);
 		for (int i = 1; i <= matrix3.getRows(); i++) {
 			for (int j = 1; j <= matrix3.getCols(); j++) {
-				matrix3.set(i, j, dyadicOperator.apply(get(i, j), matrix2.get(
-						i, j)));
+				matrix3.set(i, j,
+						dyadicOperator.apply(get(i, j), matrix2.get(i, j)));
 			}
 		}
 		return matrix3;
@@ -1952,8 +1896,8 @@ public class Matrix<RE extends IRingElement<RE>>
 		check_sizes(matrix, funName);
 		for (int i = 1; i <= getRows(); ++i) {
 			for (int j = 1; j <= getCols(); ++j) {
-				this.set(i, j, dyadicOperator
-						.apply(get(i, j), matrix.get(i, j)));
+				this.set(i, j,
+						dyadicOperator.apply(get(i, j), matrix.get(i, j)));
 			}
 		}
 	}
@@ -1976,13 +1920,13 @@ public class Matrix<RE extends IRingElement<RE>>
 	{
 		check_sizes(anotherMatrix, compName);
 
-		Matrix<RE> a = new Matrix<RE>(this.getRows(), this.getCols(), FACTORY);
+		Matrix<RE> a = new Matrix<>(this.getRows(), this.getCols(), FACTORY);
 
 		for (int i = 1; i <= this.getRows(); ++i) {
 			for (int j = 1; j <= this.getCols(); ++j) {
 				RE entry = this.get(i, j);
-				boolean success = feComparator.compare(entry, anotherMatrix
-						.get(i, j));
+				boolean success = feComparator.compare(entry,
+						anotherMatrix.get(i, j));
 				RE result = success ? FACTORY.one() : FACTORY.zero();
 				a.set(i, j, result);
 			}
@@ -1995,7 +1939,7 @@ public class Matrix<RE extends IRingElement<RE>>
 	// comparison succeeds, zeros where it fails)
 	private Matrix<RE> comparison(RE scalar, FEComparator<RE> feComparator)
 	{
-		Matrix<RE> a = new Matrix<RE>(this.getRows(), this.getCols(), FACTORY);
+		Matrix<RE> a = new Matrix<>(this.getRows(), this.getCols(), FACTORY);
 
 		for (int i = 1; i <= this.getRows(); ++i) {
 			for (int j = 1; j <= this.getCols(); ++j) {
@@ -2039,7 +1983,8 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * 
 	 * @param max
 	 *            The maximal order to test for.
-	 * @return <UL>
+	 * @return
+	 *         <UL>
 	 *         <LI>the order or
 	 *         <LI>-1 if the rank is too low or the determinant is not +-1, or
 	 *         <li>-2 if the order exceeds max. This is likely to occur if the
@@ -2142,9 +2087,8 @@ public class Matrix<RE extends IRingElement<RE>>
 	public void setRowFromMatrix(final int toRow, final Matrix<RE> matrix,
 			final int fromRow)
 	{
-		if (numOfCols != matrix.numOfCols)
-			throw new InvalidOperationException(
-					"the matrices have different number of columns.");
+		if (numOfCols != matrix.numOfCols) throw new InvalidOperationException(
+				"the matrices have different number of columns.");
 		for (int col = 0; col < entries[0].length; col++) {
 			entries[toRow - 1][col] = matrix.entries[fromRow - 1][col];
 		}
@@ -2160,9 +2104,8 @@ public class Matrix<RE extends IRingElement<RE>>
 	public void setColFromMatrix(final int toCol, final Matrix<RE> matrix,
 			final int fromCol)
 	{
-		if (numOfCols != matrix.numOfCols)
-			throw new InvalidOperationException(
-					"the matrices have different number of rows.");
+		if (numOfCols != matrix.numOfCols) throw new InvalidOperationException(
+				"the matrices have different number of rows.");
 		for (int row = 0; row < entries.length; row++) {
 			entries[row][toCol - 1] = matrix.entries[row][fromCol - 1];
 		}
@@ -2193,23 +2136,23 @@ public class Matrix<RE extends IRingElement<RE>>
 		PolynomialFactory<RE> rationalPolyFactory = PolynomialFactory
 				.getFactory(this.getFactory());
 
-		Map<Integer, IRingElement<?>> coeffs = new HashMap<Integer, IRingElement<?>>();
-		coeffs.put(new Integer(1), this.getFactory().one());
+		Map<Integer, IRingElement<?>> coeffs = new HashMap<>();
+		coeffs.put(Integer.valueOf(1), this.getFactory().one());
 
 		Polynomial<RE> x = rationalPolyFactory.get(coeffs);
 
-		LinAlgFactory<Polynomial<RE>> factory = new LinAlgFactory<Polynomial<RE>>(
+		LinAlgFactory<Polynomial<RE>> factory = new LinAlgFactory<>(
 				rationalPolyFactory);
 		Matrix<Polynomial<RE>> e = factory.identity(this.getRows());
-		Polynomial<RE>[][] convertedEntries = new Polynomial[this.getRows()][this
-				.getRows()];
+		Polynomial<RE>[][] convertedEntries = new Polynomial[this
+				.getRows()][this.getRows()];
 		for (int i = 1; i <= this.getRows(); i++) {
 			for (int j = 1; j <= this.getCols(); j++) {
-				convertedEntries[i - 1][j - 1] = rationalPolyFactory.get(this
-						.get(i, j));
+				convertedEntries[i - 1][j - 1] = rationalPolyFactory
+						.get(this.get(i, j));
 			}
 		}
-		Matrix<Polynomial<RE>> a = new Matrix<Polynomial<RE>>(convertedEntries);
+		Matrix<Polynomial<RE>> a = new Matrix<>(convertedEntries);
 
 		return e.multiply(x).subtract(a).det();
 	}

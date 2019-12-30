@@ -3,20 +3,20 @@
         simple example build file
     </description>
 	<!-- set global properties for this build -->
-	<property name="demosrc" location="../src/demo/java/org/jlinalg/demo" />
+	<property name="demosrc" location="../src/test/java/org/jlinalg/demo" />
 	<property name="doc" location="../javadoc" />
 	<property name="dist" location="dist" />
 	<property file="${user.home}/.sourceforgecredentials" />
 	<property name="server" value="${user.sourceforge},jlinalg@web.sourceforge.net" />
 
-	<target name="init">
+	<target name="initant">
 		<!-- Create the time stamp -->
 		<tstamp />
 		<!-- check for credentials -->
 		<fail unless="user.sourceforge" message="Please create a file ${user.home}/.sourceforgecredentials defining the properties user.sourceforge and password.sourceforge" />
 	</target>
 
-	<target name="copyjavafiles" depends="init" description="copy some java files">
+	<target name="copyjavafiles" depends="initant" description="copy some java files">
 		<!-- Compile the java code from ${src} into ${build} -->
 		<echo message="copy demo files ${server}:htdocs" />
 		<scp todir="${server}:htdocs" password="${password.sourceforge}" verbose="true">
@@ -48,22 +48,26 @@
 		</macrodef>
 		
 		<mkdir dir="code"/>
-		<j2html JAVA="../src/demo/java/org/jlinalg/demo/ArbitraryPrecisionDemo.java" HTML="code/ArbitraryPrecisionDemo.html" />
-		<j2html JAVA="../src/demo/java/org/jlinalg/demo/EigenvaluesDemo.java" HTML="code/EigenvaluesDemo.html" />
+		<j2html JAVA="../src/test/java/org/jlinalg/demo/ArbitraryPrecisionDemo.java" HTML="code/ArbitraryPrecisionDemo.html" />
+		<j2html JAVA="../src/test/java/org/jlinalg/demo/EigenvaluesDemo.java" HTML="code/EigenvaluesDemo.html" />
 		<j2html JAVA="../src/main/java/org/jlinalg/f2/F2.java" HTML="code/F2.html" />
-		<j2html JAVA="../src/demo/java/org/jlinalg/demo/F2Demo.java" HTML="code/F2Demo.html" />
-		<j2html JAVA="../src/demo/java/org/jlinalg/demo/FieldPDemo.java" HTML="code/FieldPDemo.html" />
-		<j2html JAVA="../src/demo/java/org/jlinalg/demo/HilbertMatrixDemo.java" HTML="code/HilbertMatrixDemo.html" />
-		<j2html JAVA="../src/demo/java/org/jlinalg/demo/LinearEquationSystemDemo.java" HTML="code/LinearEquationSystemDemo.html" />
-		<j2html JAVA="../src/demo/java/org/jlinalg/demo/MatrixOperationsDemo.java" HTML="code/MatrixOperationsDemo.html" />
-		<j2html JAVA="../src/demo/java/org/jlinalg/demo/PolynomialDemo.java" HTML="code/PolynomialDemo.html" />
-		<j2html JAVA="../src/demo/java/org/jlinalg/demo/Xor.java" HTML="code/Xor.html" />
+		<j2html JAVA="../src/test/java/org/jlinalg/demo/F2Demo.java" HTML="code/F2Demo.html" />
+		<j2html JAVA="../src/test/java/org/jlinalg/demo/FieldPDemo.java" HTML="code/FieldPDemo.html" />
+		<j2html JAVA="../src/test/java/org/jlinalg/demo/HilbertMatrixDemo.java" HTML="code/HilbertMatrixDemo.html" />
+		<j2html JAVA="../src/test/java/org/jlinalg/demo/LinearEquationSystemDemo.java" HTML="code/LinearEquationSystemDemo.html" />
+		<j2html JAVA="../src/test/java/org/jlinalg/demo/MatrixOperationsDemo.java" HTML="code/MatrixOperationsDemo.html" />
+		<j2html JAVA="../src/test/java/org/jlinalg/demo/PolynomialDemo.java" HTML="code/PolynomialDemo.html" />
+		<j2html JAVA="../src/test/java/org/jlinalg/demo/Xor.java" HTML="code/Xor.html" />
 		<!-- this is necessary as webcpp overwrites jlinalg.css -->
 		<copy file="jlinalg.css.save" tofile="code/jlinalg.css" overwrite="true" />
 		<delete file="jlinalg.css" />
 	</target>
 
-	<target name="web" depends="init,java2html,copyjavafiles,copyjavadoc" description="copy the web pages">
+	<target name="webBuildAnt" depends="initant,java2html" description="copy the web pages">
+	        <echo message="web files are created" />
+    </target>
+	
+	<target name="webCopyAnt" depends="webBuildAnt,copyjavafiles,copyjavadoc" description="copy the web pages">
 		<echo message="copy web files to ${server}:htdocs" />
 		<scp todir="${server}:htdocs" password="${password.sourceforge}" verbose="true">
 			<fileset dir=".">
@@ -83,7 +87,7 @@
 	</target>
 
 
-	<target name="copyjavadoc" depends="init" description="copy the javadoc pages">
+	<target name="copyjavadoc" depends="initant" description="copy the javadoc pages">
 		<echo message="copy javadoc files to ${server}:htdocs" />
 		<scp todir="${server}:htdocs/javadoc" password="${password.sourceforge}" verbose="true" sftp="true">
 			<fileset dir="${doc}">
@@ -92,10 +96,10 @@
 		</scp>
 	</target>
 
-	<target name="clean" description="clean up">
+	<target name="cleanAnt" description="clean up">
 		<delete dir="code" />
 	</target>
 
-	<target name="all" depends="web" description="copy everything to sourceforge.">
+	<target name="all" depends="webCopyAnt" description="copy everything to sourceforge.">
 	</target>
 </project>

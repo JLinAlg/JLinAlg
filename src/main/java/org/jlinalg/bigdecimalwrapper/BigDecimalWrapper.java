@@ -17,6 +17,7 @@
 package org.jlinalg.bigdecimalwrapper;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.regex.Pattern;
 
 import org.jlinalg.DivisionByZeroException;
@@ -32,8 +33,10 @@ import org.jlinalg.InvalidOperationException;
  */
 
 public class BigDecimalWrapper
-		extends FieldElement<BigDecimalWrapper>
-		implements IRingElement<BigDecimalWrapper>
+		extends
+		FieldElement<BigDecimalWrapper>
+		implements
+		IRingElement<BigDecimalWrapper>
 {
 	/**
 	 * 
@@ -91,9 +94,8 @@ public class BigDecimalWrapper
 	@Override
 	public BigDecimalWrapper add(BigDecimalWrapper val)
 	{
-		if (FACTORY != val.FACTORY)
-			throw new InvalidOperationException(
-					"Can not add instances of BigDecimalWrapper with distinct factories.");
+		if (FACTORY != val.FACTORY) throw new InvalidOperationException(
+				"Can not add instances of BigDecimalWrapper with distinct factories.");
 		return FACTORY.get(value.add(val.getValue()));
 	}
 
@@ -106,9 +108,8 @@ public class BigDecimalWrapper
 	@Override
 	public BigDecimalWrapper subtract(BigDecimalWrapper val)
 	{
-		if (FACTORY != val.FACTORY)
-			throw new InvalidOperationException(
-					"Can not add instances of BigDecimalWrapper with distinct factories.");
+		if (FACTORY != val.FACTORY) throw new InvalidOperationException(
+				"Can not add instances of BigDecimalWrapper with distinct factories.");
 		return FACTORY.get(value.subtract(val.getValue()));
 	}
 
@@ -121,9 +122,8 @@ public class BigDecimalWrapper
 	@Override
 	public BigDecimalWrapper multiply(BigDecimalWrapper val)
 	{
-		if (FACTORY != val.FACTORY)
-			throw new InvalidOperationException(
-					"Can not multiply instances of BigDecimalWrapper with distinct factories.");
+		if (FACTORY != val.FACTORY) throw new InvalidOperationException(
+				"Can not multiply instances of BigDecimalWrapper with distinct factories.");
 		return FACTORY.get(value.multiply(val.getValue()));
 	}
 
@@ -137,12 +137,11 @@ public class BigDecimalWrapper
 	public BigDecimalWrapper divide(BigDecimalWrapper val)
 			throws DivisionByZeroException
 	{
-		if (FACTORY != val.FACTORY)
-			throw new InvalidOperationException(
-					"Can not divide instances of BigDecimalWrapper with distinct factories.");
+		if (FACTORY != val.FACTORY) throw new InvalidOperationException(
+				"Can not divide instances of BigDecimalWrapper with distinct factories.");
 		if (val.isZero()) {
-			throw new DivisionByZeroException("Tried to divide " + this + "by"
-					+ val + ".");
+			throw new DivisionByZeroException(
+					"Tried to divide " + this + "by" + val + ".");
 		}
 		return FACTORY.get(value.divide(val.getValue(), FACTORY.mathContext));
 	}
@@ -171,8 +170,8 @@ public class BigDecimalWrapper
 		if (this.isZero()) {
 			throw new DivisionByZeroException("Tried to invert zero.");
 		}
-		return FACTORY.get(FACTORY.one().value.divide(value,
-				FACTORY.mathContext));
+		return FACTORY
+				.get(FACTORY.one().value.divide(value, FACTORY.mathContext));
 	}
 
 	/**
@@ -243,18 +242,16 @@ public class BigDecimalWrapper
 	public BigDecimalWrapper sqrt()
 	{
 		int precision = FACTORY.getMathContext().getPrecision();
-		if (precision == 0)
-			throw new InvalidOperationException(
-					"Cannot calculate the square root of infinite precision decimal numbers.");
-		if (value.signum() < 0)
-			throw new InvalidOperationException(
-					"Cannot calculate the square root of negative numbers.");
+		if (precision == 0) throw new InvalidOperationException(
+				"Cannot calculate the square root of infinite precision decimal numbers.");
+		if (value.signum() < 0) throw new InvalidOperationException(
+				"Cannot calculate the square root of negative numbers.");
 		if (value.signum() == 0) return FACTORY.ZERO;
 
 		BigDecimal one = BigDecimal.ONE.setScale(precision + 10);
 		BigDecimal two = one.add(one);
-		BigDecimal maxerr = one.movePointLeft(FACTORY.getMathContext()
-				.getPrecision() + 1);
+		BigDecimal maxerr = one
+				.movePointLeft(FACTORY.getMathContext().getPrecision() + 1);
 
 		BigDecimal lower;
 		BigDecimal upper;
@@ -271,7 +268,7 @@ public class BigDecimalWrapper
 
 		BigDecimal mid;
 		while (true) {
-			mid = lower.add(upper).divide(two, BigDecimal.ROUND_HALF_UP);
+			mid = lower.add(upper).divide(two, RoundingMode.HALF_UP);
 			BigDecimal sqr = mid.multiply(mid);
 			BigDecimal error = value.subtract(sqr).abs();
 			// System.out.println("error=" + error);
@@ -316,5 +313,4 @@ public class BigDecimalWrapper
 					FACTORY);
 		return this;
 	}
-
 }

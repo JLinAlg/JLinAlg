@@ -25,8 +25,9 @@ package org.jlinalg.field_p;
  * 
  * @author Lochbihler Andreas, Georg Thimm
  */
-class FieldPLong
-		extends FieldP<FieldPLong>
+public class FieldPLong
+		extends
+		FieldP<FieldPLong>
 {
 
 	/**
@@ -97,9 +98,8 @@ class FieldPLong
 			return factory.get(this.value + val.value);
 		}
 
-		throw new IllegalArgumentException(val
-				+ " is from a different Fp than " + this
-				+ "! You cannot add them.");
+		throw new IllegalArgumentException(val + " is from a different Fp than "
+				+ this + "! You cannot add them.");
 	}
 
 	/**
@@ -120,9 +120,8 @@ class FieldPLong
 		if (val.factory == this.factory) {
 			return factory.get(this.value * val.value);
 		}
-		throw new IllegalArgumentException(val
-				+ " is from a different Fp than " + this
-				+ "! You cannot multiply them.");
+		throw new IllegalArgumentException(val + " is from a different Fp than "
+				+ this + "! You cannot multiply them.");
 	}
 
 	/**
@@ -154,9 +153,9 @@ class FieldPLong
 			long diff = this.value - par.value;
 			return (diff > 0 ? 1 : (diff < 0 ? -1 : 0));
 		}
-		throw new IllegalArgumentException(par
-				+ " is from a differend field than " + this
-				+ "! You cannot compare them");
+		throw new IllegalArgumentException(
+				par + " is from a differend field than " + this
+						+ "! You cannot compare them");
 	}
 
 	@Override

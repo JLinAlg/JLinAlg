@@ -122,7 +122,7 @@ class Handbook
 			entries[i] = Complex.FACTORY.get(wr[i], wi[i]);
 		}
 
-		return new Vector<Complex>(entries, Complex.FACTORY);
+		return new Vector<>(entries, Complex.FACTORY);
 	}
 
 	/**

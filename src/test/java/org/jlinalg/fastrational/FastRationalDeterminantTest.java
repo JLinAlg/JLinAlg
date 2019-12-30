@@ -59,17 +59,17 @@ public class FastRationalDeterminantTest
 	@Test
 	public void det1()
 	{
-		Matrix<FastRational> m = new Matrix<FastRational>(new FastRational[][] {
+		Matrix<FastRational> m = new Matrix<>(new FastRational[][] {
 				{
 						r0, r1
 				}, {
 						r1, r1
 				}
 		});
-		assertEquals(FastRational.FACTORY.get(-1), MatrixDeterminant
-				.gaussianMethod(m));
-		assertEquals(FastRational.FACTORY.get(-1), MatrixDeterminant
-				.leibnizMethod(m));
+		assertEquals(FastRational.FACTORY.get(-1),
+				MatrixDeterminant.gaussianMethod(m));
+		assertEquals(FastRational.FACTORY.get(-1),
+				MatrixDeterminant.leibnizMethod(m));
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class FastRationalDeterminantTest
 	@Test
 	public void det2()
 	{
-		Matrix<FastRational> m = new Matrix<FastRational>(new FastRational[][] {
+		Matrix<FastRational> m = new Matrix<>(new FastRational[][] {
 				{
 						r0, r1, r2
 				}, {
@@ -88,10 +88,10 @@ public class FastRationalDeterminantTest
 						r6, r7, r9
 				}
 		});
-		assertEquals(FastRational.FACTORY.get(-3), MatrixDeterminant
-				.gaussianMethod(m));
-		assertEquals(FastRational.FACTORY.get(-3), MatrixDeterminant
-				.leibnizMethod(m));
+		assertEquals(FastRational.FACTORY.get(-3),
+				MatrixDeterminant.gaussianMethod(m));
+		assertEquals(FastRational.FACTORY.get(-3),
+				MatrixDeterminant.leibnizMethod(m));
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class FastRationalDeterminantTest
 	@Test
 	public void withoutRowAndColumn1()
 	{
-		Matrix<FastRational> m = new Matrix<FastRational>(new FastRational[][] {
+		Matrix<FastRational> m = new Matrix<>(new FastRational[][] {
 				{
 						r0, r1, r2
 				}, {
@@ -109,16 +109,15 @@ public class FastRationalDeterminantTest
 						r6, r7, r9
 				}
 		});
-		Matrix<FastRational> m2 = new Matrix<FastRational>(
-				new FastRational[][] {
-						{
-								r0, r2
-						}, {
-								r6, r9
-						}
-				});
-		Matrix<FastRational> m3 = MatrixDeterminant
-				.withoutRowAndColumn(m, 2, 2);
+		Matrix<FastRational> m2 = new Matrix<>(new FastRational[][] {
+				{
+						r0, r2
+				}, {
+						r6, r9
+				}
+		});
+		Matrix<FastRational> m3 = MatrixDeterminant.withoutRowAndColumn(m, 2,
+				2);
 		assertTrue(m2.equals(m3));
 	}
 
@@ -128,7 +127,7 @@ public class FastRationalDeterminantTest
 	@Test
 	public void withoutRowAndColumn2()
 	{
-		Matrix<FastRational> m = new Matrix<FastRational>(new FastRational[][] {
+		Matrix<FastRational> m = new Matrix<>(new FastRational[][] {
 				{
 						r0, r1, r2
 				}, {
@@ -137,16 +136,15 @@ public class FastRationalDeterminantTest
 						r6, r7, r9
 				}
 		});
-		Matrix<FastRational> m2 = new Matrix<FastRational>(
-				new FastRational[][] {
-						{
-								r4, r5
-						}, {
-								r7, r9
-						}
-				});
-		Matrix<FastRational> m3 = MatrixDeterminant
-				.withoutRowAndColumn(m, 1, 1);
+		Matrix<FastRational> m2 = new Matrix<>(new FastRational[][] {
+				{
+						r4, r5
+				}, {
+						r7, r9
+				}
+		});
+		Matrix<FastRational> m3 = MatrixDeterminant.withoutRowAndColumn(m, 1,
+				1);
 		assertTrue(m2.equals(m3));
 	}
 
@@ -157,7 +155,7 @@ public class FastRationalDeterminantTest
 	@Test
 	public void withoutRowAndColumn3()
 	{
-		Matrix<FastRational> m = new Matrix<FastRational>(new FastRational[][] {
+		Matrix<FastRational> m = new Matrix<>(new FastRational[][] {
 				{
 						r0, r1, r2
 				}, {
@@ -166,16 +164,15 @@ public class FastRationalDeterminantTest
 						r6, r7, r9
 				}
 		});
-		Matrix<FastRational> m2 = new Matrix<FastRational>(
-				new FastRational[][] {
-						{
-								r0, r1
-						}, {
-								r3, r4
-						}
-				});
-		Matrix<FastRational> m3 = MatrixDeterminant
-				.withoutRowAndColumn(m, 3, 3);
+		Matrix<FastRational> m2 = new Matrix<>(new FastRational[][] {
+				{
+						r0, r1
+				}, {
+						r3, r4
+				}
+		});
+		Matrix<FastRational> m3 = MatrixDeterminant.withoutRowAndColumn(m, 3,
+				3);
 		assertTrue(m2.equals(m3));
 	}
 }
