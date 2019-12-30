@@ -22,6 +22,8 @@ import org.jlinalg.operator.MonadicOperator;
  * @author Georg Thimm
  */
 public interface IRingElement<RE extends IRingElement<RE>>
+		extends
+		Comparable<RE>
 {
 	/**
 	 * Tests if this RingElement is the neutral element of addition (zero).
@@ -78,14 +80,6 @@ public interface IRingElement<RE extends IRingElement<RE>>
 
 	@Override
 	public boolean equals(Object obj);
-
-	/**
-	 * @param o
-	 *            the object
-	 * @return -,0,+} as this object is less than, equal to, or greater than the
-	 *         specified object.
-	 */
-	public int compareTo(RE o);
 
 	/**
 	 * Returns the result of applying a specified function to this

@@ -46,7 +46,7 @@ public interface Target<RE extends IRingElement<RE>>
 	/**
 	 * @return the parameters as they are stored in the target.
 	 */
-	public IRingElement<?>[] getParameters();
+	public IRingElement<RE>[] getParameters();
 
 	/**
 	 * Change the parameters
@@ -67,7 +67,7 @@ public interface Target<RE extends IRingElement<RE>>
 	 *         <code>{@link #maxParameterValues()}[index]</code> and
 	 *         <code>{@link #minParameterValues()}[index]</code>
 	 */
-	public boolean setParameter(int index, IRingElement<?> value);
+	public boolean setParameter(int index, IRingElement<RE> value);
 
 	/**
 	 * @return the minimum permissible values for the parameters. This may be
@@ -75,7 +75,7 @@ public interface Target<RE extends IRingElement<RE>>
 	 *         elements may be <code>null</code> (and then for this element no
 	 *         lower limit exists).
 	 */
-	public IRingElement<?>[] minParameterValues();
+	public RE[] minParameterValues();
 
 	/**
 	 * @return the maximum permissible values for the parameters. This may be
@@ -83,12 +83,12 @@ public interface Target<RE extends IRingElement<RE>>
 	 *         elements may be <code>null</code> (and then for this element no
 	 *         upper limit exists).
 	 */
-	public IRingElement<?>[] maxParameterValues();
+	public RE[] maxParameterValues();
 
 	/**
 	 * @param index
 	 *            the number of the parameter
 	 * @return a parameter
 	 */
-	public IRingElement<?> getParameter(int index);
+	public RE getParameter(int index);
 }

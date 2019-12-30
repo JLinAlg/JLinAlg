@@ -16,16 +16,13 @@
  */
 package org.jlinalg.complex;
 
-import java.util.Random;
-
 import org.jlinalg.DivisionByZeroException;
 import org.jlinalg.FieldElement;
-import org.jlinalg.IRingElement;
 import org.jlinalg.InvalidOperationException;
 import org.jlinalg.JLinAlgTypeProperties;
 import org.jlinalg.RingElementFactory;
 import org.jlinalg.rational.Rational;
-import org.jlinalg.rational.Rational.RationalFactory;
+import org.jlinalg.rational.RationalFactory;
 
 /**
  * This class represents a complex number with two Rationals as a real- and
@@ -35,7 +32,8 @@ import org.jlinalg.rational.Rational.RationalFactory;
  */
 
 public class Complex
-		extends FieldElement<Complex>
+		extends
+		FieldElement<Complex>
 {
 	/**
 	 * 
@@ -136,8 +134,8 @@ public class Complex
 		Rational newRealPart = (this.realPart.multiply(mult.getReal()))
 				.subtract(this.imaginaryPart.multiply(mult.getImaginary()));
 		Rational newImaginaryPart = (this.realPart
-				.multiply(mult.getImaginary())).add(this.imaginaryPart
-				.multiply(mult.getReal()));
+				.multiply(mult.getImaginary()))
+						.add(this.imaginaryPart.multiply(mult.getReal()));
 		return new Complex(newRealPart, newImaginaryPart);
 	}
 
@@ -153,10 +151,10 @@ public class Complex
 		if (this.isZero()) {
 			throw new DivisionByZeroException("Tried to invert zero.");
 		}
-		Rational normalize = realPart.multiply(realPart).add(
-				imaginaryPart.multiply(imaginaryPart));
-		return new Complex(realPart.divide(normalize), imaginaryPart.negate()
-				.divide(normalize));
+		Rational normalize = realPart.multiply(realPart)
+				.add(imaginaryPart.multiply(imaginaryPart));
+		return new Complex(realPart.divide(normalize),
+				imaginaryPart.negate().divide(normalize));
 	}
 
 	/**
@@ -279,8 +277,11 @@ public class Complex
 	 */
 	@JLinAlgTypeProperties(isCompound = true)
 	public class ComplexFactory
-			extends RingElementFactory<Complex>
+			extends
+			RingElementFactory<Complex>
 	{
+		private static final long serialVersionUID = 1L;
+
 		/**
 		 * The constructor. This should be called only once to instantiate
 		 * {@link Complex#FACTORY}.
@@ -299,7 +300,7 @@ public class Complex
 		/**
 		 * create a complex number from two arbitrary objects. Permissible
 		 * classes are those permissible for
-		 * {@link org.jlinalg.rational.Rational.RationalFactory#get(Object)}.
+		 * {@link org.jlinalg.rational.RationalFactory#get(Object)}.
 		 * 
 		 * @param real
 		 * @param imaginary
@@ -315,7 +316,7 @@ public class Complex
 		/**
 		 * create a complex number for arbitrary objects. Permissible classes
 		 * are those permissible for
-		 * {@link org.jlinalg.rational.Rational.RationalFactory#get(Object)}.
+		 * {@link org.jlinalg.rational.RationalFactory#get(Object)}.
 		 * The
 		 * imaginary part is assumed to be zero.
 		 * 
@@ -362,33 +363,10 @@ public class Complex
 			return ZERO;
 		}
 
-		/**
-		 * @deprecated legacy-front end to {@link #gaussianRandomValue()}
-		 */
-		@SuppressWarnings("deprecation")
-		@Override
-		@Deprecated
-		public Complex gaussianRandomValue(
-				@SuppressWarnings("unused") Random random)
-		{
-			return gaussianRandomValue();
-		}
-
 		@Override
 		public Complex[][] getArray(int rows, int columns)
 		{
 			return new Complex[rows][columns];
-		}
-
-		/**
-		 * @deprecated legacy-front end to {@link #randomValue()}
-		 */
-		@SuppressWarnings("deprecation")
-		@Override
-		@Deprecated
-		public Complex randomValue(@SuppressWarnings("unused") Random random)
-		{
-			return randomValue();
 		}
 
 		/**
@@ -413,19 +391,6 @@ public class Complex
 		public Complex get(double r, double i)
 		{
 			return new Complex(r, i);
-		}
-
-		/**
-		 * @deprecated legacy-front end to
-		 *             {@link #randomValue(IRingElement, IRingElement)}
-		 */
-		@SuppressWarnings("deprecation")
-		@Override
-		@Deprecated
-		public Complex randomValue(@SuppressWarnings("unused") Random random,
-				Complex min, Complex max)
-		{
-			return randomValue(min, max);
 		}
 
 		@Override

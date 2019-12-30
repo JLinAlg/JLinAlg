@@ -59,7 +59,7 @@ public class RationalDeterminantTest
 	@Test
 	public void det1()
 	{
-		Matrix<Rational> m = new Matrix<Rational>(new Rational[][] {
+		Matrix<Rational> m = new Matrix<>(new Rational[][] {
 				{
 						r0, r1
 				}, {
@@ -79,7 +79,7 @@ public class RationalDeterminantTest
 	@Test
 	public void det2()
 	{
-		Matrix<Rational> m = new Matrix<Rational>(new Rational[][] {
+		Matrix<Rational> m = new Matrix<>(new Rational[][] {
 				{
 						r0, r1, r2
 				}, {
@@ -100,7 +100,7 @@ public class RationalDeterminantTest
 	@Test
 	public void withoutRowAndColumn1()
 	{
-		Matrix<Rational> m = new Matrix<Rational>(new Rational[][] {
+		Matrix<Rational> m = new Matrix<>(new Rational[][] {
 				{
 						r0, r1, r2
 				}, {
@@ -109,7 +109,7 @@ public class RationalDeterminantTest
 						r6, r7, r9
 				}
 		});
-		Matrix<Rational> m2 = new Matrix<Rational>(new Rational[][] {
+		Matrix<Rational> m2 = new Matrix<>(new Rational[][] {
 				{
 						r0, r2
 				}, {
@@ -126,7 +126,7 @@ public class RationalDeterminantTest
 	@Test
 	public void withoutRowAndColumn2()
 	{
-		Matrix<Rational> m = new Matrix<Rational>(new Rational[][] {
+		Matrix<Rational> m = new Matrix<>(new Rational[][] {
 				{
 						r0, r1, r2
 				}, {
@@ -135,7 +135,7 @@ public class RationalDeterminantTest
 						r6, r7, r9
 				}
 		});
-		Matrix<Rational> m2 = new Matrix<Rational>(new Rational[][] {
+		Matrix<Rational> m2 = new Matrix<>(new Rational[][] {
 				{
 						r4, r5
 				}, {
@@ -153,7 +153,7 @@ public class RationalDeterminantTest
 	@Test
 	public void withoutRowAndColumn3()
 	{
-		Matrix<Rational> m = new Matrix<Rational>(new Rational[][] {
+		Matrix<Rational> m = new Matrix<>(new Rational[][] {
 				{
 						r0, r1, r2
 				}, {
@@ -162,7 +162,7 @@ public class RationalDeterminantTest
 						r6, r7, r9
 				}
 		});
-		Matrix<Rational> m2 = new Matrix<Rational>(new Rational[][] {
+		Matrix<Rational> m2 = new Matrix<>(new Rational[][] {
 				{
 						r0, r1
 				}, {

@@ -28,7 +28,8 @@ import org.jlinalg.testutil.FactoryTestBase;
 import org.junit.Test;
 
 public class ComplexFactoryTest
-		extends FactoryTestBase<Complex>
+		extends
+		FactoryTestBase<Complex>
 {
 	/**
 	 * test whether the factory creates arrays,
@@ -36,8 +37,8 @@ public class ComplexFactoryTest
 	@Test
 	public void testCreateArrays()
 	{
-		assertNotNull("Cannot access \'Complex\'-array", Complex.FACTORY
-				.getArray(5));
+		assertNotNull("Cannot access \'Complex\'-array",
+				Complex.FACTORY.getArray(5));
 	}
 
 	/**
@@ -47,9 +48,9 @@ public class ComplexFactoryTest
 	public void testComplexGetObjectObject()
 	{
 		ComplexFactory f = Complex.FACTORY;
-		assertEquals(f.one(), f.get(new Double(1), new Integer(0)));
-		assertEquals(f.get(11, 55), f.get(new BigInteger("11"),
-				Rational.FACTORY.get(55)));
+		assertEquals(f.one(), f.get(Double.valueOf(1), Integer.valueOf(0)));
+		assertEquals(f.get(11, 55),
+				f.get(new BigInteger("11"), Rational.FACTORY.get(55)));
 	}
 
 	@Override

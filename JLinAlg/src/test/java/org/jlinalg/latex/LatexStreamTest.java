@@ -47,11 +47,11 @@ public class LatexStreamTest
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception
 	{
-		LinAlgFactory<Rational> linalgFactory = new LinAlgFactory<Rational>(
+		LinAlgFactory<Rational> linalgFactory = new LinAlgFactory<>(
 				Rational.FACTORY);
 		m = linalgFactory.identity(4);
 		m.multiplyReplace(Rational.FACTORY.get(3, 67));
-		v = new Vector<Rational>(4, Rational.FACTORY);
+		v = new Vector<>(4, Rational.FACTORY);
 		for (int i = 1; i <= 4; i++)
 			v.set(i, Rational.FACTORY.get(4 - i, i));
 	}

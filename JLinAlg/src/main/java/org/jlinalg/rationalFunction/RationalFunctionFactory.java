@@ -17,7 +17,6 @@
 package org.jlinalg.rationalFunction;
 
 import java.util.Map;
-import java.util.Random;
 
 import org.jlinalg.IRingElement;
 import org.jlinalg.IRingElementFactory;
@@ -42,7 +41,8 @@ import org.jlinalg.polynomial.PolynomialFactory;
  */
 @JLinAlgTypeProperties(isCompound = true)
 public class RationalFunctionFactory<BASE extends IRingElement<BASE>>
-		extends RingElementFactory<RationalFunction<BASE>>
+		extends
+		RingElementFactory<RationalFunction<BASE>>
 {
 
 	private static final long serialVersionUID = 1L;
@@ -62,21 +62,15 @@ public class RationalFunctionFactory<BASE extends IRingElement<BASE>>
 	 */
 	private final RationalFunction<BASE> M_ONE;
 
-	private RationalFunctionFactory(IRingElementFactory<BASE> baseFactory)
+	RationalFunctionFactory(IRingElementFactory<BASE> baseFactory)
 	{
 		super();
-		if (RationalFunctionFactoryMap.INSTANCE.containsKey(baseFactory))
-			throw new InternalError("Try to recreate the same factory again.");
-		BASEFACTORY = baseFactory;
-		RationalFunctionFactoryMap.INSTANCE.put(
-				(IRingElementFactory) BASEFACTORY,
-				(RationalFunctionFactory) this);
-
+		this.baseFactory = baseFactory;
 		PolynomialFactory<BASE> polynomialFactory = PolynomialFactory
 				.getFactory(baseFactory);
-		ZERO = new RationalFunction<BASE>(polynomialFactory.zero(),
+		ZERO = new RationalFunction<>(polynomialFactory.zero(),
 				polynomialFactory.one(), baseFactory);
-		ONE = new RationalFunction<BASE>(polynomialFactory.one(),
+		ONE = new RationalFunction<>(polynomialFactory.one(),
 				polynomialFactory.one(), baseFactory);
 		M_ONE = ONE.negate();
 	}
@@ -85,7 +79,7 @@ public class RationalFunctionFactory<BASE extends IRingElement<BASE>>
 	 * the factory for the base element of the type of polynomials this factory
 	 * produces.
 	 */
-	final IRingElementFactory<BASE> BASEFACTORY;
+	private final IRingElementFactory<BASE> baseFactory;
 
 	/**
 	 * The getter for the factory for the base element of the type of
@@ -95,27 +89,29 @@ public class RationalFunctionFactory<BASE extends IRingElement<BASE>>
 	 */
 	public IRingElementFactory<BASE> getBaseFactory()
 	{
-		return BASEFACTORY;
+		return baseFactory;
 	}
 
 	@Override
 	public RationalFunction<BASE> get(long d)
 	{
-		return get(BASEFACTORY.get(d));
+		return get(baseFactory.get(d));
 	}
 
 	@Deprecated
 	@Override
 	public RationalFunction<BASE> gaussianRandomValue()
 	{
-		throw new InvalidOperationException("Cannot create random polynomials.");
+		throw new InvalidOperationException(
+				"Cannot create random polynomials.");
 	}
 
 	@Override
 	@Deprecated
 	public RationalFunction<BASE> randomValue()
 	{
-		throw new InvalidOperationException("Cannot create random polynomials.");
+		throw new InvalidOperationException(
+				"Cannot create random polynomials.");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -162,7 +158,7 @@ public class RationalFunctionFactory<BASE extends IRingElement<BASE>>
 	public RationalFunction<BASE> get(Polynomial<BASE> numerator,
 			Polynomial<BASE> denominator, IRingElementFactory<BASE> basefactory)
 	{
-		return new RationalFunction<BASE>(numerator, denominator, basefactory);
+		return new RationalFunction<>(numerator, denominator, basefactory);
 	}
 
 	/**
@@ -176,13 +172,12 @@ public class RationalFunctionFactory<BASE extends IRingElement<BASE>>
 	public RationalFunction<BASE> get(Polynomial<BASE> numerator,
 			IRingElementFactory<BASE> basefactory)
 	{
-		return new RationalFunction<BASE>(numerator, basefactory);
+		return new RationalFunction<>(numerator, basefactory);
 	}
 
 	/**
-	 * Create a RationalFunction from a {@link Map}<Integer,? extends
-	 * {@link IRingElement}> or an instance of {@link IRingElement}. <BR>
-	 * Preferred method: {@link #get(Map, IRingElementFactory)}
+	 * Create a RationalFunction from a {@link Map}&lt;Integer,? extends
+	 * {@link IRingElement}&gt; or an instance of {@link IRingElement}.
 	 * 
 	 * @param o
 	 *            an object which can be translated into a coefficient for this
@@ -190,11 +185,12 @@ public class RationalFunctionFactory<BASE extends IRingElement<BASE>>
 	 * @return a polynomial consisting of a single constant: the value of
 	 *         <code>o</code>
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public RationalFunction<BASE> get(Object o)
 	{
 		if (o instanceof IRingElement<?>) {
-			return new RationalFunction<BASE>((BASE) o);
+			return new RationalFunction<>((BASE) o);
 		}
 
 		if (o instanceof Map<?, ?>) {
@@ -204,72 +200,32 @@ public class RationalFunctionFactory<BASE extends IRingElement<BASE>>
 			}
 			BASE baseElement = (BASE) ((Map<?, ?>) o).values().toArray()[0];
 
-			return new RationalFunction<BASE>(new Polynomial<BASE>(
-					(Map<Integer, BASE>) o, baseElement.getFactory()),
+			return new RationalFunction<>(
+					new Polynomial<>((Map<Integer, BASE>) o,
+							baseElement.getFactory()),
 					baseElement.getFactory());
 		}
-		return get(BASEFACTORY.get(o));
+		return get(baseFactory.get(o));
 	}
 
 	@Override
 	public RationalFunction<BASE> get(int i)
 	{
-		return get(BASEFACTORY.get(i));
+		return get(baseFactory.get(i));
 	}
 
 	@Override
 	public RationalFunction<BASE> get(double d)
 	{
-		return get(BASEFACTORY.get(d));
+		return get(baseFactory.get(d));
 	}
 
 	/**
-	 * @throws InvalidOperationException
-	 *             if called.
+	 * @deprecated A random function is not defined.
 	 */
-	@SuppressWarnings("deprecation")
-	@Override
-	@Deprecated
-	public RationalFunction<BASE> gaussianRandomValue(
-			@SuppressWarnings("unused") Random random)
-	{
-		throw new InvalidOperationException(
-				"Cannot create random rational function.");
-	}
-
-	/**
-	 * @throws InvalidOperationException
-	 *             if called.
-	 */
-	@SuppressWarnings("deprecation")
 	@Override
 	@Deprecated
 	public RationalFunction<BASE> randomValue(
-			@SuppressWarnings("unused") Random random)
-	{
-		throw new InvalidOperationException(
-				"Cannot create random rational function.");
-	}
-
-	@Override
-	@Deprecated
-	public RationalFunction<BASE> randomValue(
-			@SuppressWarnings("unused") RationalFunction<BASE> min,
-			@SuppressWarnings("unused") RationalFunction<BASE> max)
-	{
-		throw new InvalidOperationException(
-				"Cannot create random rational function.");
-	}
-
-	/**
-	 * @throws InvalidOperationException
-	 *             if called.
-	 */
-	@SuppressWarnings("deprecation")
-	@Override
-	@Deprecated
-	public RationalFunction<BASE> randomValue(
-			@SuppressWarnings("unused") Random random,
 			@SuppressWarnings("unused") RationalFunction<BASE> min,
 			@SuppressWarnings("unused") RationalFunction<BASE> max)
 	{
@@ -283,8 +239,14 @@ public class RationalFunctionFactory<BASE extends IRingElement<BASE>>
 	{
 		if (this == obj) return true;
 		if (!(obj instanceof RationalFunctionFactory)) return false;
-		return BASEFACTORY.equals(((RationalFunctionFactory<BASE>) obj)
-				.getBaseFactory());
+		return baseFactory
+				.equals(((RationalFunctionFactory<BASE>) obj).getBaseFactory());
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return baseFactory.hashCode();
 	}
 
 	/**
@@ -297,19 +259,10 @@ public class RationalFunctionFactory<BASE extends IRingElement<BASE>>
 	 * @param baseFactory
 	 * @return a factory for rational function.
 	 */
-	@SuppressWarnings("unchecked")
 	public static <RE extends IRingElement<RE>> RationalFunctionFactory<RE> getFactory(
 			IRingElementFactory<RE> baseFactory)
 	{
-		RationalFunctionFactory<RE> factory = (RationalFunctionFactory<RE>) RationalFunctionFactoryMap.INSTANCE
-				.get(baseFactory);
-		if (factory == null) {
-			factory = new RationalFunctionFactory<RE>(baseFactory);
-			RationalFunctionFactoryMap.INSTANCE.put(
-					(IRingElementFactory) baseFactory,
-					(RationalFunctionFactory) factory);
-		}
-		return factory;
+		return RationalFunctionFactoryMap.getFactory(baseFactory);
 	}
 
 }

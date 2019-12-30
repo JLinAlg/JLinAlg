@@ -27,33 +27,9 @@ import org.jlinalg.IRingElement;
  *            the type of the objects to be compared.
  */
 public class LessThanOrEqualToComparator<RE extends IRingElement<RE>>
-		extends FEComparator<RE>
+		extends
+		FEComparator<RE>
 {
-	/**
-	 * The singleton for this class.
-	 */
-	@SuppressWarnings("unchecked")
-	private static final FEComparator<? extends IRingElement<?>> INSTANCE = new LessThanOrEqualToComparator();
-
-	/**
-	 * @return the singleton instance for this operator.
-	 */
-	public static FEComparator<? extends IRingElement<?>> getInstance()
-	{
-		return INSTANCE;
-	}
-
-	/**
-	 * The constructor should only be called to create the singleton instance
-	 * (see {@link #getInstance()}.
-	 * 
-	 * @deprecated use {@link #getInstance()}
-	 */
-	@Deprecated
-	public LessThanOrEqualToComparator()
-	{
-	}
-
 	@Override
 	public boolean compare(RE a, RE b)
 	{

@@ -29,7 +29,8 @@ import java.util.Random;
  */
 
 public class LinAlgFactory<RE extends IRingElement<RE>>
-		implements Serializable
+		implements
+		Serializable
 {
 
 	/**
@@ -100,7 +101,7 @@ public class LinAlgFactory<RE extends IRingElement<RE>>
 	 */
 	public Matrix<RE> uniformNoise(int numberOfRows, int numberOfCols)
 	{
-		Matrix<RE> a = new Matrix<RE>(numberOfRows, numberOfCols, factory);
+		Matrix<RE> a = new Matrix<>(numberOfRows, numberOfCols, factory);
 		for (int i = 1; i <= numberOfRows; ++i) {
 			for (int j = 1; j <= numberOfCols; ++j) {
 				a.set(i, j, factory.randomValue());
@@ -122,7 +123,8 @@ public class LinAlgFactory<RE extends IRingElement<RE>>
 
 	/**
 	 * Returns a Matrix of normally distributed random values. Values are taken
-	 * from a Gaussian distribution with zero mean and standard deviation one.<BR>
+	 * from a Gaussian distribution with zero mean and standard deviation
+	 * one.<BR>
 	 * <STRONG>Note!</STRONG> Normal Distribution Issue<BR>
 	 * For the following RingElement types this method won't achieve values of
 	 * the correct distribution: F2, FieldP
@@ -133,7 +135,7 @@ public class LinAlgFactory<RE extends IRingElement<RE>>
 	 */
 	public Matrix<RE> gaussianNoise(int numberOfRows, int numberOfCols)
 	{
-		Matrix<RE> a = new Matrix<RE>(numberOfRows, numberOfCols, factory);
+		Matrix<RE> a = new Matrix<>(numberOfRows, numberOfCols, factory);
 		for (int i = 1; i <= numberOfRows; ++i) {
 			for (int j = 1; j <= numberOfCols; ++j) {
 				a.set(i, j, factory.gaussianRandomValue());
@@ -186,7 +188,7 @@ public class LinAlgFactory<RE extends IRingElement<RE>>
 	 */
 	public Vector<RE> uniformNoise(int length)
 	{
-		Vector<RE> v = new Vector<RE>(length, factory);
+		Vector<RE> v = new Vector<>(length, factory);
 		for (int i = 1; i <= length; ++i) {
 			v.set(i, factory.randomValue());
 		}
@@ -205,7 +207,7 @@ public class LinAlgFactory<RE extends IRingElement<RE>>
 	 */
 	public Vector<RE> gaussianNoise(int length)
 	{
-		Vector<RE> v = new Vector<RE>(length, factory);
+		Vector<RE> v = new Vector<>(length, factory);
 		for (int i = 1; i <= length; ++i) {
 			v.set(i, factory.gaussianRandomValue());
 		}
@@ -247,7 +249,7 @@ public class LinAlgFactory<RE extends IRingElement<RE>>
 	 */
 	private Vector<RE> block_vector(int length, RE value)
 	{
-		Vector<RE> v = new Vector<RE>(length, factory);
+		Vector<RE> v = new Vector<>(length, factory);
 		for (int i = 1; i <= length; ++i) {
 			v.set(i, value);
 		}
@@ -260,9 +262,10 @@ public class LinAlgFactory<RE extends IRingElement<RE>>
 	 * @param value
 	 * @return a {@link Matrix} with elements of <code>value</code>
 	 */
-	private Matrix<RE> block_matrix(int numberOfRows, int numberOfCols, RE value)
+	private Matrix<RE> block_matrix(int numberOfRows, int numberOfCols,
+			RE value)
 	{
-		Matrix<RE> a = new Matrix<RE>(numberOfRows, numberOfCols, factory);
+		Matrix<RE> a = new Matrix<>(numberOfRows, numberOfCols, factory);
 		for (int i = 1; i <= numberOfRows; ++i) {
 			for (int j = 1; j <= numberOfCols; ++j) {
 				a.set(i, j, value);
@@ -285,7 +288,7 @@ public class LinAlgFactory<RE extends IRingElement<RE>>
 	public Matrix<RE> buildMatrix(double[][] theValues)
 			throws InvalidOperationException
 	{
-		return new Matrix<RE>(wrap(theValues));
+		return new Matrix<>(wrap(theValues));
 	}
 
 	/**
@@ -302,7 +305,7 @@ public class LinAlgFactory<RE extends IRingElement<RE>>
 	public Vector<RE> buildVector(double[] theValues)
 			throws InvalidOperationException
 	{
-		return new Vector<RE>(wrap(theValues));
+		return new Vector<>(wrap(theValues));
 	}
 
 	/**

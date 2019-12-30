@@ -34,7 +34,8 @@ public class FastRationalMatrixMultiplicationTest
 	 * a kludge to give access to the constants in MatrixMultiplication
 	 */
 	static class MMAccess
-			extends MatrixMultiplication
+			extends
+			MatrixMultiplication
 	{
 		static void set_STRASSEN_ORIGINAL_TRUNCATION_POINT(int v)
 		{
@@ -55,7 +56,7 @@ public class FastRationalMatrixMultiplicationTest
 	/**
 	 * an instance of {@link LinAlgFactory} for base type {@link FastRational}
 	 */
-	protected static LinAlgFactory<FastRational> factoryRational = new LinAlgFactory<FastRational>(
+	protected static LinAlgFactory<FastRational> factoryRational = new LinAlgFactory<>(
 			FastRational.FACTORY);
 
 	/**
@@ -105,24 +106,24 @@ public class FastRationalMatrixMultiplicationTest
 	public static void setUp()
 	{
 		identity3 = factoryRational.identity(3);
-		vector123 = new Vector<FastRational>(new FastRational[] {
+		vector123 = new Vector<>(new FastRational[] {
 				FastRational.FACTORY.get(1.0), FastRational.FACTORY.get(2.0),
 				FastRational.FACTORY.get(3.0)
 		});
-		vector456 = new Vector<FastRational>(new FastRational[] {
+		vector456 = new Vector<>(new FastRational[] {
 				FastRational.FACTORY.get(4.0), FastRational.FACTORY.get(5.0),
 				FastRational.FACTORY.get(6.0)
 		});
-		vector789 = new Vector<FastRational>(new FastRational[] {
+		vector789 = new Vector<>(new FastRational[] {
 				FastRational.FACTORY.get(7.0), FastRational.FACTORY.get(8.0),
 				FastRational.FACTORY.get(9.0)
 		});
-		m3t3 = new Matrix<FastRational>(3, 3, FastRational.FACTORY);
+		m3t3 = new Matrix<>(3, 3, FastRational.FACTORY);
 		m3t3.setRow(1, vector123);
 		m3t3.setRow(2, vector456);
 		m3t3.setRow(3, vector789);
 
-		m3t3Squared = new Matrix<FastRational>(new FastRational[] {
+		m3t3Squared = new Matrix<>(new FastRational[] {
 				FastRational.FACTORY.get(30), FastRational.FACTORY.get(36),
 				FastRational.FACTORY.get(42), FastRational.FACTORY.get(66),
 				FastRational.FACTORY.get(81), FastRational.FACTORY.get(96),
@@ -131,18 +132,16 @@ public class FastRationalMatrixMultiplicationTest
 		}, 3);
 
 		m3t3FullRank = m3t3.copy();
-		m3t3FullRankInverse = new Matrix<FastRational>(new FastRational[][] {
+		m3t3FullRankInverse = new Matrix<>(new FastRational[][] {
 				{
 						FastRational.FACTORY.get(-16, 9),
 						FastRational.FACTORY.get(8, 9),
 						FastRational.FACTORY.get(-1, 9)
-				},
-				{
+				}, {
 						FastRational.FACTORY.get(14, 9),
 						FastRational.FACTORY.get(-7, 9),
 						FastRational.FACTORY.get(2, 9)
-				},
-				{
+				}, {
 						FastRational.FACTORY.get(-1, 9),
 						FastRational.FACTORY.get(2, 9),
 						FastRational.FACTORY.get(-1, 9)
@@ -175,8 +174,8 @@ public class FastRationalMatrixMultiplicationTest
 	@Test
 	public void testSimple3()
 	{
-		assertTrue(MatrixMultiplication.simple(m3t3FullRankInverse,
-				(m3t3FullRank)).equals(identity3));
+		assertTrue(MatrixMultiplication
+				.simple(m3t3FullRankInverse, (m3t3FullRank)).equals(identity3));
 	}
 
 	/**
@@ -203,8 +202,8 @@ public class FastRationalMatrixMultiplicationTest
 	@Test
 	public void testSchool3()
 	{
-		assertTrue(MatrixMultiplication.school(m3t3FullRankInverse,
-				(m3t3FullRank)).equals(identity3));
+		assertTrue(MatrixMultiplication
+				.school(m3t3FullRankInverse, (m3t3FullRank)).equals(identity3));
 	}
 
 	/**
@@ -214,8 +213,8 @@ public class FastRationalMatrixMultiplicationTest
 	public void testStrassenOriginal1()
 	{
 		MMAccess.set_STRASSEN_ORIGINAL_TRUNCATION_POINT(2);
-		assertTrue(m3t3.equals(MatrixMultiplication.strassenOriginal(m3t3,
-				identity3)));
+		assertTrue(m3t3.equals(
+				MatrixMultiplication.strassenOriginal(m3t3, identity3)));
 		MMAccess.set_STRASSEN_ORIGINAL_TRUNCATION_POINT(48);
 	}
 
@@ -226,8 +225,8 @@ public class FastRationalMatrixMultiplicationTest
 	public void testStrassenOriginal2()
 	{
 		MMAccess.set_STRASSEN_ORIGINAL_TRUNCATION_POINT(2);
-		assertTrue(m3t3Squared.equals(MatrixMultiplication.strassenOriginal(
-				m3t3, m3t3)));
+		assertTrue(m3t3Squared
+				.equals(MatrixMultiplication.strassenOriginal(m3t3, m3t3)));
 		MMAccess.set_STRASSEN_ORIGINAL_TRUNCATION_POINT(48);
 	}
 
@@ -238,8 +237,9 @@ public class FastRationalMatrixMultiplicationTest
 	public void testStrassenOriginal3()
 	{
 		MMAccess.set_STRASSEN_ORIGINAL_TRUNCATION_POINT(2);
-		assertTrue(MatrixMultiplication.strassenOriginal(m3t3FullRankInverse,
-				(m3t3FullRank)).equals(identity3));
+		assertTrue(MatrixMultiplication
+				.strassenOriginal(m3t3FullRankInverse, (m3t3FullRank))
+				.equals(identity3));
 		MMAccess.set_STRASSEN_ORIGINAL_TRUNCATION_POINT(48);
 	}
 
@@ -250,8 +250,8 @@ public class FastRationalMatrixMultiplicationTest
 	public void testStrassenWinograd1()
 	{
 		MMAccess.set_STRASSEN_WINOGRAD_TRUNCATION_POINT(2);
-		assertTrue(m3t3.equals(MatrixMultiplication.strassenWinograd(m3t3,
-				identity3)));
+		assertTrue(m3t3.equals(
+				MatrixMultiplication.strassenWinograd(m3t3, identity3)));
 		MMAccess.set_STRASSEN_WINOGRAD_TRUNCATION_POINT(48);
 	}
 
@@ -262,8 +262,8 @@ public class FastRationalMatrixMultiplicationTest
 	public void testStrassenWinograd2()
 	{
 		MMAccess.set_STRASSEN_WINOGRAD_TRUNCATION_POINT(2);
-		assertTrue(m3t3Squared.equals(MatrixMultiplication.strassenWinograd(
-				m3t3, m3t3)));
+		assertTrue(m3t3Squared
+				.equals(MatrixMultiplication.strassenWinograd(m3t3, m3t3)));
 		MMAccess.set_STRASSEN_WINOGRAD_TRUNCATION_POINT(48);
 	}
 
@@ -274,8 +274,9 @@ public class FastRationalMatrixMultiplicationTest
 	public void testStrassenWinograd3()
 	{
 		MMAccess.set_STRASSEN_WINOGRAD_TRUNCATION_POINT(2);
-		assertTrue(MatrixMultiplication.strassenWinograd(m3t3FullRankInverse,
-				(m3t3FullRank)).equals(identity3));
+		assertTrue(MatrixMultiplication
+				.strassenWinograd(m3t3FullRankInverse, (m3t3FullRank))
+				.equals(identity3));
 		MMAccess.set_STRASSEN_WINOGRAD_TRUNCATION_POINT(48);
 	}
 
@@ -283,8 +284,8 @@ public class FastRationalMatrixMultiplicationTest
 	public void testStrassenBodrato1()
 	{
 		MMAccess.set_STRASSEN_BODRATO_TRUNCATION_POINT(2);
-		assertTrue(m3t3.equals(MatrixMultiplication.strassenBodrato(m3t3,
-				identity3)));
+		assertTrue(m3t3
+				.equals(MatrixMultiplication.strassenBodrato(m3t3, identity3)));
 		MMAccess.set_STRASSEN_BODRATO_TRUNCATION_POINT(48);
 	}
 
@@ -292,8 +293,8 @@ public class FastRationalMatrixMultiplicationTest
 	public void testStrassenBodrato2()
 	{
 		MMAccess.set_STRASSEN_BODRATO_TRUNCATION_POINT(2);
-		assertTrue(m3t3Squared.equals(MatrixMultiplication.strassenBodrato(
-				m3t3, m3t3)));
+		assertTrue(m3t3Squared
+				.equals(MatrixMultiplication.strassenBodrato(m3t3, m3t3)));
 		MMAccess.set_STRASSEN_BODRATO_TRUNCATION_POINT(48);
 	}
 
@@ -301,8 +302,9 @@ public class FastRationalMatrixMultiplicationTest
 	public void testStrassenBodrato3()
 	{
 		MMAccess.set_STRASSEN_BODRATO_TRUNCATION_POINT(2);
-		assertTrue(MatrixMultiplication.strassenBodrato(m3t3FullRankInverse,
-				(m3t3FullRank)).equals(identity3));
+		assertTrue(MatrixMultiplication
+				.strassenBodrato(m3t3FullRankInverse, (m3t3FullRank))
+				.equals(identity3));
 		MMAccess.set_STRASSEN_BODRATO_TRUNCATION_POINT(48);
 	}
 

@@ -23,7 +23,8 @@ package org.jlinalg.optimise;
  */
 @SuppressWarnings("serial")
 public class OptimiserError
-		extends Error
+		extends
+		Error
 {
 
 	/**

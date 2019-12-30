@@ -29,9 +29,9 @@ import java.util.List;
  */
 
 public class AffineLinearSubspace<RE extends IRingElement<RE>>
-		implements Serializable
+		implements
+		Serializable
 {
-
 	/**
 	 * 
 	 */
@@ -54,7 +54,7 @@ public class AffineLinearSubspace<RE extends IRingElement<RE>>
 	/**
 	 * This creates an affine linear subspace by taking an inhomogeneous part
 	 * and a generating System of Vectors. The subspace will be inhomogenousPart
-	 * + < generatingSystem >.
+	 * + &lt;generatingSystem&gt;.
 	 * 
 	 * @param inhomogenousPart
 	 * @param generatingSystem
@@ -85,7 +85,7 @@ public class AffineLinearSubspace<RE extends IRingElement<RE>>
 		if (inhomogenousPart == null) {
 			if (this.generatingSystem.length > 0) {
 				Vector<RE> tmp = this.generatingSystem[0];
-				Vector<RE> zeroVector = new Vector<RE>(tmp.length(), factory);
+				Vector<RE> zeroVector = new Vector<>(tmp.length(), factory);
 				for (int i = 1; i <= zeroVector.length(); i++) {
 					zeroVector.set(i, factory.zero());
 				}
@@ -103,7 +103,7 @@ public class AffineLinearSubspace<RE extends IRingElement<RE>>
 	/**
 	 * This creates an affine linear subspace by taking an inhomogeneous part
 	 * and a generating System of Vectors. The subspace will be inhomogenousPart
-	 * + < generatingSystem >. The normalised flag, which is usually set after
+	 * + &lt;generatingSystem&gt;. The normalised flag, which is usually set after
 	 * normalise is executed, is also set, but it won't be checked.
 	 * 
 	 * @param inhomogenousPart
@@ -150,7 +150,7 @@ public class AffineLinearSubspace<RE extends IRingElement<RE>>
 		if (this.normalized) {
 			return this.dimension;
 		}
-		return new Matrix<RE>(generatingSystem).rank();
+		return new Matrix<>(generatingSystem).rank();
 	}
 
 	/**
@@ -204,9 +204,9 @@ public class AffineLinearSubspace<RE extends IRingElement<RE>>
 	public AffineLinearSubspace<RE> normalize()
 	{
 		if (this.generatingSystem.length > 0) {
-			Matrix<RE> normalized = new Matrix<RE>(generatingSystem)
+			Matrix<RE> normalized = new Matrix<>(generatingSystem)
 					.gausselim();
-			List<Vector<RE>> generatingVectors = new LinkedList<Vector<RE>>();
+			List<Vector<RE>> generatingVectors = new LinkedList<>();
 			int i = 1;
 			while (i <= normalized.getRows() && !normalized.isZeroRow(i)) {
 				generatingVectors.add(normalized.getRow(i));
@@ -214,8 +214,8 @@ public class AffineLinearSubspace<RE extends IRingElement<RE>>
 			}
 
 			if (generatingVectors.isEmpty()) {
-				LinAlgFactory<RE> f = new LinAlgFactory<RE>(normalized
-						.get(1, 1).getFactory());
+				LinAlgFactory<RE> f = new LinAlgFactory<>(
+						normalized.get(1, 1).getFactory());
 				generatingVectors.add(f.zeros(normalized.getCols()));
 			}
 			Vector<RE>[] newGeneratingSystem = generatingVectors
@@ -227,13 +227,13 @@ public class AffineLinearSubspace<RE extends IRingElement<RE>>
 						newGeneratingSystem[0], this.inhomogenousPart
 				});
 				if (testInhomogenousPart.rank() != 2) {
-					return new LinearSubspace<RE>(newGeneratingSystem);
+					return new LinearSubspace<>(newGeneratingSystem);
 				}
 			}
 			if (this instanceof LinearSubspace<?>) {
-				return new LinearSubspace<RE>(newGeneratingSystem, true);
+				return new LinearSubspace<>(newGeneratingSystem, true);
 			}
-			return new AffineLinearSubspace<RE>(this.inhomogenousPart,
+			return new AffineLinearSubspace<>(this.inhomogenousPart,
 					newGeneratingSystem, true);
 		}
 		return this;
@@ -254,11 +254,12 @@ public class AffineLinearSubspace<RE extends IRingElement<RE>>
 			return false;
 		}
 		if (inhomogenousPart.equals(other.getInhomogenousPart())) {
-			if (this.generatingSystem.length == this.getGeneratingSystem().length)
+			if (this.generatingSystem.length == this
+					.getGeneratingSystem().length)
 			{
 				for (int i = 0; i < this.generatingSystem.length; i++) {
-					if (!this.generatingSystem[i].equals(this
-							.getGeneratingSystem()[i]))
+					if (!this.generatingSystem[i]
+							.equals(this.getGeneratingSystem()[i]))
 					{
 						return false;
 					}
@@ -276,6 +277,15 @@ public class AffineLinearSubspace<RE extends IRingElement<RE>>
 	public boolean isNormalized()
 	{
 		return this.normalized;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		if (this.inhomogenousPart == null) {
+			return 0;
+		}
+		return inhomogenousPart.hashCode();
 	}
 
 }

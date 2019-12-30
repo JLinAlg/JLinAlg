@@ -25,7 +25,7 @@ import org.jlinalg.Matrix;
 import org.jlinalg.Vector;
 import org.jlinalg.doublewrapper.DoubleWrapper.DoubleWrapperFactory;
 import org.jlinalg.rational.Rational;
-import org.jlinalg.rational.Rational.RationalFactory;
+import org.jlinalg.rational.RationalFactory;
 import org.jlinalg.testutil.FactoryTestBase;
 import org.jlinalg.testutil.RandomNumberList;
 import org.junit.BeforeClass;
@@ -35,7 +35,8 @@ import org.junit.Test;
  * @author Georg Thimm
  */
 public class DoubleWrapperFactoryTest
-		extends FactoryTestBase<DoubleWrapper>
+		extends
+		FactoryTestBase<DoubleWrapper>
 {
 
 	private static DoubleWrapperFactory fac;
@@ -84,34 +85,34 @@ public class DoubleWrapperFactoryTest
 	 * Test the conversion from {@link Rational} to {@link DoubleWrapper}
 	 * matrices
 	 */
-	@SuppressWarnings("deprecation")
 	@Test
 	public void rationalToDoubleWrapperMatrices() throws Exception
 	{
 		DoubleWrapperFactory fac = DoubleWrapper.FACTORY;
 
-		LinAlgFactory<Rational> rfac = new LinAlgFactory<Rational>(
-				Rational.FACTORY);
+		RationalFactory rfac = Rational.FACTORY;
 
 		// for a matrix
-		double[][] matrix = {
+		Rational[][] matrix = {
 				{
-						-100, -.001, 0, -1.2345e-20
+						rfac.get(100), rfac.get(-.001), rfac.get(0),
+						rfac.get(-1.2345e-20)
 				}, {
-						1, 2, 3e20, -3e20
+						rfac.get(1), rfac.get(2), rfac.get(3e20),
+						rfac.get(-3e20)
 				}, {
-						100, 1111, 5.999, 1.6789e-20
+						rfac.get(100), rfac.get(1111), rfac.get(5.999),
+						rfac.get(1.6789e-20)
 				}
 		};
-		Matrix<Rational> mRational = rfac.buildMatrix(matrix);
+		Matrix<Rational> mRational = new Matrix<>(matrix);
 		Matrix<DoubleWrapper> mDouble = fac.convert(mRational);
 		for (int row = 1; row <= mRational.getRows(); row++) {
 			for (int col = 1; col <= mRational.getCols(); col++) {
 				DoubleWrapper d = mDouble.get(row, col);
 				Rational r = mRational.get(row, col);
 				assertTrue("d=" + d + " r=" + r, Math.abs(d.doubleValue()
-						- r.doubleValue()) <= (d.abs())
-						.doubleValue() / 1000);
+						- r.doubleValue()) <= (d.abs()).doubleValue() / 1000);
 			}
 		}
 	}
@@ -124,14 +125,13 @@ public class DoubleWrapperFactoryTest
 	public void doubleToRationalWrapper() throws Exception
 	{
 		RationalFactory fac = Rational.FACTORY;
-		for (DoubleWrapper d : new RandomNumberList<DoubleWrapper>(
-				DoubleWrapper.FACTORY, 20))
+		for (DoubleWrapper d : new RandomNumberList<>(DoubleWrapper.FACTORY,
+				20))
 		{
 			Rational r = fac.get(d);
-			assertTrue(d + "!=" + r + "(=" + r.doubleValue() + ")", Math.abs(d
-					.doubleValue()
-					- r.doubleValue()) <= (d.abs())
-					.doubleValue() / 1000);
+			assertTrue(d + "!=" + r + "(=" + r.doubleValue() + ")",
+					Math.abs(d.doubleValue() - r.doubleValue()) <= (d.abs())
+							.doubleValue() / 1000);
 		}
 	}
 
@@ -144,7 +144,7 @@ public class DoubleWrapperFactoryTest
 	{
 		RationalFactory fac = Rational.FACTORY;
 
-		LinAlgFactory<DoubleWrapper> rfac = new LinAlgFactory<DoubleWrapper>(
+		LinAlgFactory<DoubleWrapper> rfac = new LinAlgFactory<>(
 				DoubleWrapper.FACTORY);
 
 		// for a vector
@@ -153,10 +153,9 @@ public class DoubleWrapperFactoryTest
 		for (int row = 1; row <= vRational.length(); row++) {
 			DoubleWrapper d = vDouble.getEntry(row);
 			Rational r = vRational.getEntry(row);
-			assertTrue(d + "!=" + r + "(=" + r.doubleValue() + ")", Math.abs(d
-					.doubleValue()
-					- r.doubleValue()) <= (d.abs())
-					.doubleValue() / 1000);
+			assertTrue(d + "!=" + r + "(=" + r.doubleValue() + ")",
+					Math.abs(d.doubleValue() - r.doubleValue()) <= (d.abs())
+							.doubleValue() / 1000);
 		}
 	}
 

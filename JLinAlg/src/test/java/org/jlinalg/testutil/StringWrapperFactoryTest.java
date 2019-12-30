@@ -18,8 +18,6 @@ package org.jlinalg.testutil;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Random;
-
 import org.jlinalg.IRingElementFactory;
 import org.jlinalg.InvalidOperationException;
 import org.jlinalg.doublewrapper.DoubleWrapper;
@@ -27,7 +25,8 @@ import org.jlinalg.rational.Rational;
 import org.junit.Test;
 
 public class StringWrapperFactoryTest
-		extends FactoryTestBase<StringWrapper>
+		extends
+		FactoryTestBase<StringWrapper>
 {
 
 	@Test(expected = InvalidOperationException.class)
@@ -45,12 +44,12 @@ public class StringWrapperFactoryTest
 	@Test
 	public void testGetObject()
 	{
-		assertEquals(getFactory().one().toString() + ".0", getFactory().get(
-				new Double(1)).toString());
-		assertEquals(getFactory().m_one(), getFactory().get(
-				Rational.FACTORY.get(-1, 1)));
-		assertEquals(getFactory().get("1.23"), getFactory().get(
-				DoubleWrapper.FACTORY.get(1.23)));
+		assertEquals(getFactory().one().toString() + ".0",
+				getFactory().get(Double.valueOf(1)).toString());
+		assertEquals(getFactory().m_one(),
+				getFactory().get(Rational.FACTORY.get(-1, 1)));
+		assertEquals(getFactory().get("1.23"),
+				getFactory().get(DoubleWrapper.FACTORY.get(1.23)));
 	}
 
 	@Test
@@ -66,23 +65,6 @@ public class StringWrapperFactoryTest
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
-	@Test(expected = InvalidOperationException.class)
-	public void testRandomValueRandom_base()
-	{
-		getFactory().randomValue(new Random());
-	}
-
-	@Override
-	@SuppressWarnings("deprecation")
-	@Test(expected = InvalidOperationException.class)
-	public void testRandomValueRandomIRingElementIRingElement_base()
-	{
-		getFactory().randomValue(new Random(), getFactory().m_one(),
-				getFactory().one());
-	}
-
-	@Override
 	@Test(expected = InvalidOperationException.class)
 	public void testGaussianRandomValue_base()
 	{
@@ -93,16 +75,8 @@ public class StringWrapperFactoryTest
 	public void testGetLong()
 	{
 		assertEquals("123", getFactory().get(123L).toString());
-		assertEquals(Long.toString(Long.MAX_VALUE), getFactory().get(
-				Long.MAX_VALUE).toString());
-	}
-
-	@SuppressWarnings("deprecation")
-	@Test(expected = InvalidOperationException.class)
-	public void testRandomValueIRingElementIRingElement()
-	{
-		getFactory().randomValue(new Random(), getFactory().m_one(),
-				getFactory().one());
+		assertEquals(Long.toString(Long.MAX_VALUE),
+				getFactory().get(Long.MAX_VALUE).toString());
 	}
 
 	@Test(expected = InvalidOperationException.class)

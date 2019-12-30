@@ -19,7 +19,6 @@ package org.jlinalg.bigdecimalwrapper;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.Random;
 import java.util.regex.Matcher;
 
 import org.jlinalg.IRingElement;
@@ -36,11 +35,15 @@ import org.jlinalg.rational.Rational;
  */
 @JLinAlgTypeProperties(isExact = false, isDiscreet = false)
 public class BigDecimalWrapperFactory
-		extends RingElementFactory<BigDecimalWrapper>
-		implements IRingElementFactory<BigDecimalWrapper>
+		extends
+		RingElementFactory<BigDecimalWrapper>
+		implements
+		IRingElementFactory<BigDecimalWrapper>
 {
 	// ===============================================================
 	// Constants for BigDecimalWrapperFactory
+
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * the constant -1
@@ -114,8 +117,8 @@ public class BigDecimalWrapperFactory
 				return new BigDecimalWrapper(new BigDecimal(s, mathContext),
 						this);
 			} catch (NumberFormatException e) {
-				throw new InvalidOperationException("String " + o
-						+ " does not represent a double.");
+				throw new InvalidOperationException(
+						"String " + o + " does not represent a double.");
 			}
 		}
 		if (o instanceof Rational) {
@@ -127,28 +130,29 @@ public class BigDecimalWrapperFactory
 			try {
 				java.lang.reflect.Method method = e.getFactory().getClass()
 						.getDeclaredMethod("doubleValue");
-				if (method.getReturnType().getClass().equals(BigDecimal.class))
+				if (method.getReturnType().getClass()
+						.equals(BigDecimal.class))
 				{
 					BigDecimal d = (BigDecimal) method.invoke(e);
 					return get(d.doubleValue());
 				}
 			} catch (SecurityException e1) {
-				throw new InvalidOperationException("SecurityException "
-						+ e1.getMessage());
+				throw new InvalidOperationException(
+						"SecurityException " + e1.getMessage());
 			} catch (NoSuchMethodException e1) {
 				// bad luck - try something else...
 			} catch (IllegalArgumentException e1) {
 				// this should not happen.
-				throw new InternalError("IllegalArgumentException "
-						+ e1.getMessage());
+				throw new InternalError(
+						"IllegalArgumentException " + e1.getMessage());
 			} catch (IllegalAccessException e1) {
 				// this should not happen.
-				throw new InternalError("IllegalAccessException "
-						+ e1.getMessage());
+				throw new InternalError(
+						"IllegalAccessException " + e1.getMessage());
 			} catch (InvocationTargetException e1) {
 				// this should not happen.
-				throw new InternalError("InvocationTargetException "
-						+ e1.getMessage());
+				throw new InternalError(
+						"InvocationTargetException " + e1.getMessage());
 			}
 		}
 		return super.get(o);
@@ -172,15 +176,6 @@ public class BigDecimalWrapperFactory
 		return ONE;
 	}
 
-	@SuppressWarnings("deprecation")
-	@Override
-	@Deprecated
-	public BigDecimalWrapper randomValue(
-			@SuppressWarnings("unused") Random random)
-	{
-		return randomValue();
-	}
-
 	@Override
 	public BigDecimalWrapper zero()
 	{
@@ -193,32 +188,10 @@ public class BigDecimalWrapperFactory
 		return new BigDecimalWrapper[size];
 	}
 
-	@SuppressWarnings("deprecation")
-	@Override
-	@Deprecated
-	public BigDecimalWrapper gaussianRandomValue(
-			@SuppressWarnings("unused") Random random)
-	{
-		return gaussianRandomValue();
-	}
-
 	@Override
 	public BigDecimalWrapper get(long d)
 	{
 		return new BigDecimalWrapper(new BigDecimal(d, mathContext), this);
-	}
-
-	/**
-	 * @deprecated use {@link #randomValue(IRingElement, IRingElement)}
-	 */
-	@SuppressWarnings("deprecation")
-	@Deprecated
-	@Override
-	public BigDecimalWrapper randomValue(
-			@SuppressWarnings("unused") Random random, BigDecimalWrapper min,
-			BigDecimalWrapper max)
-	{
-		return randomValue(min, max);
 	}
 
 	@Override

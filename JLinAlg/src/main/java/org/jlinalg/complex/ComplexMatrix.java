@@ -76,7 +76,7 @@ public class ComplexMatrix
 	@Override
 	public Matrix<Complex> hermitian()
 	{
-		Matrix<Complex> tmp = new Matrix<Complex>(this.getCols(), this
+		Matrix<Complex> tmp = new Matrix<>(this.getCols(), this
 				.getRows(), FACTORY);
 		for (int row = 1; row <= this.getRows(); row++) {
 			for (int col = 1; col <= this.getCols(); col++) {

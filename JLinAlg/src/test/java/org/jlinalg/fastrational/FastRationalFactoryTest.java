@@ -23,13 +23,16 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import org.jlinalg.doublewrapper.DoubleWrapper;
+import org.jlinalg.rational.Rational;
+import org.jlinalg.rational.RationalFactory;
 import org.junit.Test;
 
 /**
  * @author Georg Thimm
  */
 public class FastRationalFactoryTest
-		extends FastRationalTestBase
+		extends
+		FastRationalTestBase
 {
 
 	/**
@@ -51,18 +54,19 @@ public class FastRationalFactoryTest
 		assertSame(getFactory().zero(), getFactory().get("-0.0"));
 		assertSame(getFactory().one(), getFactory().get(1));
 
-		assertTrue(11.0 == getFactory().get(new Double(11)).doubleValue());
-		assertEquals(getFactory().one(), getFactory().get(new Double(1)));
-		assertEquals(getFactory().m_one(), getFactory().get(new Double(-1)));
-		assertTrue(11.0 == getFactory().get(new Double(11)).doubleValue());
-		assertSame(getFactory().one(), getFactory().get(new Integer(1)));
-		assertSame(getFactory().m_one(), getFactory().get(new Integer(-1)));
-		assertSame(getFactory().zero(), getFactory().get(new Integer(0)));
-		assertTrue(getFactory().get(new Integer(0)) == getFactory().zero());
+		assertTrue(11.0 == getFactory().get(Double.valueOf(11)).doubleValue());
+		assertEquals(getFactory().one(), getFactory().get(Double.valueOf(1)));
+		assertEquals(getFactory().m_one(),
+				getFactory().get(Double.valueOf(-1)));
+		assertTrue(11.0 == getFactory().get(Double.valueOf(11)).doubleValue());
+		assertSame(getFactory().one(), getFactory().get(Integer.valueOf(1)));
+		assertSame(getFactory().m_one(), getFactory().get(Integer.valueOf(-1)));
+		assertSame(getFactory().zero(), getFactory().get(Integer.valueOf(0)));
+		assertTrue(getFactory().get(Integer.valueOf(0)) == getFactory().zero());
 		assertEquals(getFactory().get(1, 11), getFactory().get(3024, 33264));
 		assertEquals("4/5", getFactory().get("4/5").toString());
-		assertEquals("4/5", getFactory().get(getFactory().get("4/5"))
-				.toString());
+		assertEquals("4/5",
+				getFactory().get(getFactory().get("4/5")).toString());
 	}
 
 	/**

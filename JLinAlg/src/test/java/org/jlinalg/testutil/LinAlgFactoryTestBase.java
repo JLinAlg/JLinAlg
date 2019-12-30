@@ -21,9 +21,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
 
-import java.util.Random;
-
 import org.jlinalg.IRingElement;
+import org.jlinalg.LinAlgFactory;
 import org.jlinalg.Matrix;
 import org.jlinalg.Vector;
 import org.junit.Ignore;
@@ -35,7 +34,8 @@ import org.junit.Test;
  * @author Georg Thimm
  */
 public abstract class LinAlgFactoryTestBase<RE extends IRingElement<RE>>
-		extends TestBaseFixture<RE>
+		extends
+		TestBaseFixture<RE>
 {
 
 	@Test
@@ -108,9 +108,7 @@ public abstract class LinAlgFactoryTestBase<RE extends IRingElement<RE>>
 	public void testUniformNoiseIntInt_base()
 	{
 		assumeTrue(!methodIsDepreciated(getFactory(), "randomValue",
-				new Class<?>[] {
-					Random.class
-				}));
+				new Class<?>[] {}));
 		Matrix<RE> m = getLinAlgFactory().uniformNoise(numRandomNum,
 				numRandomNum / 2);
 		testRandomMatrix(m, numRandomNum, numRandomNum / 2);
@@ -123,9 +121,7 @@ public abstract class LinAlgFactoryTestBase<RE extends IRingElement<RE>>
 	public void testGaussianNoiseIntInt_base()
 	{
 		assumeTrue(!methodIsDepreciated(getFactory(), "gaussianRandomValue",
-				new Class<?>[] {
-					Random.class
-				}));
+				new Class<?>[] {}));
 		Matrix<RE> m = getLinAlgFactory().gaussianNoise(numRandomNum,
 				numRandomNum / 2);
 		testRandomMatrix(m, numRandomNum, numRandomNum / 2);

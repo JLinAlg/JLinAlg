@@ -22,9 +22,7 @@ import org.jlinalg.IEuclideanRingElement.DivisionResultWithRest;
 public class EuclideanAlgorithm
 {
 	/**
-	 * @param another
-	 *            a polynomial
-	 * @return the GCD of this and <code>another</code> polynomial
+	 * @return the GCD of <code>first</code> and <code>second</code>.
 	 */
 	public static <RE extends IEuclideanRingElement<RE>> RE gcd(final RE first,
 			final RE second)
@@ -42,5 +40,4 @@ public class EuclideanAlgorithm
 
 		return gcd(second, remainder);
 	}
-
 }

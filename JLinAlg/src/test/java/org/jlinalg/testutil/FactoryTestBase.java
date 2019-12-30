@@ -151,7 +151,7 @@ public abstract class FactoryTestBase<RE extends IRingElement<RE>>
 	{
 		Assume.assumeTrue(!methodIsDepreciated(getFactory(),
 				"gaussianRandomValue", null));
-		ArrayList<RE> array = new ArrayList<RE>();
+		ArrayList<RE> array = new ArrayList<>();
 		for (int i = 0; i < 20; i++)
 			array.add(getFactory().gaussianRandomValue());
 		assertSetOK(array);
@@ -166,7 +166,7 @@ public abstract class FactoryTestBase<RE extends IRingElement<RE>>
 	{
 		Assume.assumeTrue(!methodIsDepreciated(getFactory(), "randomValue",
 				null));
-		ArrayList<RE> array = new ArrayList<RE>();
+		ArrayList<RE> array = new ArrayList<>();
 		for (int i = 0; i < 20; i++)
 			array.add(getFactory().randomValue());
 		assertSetOK(array);
@@ -193,7 +193,7 @@ public abstract class FactoryTestBase<RE extends IRingElement<RE>>
 							+ getFactory().getClass());
 			return;
 		}
-		ArrayList<RE> array = new ArrayList<RE>();
+		ArrayList<RE> array = new ArrayList<>();
 		for (int i = 0; i < 20; i++)
 			array.add(getFactory().randomValue(min, max));
 		assertSetOK(array);
@@ -216,7 +216,7 @@ public abstract class FactoryTestBase<RE extends IRingElement<RE>>
 						"4", "5", "6"
 				}
 		};
-		Matrix<StringWrapper> in = new Matrix<StringWrapper>(values,
+		Matrix<StringWrapper> in = new Matrix<>(values,
 				StringWrapper.FACTORY);
 		Matrix<RE> conv = getFactory().convert(in);
 		assertNotNull(conv);
@@ -244,7 +244,7 @@ public abstract class FactoryTestBase<RE extends IRingElement<RE>>
 				"1", "2", "3"
 		};
 
-		Vector<StringWrapper> in = new Vector<StringWrapper>(values,
+		Vector<StringWrapper> in = new Vector<>(values,
 				StringWrapper.FACTORY);
 		Vector<RE> conv = getFactory().convert(in);
 		assertNotNull(conv);

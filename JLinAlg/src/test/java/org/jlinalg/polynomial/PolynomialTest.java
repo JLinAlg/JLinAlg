@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jlinalg.IRingElement;
+import org.jlinalg.IRingElementFactory;
 import org.jlinalg.complex.Complex;
 import org.jlinalg.complex.Complex.ComplexFactory;
 import org.jlinalg.doublewrapper.DoubleWrapper;
@@ -63,8 +64,9 @@ public class PolynomialTest<RE extends IRingElement<RE>>
 						PolynomialFactory.getFactory(
 								FieldPFactoryMap.getFactory(Long.valueOf(17L)))
 				}, {
-						PolynomialFactory
-								.getFactory(FieldPFactoryMap.getFactory(prime1))
+						PolynomialFactory.getFactory(
+								(IRingElementFactory<?>) FieldPFactoryMap
+										.getFactory(prime1))
 				}
 		};
 		return Arrays.asList(data_);
@@ -132,15 +134,16 @@ public class PolynomialTest<RE extends IRingElement<RE>>
 		assertEquals(getFactory().get(1),
 				getFactory().get(1).gcd(getFactory().get(5)));
 
-		Map<Integer, RE> maps = new HashMap<Integer, RE>();
+		Map<Integer, RE> maps = new HashMap<>();
 		maps.put(1, getFactory().getBaseFactory().get(10));
-		Polynomial<RE> p = new Polynomial<RE>(maps,
+		Polynomial<RE> p = new Polynomial<>(maps,
 				getFactory().getBaseFactory());
-		Polynomial<RE> left = p.divide(p.getHighestCoefficient());
+		Polynomial<RE> left = p.divideByScalar(p.getHighestCoefficient());
 		Polynomial<RE> right = p.multiply(getFactory().get(3))
 				.gcd(p.multiply(getFactory().get(2)));
 		System.out.println(left);
 		System.out.println(right);
 		assertEquals(left, right);
 	}
+
 }

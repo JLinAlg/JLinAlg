@@ -71,15 +71,15 @@ public class LinSysSolver<RE extends IRingElement<?>>
 			return new LinearSubspace<RE>(new Vector[] {});
 		}
 
-		Stack<Integer> swaps = new Stack<Integer>();
+		Stack<Integer> swaps = new Stack<>();
 		for (int row = 1; row <= extCoeff.getRows(); row++) {
 			if (extCoeff.get(row, row).isZero()) {
 				int col = row;
 				while (extCoeff.get(row, col).isZero()) {
 					col++;
 				}
-				swaps.push(new Integer(row));
-				swaps.push(new Integer(col));
+				swaps.push(Integer.valueOf(row));
+				swaps.push(Integer.valueOf(col));
 				extCoeff.swapCols(row, col);
 			}
 		}
@@ -95,7 +95,7 @@ public class LinSysSolver<RE extends IRingElement<?>>
 
 		for (int col = extCoeff.getRows() + 1; col <= extCoeff.getCols() - 1; col++)
 		{
-			Vector<RE> tmp = new Vector<RE>(dimension, factory);
+			Vector<RE> tmp = new Vector<>(dimension, factory);
 			for (int row = 1; row <= dimension; row++) {
 				if (row <= extCoeff.getRows()) {
 					tmp.set(row, extCoeff.get(row, col));
@@ -111,7 +111,7 @@ public class LinSysSolver<RE extends IRingElement<?>>
 			generatingSystem[col - (extCoeff.getRows() + 1)] = tmp;
 		}
 
-		Vector<RE> inhomogenousPart = new Vector<RE>(dimension, factory);
+		Vector<RE> inhomogenousPart = new Vector<>(dimension, factory);
 
 		for (int row = 1; row <= dimension; row++) {
 			if (row <= extCoeff.getRows()) {
@@ -138,9 +138,9 @@ public class LinSysSolver<RE extends IRingElement<?>>
 					inhomogenousPart
 				}, true);
 			}
-			return new LinearSubspace<RE>(generatingSystem, true);
+			return new LinearSubspace<>(generatingSystem, true);
 		}
-		return new AffineLinearSubspace<RE>(inhomogenousPart, generatingSystem,
+		return new AffineLinearSubspace<>(inhomogenousPart, generatingSystem,
 				true);
 	}
 
@@ -178,15 +178,15 @@ public class LinSysSolver<RE extends IRingElement<?>>
 			return null;
 		}
 
-		Stack<Integer> swaps = new Stack<Integer>();
+		Stack<Integer> swaps = new Stack<>();
 		for (int row = 1; row <= extCoeff.getRows(); row++) {
 			if (extCoeff.get(row, row).isZero()) {
 				int col = row;
 				while (extCoeff.get(row, col).isZero()) {
 					col++;
 				}
-				swaps.push(new Integer(row));
-				swaps.push(new Integer(col));
+				swaps.push(Integer.valueOf(row));
+				swaps.push(Integer.valueOf(col));
 				extCoeff.swapCols(row, col);
 			}
 		}
@@ -194,7 +194,7 @@ public class LinSysSolver<RE extends IRingElement<?>>
 		int dimension = a.getCols();
 
 		RE zero = factory.zero();
-		Vector<RE> inhomogenousPart = new Vector<RE>(dimension, factory);
+		Vector<RE> inhomogenousPart = new Vector<>(dimension, factory);
 
 		for (int row = 1; row <= dimension; row++) {
 			if (row <= extCoeff.getRows()) {

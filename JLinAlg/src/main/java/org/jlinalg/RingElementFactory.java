@@ -16,8 +16,27 @@
  */
 package org.jlinalg;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Random;
+
+import org.jlinalg.operator.AbsOperator;
+import org.jlinalg.operator.AddOperator;
+import org.jlinalg.operator.AndOperator;
+import org.jlinalg.operator.DivideOperator;
+import org.jlinalg.operator.DyadicOperator;
+import org.jlinalg.operator.EqualToComparator;
+import org.jlinalg.operator.FEComparator;
+import org.jlinalg.operator.GreaterThanComparator;
+import org.jlinalg.operator.GreaterThanOrEqualToComparator;
+import org.jlinalg.operator.LessThanComparator;
+import org.jlinalg.operator.LessThanOrEqualToComparator;
+import org.jlinalg.operator.MonadicOperator;
+import org.jlinalg.operator.MultiplyOperator;
+import org.jlinalg.operator.NotEqualToComparator;
+import org.jlinalg.operator.NotOperator;
+import org.jlinalg.operator.OrOperator;
+import org.jlinalg.operator.SquareOperator;
+import org.jlinalg.operator.SubtractOperator;
 
 /**
  * This defines the interface for the factories used to create instances (and
@@ -34,7 +53,9 @@ import java.util.Random;
  *            The type of the values the factory produces.
  */
 public abstract class RingElementFactory<RE extends RingElement<RE>>
-		implements IRingElementFactory<RE>
+		implements
+		IRingElementFactory<RE>,
+		Serializable
 {
 
 	private static final long serialVersionUID = 1L;
@@ -64,6 +85,22 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 	@Override
 	public abstract RE m_one();
 
+	transient private DyadicOperator<RE> subtractOperator;
+	transient private AndOperator<RE> andOperator;
+	transient private DivideOperator<RE> divideOperator;
+	transient private NotOperator<RE> notOperator;
+	transient private AddOperator<RE> addOperator;
+	transient private FEComparator<RE> gteOperator;
+	transient private FEComparator<RE> ltOperator;
+	transient private FEComparator<RE> lteOperator;
+	transient private FEComparator<RE> neOperator;
+	transient private FEComparator<RE> gtOperator;
+	transient private MonadicOperator<RE> absOperator;
+	transient private MonadicOperator<RE> sqrOperator;
+	transient private DyadicOperator<RE> multiplyOperator;
+	transient private FEComparator<RE> eqOperator;
+	transient private DyadicOperator<RE> orOperator;
+
 	/**
 	 * Try to use the string representation of the object <code>o</code> to
 	 * create a object of type <RE>. This calls again {@link #get(Object)}).
@@ -87,16 +124,16 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 				// bad luck - try something else...
 			} catch (IllegalArgumentException e1) {
 				// this should not happen.
-				throw new InternalError("IllegalArgumentException "
-						+ e1.getMessage());
+				throw new InternalError(
+						"IllegalArgumentException " + e1.getMessage());
 			} catch (IllegalAccessException e1) {
 				// this should not happen.
-				throw new InternalError("IllegalAccessException "
-						+ e1.getMessage());
+				throw new InternalError(
+						"IllegalAccessException " + e1.getMessage());
 			} catch (InvocationTargetException e1) {
 				// this should not happen.
-				throw new InternalError("InvocationTargetException "
-						+ e1.getMessage());
+				throw new InternalError(
+						"InvocationTargetException " + e1.getMessage());
 			}
 		}
 
@@ -111,23 +148,6 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 	public abstract RE get(double d);
 
 	/**
-	 * @deprecated
-	 * @deprecated use {@link #gaussianRandomValue()}
-	 */
-	@Override
-	@SuppressWarnings("deprecation")
-	@Deprecated
-	public abstract RE gaussianRandomValue(Random random);
-
-	/**
-	 * @deprecated use {@link #randomValue()}
-	 */
-	@Override
-	@SuppressWarnings("deprecation")
-	@Deprecated
-	public abstract RE randomValue(Random random);
-
-	/**
 	 * @param min
 	 *            the minimum value to be generated
 	 * @param max
@@ -139,14 +159,6 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 	public abstract RE randomValue(RE min, RE max);
 
 	/**
-	 * @deprecated use {@link #randomValue(IRingElement, IRingElement)}
-	 */
-	@SuppressWarnings("deprecation")
-	@Deprecated
-	@Override
-	public abstract RE randomValue(Random random, RE min, RE max);
-
-	/**
 	 * convert matrices
 	 * 
 	 * @param from
@@ -156,7 +168,7 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 	@Override
 	public Matrix<RE> convert(final Matrix<? extends IRingElement<?>> from)
 	{
-		Matrix<RE> to = new Matrix<RE>(from.getRows(), from.getCols(), this);
+		Matrix<RE> to = new Matrix<>(from.getRows(), from.getCols(), this);
 		for (int row = 0; row < from.getRows(); row++) {
 			for (int col = 0; col < from.getCols(); col++) {
 				to.entries[row][col] = this.get(from.entries[row][col]);
@@ -175,10 +187,145 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 	@Override
 	public Vector<RE> convert(final Vector<? extends IRingElement<?>> from)
 	{
-		Vector<RE> to = new Vector<RE>(from.length(), this);
+		Vector<RE> to = new Vector<>(from.length(), this);
 		for (int row = 0; row < from.length(); row++) {
 			to.entries[row] = this.get(from.entries[row]);
 		}
 		return to;
+	}
+
+	@Override
+	public DyadicOperator<RE> getAddOperator()
+	{
+		if (addOperator == null) {
+			addOperator = new AddOperator<>();
+		}
+		return addOperator;
+	}
+
+	@Override
+	public DyadicOperator<RE> getSubtractOperator()
+	{
+		if (subtractOperator == null) {
+			subtractOperator = new SubtractOperator<>();
+		}
+		return subtractOperator;
+	}
+
+	@Override
+	public DyadicOperator<RE> getAndOperator()
+	{
+		if (andOperator == null) {
+			andOperator = new AndOperator<>();
+		}
+		return andOperator;
+	}
+
+	@Override
+	public DyadicOperator<RE> getOrOperator()
+	{
+		if (orOperator == null) {
+			orOperator = new OrOperator<>();
+		}
+		return orOperator;
+	}
+
+	@Override
+	public DyadicOperator<RE> getDivideOperator()
+	{
+		if (divideOperator == null) {
+			divideOperator = new DivideOperator<>();
+		}
+		return divideOperator;
+	}
+
+	@Override
+	public FEComparator<RE> getGreaterThanOrEqualToComparator()
+	{
+		if (gteOperator == null) {
+			gteOperator = new GreaterThanOrEqualToComparator<>();
+		}
+		return gteOperator;
+	}
+
+	@Override
+	public FEComparator<RE> getLessThanComparator()
+	{
+		if (ltOperator == null) {
+			ltOperator = new LessThanComparator<>();
+		}
+		return ltOperator;
+	}
+
+	@Override
+	public FEComparator<RE> getLessThanOrEqualToComparator()
+	{
+		if (lteOperator == null) {
+			lteOperator = new LessThanOrEqualToComparator<>();
+		}
+		return lteOperator;
+	}
+
+	@Override
+	public FEComparator<RE> getNotEqualToComparator()
+	{
+		if (neOperator == null) {
+			neOperator = new NotEqualToComparator<>();
+		}
+		return neOperator;
+	}
+
+	@Override
+	public FEComparator<RE> getGreaterThanComparator()
+	{
+		if (gtOperator == null) {
+			gtOperator = new GreaterThanComparator<>();
+		}
+		return gtOperator;
+	}
+
+	@Override
+	public MonadicOperator<RE> getNotOperator()
+	{
+		if (notOperator == null) {
+			notOperator = new NotOperator<>();
+		}
+		return notOperator;
+	}
+
+	@Override
+	public MonadicOperator<RE> getAbsOperator()
+	{
+		if (absOperator == null) {
+			absOperator = new AbsOperator<>();
+		}
+		return absOperator;
+	}
+
+	@Override
+	public MonadicOperator<RE> getSquareOperator()
+	{
+		if (sqrOperator == null) {
+			sqrOperator = new SquareOperator<>();
+		}
+		return sqrOperator;
+	}
+
+	@Override
+	public DyadicOperator<RE> getMultiplyOperator()
+	{
+		if (multiplyOperator == null) {
+			multiplyOperator = new MultiplyOperator<>();
+		}
+		return multiplyOperator;
+	}
+
+	@Override
+	public FEComparator<RE> getEqualToComparator()
+	{
+		if (eqOperator == null) {
+			eqOperator = new EqualToComparator<>();
+		}
+		return eqOperator;
 	}
 }

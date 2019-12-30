@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.jlinalg.IRingElement;
+import org.jlinalg.IRingElementFactory;
 import org.jlinalg.complex.Complex;
 import org.jlinalg.complex.Complex.ComplexFactory;
 import org.jlinalg.doublewrapper.DoubleWrapper;
@@ -38,7 +39,8 @@ import org.junit.runners.Parameterized.Parameters;
  */
 @RunWith(Parameterized.class)
 public class RationalFunctionTest<RE extends IRingElement<RE>>
-		extends RingElementTestBase<RationalFunction<RE>>
+		extends
+		RingElementTestBase<RationalFunction<RE>>
 {
 	/**
 	 * a prime number from the Woodall series
@@ -50,21 +52,20 @@ public class RationalFunctionTest<RE extends IRingElement<RE>>
 	{
 		Object[][] data_ = {
 				{
-					RationalFunctionFactory.getFactory(Rational.FACTORY)
-				},
-				{
-					RationalFunctionFactory.getFactory(Complex.FACTORY)
-				},
-				{
-					RationalFunctionFactory.getFactory(DoubleWrapper.FACTORY)
-				},
-				{
-					RationalFunctionFactory.getFactory(FieldPFactoryMap
-							.getFactory(Long.valueOf(17L)))
-				},
-				{
-					RationalFunctionFactory.getFactory(FieldPFactoryMap
-							.getFactory(prime1))
+						RationalFunctionFactory.getFactory(Rational.FACTORY)
+				}, {
+						RationalFunctionFactory.getFactory(Complex.FACTORY)
+				}, {
+						RationalFunctionFactory
+								.getFactory(DoubleWrapper.FACTORY)
+				}, {
+						RationalFunctionFactory.getFactory(
+								(IRingElementFactory<?>) FieldPFactoryMap
+										.getFactory(Long.valueOf(17L)))
+				}, {
+						RationalFunctionFactory.getFactory(
+								(IRingElementFactory<?>) FieldPFactoryMap
+										.getFactory(prime1))
 				}
 		};
 		return Arrays.asList(data_);

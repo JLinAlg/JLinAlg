@@ -40,7 +40,7 @@ public class DoubleWrapperBlackBoxTest
 	@Test
 	public void rationalToDoubleWrapper() throws Exception
 	{
-		for (Rational r : new RandomNumberList<Rational>(Rational.FACTORY, 20))
+		for (Rational r : new RandomNumberList<>(Rational.FACTORY, 20))
 		{
 			DoubleWrapper d = DoubleWrapper.FACTORY.get(r);
 			assertTrue(Math.abs(d.doubleValue() - r.doubleValue()) < (d.abs())
@@ -58,7 +58,7 @@ public class DoubleWrapperBlackBoxTest
 	{
 		DoubleWrapperFactory fac = DoubleWrapper.FACTORY;
 
-		LinAlgFactory<Rational> rfac = new LinAlgFactory<Rational>(
+		LinAlgFactory<Rational> rfac = new LinAlgFactory<>(
 				Rational.FACTORY);
 
 		// for a matrix

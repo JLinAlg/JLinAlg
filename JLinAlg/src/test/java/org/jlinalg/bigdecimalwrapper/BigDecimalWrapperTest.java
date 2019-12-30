@@ -36,7 +36,8 @@ import org.junit.Test;
  * @author Georg Thimm (2009)
  */
 public class BigDecimalWrapperTest
-		extends RingElementTestBase<BigDecimalWrapper>
+		extends
+		RingElementTestBase<BigDecimalWrapper>
 {
 	/**
 	 * a variable used in the tests
@@ -92,7 +93,7 @@ public class BigDecimalWrapperTest
 		c = factory.get(1.0 / 3.0);
 		d = factory.get(2.5);
 		e = factory.get(5.0 / 6.0);
-		v1 = new Vector<BigDecimalWrapper>(3, factory);
+		v1 = new Vector<>(3, factory);
 		for (int i = 1; i <= 3; i++)
 			v1.set(i, factory.zero());
 		v2 = v1.copy();
@@ -101,7 +102,7 @@ public class BigDecimalWrapperTest
 		v4 = v1.copy();
 		v4.set(3, factory.get(-0.5));
 
-		w = new Vector<BigDecimalWrapper>(4, factory);
+		w = new Vector<>(4, factory);
 		for (int i = 1; i <= 4; i++)
 			w.set(i, factory.zero());
 
@@ -114,20 +115,15 @@ public class BigDecimalWrapperTest
 	@Test
 	public void testSubtract()
 	{
-		for (BigDecimalWrapper dw1 : new RandomNumberList<BigDecimalWrapper>(
-				factory, 20))
-		{
+		for (BigDecimalWrapper dw1 : new RandomNumberList<>(factory, 20)) {
 			assertTrue(dw1.toString(), dw1.equals(dw1));
 
-			for (BigDecimalWrapper dw2 : new RandomNumberList<BigDecimalWrapper>(
-					factory, 20))
-			{
+			for (BigDecimalWrapper dw2 : new RandomNumberList<>(factory, 20)) {
 				double d1 = dw1.doubleValue();
 				double d2 = dw2.doubleValue();
 
-				assertTrue(
-						dw1 + "-" + dw2 + "!=" + d1 + "-" + d2,
-						Math.abs(dw1.subtract(dw2).doubleValue() - (d1 - d2)) < 0.0001);
+				assertTrue(dw1 + "-" + dw2 + "!=" + d1 + "-" + d2, Math.abs(
+						dw1.subtract(dw2).doubleValue() - (d1 - d2)) < 0.0001);
 			}
 		}
 	}
@@ -178,10 +174,10 @@ public class BigDecimalWrapperTest
 				a.hashCode() == b.hashCode());
 		assertTrue("hashcode not equal: " + c + " & " + d,
 				c.hashCode() == d.hashCode());
-		Vector<BigDecimalWrapper> v1 = new Vector<BigDecimalWrapper>(2, factory);
+		Vector<BigDecimalWrapper> v1 = new Vector<>(2, factory);
 		v1.set(1, a);
 		v1.set(2, c);
-		Vector<BigDecimalWrapper> v2 = new Vector<BigDecimalWrapper>(2, factory);
+		Vector<BigDecimalWrapper> v2 = new Vector<>(2, factory);
 		v2.set(1, b);
 		v2.set(2, d);
 		assertTrue("hashcode not equal: " + v1 + " & " + v2,
@@ -212,19 +208,15 @@ public class BigDecimalWrapperTest
 		assertSmallDiff(factory.zero(), factory.zero().multiply(e));
 		assertSmallDiff(factory.zero(), factory.get(0).multiply(e));
 
-		for (BigDecimalWrapper dw1 : new RandomNumberList<BigDecimalWrapper>(
-				factory, 20))
-		{
-			for (BigDecimalWrapper dw2 : new RandomNumberList<BigDecimalWrapper>(
-					factory, 20))
-			{
+		for (BigDecimalWrapper dw1 : new RandomNumberList<>(factory, 20)) {
+			for (BigDecimalWrapper dw2 : new RandomNumberList<>(factory, 20)) {
 				double d1 = dw1.doubleValue();
 				double d2 = dw2.doubleValue();
-				assertTrue(dw1 + "*" + dw2 + "!=" + d1 + "*" + d2, dw1
-						.multiply(dw2).doubleValue() == d1 * d2);
+				assertTrue(dw1 + "*" + dw2 + "!=" + d1 + "*" + d2,
+						dw1.multiply(dw2).doubleValue() == d1 * d2);
 				if (d2 != 0.0)
-					assertTrue(dw1 + "/" + dw2 + "!=" + d1 + "/" + d2, dw1
-							.divide(dw2).doubleValue() == d1 / d2);
+					assertTrue(dw1 + "/" + dw2 + "!=" + d1 + "/" + d2,
+							dw1.divide(dw2).doubleValue() == d1 / d2);
 			}
 		}
 	}
@@ -253,9 +245,7 @@ public class BigDecimalWrapperTest
 		assertTrue("-(1)=-1", r1.negate().equals(factory.m_one()));
 		r1 = factory.get(0);
 		assertTrue("-(0)=0", r1.negate().equals(factory.zero()));
-		for (BigDecimalWrapper d : new RandomNumberList<BigDecimalWrapper>(
-				factory, 30))
-		{
+		for (BigDecimalWrapper d : new RandomNumberList<>(factory, 30)) {
 			BigDecimalWrapper e = d.negate();
 			if (!d.equals(factory.zero())) assertFalse(d.equals(e));
 			assertTrue("-(-" + d + ")!=" + e.negate(), e.negate().equals(d));
@@ -306,8 +296,7 @@ public class BigDecimalWrapperTest
 	public void testL2Norm() throws Exception
 	{
 		BigDecimalWrapperFactory dfac = factory;
-		LinAlgFactory<BigDecimalWrapper> linFac = new LinAlgFactory<BigDecimalWrapper>(
-				dfac);
+		LinAlgFactory<BigDecimalWrapper> linFac = new LinAlgFactory<>(dfac);
 		Vector<BigDecimalWrapper> v = linFac.zeros(4);
 		assertEquals(dfac.zero(), v.L2Norm());
 		v.setAll(dfac.get(4));
@@ -372,10 +361,12 @@ public class BigDecimalWrapperTest
 				0.0, 0.1, 0.9, 1.0, 2, 90, 100, 1e20, 1e-20, 163
 		};
 
-		String diff = BigDecimal.ONE.divide(
-				BigDecimal.TEN.pow((int) ((factory.getMathContext()
-						.getPrecision() - 3) / (Math.log(10) / Math.log(2))),
-						factory.mathContext)).toString();
+		String diff = BigDecimal.ONE
+				.divide(BigDecimal.TEN.pow(
+						(int) ((factory.getMathContext().getPrecision() - 3)
+								/ (Math.log(10) / Math.log(2))),
+						factory.mathContext))
+				.toString();
 		for (int i = 0; i < d.length; i++) {
 			BigDecimalWrapper n = factory.get(d[i]);
 			BigDecimalWrapper s = n.multiply(n);

@@ -26,36 +26,10 @@ import org.jlinalg.IRingElement;
  * @param <RE>
  *            see {@link MonadicOperator}
  */
-@SuppressWarnings({
-	"unchecked"
-})
 public class SquareOperator<RE extends IRingElement<RE>>
-		implements MonadicOperator<RE>
+		implements
+		MonadicOperator<RE>
 {
-	/**
-	 * The singleton for this class.
-	 */
-	private static final MonadicOperator<? extends IRingElement<?>> INSTANCE = new SquareOperator();
-
-	/**
-	 * @return the singleton instance for this operator.
-	 */
-	public static MonadicOperator<? extends IRingElement<?>> getInstance()
-	{
-		return INSTANCE;
-	}
-
-	/**
-	 * The constructor should only be called to create the singleton instance
-	 * (see {@link #getInstance()}.
-	 * 
-	 * @deprecated use {@link #getInstance()}
-	 */
-	@Deprecated
-	private SquareOperator()
-	{
-	}
-
 	/**
 	 * @param x
 	 *            the element to be squared.

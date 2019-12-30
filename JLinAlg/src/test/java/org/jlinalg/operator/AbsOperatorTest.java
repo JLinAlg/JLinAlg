@@ -20,18 +20,18 @@ import org.junit.runners.Parameterized;
  */
 @RunWith(Parameterized.class)
 public class AbsOperatorTest<RE extends IRingElement<RE>>
-		extends OperatorTestBase<RE>
+		extends
+		OperatorTestBase<RE>
 {
 	final MonadicOperator<RE> operator;
 
 	/**
 	 * Constructor: used by the test suite runner.
 	 */
-	@SuppressWarnings("unchecked")
 	public AbsOperatorTest(IRingElementFactory<RE> factory)
 	{
 		super(factory);
-		operator = (MonadicOperator<RE>) AbsOperator.getInstance();
+		operator = factory.getAbsOperator();
 	}
 
 	final static String[] s_abs = new String[] {
@@ -43,9 +43,9 @@ public class AbsOperatorTest<RE extends IRingElement<RE>>
 	{
 		assumeTrue(!methodIsDepreciated(getFactory().one(), "abs", null)
 				&& dataTypeHasNegativeValues());
-		Vector<RE> v = new Vector<RE>(s_m2to2, getFactory());
+		Vector<RE> v = new Vector<>(s_m2to2, getFactory());
 		Vector<RE> res = v.apply(operator);
-		Vector<RE> should = new Vector<RE>(s_abs, getFactory());
+		Vector<RE> should = new Vector<>(s_abs, getFactory());
 		assertEquals(getFactory().toString(), should, res);
 	}
 }

@@ -16,8 +16,6 @@
  */
 package org.jlinalg.field_p;
 
-import java.util.Random;
-
 import org.jlinalg.IRingElement;
 import org.jlinalg.InvalidOperationException;
 import org.jlinalg.JLinAlgTypeProperties;
@@ -30,8 +28,11 @@ import org.jlinalg.JLinAlgTypeProperties;
  */
 @JLinAlgTypeProperties(isExact = true, hasNegativeValues = false, isDiscreet = true)
 public class FieldPLongFactory
-		extends FieldPAbstractFactory<FieldPLong>
+		extends
+		FieldPAbstractFactory<FieldPLong>
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * @return true if {@code obj} is of the same type and are based on the same
 	 *         number.
@@ -42,6 +43,12 @@ public class FieldPLongFactory
 		if (this == obj) return true;
 		if (!(obj instanceof FieldPLongFactory)) return false;
 		return p == ((FieldPLongFactory) obj).p;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return (int) (p ^ p >> 16);
 	}
 
 	/**
@@ -69,7 +76,7 @@ public class FieldPLongFactory
 	 * 
 	 * @param p
 	 *            The number of elements in the Field. p must be prime. It is up
-	 *            to the user to ensure that p^2<Long.MAX_VALUE otherwise
+	 *            to the user to ensure that p^2&lt;Long.MAX_VALUE otherwise
 	 *            overflow problems may occur. p is presumed to be prime
 	 */
 	protected FieldPLongFactory(final long p)
@@ -108,19 +115,6 @@ public class FieldPLongFactory
 		return M_ONE;
 	}
 
-	/**
-	 * @throws InvalidOperationException
-	 *             if called
-	 */
-	@SuppressWarnings("deprecation")
-	@Override
-	@Deprecated
-	public FieldPLong gaussianRandomValue(
-			@SuppressWarnings("unused") Random random)
-	{
-		throw new InternalError("not implemented");
-	}
-
 	@Override
 	public FieldPLong get(double d)
 	{
@@ -144,26 +138,16 @@ public class FieldPLongFactory
 				long l = Long.parseLong((String) o);
 				return new FieldPLong(normalize(l, p), this);
 			} catch (NumberFormatException e) {
-				throw new InvalidOperationException(o + " is not a long number");
+				throw new InvalidOperationException(
+						o + " is not a long number");
 			}
 		}
 		return get(o.toString());
 	}
 
 	/**
-	 * @deprecated use {@link #randomValue()}
-	 */
-	@SuppressWarnings("deprecation")
-	@Override
-	@Deprecated
-	public FieldPLong randomValue(@SuppressWarnings("unused") Random random)
-	{
-		return randomValue();
-	}
-
-	/**
-	 * Normalizes val with respect to p. This means, it computes 0<=r
-	 * <p
+	 * Normalizes val with respect to p. This means, it computes 0&lt;=r
+	 * &lt;p
 	 * such that p divides v-r
 	 * 
 	 * @param val
@@ -225,8 +209,8 @@ public class FieldPLongFactory
 		}
 
 		if (a != 1) {
-			throw new InvalidOperationException(val + " is not invertible in F"
-					+ p);
+			throw new InvalidOperationException(
+					val + " is not invertible in F" + p);
 		} // else {
 			// normalize y
 		while (y < 0) {
@@ -256,32 +240,19 @@ public class FieldPLongFactory
 	}
 
 	/**
-	 * @deprecated
-	 * @deprecated use {@link #randomValue(IRingElement,IRingElement)}
-	 */
-	@SuppressWarnings("deprecation")
-	@Deprecated
-	@Override
-	public FieldPLong randomValue(@SuppressWarnings("unused") Random random,
-			FieldPLong min_, FieldPLong max_)
-	{
-		return randomValue(min_, max_);
-	}
-
-	/**
 	 * @throws InvalidOperationException
-	 *             if called
+	 * @Deprecated as not implemented
 	 */
 	@Override
 	@Deprecated
 	public FieldPLong gaussianRandomValue()
 	{
-		throw new InternalError("not implemented");
+		throw new InvalidOperationException("not implemented");
 	}
 
 	/**
 	 * @return a random value inclusive of min and max.
-	 * @see org.jlinalg.IRingElementFactory#randomValue(Random, IRingElement,
+	 * @see org.jlinalg.IRingElementFactory#randomValue(IRingElement,
 	 *      IRingElement)
 	 */
 	@Override
@@ -296,8 +267,8 @@ public class FieldPLongFactory
 	}
 
 	/**
-	 * Creates a random value (by mapping a random double value 0<=dval<1 to a
-	 * element of FieldP)
+	 * Creates a random value (by mapping a random double value 0&lt;=dval&lt;1
+	 * to a element of FieldP)
 	 * 
 	 * @return a random element.
 	 */

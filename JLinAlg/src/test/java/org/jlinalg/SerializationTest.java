@@ -22,17 +22,16 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 import org.jlinalg.doublewrapper.DoubleWrapper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SerializationTest
 {
 	@Test
 	public void serializeVector() throws IOException
 	{
-		Vector<DoubleWrapper> testVector = new Vector<DoubleWrapper>(
-				new DoubleWrapper[] {
-						new DoubleWrapper(12), new DoubleWrapper(12)
-				});
+		Vector<DoubleWrapper> testVector = new Vector<>(new DoubleWrapper[] {
+				new DoubleWrapper(12), new DoubleWrapper(12)
+		});
 		ObjectOutputStream out = new ObjectOutputStream(
 				new ByteArrayOutputStream());
 		out.writeObject(testVector);

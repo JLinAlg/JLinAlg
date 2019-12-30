@@ -24,26 +24,26 @@ import java.util.TreeMap;
  * a p-field of a given base type use the method {@link #get(Object)} with an
  * instance of {@link Long} as argument.
  * 
- * @author Georg THimm (2008)
+ * @author Georg Thimm (2008)
  */
-public class FieldPFactoryMap
-		extends TreeMap<Object, FieldPAbstractFactory<?>>
+public class FieldPFactoryMap<RE extends FieldP<RE>>
+		extends
+		TreeMap<Object, FieldPAbstractFactory<RE>>
 {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * this is a singleton class
 	 */
-	public final static FieldPFactoryMap FACTORY_MAP = new FieldPFactoryMap();
+	@SuppressWarnings("rawtypes")
+	private final static FieldPFactoryMap<?> FACTORY_MAP = new FieldPFactoryMap();
 
 	/**
 	 * No second instance of this class should be created
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({
+			"unchecked", "rawtypes"
+	})
 	private FieldPFactoryMap()
 	{
 		super(new FieldPFactoryComparator());
@@ -56,7 +56,7 @@ public class FieldPFactoryMap
 	static final long PRIME_SEPARATION_BOUNDARY = 3037000500l;
 
 	/**
-	 * The same valuse as {@link #PRIME_SEPARATION_BOUNDARY}
+	 * The same values as {@link #PRIME_SEPARATION_BOUNDARY}
 	 */
 	public static final BigInteger PRIME_SEPARATION_BOUNDARY_BIGINT = BigInteger
 			.valueOf(PRIME_SEPARATION_BOUNDARY);
@@ -93,9 +93,14 @@ public class FieldPFactoryMap
 	 *            the size of the field
 	 * @return a factory that is unique for p.
 	 */
-	public static FieldPAbstractFactory<?> getFactory(Long p)
+	@SuppressWarnings({
+			"unchecked", "rawtypes"
+	})
+	public static <RE extends FieldP<RE>> FieldPAbstractFactory<?> getFactory(
+			Long p)
 	{
-		FieldPAbstractFactory<?> factory = FACTORY_MAP.get(p);
+		FieldPAbstractFactory<RE> factory = (FieldPAbstractFactory<RE>) FACTORY_MAP
+				.get(p);
 		if (factory != null) {
 			return factory;
 		}
@@ -104,12 +109,14 @@ public class FieldPFactoryMap
 		}
 
 		if (p.longValue() < PRIME_SEPARATION_BOUNDARY) {
-			factory = new FieldPLongFactory(p.longValue());
+			factory = (FieldPAbstractFactory<RE>) new FieldPLongFactory(
+					p.longValue());
 		}
 		else {
-			factory = new FieldPBigFactory(BigInteger.valueOf(p.longValue()));
+			factory = (FieldPAbstractFactory<RE>) new FieldPBigFactory(
+					BigInteger.valueOf(p.longValue()));
 		}
-		FACTORY_MAP.put(p, factory);
+		FACTORY_MAP.put(p, (FieldPAbstractFactory) factory);
 		return factory;
 	}
 
@@ -124,23 +131,28 @@ public class FieldPFactoryMap
 	 *            the size of the field
 	 * @return a factory
 	 */
-	public static FieldPAbstractFactory<?> getFactory(String p)
+	@SuppressWarnings({
+			"unchecked", "rawtypes"
+	})
+	public static <RE extends FieldP<RE>> FieldPAbstractFactory<?> getFactory(
+			String p)
 	{
 		BigInteger bInt = new BigInteger(p);
 		// if this is a relatively small value, use Long's.
 		if (bInt.compareTo(PRIME_SEPARATION_BOUNDARY_BIGINT) <= 0)
-			return getFactory(new Long(bInt.longValue()));
+			return getFactory(Long.valueOf(bInt.longValue()));
 
-		FieldPAbstractFactory<?> factory = FACTORY_MAP.get(bInt);
+		FieldPAbstractFactory<RE> factory = (FieldPAbstractFactory<RE>) FACTORY_MAP
+				.get(bInt);
 		if (factory != null) {
 			return factory;
 		}
 		if (!bInt.isProbablePrime(PRIME_CERTANITY)) {
-			throw new IllegalArgumentException("p = " + p
-					+ " is not a prime number.");
+			throw new IllegalArgumentException(
+					"p = " + p + " is not a prime number.");
 		}
-		factory = new FieldPBigFactory(bInt);
-		FACTORY_MAP.put(bInt, factory);
+		factory = (FieldPAbstractFactory<RE>) new FieldPBigFactory(bInt);
+		FACTORY_MAP.put((Object) bInt, (FieldPAbstractFactory) factory);
 		return factory;
 	}
 

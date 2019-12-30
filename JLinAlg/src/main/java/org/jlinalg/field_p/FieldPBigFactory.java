@@ -18,7 +18,6 @@ package org.jlinalg.field_p;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Random;
 
 import org.jlinalg.InvalidOperationException;
 
@@ -26,8 +25,10 @@ import org.jlinalg.InvalidOperationException;
  * @author Andreas Lochbihler, Georg Thimm, Andreas Keilhauer
  */
 public class FieldPBigFactory
-		extends FieldPAbstractFactory<FieldPBig>
+		extends
+		FieldPAbstractFactory<FieldPBig>
 {
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @return true if {@code obj} is of the same type and are based on the same
@@ -39,6 +40,12 @@ public class FieldPBigFactory
 		if (this == obj) return true;
 		if (!(obj instanceof FieldPBigFactory)) return false;
 		return p.equals(((FieldPBigFactory) obj).p);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return p.hashCode();
 	}
 
 	/**
@@ -66,7 +73,7 @@ public class FieldPBigFactory
 	 * 
 	 * @param p
 	 *            The number of elements in the Field. p must be prime. It is up
-	 *            to the user to ensure that p^2<Long.MAX_VALUE otherwise
+	 *            to the user to ensure that p^2&lt;Long.MAX_VALUE otherwise
 	 *            overflow problems may occur. p is presumed to be prime
 	 */
 	public FieldPBigFactory(BigInteger p)
@@ -115,34 +122,9 @@ public class FieldPBigFactory
 	@Override
 	public FieldPBig randomValue()
 	{
-		BigInteger r = new BigDecimal(p)
-				.multiply(new BigDecimal(Math.random())).toBigInteger();
+		BigInteger r = new BigDecimal(p).multiply(new BigDecimal(Math.random()))
+				.toBigInteger();
 		return new FieldPBig(r, this);
-	}
-
-	/**
-	 * @deprecated use {@link #randomValue()}
-	 */
-	@SuppressWarnings("deprecation")
-	@Override
-	@Deprecated
-	public FieldPBig randomValue(@SuppressWarnings("unused") Random random)
-	{
-		return randomValue();
-	}
-
-	/**
-	 * @throws InvalidOperationException
-	 *             if called
-	 */
-	@SuppressWarnings("deprecation")
-	@Override
-	@Deprecated
-	public FieldPBig gaussianRandomValue(
-			@SuppressWarnings("unused") Random random)
-	{
-		throw new InvalidOperationException(
-				"Can not calculate gaussian random values for Fp.");
 	}
 
 	/**
@@ -162,7 +144,8 @@ public class FieldPBigFactory
 			if (n.longValue() == 1) return ONE;
 			if (n.longValue() == -1) return M_ONE;
 			if (n.longValue() == 0) return ZERO;
-			return new FieldPBig(BigInteger.valueOf(n.longValue()).mod(p), this);
+			return new FieldPBig(BigInteger.valueOf(n.longValue()).mod(p),
+					this);
 		}
 		if (o instanceof String) {
 			if (o.equals("0")) return ZERO;
@@ -198,20 +181,6 @@ public class FieldPBigFactory
 	public FieldPBig get(long d)
 	{
 		return new FieldPBig(BigInteger.valueOf(d).mod(p), this);
-	}
-
-	/**
-	 * @throws UnsupportedOperationException
-	 *             if called
-	 */
-	@SuppressWarnings("deprecation")
-	@Override
-	@Deprecated
-	public FieldPBig randomValue(@SuppressWarnings("unused") Random random,
-			@SuppressWarnings("unused") FieldPBig min,
-			@SuppressWarnings("unused") FieldPBig max)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	/**

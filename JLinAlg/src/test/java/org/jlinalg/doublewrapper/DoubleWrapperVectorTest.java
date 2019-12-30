@@ -42,10 +42,10 @@ public class DoubleWrapperVectorTest
 	@Test
 	public void testDistance()
 	{
-		Vector<DoubleWrapper> vec = new Vector<DoubleWrapper>(vec_0_1_9,
+		Vector<DoubleWrapper> vec = new Vector<>(vec_0_1_9,
 				getFactory());
 		Assume.assumeTrue(dataTypeHasNegativeValues());
-		Vector<DoubleWrapper> vec2 = new Vector<DoubleWrapper>(vec_m1_m2_2,
+		Vector<DoubleWrapper> vec2 = new Vector<>(vec_m1_m2_2,
 				getFactory());
 		assertEquals(getFactory().get("59").sqrt(), vec.distance(vec2));
 	}

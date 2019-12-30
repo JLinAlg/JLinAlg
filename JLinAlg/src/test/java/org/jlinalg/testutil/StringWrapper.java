@@ -16,8 +16,6 @@
  */
 package org.jlinalg.testutil;
 
-import java.util.Random;
-
 import org.jlinalg.DivisionByZeroException;
 import org.jlinalg.FieldElement;
 import org.jlinalg.IRingElementFactory;
@@ -33,7 +31,8 @@ import org.jlinalg.RingElementFactory;
  * @author Georg Thimm
  */
 public class StringWrapper
-		extends FieldElement<StringWrapper>
+		extends
+		FieldElement<StringWrapper>
 {
 	/**
 	 * 
@@ -125,17 +124,10 @@ public class StringWrapper
 	 */
 	@JLinAlgTypeProperties()
 	public class StringWrapperFactory
-			extends RingElementFactory<StringWrapper>
+			extends
+			RingElementFactory<StringWrapper>
 	{
-
-		@SuppressWarnings("deprecation")
-		@Override
-		public StringWrapper gaussianRandomValue(
-				@SuppressWarnings("unused") Random random)
-		{
-			throw new InvalidOperationException(
-					"This cannot be done for strings.");
-		}
+		private static final long serialVersionUID = 1L;
 
 		@Override
 		public StringWrapper get(Object o)
@@ -182,26 +174,6 @@ public class StringWrapper
 			return ONE;
 		}
 
-		@SuppressWarnings("deprecation")
-		@Override
-		public StringWrapper randomValue(
-				@SuppressWarnings("unused") Random random)
-		{
-			throw new InvalidOperationException(
-					"This cannot be done for strings.");
-		}
-
-		@SuppressWarnings("deprecation")
-		@Override
-		public StringWrapper randomValue(
-				@SuppressWarnings("unused") Random random,
-				@SuppressWarnings("unused") StringWrapper min,
-				@SuppressWarnings("unused") StringWrapper max)
-		{
-			throw new InvalidOperationException(
-					"This cannot be done for strings.");
-		}
-
 		@Override
 		public StringWrapper zero()
 		{
@@ -221,6 +193,10 @@ public class StringWrapper
 			return new StringWrapper(Long.toString(d));
 		}
 
+		/**
+		 * @deprecated There is no definition of a random string.
+		 */
+		@Deprecated
 		@Override
 		public StringWrapper randomValue(
 				@SuppressWarnings("unused") StringWrapper min,
@@ -230,11 +206,21 @@ public class StringWrapper
 					"This cannot be done for strings.");
 		}
 
+		/**
+		 * @deprecated There is no definition of a random string.
+		 */
+		@Deprecated
 		@Override
 		public StringWrapper randomValue()
 		{
 			throw new InvalidOperationException(
 					"This cannot be done for strings.");
 		}
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return value.hashCode();
 	}
 }

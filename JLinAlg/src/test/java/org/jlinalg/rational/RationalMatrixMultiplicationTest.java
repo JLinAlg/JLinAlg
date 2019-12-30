@@ -55,7 +55,7 @@ public class RationalMatrixMultiplicationTest
 	/**
 	 * an instance of {@link LinAlgFactory} for base type {@link Rational}
 	 */
-	protected static LinAlgFactory<Rational> factoryRational = new LinAlgFactory<Rational>(
+	protected static LinAlgFactory<Rational> factoryRational = new LinAlgFactory<>(
 			Rational.FACTORY);
 
 	/**
@@ -105,27 +105,27 @@ public class RationalMatrixMultiplicationTest
 	public static void setUp()
 	{
 		identity3 = factoryRational.identity(3);
-		vector123 = new Vector<Rational>(new Rational[]
+		vector123 = new Vector<>(new Rational[]
 		{
 				Rational.FACTORY.get(1.0), Rational.FACTORY.get(2.0),
 				Rational.FACTORY.get(3.0)
 		});
-		vector456 = new Vector<Rational>(new Rational[]
+		vector456 = new Vector<>(new Rational[]
 		{
 				Rational.FACTORY.get(4.0), Rational.FACTORY.get(5.0),
 				Rational.FACTORY.get(6.0)
 		});
-		vector789 = new Vector<Rational>(new Rational[]
+		vector789 = new Vector<>(new Rational[]
 		{
 				Rational.FACTORY.get(7.0), Rational.FACTORY.get(8.0),
 				Rational.FACTORY.get(9.0)
 		});
-		m3t3 = new Matrix<Rational>(3, 3, Rational.FACTORY);
+		m3t3 = new Matrix<>(3, 3, Rational.FACTORY);
 		m3t3.setRow(1, vector123);
 		m3t3.setRow(2, vector456);
 		m3t3.setRow(3, vector789);
 
-		m3t3Squared = new Matrix<Rational>(new Rational[]
+		m3t3Squared = new Matrix<>(new Rational[]
 		{
 				Rational.FACTORY.get(30), Rational.FACTORY.get(36),
 				Rational.FACTORY.get(42), Rational.FACTORY.get(66),
@@ -135,7 +135,7 @@ public class RationalMatrixMultiplicationTest
 		}, 3);
 
 		m3t3FullRank = m3t3.copy();
-		m3t3FullRankInverse = new Matrix<Rational>(new Rational[][]
+		m3t3FullRankInverse = new Matrix<>(new Rational[][]
 		{
 				{
 						Rational.FACTORY.get(-16, 9),

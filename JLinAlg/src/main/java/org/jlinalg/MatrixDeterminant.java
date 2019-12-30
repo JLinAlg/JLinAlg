@@ -80,8 +80,8 @@ public class MatrixDeterminant
 				RE div = m.get(mrow, 1).multiply(m.get(r, 1).invert());
 				m.set(r, 1, factory.zero());
 				for (int c = 2; c <= m.numOfCols; c++) {
-					m.set(r, c, m.get(r, c).subtract(
-							m.get(mrow, c).multiply(div.invert())));
+					m.set(r, c, m.get(r, c)
+							.subtract(m.get(mrow, c).multiply(div.invert())));
 				}
 			}
 			// System.err.println("Reduced w/ mrow=" + mrow + "\n" + m + "
@@ -98,7 +98,7 @@ public class MatrixDeterminant
 
 	/**
 	 * Uses the Leibniz method to calculate the determinant of the given matrix.
-	 * Asymptotic runtime: O(n!) => Extremely inefficient!
+	 * Asymptotic runtime: O(n!), thus extremely inefficient!
 	 * BUT: It provides a way to calculate the determinant of Matrices
 	 * containing RingElements (which are not FieldElements, e.g. Polynomials)
 	 * 
@@ -123,9 +123,8 @@ public class MatrixDeterminant
 			 * even a bit of a runtime optimization ;-)...
 			 */
 			return squareMatrix.get(1, 1).multiply(squareMatrix.get(2, 2))
-					.subtract(
-							squareMatrix.get(1, 2).multiply(
-									squareMatrix.get(2, 1)));
+					.subtract(squareMatrix.get(1, 2)
+							.multiply(squareMatrix.get(2, 1)));
 		}
 		else {
 			RE determinant = factory.zero();
@@ -138,10 +137,9 @@ public class MatrixDeterminant
 					f = m_one;
 				else
 					f = one;
-				determinant = determinant.add(f
-						.multiply(squareMatrix.get(i, 1)).multiply(
-								leibnizMethod(withoutRowAndColumn(squareMatrix,
-										i, 1))));
+				determinant = determinant.add(f.multiply(squareMatrix.get(i, 1))
+						.multiply(leibnizMethod(
+								withoutRowAndColumn(squareMatrix, i, 1))));
 			}
 			return determinant;
 		}
@@ -163,7 +161,7 @@ public class MatrixDeterminant
 	public static <RE extends IRingElement<RE>> Matrix<RE> withoutRowAndColumn(
 			Matrix<RE> squareMatrix, int withoutRow, int withoutColumn)
 	{
-		Matrix<RE> result = new Matrix<RE>(squareMatrix.numOfRows - 1,
+		Matrix<RE> result = new Matrix<>(squareMatrix.numOfRows - 1,
 				squareMatrix.numOfCols - 1, squareMatrix.getFactory());
 		int resultRow = 1;
 		int resultCol = 1;

@@ -29,7 +29,7 @@ import org.junit.Test;
  * tests the use of the {@link RandomGradientDescent} optimiser by the means of
  * {@link Function}.
  * 
- * @author Georg THimm
+ * @author Georg Thimm
  */
 public class RandomGradientTest
 {
@@ -48,7 +48,7 @@ public class RandomGradientTest
 		// System.err.println("\n\n testFunction");
 		Function target = new Function();
 		DoubleWrapper resid = target.getResidual();
-		Optimiser<DoubleWrapper> optimiser = new RandomGradientDescent<DoubleWrapper>(
+		Optimiser<DoubleWrapper> optimiser = new RandomGradientDescent<>(
 				target);
 		Thread optThread = optimiser.optimise();
 
@@ -82,7 +82,7 @@ public class RandomGradientTest
 		// System.err.println("\n\ntestComplex ");
 		ComplexFunction target = new ComplexFunction();
 		Rational resid = target.getResidual();
-		Optimiser<Rational> optimiser = new RandomGradientDescent<Rational>(
+		Optimiser<Rational> optimiser = new RandomGradientDescent<>(
 				target);
 		Thread optThread = optimiser.optimise();
 

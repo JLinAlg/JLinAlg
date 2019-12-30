@@ -296,7 +296,7 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 			throw new InvalidOperationException("Tried to subtract \n"
 					+ diagMatrix + "from \n" + this + "No correct format!");
 
-		DiagonalMatrix<RE> tmp = new DiagonalMatrix<RE>(this.numOfRows, FACTORY
+		DiagonalMatrix<RE> tmp = new DiagonalMatrix<>(this.numOfRows, FACTORY
 				.zero());
 
 		for (int i = 1; i <= tmp.numOfRows; i++)
@@ -321,7 +321,7 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 			throw new InvalidOperationException("Tried to subtract \n" + matrix
 					+ "from \n" + this + "No correct format!");
 
-		Matrix<RE> tmp = new Matrix<RE>(this.numOfRows, matrix.numOfCols,
+		Matrix<RE> tmp = new Matrix<>(this.numOfRows, matrix.numOfCols,
 				FACTORY);
 
 		for (int i = 1; i <= tmp.numOfRows; i++)
@@ -344,7 +344,7 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 	public DiagonalMatrix<RE> multiply(RE scalar)
 	{
 		int size = this.getRows();
-		DiagonalMatrix<RE> diagMatrix = new DiagonalMatrix<RE>(size, FACTORY
+		DiagonalMatrix<RE> diagMatrix = new DiagonalMatrix<>(size, FACTORY
 				.zero());
 
 		for (int i = 0; i < size; i++)
@@ -374,7 +374,7 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 		for (int i = 1; i <= this.getRows(); i++)
 			result[i - 1] = entries[i - 1][i - 1].multiply(vector.getEntry(i));
 
-		Vector<RE> resultVector = new Vector<RE>(result);
+		Vector<RE> resultVector = new Vector<>(result);
 
 		return resultVector;
 	}
@@ -399,7 +399,7 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 
 		}
 
-		Matrix<RE> resultMatrix = new Matrix<RE>(this.getRows(), matrix
+		Matrix<RE> resultMatrix = new Matrix<>(this.getRows(), matrix
 				.getCols(), FACTORY);
 
 		for (int i = 1; i <= matrix.numOfRows; i++)
@@ -430,7 +430,7 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 			throw new InvalidOperationException("Tried to multiply \n" + this
 					+ "and \n" + diagMatrix + "No correct format!");
 
-		DiagonalMatrix<RE> result = new DiagonalMatrix<RE>(this.getRows(),
+		DiagonalMatrix<RE> result = new DiagonalMatrix<>(this.getRows(),
 				FACTORY.zero());
 
 		for (int i = 1; i <= diagMatrix.numOfRows; i++)
@@ -448,7 +448,7 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 	@Override
 	public DiagonalMatrix<RE> copy()
 	{
-		DiagonalMatrix<RE> result = new DiagonalMatrix<RE>(this.getRows(),
+		DiagonalMatrix<RE> result = new DiagonalMatrix<>(this.getRows(),
 				FACTORY.zero());
 
 		for (int i = 0; i < getRows(); i++)
@@ -559,7 +559,7 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 		if (this.contZeroRow())
 			throw new InvalidOperationException("Not invertible.");
 
-		DiagonalMatrix<RE> reverse = new DiagonalMatrix<RE>(this.numOfRows,
+		DiagonalMatrix<RE> reverse = new DiagonalMatrix<>(this.numOfRows,
 				FACTORY.zero());
 		for (int i = 1; i <= numOfRows; i++) {
 			RE re = this.get(i, i).invert();
@@ -586,7 +586,7 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 	@Override
 	public Vector<RE> eig()
 	{
-		Vector<RE> result = new Vector<RE>(this.getRows(), this.getFactory());
+		Vector<RE> result = new Vector<>(this.getRows(), this.getFactory());
 		for (int i = 1; i <= this.getRows(); i++) {
 			result.set(i, this.get(i, i));
 		}
@@ -636,7 +636,7 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 	public Matrix<RE> toMatrix()
 	{
 
-		Matrix<RE> result = new Matrix<RE>(this.numOfRows, this.numOfCols,
+		Matrix<RE> result = new Matrix<>(this.numOfRows, this.numOfCols,
 				FACTORY);
 
 		for (int i = 1; i <= this.numOfRows; i++)

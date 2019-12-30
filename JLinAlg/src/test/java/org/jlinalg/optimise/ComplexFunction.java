@@ -26,7 +26,8 @@ import org.jlinalg.rational.Rational;
  * @author Georg Thimm
  */
 public class ComplexFunction
-		implements Target<Rational>
+		implements
+		Target<Rational>
 {
 	/**
 	 * the number of variables
@@ -145,7 +146,7 @@ public class ComplexFunction
 	 * @see org.jlinalg.optimise.Target#minParameterValues()
 	 */
 	@Override
-	public IRingElement<?>[] minParameterValues()
+	public Rational[] minParameterValues()
 	{
 		return null;
 	}
@@ -174,29 +175,26 @@ public class ComplexFunction
 	 * @see org.jlinalg.optimise.Target#setParameter(int,
 	 *      org.jlinalg.IRingElement)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public boolean setParameter(int index, IRingElement value)
+	public boolean setParameter(int index, IRingElement<Rational> value)
 	{
 		if ((min != null && min[index] != null && value.lt(min[index]))
 				|| (max != null && max[index] != null && value.gt(max[index])))
+		{
 			return false;
+		}
 		Complex c = vector[index / 2];
-		if (index % 2 == 0)
+		if (index % 2 == 0) {
 			vector[index / 2] = Complex.FACTORY.get(c.getReal(), value);
-		else
+		}
+		else {
 			vector[index / 2] = Complex.FACTORY.get(value, c.getImaginary());
-		// for (int i = 0; i < dim; i++) {
-		// Complex c1 = vector[i];
-		// System.out.print(c1.getReal().doubleValue() + "+"
-		// + c1.getImaginary().doubleValue() + "i  ");
-		// }
-		// System.out.println("   res=" + getResidual().doubleValue());
+		}
 		return true;
 	}
 
 	@Override
-	public IRingElement<?> getParameter(int index)
+	public Rational getParameter(int index)
 	{
 		if (index % 2 == 0) return vector[index / 2].getReal();
 		return vector[index / 2].getImaginary();

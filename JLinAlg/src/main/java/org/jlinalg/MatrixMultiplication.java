@@ -76,7 +76,7 @@ public class MatrixMultiplication
 		int resultRows = m1.getRows();
 		int resultCols = m2.getCols();
 
-		Matrix<RE> resultMatrix = new Matrix<RE>(resultRows, resultCols, m1
+		Matrix<RE> resultMatrix = new Matrix<>(resultRows, resultCols, m1
 				.getFactory());
 
 		for (int i = 1; i <= resultRows; i++) {
@@ -121,7 +121,7 @@ public class MatrixMultiplication
 				}
 			}
 		}
-		return new Matrix<RE>(resultEntries);
+		return new Matrix<>(resultEntries);
 	}
 
 	/**
@@ -229,7 +229,7 @@ public class MatrixMultiplication
 				cEntries[i + splitIndex][j + splitIndex] = c22Entries[i][j];
 			}
 		}
-		return new Matrix<RE>(cEntries);
+		return new Matrix<>(cEntries);
 	}
 
 	/**
@@ -350,7 +350,7 @@ public class MatrixMultiplication
 			}
 		}
 
-		return new Matrix<RE>(cEntries);
+		return new Matrix<>(cEntries);
 
 	}
 
@@ -499,7 +499,7 @@ public class MatrixMultiplication
 			}
 		}
 
-		return new Matrix<RE>(cEntries);
+		return new Matrix<>(cEntries);
 	}
 
 	private static <RE extends IRingElement<RE>> Matrix<RE> fillUpPow2(
@@ -510,7 +510,7 @@ public class MatrixMultiplication
 
 		if (m.getRows() != m.getCols() || (mLog2 != Math.floor(mLog2))) {
 			int targetDimension = (int) Math.pow(2, Math.ceil(mLog2));
-			LinAlgFactory<RE> factory = new LinAlgFactory<RE>(m.getFactory());
+			LinAlgFactory<RE> factory = new LinAlgFactory<>(m.getFactory());
 			Matrix<RE> filledUp = factory.identity(targetDimension);
 			for (int row = 1; row <= m.getRows(); row++) {
 				for (int col = 1; col <= m.getCols(); col++) {

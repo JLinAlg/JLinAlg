@@ -37,7 +37,8 @@ import org.junit.Test;
  * @author Georg Thimm, Andreas Keilhauer
  */
 public abstract class VectorTestBase<RE extends IRingElement<RE>>
-		extends TestBaseFixture<RE>
+		extends
+		TestBaseFixture<RE>
 {
 	protected final static String[] vec_0_1_9 = {
 			"0", "1", "9"
@@ -69,14 +70,13 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	/**
 	 * Test method for {@link org.jlinalg.Vector#hashCode()}.
 	 */
-	@SuppressWarnings("boxing")
 	@Test
 	public void testHashCode_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_1_9, getFactory());
-		Vector<RE> v2 = new Vector<RE>(vec_0_1_9, getFactory());
-		Vector<RE> v3 = new Vector<RE>(vec_0_1_4, getFactory());
-		Vector<RE> v4 = new Vector<RE>(vec_0_1_9_0, getFactory());
+		Vector<RE> v1 = new Vector<>(vec_0_1_9, getFactory());
+		Vector<RE> v2 = new Vector<>(vec_0_1_9, getFactory());
+		Vector<RE> v3 = new Vector<>(vec_0_1_4, getFactory());
+		Vector<RE> v4 = new Vector<>(vec_0_1_9_0, getFactory());
 		assertTrue(v1.hashCode() == v2.hashCode());
 		assertNotSame(v1.hashCode(), v3.hashCode());
 		assertNotSame(v1.hashCode(), v4.hashCode());
@@ -90,7 +90,7 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testVectorObjectArrayIRingElementFactoryOfRE_base()
 	{
-		Vector<RE> vec = new Vector<RE>(vec_0_1_9, getFactory());
+		Vector<RE> vec = new Vector<>(vec_0_1_9, getFactory());
 		assertNotNull(vec);
 		assertEquals(vec_0_1_9.length, vec.length());
 		for (int i = 1; i <= vec.length(); i++) {
@@ -107,10 +107,10 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testVectorIRingElementVectorIRingElementFactoryOfRE_base()
 	{
-		Vector<StringWrapper> vecS = new Vector<StringWrapper>(vec_0_1_9,
+		Vector<StringWrapper> vecS = new Vector<>(vec_0_1_9,
 				StringWrapper.FACTORY);
-		Vector<RE> vecRE1 = new Vector<RE>(vec_0_1_9, getFactory());
-		Vector<RE> vecRE2 = new Vector<RE>(vecS, getFactory());
+		Vector<RE> vecRE1 = new Vector<>(vec_0_1_9, getFactory());
+		Vector<RE> vecRE2 = new Vector<>(vecS, getFactory());
 		assertNotNull(vecRE2);
 		assertEquals(vec_0_1_9.length, vecS.length());
 		assertEquals(vecRE1, vecRE2);
@@ -123,7 +123,7 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testVectorIntIRingElementFactoryOfRE_base()
 	{
-		Vector<RE> vec = new Vector<RE>(5, getFactory());
+		Vector<RE> vec = new Vector<>(5, getFactory());
 		assertNotNull(vec);
 		assertEquals(5, vec.length());
 		for (int i = 1; i <= vec.length(); i++) {
@@ -137,7 +137,7 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testVectorREArray_base()
 	{
-		Vector<RE> vec = new Vector<RE>(vec_0_1_9, getFactory());
+		Vector<RE> vec = new Vector<>(vec_0_1_9, getFactory());
 		for (int i = 0; i < vec_0_1_9.length; i++) {
 			assertEquals(getFactory().get(vec_0_1_9[i]), vec.getEntry(i + 1));
 		}
@@ -149,7 +149,7 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testLength_base()
 	{
-		Vector<RE> vec = new Vector<RE>(vec_0_1_9, getFactory());
+		Vector<RE> vec = new Vector<>(vec_0_1_9, getFactory());
 		assertEquals(vec_0_1_9.length, vec.length());
 	}
 
@@ -159,12 +159,12 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testL1Norm_base()
 	{
-		Vector<RE> vec = new Vector<RE>(vec_0_1_9, getFactory());
+		Vector<RE> vec = new Vector<>(vec_0_1_9, getFactory());
 		RE norm = vec.L1Norm();
 		assertEquals(getFactory().get("10"), norm);
 
 		Assume.assumeTrue(dataTypeHasNegativeValues());
-		vec = new Vector<RE>(vec_m1_m2_2, getFactory());
+		vec = new Vector<>(vec_m1_m2_2, getFactory());
 		norm = vec.L1Norm();
 		assertEquals(getFactory().get("5"), norm);
 	}
@@ -175,9 +175,9 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testSquaredDistance()
 	{
-		Vector<RE> vec = new Vector<RE>(vec_0_1_9, getFactory());
+		Vector<RE> vec = new Vector<>(vec_0_1_9, getFactory());
 		Assume.assumeTrue(dataTypeHasNegativeValues());
-		Vector<RE> vec2 = new Vector<RE>(vec_m1_m2_2, getFactory());
+		Vector<RE> vec2 = new Vector<>(vec_m1_m2_2, getFactory());
 		assertEquals(getFactory().get("59"), vec.squaredDistance(vec2));
 	}
 
@@ -188,11 +188,11 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	public void testL2Norm_base()
 	{
 		Assume.assumeTrue(hasMethod(getFactory().one(), "sqrt", null));
-		Vector<RE> vec = new Vector<RE>(vec_0_1_9, getFactory());
+		Vector<RE> vec = new Vector<>(vec_0_1_9, getFactory());
 		RE normSquare = vec.L2Norm();
 		normSquare = normSquare.multiply(normSquare);
 		assertSimilar(getFactory().get("82"), normSquare, "0.0000001");
-		vec = new Vector<RE>(vec_m1_m2_2, getFactory());
+		vec = new Vector<>(vec_m1_m2_2, getFactory());
 		RE norm = vec.L2Norm();
 		assertSimilar(getFactory().get("3"), norm, "0.0000001");
 	}
@@ -203,8 +203,8 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testNycDist_base()
 	{
-		Vector<RE> vec1 = new Vector<RE>(vec_0_1_9, getFactory());
-		Vector<RE> vec2 = new Vector<RE>(vec_m1_m2_2, getFactory());
+		Vector<RE> vec1 = new Vector<>(vec_0_1_9, getFactory());
+		Vector<RE> vec2 = new Vector<>(vec_m1_m2_2, getFactory());
 		RE norm = vec1.nycDist(vec2);
 		assertEquals(getFactory().get("11"), norm);
 	}
@@ -219,17 +219,17 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	{
 		Assume.assumeTrue(hasMethod(getFactory().one(), "sqrt", null)
 				&& !methodIsDepreciated(getFactory().one(), "sqrt", null));
-		Vector<RE> vec1 = new Vector<RE>(vec_1_2_2, getFactory());
-		Vector<RE> vec2 = new Vector<RE>(vec_m1_m2_2, getFactory());
-		Vector<RE> vec3 = new Vector<RE>(vec_m2_3_6, getFactory());
+		Vector<RE> vec1 = new Vector<>(vec_1_2_2, getFactory());
+		Vector<RE> vec2 = new Vector<>(vec_m1_m2_2, getFactory());
+		Vector<RE> vec3 = new Vector<>(vec_m2_3_6, getFactory());
 		RE cos = vec1.cosine(vec2);
 		RE should = getFactory().get("-1/9");
-		assertTrue("is=" + cos + " should=" + should, should.subtract(cos)
-				.abs().lt(getFactory().get(0.0001)));
+		assertTrue("is=" + cos + " should=" + should,
+				should.subtract(cos).abs().lt(getFactory().get(0.0001)));
 		cos = vec1.cosine(vec3);
 		should = getFactory().get("16/21");
-		assertTrue("is=" + cos + " should=" + should, should.subtract(cos)
-				.abs().lt(getFactory().get(0.0001)));
+		assertTrue("is=" + cos + " should=" + should,
+				should.subtract(cos).abs().lt(getFactory().get(0.0001)));
 	}
 
 	/**
@@ -240,7 +240,7 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testSetIntIRingElement_base()
 	{
-		Vector<RE> vec = new Vector<RE>(vec_0_1_9, getFactory());
+		Vector<RE> vec = new Vector<>(vec_0_1_9, getFactory());
 		RE two = getFactory().get("2");
 		vec.set(3, two);
 		assertEquals(two, vec.getEntry(3));
@@ -255,7 +255,7 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testToMatrix_base()
 	{
-		Vector<RE> vec = new Vector<RE>(vec_0_1_9, getFactory());
+		Vector<RE> vec = new Vector<>(vec_0_1_9, getFactory());
 		Matrix<RE> mat = vec.toMatrix();
 		assertEquals(1, mat.getCols());
 		assertEquals(vec.length(), mat.getRows());
@@ -270,11 +270,11 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testDivide_base()
 	{
-		Vector<RE> v = new Vector<RE>(new String[] {
+		Vector<RE> v = new Vector<>(new String[] {
 				"-8", "0", "2"
 		}, getFactory());
 		RE r = getFactory().get("2");
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> res = new Vector<>(new String[] {
 				"-4", "0", "1"
 		}, getFactory());
 		assertSimilar(res, v.divide(r), "0.00001");
@@ -287,11 +287,11 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testDivideReplace_base()
 	{
-		Vector<RE> v = new Vector<RE>(new String[] {
+		Vector<RE> v = new Vector<>(new String[] {
 				"-8", "0", "2"
 		}, getFactory());
 		RE r = getFactory().get("2");
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> res = new Vector<>(new String[] {
 				"-4", "0", "1"
 		}, getFactory());
 		v.divideReplace(r);
@@ -305,9 +305,9 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testMultiplyRE_base()
 	{
-		Vector<RE> v = new Vector<RE>(vec_m2_3_6, getFactory());
+		Vector<RE> v = new Vector<>(vec_m2_3_6, getFactory());
 		RE r = getFactory().get("3");
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> res = new Vector<>(new String[] {
 				"-6", "9", "18"
 		}, getFactory());
 		assertEquals(res, v.multiply(r));
@@ -320,9 +320,9 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testArrayMultiply_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_1_9, getFactory());
-		Vector<RE> v2 = new Vector<RE>(vec_1_2_2, getFactory());
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> v1 = new Vector<>(vec_0_1_9, getFactory());
+		Vector<RE> v2 = new Vector<>(vec_1_2_2, getFactory());
+		Vector<RE> res = new Vector<>(new String[] {
 				"0", "2", "18"
 		}, getFactory());
 		assertSimilar(res, v1.arrayMultiply(v2), "0.000001");
@@ -335,8 +335,8 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testMultiplyReplaceRE_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_1_9, getFactory());
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> v1 = new Vector<>(vec_0_1_9, getFactory());
+		Vector<RE> res = new Vector<>(new String[] {
 				"0", "7", "63"
 		}, getFactory());
 		v1.multiplyReplace(getFactory().get("7"));
@@ -350,9 +350,9 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testMultiplyReplaceVectorOfRE_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_1_9, getFactory());
-		Vector<RE> v2 = new Vector<RE>(vec_1_2_2, getFactory());
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> v1 = new Vector<>(vec_0_1_9, getFactory());
+		Vector<RE> v2 = new Vector<>(vec_1_2_2, getFactory());
+		Vector<RE> res = new Vector<>(new String[] {
 				"0", "2", "18"
 		}, getFactory());
 		v1.multiplyReplace(v2);
@@ -365,9 +365,9 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testAddRE_base()
 	{
-		Vector<RE> v = new Vector<RE>(vec_m2_3_6, getFactory());
+		Vector<RE> v = new Vector<>(vec_m2_3_6, getFactory());
 		RE r = getFactory().get("3");
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> res = new Vector<>(new String[] {
 				"1", "6", "9"
 		}, getFactory());
 		assertSimilar(res, v.add(r), "0.000001");
@@ -379,9 +379,9 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testAddVectorOfRE_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_1_9, getFactory());
-		Vector<RE> v2 = new Vector<RE>(vec_1_2_2, getFactory());
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> v1 = new Vector<>(vec_0_1_9, getFactory());
+		Vector<RE> v2 = new Vector<>(vec_1_2_2, getFactory());
+		Vector<RE> res = new Vector<>(new String[] {
 				"1", "3", "11"
 		}, getFactory());
 		v1 = v1.add(v2);
@@ -395,8 +395,8 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testAddReplaceRE_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_1_9, getFactory());
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> v1 = new Vector<>(vec_0_1_9, getFactory());
+		Vector<RE> res = new Vector<>(new String[] {
 				"7", "8", "16"
 		}, getFactory());
 		v1.addReplace(getFactory().get("7"));
@@ -410,9 +410,9 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testAddReplaceVectorOfRE_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_1_9, getFactory());
-		Vector<RE> v2 = new Vector<RE>(vec_1_2_2, getFactory());
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> v1 = new Vector<>(vec_0_1_9, getFactory());
+		Vector<RE> v2 = new Vector<>(vec_1_2_2, getFactory());
+		Vector<RE> res = new Vector<>(new String[] {
 				"1", "3", "11"
 		}, getFactory());
 		v1.addReplace(v2);
@@ -426,15 +426,15 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testSubtractRE_base()
 	{
-		Vector<RE> v = new Vector<RE>(vec_m2_3_6, getFactory());
+		Vector<RE> v = new Vector<>(vec_m2_3_6, getFactory());
 		RE r = getFactory().get("3");
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> res = new Vector<>(new String[] {
 				"-5", "0", "3"
 		}, getFactory());
 		assertEquals(res, v.subtract(r));
-		v = new Vector<RE>(vec_0_1_9_0, getFactory());
+		v = new Vector<>(vec_0_1_9_0, getFactory());
 		r = getFactory().get("1");
-		res = new Vector<RE>(new String[] {
+		res = new Vector<>(new String[] {
 				"-1", "0", "8", "-1"
 		}, getFactory());
 		assertEquals(res, v.subtract(r));
@@ -446,9 +446,9 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testSubtractVectorOfRE_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_1_9, getFactory());
-		Vector<RE> v2 = new Vector<RE>(vec_1_2_2, getFactory());
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> v1 = new Vector<>(vec_0_1_9, getFactory());
+		Vector<RE> v2 = new Vector<>(vec_1_2_2, getFactory());
+		Vector<RE> res = new Vector<>(new String[] {
 				"-1", "-1", "7"
 		}, getFactory());
 		v1 = v1.subtract(v2);
@@ -462,8 +462,8 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testSubtractReplaceRE_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_1_9, getFactory());
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> v1 = new Vector<>(vec_0_1_9, getFactory());
+		Vector<RE> res = new Vector<>(new String[] {
 				"-7", "-6", "2"
 		}, getFactory());
 		v1.subtractReplace(getFactory().get("7"));
@@ -477,9 +477,9 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testSubtractReplaceVectorOfRE_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_1_9, getFactory());
-		Vector<RE> v2 = new Vector<RE>(vec_1_2_2, getFactory());
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> v1 = new Vector<>(vec_0_1_9, getFactory());
+		Vector<RE> v2 = new Vector<>(vec_1_2_2, getFactory());
+		Vector<RE> res = new Vector<>(new String[] {
 				"-1", "-1", "7"
 		}, getFactory());
 		v1.subtractReplace(v2);
@@ -492,8 +492,8 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testMultiplyVectorOfRE_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_1_9, getFactory());
-		Vector<RE> v2 = new Vector<RE>(vec_1_2_2, getFactory());
+		Vector<RE> v1 = new Vector<>(vec_0_1_9, getFactory());
+		Vector<RE> v2 = new Vector<>(vec_1_2_2, getFactory());
 		assertSimilar(getFactory().get(20), v1.multiply(v2), "0.000001");
 	}
 
@@ -503,9 +503,9 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testEqualsObject_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_1_9, getFactory());
-		Vector<RE> v2 = new Vector<RE>(vec_1_2_2, getFactory());
-		Vector<RE> v3 = new Vector<RE>(vec_1_2_2, getFactory());
+		Vector<RE> v1 = new Vector<>(vec_0_1_9, getFactory());
+		Vector<RE> v2 = new Vector<>(vec_1_2_2, getFactory());
+		Vector<RE> v3 = new Vector<>(vec_1_2_2, getFactory());
 		assertFalse(v1.equals(v2));
 		assertTrue(v2.equals(v3));
 	}
@@ -516,8 +516,8 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testSwapEntries_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_1_9, getFactory());
-		Vector<RE> v2 = new Vector<RE>(new String[] {
+		Vector<RE> v1 = new Vector<>(vec_0_1_9, getFactory());
+		Vector<RE> v2 = new Vector<>(new String[] {
 				"9", "1", "0"
 		}, getFactory());
 		v1.swapEntries(1, 3);
@@ -530,7 +530,7 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testToString_base()
 	{
-		Vector<RE> vec = new Vector<RE>(vec_0_1_9, getFactory());
+		Vector<RE> vec = new Vector<>(vec_0_1_9, getFactory());
 		assertNotNull(vec);
 		assertTrue(vec.toString().length() > 5);
 	}
@@ -541,9 +541,9 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testAnd_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_1_9, getFactory());
-		Vector<RE> v2 = new Vector<RE>(vec_1_2_2, getFactory());
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> v1 = new Vector<>(vec_0_1_9, getFactory());
+		Vector<RE> v2 = new Vector<>(vec_1_2_2, getFactory());
+		Vector<RE> res = new Vector<>(new String[] {
 				"0", "1", "1"
 		}, getFactory());
 		assertEquals(res, v1.and(v2));
@@ -555,14 +555,14 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testOr_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_1_9_0, getFactory());
+		Vector<RE> v1 = new Vector<>(vec_0_1_9_0, getFactory());
 		Vector<RE> res = v1.ge(getFactory().one());
 		assertEquals(res, v1.or(getLinAlgFactory().zeros(4)));
 
-		Vector<RE> v2 = new Vector<RE>(new String[] {
+		Vector<RE> v2 = new Vector<>(new String[] {
 				"0", "1", "0", "3"
 		}, getFactory());
-		res = new Vector<RE>(new String[] {
+		res = new Vector<>(new String[] {
 				"0", "1", "1", "1"
 		}, getFactory());
 		assertEquals(res, v1.or(v2));
@@ -575,13 +575,13 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testNot_base()
 	{
-		Vector<RE> v = new Vector<RE>(vec_m2_3_6, getFactory());
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> v = new Vector<>(vec_m2_3_6, getFactory());
+		Vector<RE> res = new Vector<>(new String[] {
 				"0", "0", "0"
 		}, getFactory());
 		assertEquals(res, v.not());
-		v = new Vector<RE>(vec_0_1_9_0, getFactory());
-		res = new Vector<RE>(new String[] {
+		v = new Vector<>(vec_0_1_9_0, getFactory());
+		res = new Vector<>(new String[] {
 				"1", "0", "0", "1"
 		}, getFactory());
 		assertEquals(res, v.not());
@@ -664,7 +664,7 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testCopy_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_m1_m2_2, getFactory());
+		Vector<RE> v1 = new Vector<>(vec_m1_m2_2, getFactory());
 		assertEquals(v1, v1.copy());
 	}
 
@@ -676,11 +676,11 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	{
 		Vector<RE> v1;
 		if (dataTypeHasNegativeValues())
-			v1 = new Vector<RE>(vec_m1_m2_2, getFactory());
+			v1 = new Vector<>(vec_m1_m2_2, getFactory());
 		else
-			v1 = new Vector<RE>(vec_0_1_2, getFactory());
-		Vector<RE> v2 = new Vector<RE>(vec_1_2_2, getFactory());
-		Vector<RE> res = new Vector<RE>(new String[] {
+			v1 = new Vector<>(vec_0_1_2, getFactory());
+		Vector<RE> v2 = new Vector<>(vec_1_2_2, getFactory());
+		Vector<RE> res = new Vector<>(new String[] {
 				"1", "1", "0"
 		}, getFactory());
 		assertEquals(res, v1.lt(v2));
@@ -694,17 +694,17 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	{
 		Vector<RE> v;
 		if (dataTypeHasNegativeValues())
-			v = new Vector<RE>(vec_m2_3_6, getFactory());
+			v = new Vector<>(vec_m2_3_6, getFactory());
 		else
-			v = new Vector<RE>(vec_0_3_6, getFactory());
+			v = new Vector<>(vec_0_3_6, getFactory());
 		RE r = getFactory().get("3");
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> res = new Vector<>(new String[] {
 				"1", "0", "0"
 		}, getFactory());
 		assertEquals(res, v.lt(r));
-		v = new Vector<RE>(vec_1_2_2, getFactory());
+		v = new Vector<>(vec_1_2_2, getFactory());
 		r = getFactory().get("2");
-		res = new Vector<RE>(new String[] {
+		res = new Vector<>(new String[] {
 				"1", "0", "0"
 		}, getFactory());
 		assertEquals(res, v.lt(r));
@@ -716,10 +716,10 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testLeVectorOfRE_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_1_9, getFactory());
-		Vector<RE> v2 = new Vector<RE>(vec_1_2_2, getFactory());
+		Vector<RE> v1 = new Vector<>(vec_0_1_9, getFactory());
+		Vector<RE> v2 = new Vector<>(vec_1_2_2, getFactory());
 
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> res = new Vector<>(new String[] {
 				"1", "1", "0"
 		}, getFactory());
 		assertEquals(res, v1.le(v2));
@@ -733,17 +733,17 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	{
 		Vector<RE> v;
 		if (dataTypeHasNegativeValues())
-			v = new Vector<RE>(vec_m2_3_6, getFactory());
+			v = new Vector<>(vec_m2_3_6, getFactory());
 		else
-			v = new Vector<RE>(vec_0_3_6, getFactory());
+			v = new Vector<>(vec_0_3_6, getFactory());
 		RE r = getFactory().get("3");
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> res = new Vector<>(new String[] {
 				"1", "1", "0"
 		}, getFactory());
 		assertEquals(res, v.le(r));
-		v = new Vector<RE>(vec_1_2_2, getFactory());
+		v = new Vector<>(vec_1_2_2, getFactory());
 		r = getFactory().get("1");
-		res = new Vector<RE>(new String[] {
+		res = new Vector<>(new String[] {
 				"1", "0", "0"
 		}, getFactory());
 		assertEquals(res, v.le(r));
@@ -755,10 +755,10 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testGtVectorOfRE_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_3_6, getFactory());
-		Vector<RE> v2 = new Vector<RE>(vec_0_1_9, getFactory());
+		Vector<RE> v1 = new Vector<>(vec_0_3_6, getFactory());
+		Vector<RE> v2 = new Vector<>(vec_0_1_9, getFactory());
 
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> res = new Vector<>(new String[] {
 				"0", "0", "1"
 		}, getFactory());
 		assertEquals(res, v2.gt(v1));
@@ -772,17 +772,17 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	{
 		Vector<RE> v;
 		if (dataTypeHasNegativeValues())
-			v = new Vector<RE>(vec_m2_3_6, getFactory());
+			v = new Vector<>(vec_m2_3_6, getFactory());
 		else
-			v = new Vector<RE>(vec_0_3_6, getFactory());
+			v = new Vector<>(vec_0_3_6, getFactory());
 		RE r = getFactory().get("3");
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> res = new Vector<>(new String[] {
 				"0", "0", "1"
 		}, getFactory());
 		assertEquals(res, v.gt(r));
-		v = new Vector<RE>(vec_0_1_9_0, getFactory());
+		v = new Vector<>(vec_0_1_9_0, getFactory());
 		r = getFactory().get("1");
-		res = new Vector<RE>(new String[] {
+		res = new Vector<>(new String[] {
 				"0", "0", "1", "0"
 		}, getFactory());
 		assertEquals(res, v.gt(r));
@@ -794,10 +794,10 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testGeVectorOfRE_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_3_6, getFactory());
-		Vector<RE> v2 = new Vector<RE>(vec_0_1_9, getFactory());
+		Vector<RE> v1 = new Vector<>(vec_0_3_6, getFactory());
+		Vector<RE> v2 = new Vector<>(vec_0_1_9, getFactory());
 
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> res = new Vector<>(new String[] {
 				"0", "0", "1"
 		}, getFactory());
 		assertEquals(res, v2.gt(v1));
@@ -811,17 +811,17 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	{
 		Vector<RE> v;
 		if (dataTypeHasNegativeValues())
-			v = new Vector<RE>(vec_m2_3_6, getFactory());
+			v = new Vector<>(vec_m2_3_6, getFactory());
 		else
-			v = new Vector<RE>(vec_0_3_6, getFactory());
+			v = new Vector<>(vec_0_3_6, getFactory());
 		RE r = getFactory().get("3");
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> res = new Vector<>(new String[] {
 				"0", "1", "1"
 		}, getFactory());
 		assertEquals(res, v.ge(r));
-		v = new Vector<RE>(vec_0_1_9_0, getFactory());
+		v = new Vector<>(vec_0_1_9_0, getFactory());
 		r = getFactory().get("1");
-		res = new Vector<RE>(new String[] {
+		res = new Vector<>(new String[] {
 				"0", "1", "1", "0"
 		}, getFactory());
 		assertEquals(res, v.ge(r));
@@ -833,10 +833,10 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testEqVectorOfRE_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_3_6, getFactory());
-		Vector<RE> v2 = new Vector<RE>(vec_0_1_9, getFactory());
+		Vector<RE> v1 = new Vector<>(vec_0_3_6, getFactory());
+		Vector<RE> v2 = new Vector<>(vec_0_1_9, getFactory());
 
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> res = new Vector<>(new String[] {
 				"1", "0", "0"
 		}, getFactory());
 		assertEquals(res, v2.eq(v1));
@@ -850,17 +850,17 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	{
 		Vector<RE> v;
 		if (dataTypeHasNegativeValues())
-			v = new Vector<RE>(vec_m2_3_6, getFactory());
+			v = new Vector<>(vec_m2_3_6, getFactory());
 		else
-			v = new Vector<RE>(vec_m2_3_6, getFactory());
+			v = new Vector<>(vec_m2_3_6, getFactory());
 		RE r = getFactory().get("3");
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> res = new Vector<>(new String[] {
 				"0", "1", "0"
 		}, getFactory());
 		assertEquals(res, v.eq(r));
-		v = new Vector<RE>(vec_0_1_9_0, getFactory());
+		v = new Vector<>(vec_0_1_9_0, getFactory());
 		r = getFactory().get("0");
-		res = new Vector<RE>(new String[] {
+		res = new Vector<>(new String[] {
 				"1", "0", "0", "1"
 		}, getFactory());
 		assertEquals(res, v.eq(r));
@@ -872,19 +872,19 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testNeVectorOfRE_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_0_1_9_0, getFactory());
+		Vector<RE> v1 = new Vector<>(vec_0_1_9_0, getFactory());
 		assertEquals(getLinAlgFactory().zeros(4), v1.ne(v1));
 
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> res = new Vector<>(new String[] {
 				"0", "1", "1", "0"
 		}, getFactory());
 		assertEquals(res, v1.ne(getLinAlgFactory().zeros(4)));
 
-		Vector<RE> v2 = new Vector<RE>(new String[] {
+		Vector<RE> v2 = new Vector<>(new String[] {
 				"0", "1", "0", "0"
 		}, getFactory());
 
-		res = new Vector<RE>(new String[] {
+		res = new Vector<>(new String[] {
 				"0", "0", "1", "0"
 		}, getFactory());
 		assertEquals(res, v1.ne(v2));
@@ -899,17 +899,17 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	{
 		Vector<RE> v;
 		if (dataTypeHasNegativeValues())
-			v = new Vector<RE>(vec_m2_3_6, getFactory());
+			v = new Vector<>(vec_m2_3_6, getFactory());
 		else
-			v = new Vector<RE>(vec_m2_3_6, getFactory());
+			v = new Vector<>(vec_m2_3_6, getFactory());
 		RE r = getFactory().get("3");
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> res = new Vector<>(new String[] {
 				"1", "0", "1"
 		}, getFactory());
 		assertEquals(res, v.ne(r));
-		v = new Vector<RE>(vec_1_2_2, getFactory());
+		v = new Vector<>(vec_1_2_2, getFactory());
 		r = getFactory().get("2");
-		res = new Vector<RE>(new String[] {
+		res = new Vector<>(new String[] {
 				"1", "0", "0"
 		}, getFactory());
 		assertEquals(res, v.ne(r));
@@ -923,11 +923,11 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	{
 		Vector<RE> v;
 		if (dataTypeHasNegativeValues())
-			v = new Vector<RE>(vec_m2_3_6, getFactory());
+			v = new Vector<>(vec_m2_3_6, getFactory());
 		else
-			v = new Vector<RE>(vec_m2_3_6, getFactory());
+			v = new Vector<>(vec_m2_3_6, getFactory());
 		assertEquals(getFactory().get("7"), v.sum());
-		v = new Vector<RE>(vec_m1_m2_2, getFactory());
+		v = new Vector<>(vec_m1_m2_2, getFactory());
 		assertEquals(getFactory().get("-1"), v.sum());
 	}
 
@@ -938,11 +938,11 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	public void testMin_base()
 	{
 		Vector<RE> v;
-		v = new Vector<RE>(vec_1_2_2, getFactory());
+		v = new Vector<>(vec_1_2_2, getFactory());
 		assertEquals(getFactory().get("1"), v.min());
 
 		Assume.assumeTrue(dataTypeHasNegativeValues());
-		v = new Vector<RE>(vec_m2_3_6, getFactory());
+		v = new Vector<>(vec_m2_3_6, getFactory());
 		assertEquals(getFactory().get("-2"), v.min());
 
 	}
@@ -955,13 +955,13 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	{
 		Vector<RE> v;
 		if (dataTypeHasNegativeValues())
-			v = new Vector<RE>(vec_m2_3_6, getFactory());
+			v = new Vector<>(vec_m2_3_6, getFactory());
 		else
-			v = new Vector<RE>(vec_0_3_6, getFactory());
+			v = new Vector<>(vec_0_3_6, getFactory());
 		assertEquals(getFactory().get("6"), v.max());
 
 		Assume.assumeTrue(dataTypeHasNegativeValues());
-		v = new Vector<RE>(new String[] {
+		v = new Vector<>(new String[] {
 				"0", "-3", "2", "0"
 		}, getFactory());
 		assertEquals(getFactory().get("2"), v.max());
@@ -973,12 +973,12 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testMean_base()
 	{
-		Vector<RE> v = new Vector<RE>(new String[] {
+		Vector<RE> v = new Vector<>(new String[] {
 				"0", "-10", "2", "0"
 		}, getFactory());
 		assertSimilar(getFactory().get("-2"), v.mean(), "0.0000001");
 		Assume.assumeTrue(!dataTypeIsDiscreet());
-		v = new Vector<RE>(vec_m2_3_6, getFactory());
+		v = new Vector<>(vec_m2_3_6, getFactory());
 		assertSimilar(getFactory().get("7/3"), v.mean(), "0.0000001");
 	}
 
@@ -989,12 +989,12 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testFind_base()
 	{
-		Vector<RE> v = new Vector<RE>(vec_m2_3_6, getFactory());
+		Vector<RE> v = new Vector<>(vec_m2_3_6, getFactory());
 		int[] found = v.find(getFactory().get("3"));
 		assertEquals("found=" + found, 1, found.length);
 		assertEquals("found=" + found, 2, found[0]);
 
-		v = new Vector<RE>(vec_0_1_9_0, getFactory());
+		v = new Vector<>(vec_0_1_9_0, getFactory());
 		found = v.find(getFactory().get("0"));
 		assertEquals(2, found.length);
 		assertTrue("found=" + found, found[0] == 1 || found[0] == 4);
@@ -1008,7 +1008,7 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testSetAll_base()
 	{
-		Vector<RE> v = new Vector<RE>(vec_0_1_9_0, getFactory());
+		Vector<RE> v = new Vector<>(vec_0_1_9_0, getFactory());
 		RE r = getFactory().get("123");
 		v.setAll(r);
 		assertEquals(getLinAlgFactory().ones(4), v.eq(r));
@@ -1030,8 +1030,8 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testSort_base()
 	{
-		Vector<RE> v = new Vector<RE>(vec_0_1_9_0, getFactory());
-		Vector<RE> res = new Vector<RE>(new String[] {
+		Vector<RE> v = new Vector<>(vec_0_1_9_0, getFactory());
+		Vector<RE> res = new Vector<>(new String[] {
 				"0", "0", "1", "9"
 		}, getFactory());
 		assertEquals(res, v.sort());
@@ -1044,10 +1044,10 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	public void testMultiplyMatrixOfRE_base()
 	{
 		Matrix<RE> m = getLinAlgFactory().identity(3);
-		Vector<RE> v = new Vector<RE>(vec_m2_3_6, getFactory());
+		Vector<RE> v = new Vector<>(vec_m2_3_6, getFactory());
 		assertEquals(v, v.multiply(m));
-		m = new Matrix<RE>(MatrixTestBase.mat_1to9, getFactory());
-		Vector<RE> res = new Vector<RE>(new String[] {
+		m = new Matrix<>(MatrixTestBase.mat_1to9, getFactory());
+		Vector<RE> res = new Vector<>(new String[] {
 				"52", "59", "66"
 		}, getFactory());
 		assertEquals(res, v.multiply(m));
@@ -1059,9 +1059,9 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testCross_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_1_2_2, getFactory());
-		Vector<RE> v2 = new Vector<RE>(vec_m2_3_6, getFactory());
-		Vector<RE> v3 = new Vector<RE>(new String[] {
+		Vector<RE> v1 = new Vector<>(vec_1_2_2, getFactory());
+		Vector<RE> v2 = new Vector<>(vec_m2_3_6, getFactory());
+		Vector<RE> v3 = new Vector<>(new String[] {
 				"6", "-10", "7"
 		}, getFactory());
 		assertEquals(v3, v1.cross(v2));
@@ -1076,7 +1076,7 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 		String[] values = {
 				"0", "0", "0", "0", "0"
 		};
-		Vector<RE> vec = new Vector<RE>(values, getFactory());
+		Vector<RE> vec = new Vector<>(values, getFactory());
 		assertTrue(vec.isZero());
 		vec.set(1, getFactory().one());
 		assertFalse(vec.isZero());
@@ -1098,7 +1098,7 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testElementProduct_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_m2_3_6, getFactory());
+		Vector<RE> v1 = new Vector<>(vec_m2_3_6, getFactory());
 		assertEquals(getFactory().get("-36"), v1.elementProduct());
 	}
 
@@ -1110,11 +1110,11 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	{
 		Vector<RE> v1;
 		if (dataTypeHasNegativeValues())
-			v1 = new Vector<RE>(vec_m2_3_6, getFactory());
+			v1 = new Vector<>(vec_m2_3_6, getFactory());
 		else
-			v1 = new Vector<RE>(vec_0_3_6, getFactory());
+			v1 = new Vector<>(vec_0_3_6, getFactory());
 
-		Vector<RE> v2 = new Vector<RE>(vec_1_2_2, getFactory());
+		Vector<RE> v2 = new Vector<>(vec_1_2_2, getFactory());
 		if (dataTypeHasNegativeValues()) assertEquals(-1, v1.compareTo(v2));
 		assertEquals(1, v2.compareTo(v1));
 		assertEquals(0, v1.compareTo(v1));
@@ -1126,8 +1126,8 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testSetVectorOfRE_base()
 	{
-		Vector<RE> v1 = new Vector<RE>(vec_m2_3_6, getFactory());
-		Vector<RE> v2 = new Vector<RE>(vec_1_2_2, getFactory());
+		Vector<RE> v1 = new Vector<>(vec_m2_3_6, getFactory());
+		Vector<RE> v2 = new Vector<>(vec_1_2_2, getFactory());
 		v2.set(v1);
 		assertEquals(v1, v2);
 	}

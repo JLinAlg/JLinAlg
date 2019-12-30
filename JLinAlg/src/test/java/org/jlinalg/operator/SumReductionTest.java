@@ -44,8 +44,8 @@ public class SumReductionTest<RE extends IRingElement<RE>>
 	@Test
 	public void test()
 	{
-		Vector<RE> v = new Vector<RE>(s_1to5, getFactory());
-		SumReduction<RE> red = new SumReduction<RE>();
+		Vector<RE> v = new Vector<>(s_1to5, getFactory());
+		SumReduction<RE> red = new SumReduction<>();
 		RE result = v.reduce(red);
 		assertSimilar(getFactory().get("15"), result, "0.000001");
 	}

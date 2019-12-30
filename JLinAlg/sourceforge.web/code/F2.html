@@ -8,7 +8,7 @@ Get webcpp at http://webcpp.sf.net
 
 <html>
 <head>
-<title>../src/main/java/org/jlinalg/f2/F2.java</title>
+<title>F2.java</title>
 <link rel="stylesheet" type="text/css" href="jlinalg.css"/>
 </head>
 <body>
@@ -34,11 +34,8 @@ Get webcpp at http://webcpp.sf.net
  */</font>
 <font CLASS=keyword>package</font> org.jlinalg.f2;
 
-<font CLASS=keyword>import</font> java.util.Random;
-
 <font CLASS=keyword>import</font> org.jlinalg.DivisionByZeroException;
 <font CLASS=keyword>import</font> org.jlinalg.FieldElement;
-<font CLASS=keyword>import</font> org.jlinalg.IRingElement;
 <font CLASS=keyword>import</font> org.jlinalg.IRingElementFactory;
 <font CLASS=keyword>import</font> org.jlinalg.InvalidOperationException;
 <font CLASS=keyword>import</font> org.jlinalg.JLinAlgTypeProperties;
@@ -53,7 +50,8 @@ Get webcpp at http://webcpp.sf.net
  * @author Andreas Keilhauer, Georg Thimm
  */</font>
 <font CLASS=keyword>public</font> <font CLASS=keyword>class</font> F2
-		<font CLASS=keyword>extends</font> FieldElement&lt;F2&gt;
+		<font CLASS=keyword>extends</font>
+		FieldElement&lt;F2&gt;
 {
 	<font CLASS=comment>/**
 	 * 
@@ -76,15 +74,15 @@ Get webcpp at http://webcpp.sf.net
 	 * 
 	 * @param val
 	 *            a F2-value
-	 * @return sum &lt;=&gt; logical XOR
+	 * @return sum &amp;lt;=&amp;gt; logical XOR
 	 * @exception InvalidOperationException
 	 *                if val is not in {{@link #ONE},{@link #ZERO} .
 	 */</font>
 	@Override
 	<font CLASS=keyword>public</font> F2 add(F2 val)
 	{
-		<font CLASS=keyword>if</font> (<font CLASS=symbols>!</font>(val <font CLASS=symbols>==</font> ZERO || val == ONE))
-			<font CLASS=keyword>throw</font> <font CLASS=keyword>new</font> InvalidOperationException(<font CLASS=dblquot>"illegal argument "</font> <font CLASS=symbols>+</font> val <font CLASS=symbols>+</font> <font CLASS=dblquot>"."</font>);
+		<font CLASS=keyword>if</font> (<font CLASS=symbols>!</font>(val <font CLASS=symbols>==</font> ZERO || val == ONE)) <font CLASS=keyword>throw</font> <font CLASS=keyword>new</font> InvalidOperationException(
+				<font CLASS=dblquot>"illegal argument "</font> <font CLASS=symbols>+</font> val <font CLASS=symbols>+</font> <font CLASS=dblquot>"."</font>);
 		<font CLASS=keyword>if</font> (val <font CLASS=symbols>==</font> <font CLASS=keyword>this</font>) <font CLASS=keyword>return</font> ZERO;
 		<font CLASS=keyword>return</font> ONE;
 	}
@@ -94,7 +92,7 @@ Get webcpp at http://webcpp.sf.net
 	 * 
 	 * @param val
 	 *            a F2-value
-	 * @return difference &lt;=&gt; logical XOR
+	 * @return difference &amp;lt;=&amp;gt; logical XOR
 	 * @exception InvalidOperationException
 	 *                if val is not in {{@link #ONE},{@link #ZERO} .
 	 */</font>
@@ -108,7 +106,7 @@ Get webcpp at http://webcpp.sf.net
 	 * Calculates the product of this element and another one.
 	 * 
 	 * @param val
-	 * @return product &lt;=&gt; logical AND
+	 * @return product &amp;lt;=&amp;gt; logical AND
 	 * @exception InvalidOperationException
 	 *                if val is not in {{@link #ONE},{@link #ZERO} .
 	 */</font>
@@ -123,7 +121,8 @@ Get webcpp at http://webcpp.sf.net
 	 * Calculates the quotient of this FieldElement and another one.
 	 * 
 	 * @param val
-	 * @return quotient &lt;=&gt; this value if val = 1m2 and undefined (Exception)
+	 * @return quotient &amp;lt;=&amp;gt; this value if val = 1m2 and undefined
+	 *         (Exception)
 	 *         otherwise
 	 * @exception InvalidOperationException
 	 *                if val == 0m2
@@ -133,8 +132,8 @@ Get webcpp at http://webcpp.sf.net
 	@Override
 	<font CLASS=keyword>public</font> F2 divide(F2 val)
 	{
-		<font CLASS=keyword>if</font> (<font CLASS=symbols>!</font>(val <font CLASS=symbols>==</font> ZERO || val == ONE))
-			<font CLASS=keyword>throw</font> <font CLASS=keyword>new</font> InvalidOperationException(<font CLASS=dblquot>"illegal argument "</font> <font CLASS=symbols>+</font> val <font CLASS=symbols>+</font> <font CLASS=dblquot>"."</font>);
+		<font CLASS=keyword>if</font> (<font CLASS=symbols>!</font>(val <font CLASS=symbols>==</font> ZERO || val == ONE)) <font CLASS=keyword>throw</font> <font CLASS=keyword>new</font> InvalidOperationException(
+				<font CLASS=dblquot>"illegal argument "</font> <font CLASS=symbols>+</font> val <font CLASS=symbols>+</font> <font CLASS=dblquot>"."</font>);
 		<font CLASS=keyword>if</font> (val <font CLASS=symbols>==</font> ONE) {
 			<font CLASS=keyword>return</font> <font CLASS=keyword>this</font>;
 		}
@@ -145,7 +144,7 @@ Get webcpp at http://webcpp.sf.net
 	 * Calculates the inverse element of addition for this element. This is
 	 * incidentally for F2 &lt;code&gt;this&lt;/code&gt;.
 	 * 
-	 * @return negated &lt;=&gt; this value
+	 * @return negated &amp;lt;=&amp;gt; this value
 	 */</font>
 	@Override
 	<font CLASS=keyword>public</font> F2 negate()
@@ -208,8 +207,8 @@ Get webcpp at http://webcpp.sf.net
 	@Override
 	<font CLASS=keyword>public</font> <font CLASS=keytype>int</font> compareTo(F2 val)
 	{
-		<font CLASS=keyword>if</font> (<font CLASS=symbols>!</font>(val <font CLASS=symbols>==</font> ZERO || val == ONE))
-			<font CLASS=keyword>throw</font> <font CLASS=keyword>new</font> InvalidOperationException(<font CLASS=dblquot>"illegal argument "</font> <font CLASS=symbols>+</font> val <font CLASS=symbols>+</font> <font CLASS=dblquot>"."</font>);
+		<font CLASS=keyword>if</font> (<font CLASS=symbols>!</font>(val <font CLASS=symbols>==</font> ZERO || val == ONE)) <font CLASS=keyword>throw</font> <font CLASS=keyword>new</font> InvalidOperationException(
+				<font CLASS=dblquot>"illegal argument "</font> <font CLASS=symbols>+</font> val <font CLASS=symbols>+</font> <font CLASS=dblquot>"."</font>);
 		<font CLASS=keyword>if</font> (<font CLASS=keyword>this</font> <font CLASS=symbols>==</font> val) <font CLASS=keyword>return</font> <font CLASS=integer>0</font>;
 		<font CLASS=keyword>if</font> (<font CLASS=keyword>this</font> <font CLASS=symbols>==</font> ZERO) <font CLASS=keyword>return</font> <font CLASS=symbols>-</font><font CLASS=integer>1</font>;
 		<font CLASS=keyword>return</font> <font CLASS=integer>1</font>;
@@ -255,7 +254,8 @@ Get webcpp at http://webcpp.sf.net
 	 */</font>
 	@JLinAlgTypeProperties(isExact <font CLASS=symbols>=</font> <font CLASS=keyword>true</font>, isDiscreet <font CLASS=symbols>=</font> <font CLASS=keyword>true</font>, hasNegativeValues = <font CLASS=keyword>false</font>)
 	<font CLASS=keyword>public</font> <font CLASS=keyword>class</font> F2Factory
-			<font CLASS=keyword>extends</font> RingElementFactory&lt;F2&gt;
+			<font CLASS=keyword>extends</font>
+			RingElementFactory&lt;F2&gt;
 	{
 
 		<font CLASS=keyword>private</font> <font CLASS=keytype>static</font> <font CLASS=keyword>final</font> <font CLASS=keytype>long</font> serialVersionUID <font CLASS=symbols>=</font> 1L;
@@ -285,8 +285,8 @@ Get webcpp at http://webcpp.sf.net
 					<font CLASS=keytype>int</font> i <font CLASS=symbols>=</font> Integer.parseInt(s);
 					<font CLASS=keyword>return</font> get(i);
 				} <font CLASS=keyword>catch</font> (NumberFormatException e) {
-					<font CLASS=keyword>throw</font> <font CLASS=keyword>new</font> InvalidOperationException(s
-							<font CLASS=symbols>+</font> <font CLASS=dblquot>" can not be translated into a F2 element."</font>);
+					<font CLASS=keyword>throw</font> <font CLASS=keyword>new</font> InvalidOperationException(
+							s <font CLASS=symbols>+</font> <font CLASS=dblquot>" can not be translated into a F2 element."</font>);
 				}
 			}
 			<font CLASS=keyword>if</font> (o <font CLASS=keyword>instanceof</font> Integer) {
@@ -350,17 +350,6 @@ Get webcpp at http://webcpp.sf.net
 		}
 
 		<font CLASS=comment>/**
-		 * @return the same as {@link #randomValue()}
-		 */</font>
-		@SuppressWarnings(<font CLASS=dblquot>"deprecation"</font>)
-		@Override
-		@Deprecated
-		<font CLASS=keyword>public</font> F2 gaussianRandomValue(@SuppressWarnings(<font CLASS=dblquot>"unused"</font>) Random random)
-		{
-			<font CLASS=keyword>return</font> randomValue();
-		}
-
-		<font CLASS=comment>/**
 		 * create an array to hold &lt;code&gt;rows&lt;/code&gt; time &lt;code&gt;columns&lt;/code&gt;
 		 * F2-instances.
 		 */</font>
@@ -368,17 +357,6 @@ Get webcpp at http://webcpp.sf.net
 		<font CLASS=keyword>public</font> F2[][] getArray(<font CLASS=keytype>int</font> rows, <font CLASS=keytype>int</font> columns)
 		{
 			<font CLASS=keyword>return</font> <font CLASS=keyword>new</font> F2[rows][columns];
-		}
-
-		<font CLASS=comment>/**
-		 * @return the same as {@link #randomValue()}
-		 */</font>
-		@SuppressWarnings(<font CLASS=dblquot>"deprecation"</font>)
-		@Override
-		@Deprecated
-		<font CLASS=keyword>public</font> F2 randomValue(@SuppressWarnings(<font CLASS=dblquot>"unused"</font>) Random random)
-		{
-			<font CLASS=keyword>return</font> randomValue();
 		}
 
 		<font CLASS=comment>/**
@@ -393,26 +371,9 @@ Get webcpp at http://webcpp.sf.net
 		}
 
 		<font CLASS=comment>/**
-		 * All parameters are ignored.
-		 * 
-		 * @see org.jlinalg.IRingElementFactory#randomValue(Random,
-		 *      IRingElement, IRingElement)
-		 */</font>
-		@SuppressWarnings(<font CLASS=dblquot>"deprecation"</font>)
-		@Override
-		@Deprecated
-		<font CLASS=keyword>public</font> F2 randomValue(@SuppressWarnings(<font CLASS=dblquot>"unused"</font>) Random random,
-				@SuppressWarnings(<font CLASS=dblquot>"unused"</font>) F2 min,
-				@SuppressWarnings(<font CLASS=dblquot>"unused"</font>) F2 max)
-		{
-			<font CLASS=keyword>return</font> randomValue();
-		}
-
-		<font CLASS=comment>/**
 		 * @return the same as {@link #randomValue()}
 		 */</font>
 		@Override
-		@Deprecated
 		<font CLASS=keyword>public</font> F2 gaussianRandomValue()
 		{
 			<font CLASS=keyword>return</font> randomValue();
@@ -423,7 +384,6 @@ Get webcpp at http://webcpp.sf.net
 		 *         ignored.
 		 */</font>
 		@Override
-		@Deprecated
 		<font CLASS=keyword>public</font> F2 randomValue(@SuppressWarnings(<font CLASS=dblquot>"unused"</font>) F2 min,
 				@SuppressWarnings(<font CLASS=dblquot>"unused"</font>) F2 max)
 		{

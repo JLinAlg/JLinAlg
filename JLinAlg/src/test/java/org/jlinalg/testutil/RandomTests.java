@@ -41,7 +41,8 @@ import org.junit.runners.Parameterized.Parameters;
  */
 @RunWith(Parameterized.class)
 public class RandomTests<RE extends IRingElement<RE>>
-		extends TestBaseFixture<RE>
+		extends
+		TestBaseFixture<RE>
 {
 	final RE min;
 	final RE max;
@@ -53,19 +54,15 @@ public class RandomTests<RE extends IRingElement<RE>>
 		Object[][] data = {
 				{
 						Rational.FACTORY, "-1/3", "7/6"
-				},
-				{
+				}, {
 						DoubleWrapper.FACTORY,
 						Double.toString(Double.MIN_VALUE),
 						Double.toString(Double.MAX_VALUE)
-				},
-				{
+				}, {
 						F2.FACTORY, "0m2", "1m2"
-				},
-				{
+				}, {
 						FieldPFactoryMap.getFactory("113"), "0", "112"
-				},
-				{
+				}, {
 						FieldPFactoryMap.getFactory("2932031007403"), "0",
 						"22932031007402"
 				}
@@ -76,7 +73,8 @@ public class RandomTests<RE extends IRingElement<RE>>
 
 	static Random random = new Random();
 
-	public RandomTests(IRingElementFactory<RE> factory, String min_, String max_)
+	public RandomTests(IRingElementFactory<RE> factory, String min_,
+			String max_)
 	{
 		this.factory = factory;
 		min = factory.get(min_);
@@ -115,15 +113,23 @@ public class RandomTests<RE extends IRingElement<RE>>
 			assertTrue(r1.ge(r1));
 			assertFalse(r1.gt(r1));
 			assertFalse(r1.lt(r1));
-			assertTrue("failed: " + r1.toString() + "<=" + r2.toString()
-					+ " (created from " + r1 + "," + r2 + ")", r1.le(r2));
-			assertTrue("failed: " + r2.toString() + ">=" + r1.toString()
-					+ " (created from " + r2 + "," + r1 + ")", r2.ge(r1));
+			assertTrue(
+					"failed: " + r1.toString() + "<=" + r2.toString()
+							+ " (created from " + r1 + "," + r2 + ")",
+					r1.le(r2));
+			assertTrue(
+					"failed: " + r2.toString() + ">=" + r1.toString()
+							+ " (created from " + r2 + "," + r1 + ")",
+					r2.ge(r1));
 			if (!r1.equals(r2)) {
-				assertTrue("failed: " + r1.toString() + "<" + r2.toString()
-						+ " (created from " + r1 + "," + r2 + ")", r1.lt(r2));
-				assertTrue("failed: " + r2.toString() + ">" + r1.toString()
-						+ " (created from " + r2 + "," + r1 + ")", r2.gt(r1));
+				assertTrue(
+						"failed: " + r1.toString() + "<" + r2.toString()
+								+ " (created from " + r1 + "," + r2 + ")",
+						r1.lt(r2));
+				assertTrue(
+						"failed: " + r2.toString() + ">" + r1.toString()
+								+ " (created from " + r2 + "," + r1 + ")",
+						r2.gt(r1));
 
 			}
 		}
@@ -158,13 +164,15 @@ public class RandomTests<RE extends IRingElement<RE>>
 		RE maxDiff = max.subtract(min).divide(getFactory().get(20));
 		assertTrue("min1=" + min1.toString() + " >= min=" + min.toString(),
 				min1.ge(min));
-		assertTrue("difference min1=" + min1.toString() + "   min="
-				+ min.toString() + " is too big.", min1.le(min.add(maxDiff)));
-		assertTrue("max1=" + max1.toString() + "> max=" + max.toString(), max1
-				.le(max));
+		assertTrue(
+				"difference min1=" + min1.toString() + "   min="
+						+ min.toString() + " is too big.",
+				min1.le(min.add(maxDiff)));
+		assertTrue("max1=" + max1.toString() + "> max=" + max.toString(),
+				max1.le(max));
 		assertTrue("difference max=" + max.toString() + " max1="
-				+ max1.toString() + " is too big.", max1.ge(max
-				.subtract(maxDiff)));
+				+ max1.toString() + " is too big.",
+				max1.ge(max.subtract(maxDiff)));
 	}
 
 	/*
@@ -189,11 +197,9 @@ public class RandomTests<RE extends IRingElement<RE>>
 	 */
 	boolean isRandomValueMinMaxDepreceated()
 	{
-		return methodIsDepreciated(getFactory().getClass(), "randomValue",
-				new Class<?>[] {
-						// IRingElement.class, IRingElement.class
-						getFactory().one().getClass(),
-						getFactory().one().getClass()
-				});
+		return methodIsDepreciated(getFactory(), "randomValue", new Class<?>[] {
+				// IRingElement.class, IRingElement.class
+				getFactory().one().getClass(), getFactory().one().getClass()
+		});
 	}
 }

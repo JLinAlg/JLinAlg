@@ -24,7 +24,6 @@ import org.junit.Test;
 
 /**
  * @author Georg Thimm
- *
  */
 public class BigDecimalWrapperBlackBoxTest
 {
@@ -40,14 +39,12 @@ public class BigDecimalWrapperBlackBoxTest
 	@Test
 	public void invert()
 	{
-		for (BigDecimalWrapper dw1 : new RandomNumberList<BigDecimalWrapper>(
-				factory, 20))
-		{
+		for (BigDecimalWrapper dw1 : new RandomNumberList<>(factory, 20)) {
 			if (!dw1.equals(factory.zero())) {
 				BigDecimalWrapper inv = dw1.invert();
 				assertFalse(inv.equals(dw1));
-				assertTrue(inv.invert().subtract(dw1).abs().le(
-						factory.get(0.00001)));
+				assertTrue(inv.invert().subtract(dw1).abs()
+						.le(factory.get(0.00001)));
 			}
 		}
 	}
@@ -58,9 +55,7 @@ public class BigDecimalWrapperBlackBoxTest
 	@Test
 	public final void testAbs()
 	{
-		for (BigDecimalWrapper dw1 : new RandomNumberList<BigDecimalWrapper>(
-				factory, 20))
-		{
+		for (BigDecimalWrapper dw1 : new RandomNumberList<>(factory, 20)) {
 			double d1 = Math.abs(dw1.doubleValue());
 			BigDecimalWrapper abs = dw1.abs();
 			assertTrue(abs.ge(factory.zero()));
@@ -74,20 +69,15 @@ public class BigDecimalWrapperBlackBoxTest
 	@Test
 	public void testAdd()
 	{
-		for (BigDecimalWrapper dw1 : new RandomNumberList<BigDecimalWrapper>(
-				factory, 20))
-		{
+		for (BigDecimalWrapper dw1 : new RandomNumberList<>(factory, 20)) {
 			assertTrue(dw1.toString(), dw1.equals(dw1));
-	
-			for (BigDecimalWrapper dw2 : new RandomNumberList<BigDecimalWrapper>(
-					factory, 20))
-			{
+
+			for (BigDecimalWrapper dw2 : new RandomNumberList<>(factory, 20)) {
 				double d1 = dw1.doubleValue();
 				double d2 = dw2.doubleValue();
-	
-				assertTrue(dw1 + "+" + dw2 + "!=" + d1 + d2, Math.abs(dw1.add(
-						dw2).doubleValue()
-						- (d1 + d2)) < 0.0001);
+
+				assertTrue(dw1 + "+" + dw2 + "!=" + d1 + d2, Math
+						.abs(dw1.add(dw2).doubleValue() - (d1 + d2)) < 0.0001);
 			}
 		}
 	}
@@ -99,19 +89,16 @@ public class BigDecimalWrapperBlackBoxTest
 	@Test
 	public void testCompare()
 	{
-		for (BigDecimalWrapper dw1 : new RandomNumberList<BigDecimalWrapper>(
-				factory, 20))
-		{
+		for (BigDecimalWrapper dw1 : new RandomNumberList<>(factory, 20)) {
 			assertTrue(dw1.toString(), dw1.equals(dw1));
-	
-			for (BigDecimalWrapper dw2 : new RandomNumberList<BigDecimalWrapper>(
-					factory, 20))
-			{
+
+			for (BigDecimalWrapper dw2 : new RandomNumberList<>(factory, 20)) {
 				Double d1 = Double.valueOf(dw1.doubleValue());
 				Double d2 = Double.valueOf(dw2.doubleValue());
-				assertTrue(dw1 + ".compareTo(" + dw2 + ")=="
-						+ dw1.compareTo(dw2) + " but " + d1 + ".compareTo("
-						+ d2 + ")==" + d1.compareTo(d2),
+				assertTrue(
+						dw1 + ".compareTo(" + dw2 + ")==" + dw1.compareTo(dw2)
+								+ " but " + d1 + ".compareTo(" + d2 + ")=="
+								+ d1.compareTo(d2),
 						dw1.compareTo(dw2) == d1.compareTo(d2));
 			}
 		}
@@ -127,14 +114,10 @@ public class BigDecimalWrapperBlackBoxTest
 		assertTrue(r1 + "=-1", r1.equals(factory.m_one()));
 		r1 = factory.get(1);
 		assertTrue(r1 + "!=1", r1.equals(factory.one()));
-		for (BigDecimalWrapper dw1 : new RandomNumberList<BigDecimalWrapper>(
-				factory, 20))
-		{
+		for (BigDecimalWrapper dw1 : new RandomNumberList<>(factory, 20)) {
 			assertTrue(dw1.toString(), dw1.equals(dw1));
-	
-			for (BigDecimalWrapper dw2 : new RandomNumberList<BigDecimalWrapper>(
-					factory, 20))
-			{
+
+			for (BigDecimalWrapper dw2 : new RandomNumberList<>(factory, 20)) {
 				double d1 = dw1.doubleValue();
 				double d2 = dw2.doubleValue();
 				if (d1 != d2)
@@ -151,12 +134,8 @@ public class BigDecimalWrapperBlackBoxTest
 	@Test
 	public void testLeGe()
 	{
-		for (BigDecimalWrapper r1 : new RandomNumberList<BigDecimalWrapper>(
-				factory, 10))
-		{
-			for (BigDecimalWrapper r2 : new RandomNumberList<BigDecimalWrapper>(
-					factory, 10))
-			{
+		for (BigDecimalWrapper r1 : new RandomNumberList<>(factory, 10)) {
+			for (BigDecimalWrapper r2 : new RandomNumberList<>(factory, 10)) {
 				if (r1.doubleValue() <= r2.doubleValue()) {
 					assertTrue(r1.le(r2));
 					assertTrue(r2.ge(r1));
@@ -176,12 +155,10 @@ public class BigDecimalWrapperBlackBoxTest
 	@Test
 	public final void testInvert()
 	{
-		for (BigDecimalWrapper d1 : new RandomNumberList<BigDecimalWrapper>(
-				factory, 10))
-		{
+		for (BigDecimalWrapper d1 : new RandomNumberList<>(factory, 10)) {
 			BigDecimalWrapper d2 = d1.invert();
-			assertTrue("1/(1/" + d1 + "))!=" + d2.invert(), d2.invert()
-					.subtract(d1).abs().le(factory.get(1e-6)));
+			assertTrue("1/(1/" + d1 + "))!=" + d2.invert(),
+					d2.invert().subtract(d1).abs().le(factory.get(1e-6)));
 		}
 	}
 
