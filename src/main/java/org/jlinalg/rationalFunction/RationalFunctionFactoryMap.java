@@ -64,7 +64,9 @@ public final class RationalFunctionFactoryMap<RE extends IRingElement<RE>>
 		return getFactory(value.getFactory());
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({
+			"unchecked", "rawtypes"
+	})
 	public static <RE extends IRingElement<RE>> RationalFunctionFactory<RE> getFactory(
 			IRingElementFactory<RE> baseFactory)
 	{
