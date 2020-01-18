@@ -31,10 +31,6 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 		Comparable<RE>,
 		Serializable
 {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**

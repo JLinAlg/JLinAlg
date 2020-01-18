@@ -18,6 +18,7 @@ package org.jlinalg.demo;
 
 import org.jlinalg.IRingElement;
 import org.jlinalg.Matrix;
+import org.jlinalg.MatrixMultiplication;
 import org.jlinalg.complex.Complex;
 
 /**
@@ -28,6 +29,9 @@ import org.jlinalg.complex.Complex;
 public class MatrixOperationsDemo
 {
 
+	private static Matrix<Complex> matrix1;
+	private static Matrix<Complex> matrix2;
+
 	/**
 	 * Run the demo: create a 2x2 matrix with complex numbers, calculate its
 	 * determinant and inverse.
@@ -37,27 +41,45 @@ public class MatrixOperationsDemo
 	 */
 	public static void main(String[] argv)
 	{
+		createMatrices();
+
+		// print the determinant
+		IRingElement<?> determinant = matrix1.det();
+		System.out.println("\nDeteterminant of matrix1: " + determinant);
+
+		// print the inverse
+		Matrix<Complex> inverse = matrix1.inverse();
+		System.out.println("\nInverse of matrix1: \n" + inverse);
+
+		Matrix<Complex> product = MatrixMultiplication.simple(matrix1, matrix2);
+		System.out.println("\nmatrix1*matrix2: \n" + product);
+	}
+
+	private static void createMatrices()
+	{
 		// Create two complex numbers
 		Complex c1 = Complex.FACTORY.get(1.0, 0.0);
 		Complex c2 = Complex.FACTORY.get(0.0, 1.0);
+		Complex c3 = Complex.FACTORY.get(0.5, 0.5);
+		Complex c4 = Complex.FACTORY.get(0.5, -0.5);
 
-		// create the matrix
-		Matrix<Complex> m = new Matrix<>(new Complex[][] {
+		matrix1 = new Matrix<>(new Complex[][] {
 				{
 						c1, c2
 				}, {
 						c2, c1.add(c2)
 				}
 		});
-		System.out.println("Matrix m: \n" + m);
 
-		// print the determinant
-		IRingElement<?> determinant = m.det();
-		System.out.println("Deteterminant of m: " + determinant);
-
-		// print the inverse
-		Matrix<Complex> inverse = m.inverse();
-		System.out.println("Inverse of m: \n" + inverse);
+		matrix2 = new Matrix<>(new Complex[][] {
+				{
+						c3, c3
+				}, {
+						c3, c4
+				}
+		});
+		System.out.println("Matrix matrix1: \n" + matrix1);
+		System.out.println("Matrix matrix2: \n" + matrix2);
 
 	}
 
