@@ -103,7 +103,8 @@ public class AffineLinearSubspace<RE extends IRingElement<RE>>
 	/**
 	 * This creates an affine linear subspace by taking an inhomogeneous part
 	 * and a generating System of Vectors. The subspace will be inhomogenousPart
-	 * + &lt;generatingSystem&gt;. The normalised flag, which is usually set after
+	 * + &lt;generatingSystem&gt;. The normalised flag, which is usually set
+	 * after
 	 * normalise is executed, is also set, but it won't be checked.
 	 * 
 	 * @param inhomogenousPart
@@ -204,8 +205,7 @@ public class AffineLinearSubspace<RE extends IRingElement<RE>>
 	public AffineLinearSubspace<RE> normalize()
 	{
 		if (this.generatingSystem.length > 0) {
-			Matrix<RE> normalized = new Matrix<>(generatingSystem)
-					.gausselim();
+			Matrix<RE> normalized = new Matrix<>(generatingSystem).gausselim();
 			List<Vector<RE>> generatingVectors = new LinkedList<>();
 			int i = 1;
 			while (i <= normalized.getRows() && !normalized.isZeroRow(i)) {

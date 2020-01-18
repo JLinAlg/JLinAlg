@@ -30,13 +30,17 @@ import org.jlinalg.operator.GreaterThanComparator;
 import org.jlinalg.operator.GreaterThanOrEqualToComparator;
 import org.jlinalg.operator.LessThanComparator;
 import org.jlinalg.operator.LessThanOrEqualToComparator;
+import org.jlinalg.operator.MaxReduction;
+import org.jlinalg.operator.MinReduction;
 import org.jlinalg.operator.MonadicOperator;
 import org.jlinalg.operator.MultiplyOperator;
 import org.jlinalg.operator.NotEqualToComparator;
 import org.jlinalg.operator.NotOperator;
 import org.jlinalg.operator.OrOperator;
+import org.jlinalg.operator.Reduction;
 import org.jlinalg.operator.SquareOperator;
 import org.jlinalg.operator.SubtractOperator;
+import org.jlinalg.operator.SumReduction;
 
 /**
  * This defines the interface for the factories used to create instances (and
@@ -57,7 +61,6 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 		IRingElementFactory<RE>,
 		Serializable
 {
-
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -100,6 +103,9 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 	transient private DyadicOperator<RE> multiplyOperator;
 	transient private FEComparator<RE> eqOperator;
 	transient private DyadicOperator<RE> orOperator;
+	transient private Reduction<RE> maxOperator;
+	transient private Reduction<RE> sumOperator;
+	transient private Reduction<RE> minOperator;
 
 	/**
 	 * Try to use the string representation of the object <code>o</code> to
@@ -172,6 +178,22 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 		for (int row = 0; row < from.getRows(); row++) {
 			for (int col = 0; col < from.getCols(); col++) {
 				to.entries[row][col] = this.get(from.entries[row][col]);
+			}
+		}
+		return to;
+	}
+
+	/**
+	 * @return a matrix of the given elements converted into type RE. First
+	 *         index is the row.
+	 */
+	@Override
+	public Matrix<RE> convert(final String[][] from)
+	{
+		Matrix<RE> to = new Matrix<>(from.length, from[0].length, this);
+		for (int row = 0; row < from[0].length; row++) {
+			for (int col = 0; col < from.length; col++) {
+				to.entries[col][row] = this.get(from[col][row]);
 			}
 		}
 		return to;
@@ -327,5 +349,32 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 			eqOperator = new EqualToComparator<>();
 		}
 		return eqOperator;
+	}
+
+	@Override
+	public Reduction<RE> getMaxOperator()
+	{
+		if (maxOperator == null) {
+			maxOperator = new MaxReduction<>();
+		}
+		return maxOperator;
+	}
+
+	@Override
+	public Reduction<RE> getMinOperator()
+	{
+		if (minOperator == null) {
+			minOperator = new MinReduction<>();
+		}
+		return minOperator;
+	}
+
+	@Override
+	public Reduction<RE> getSumOperator()
+	{
+		if (sumOperator == null) {
+			sumOperator = new SumReduction<>();
+		}
+		return sumOperator;
 	}
 }

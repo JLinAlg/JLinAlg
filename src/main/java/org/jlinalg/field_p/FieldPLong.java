@@ -27,16 +27,14 @@ package org.jlinalg.field_p;
  */
 public class FieldPLong
 		extends
-		FieldP<FieldPLong>
+		FieldP
 {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	/** The least non-negative representant of the equivalence class */
+	/** The least non-negative instance of the equivalence class */
 	protected long value;
+
+	private FieldPLongFactory internalFactory;
 
 	/**
 	 * a cache for the inverse.
@@ -55,7 +53,7 @@ public class FieldPLong
 	 *            the factory producing elements in Fp (typically the caller of
 	 *            this constructor).
 	 */
-	FieldPLong(long value, FieldPAbstractFactory<FieldPLong> factory)
+	FieldPLong(long value, FieldPAbstractFactory factory)
 	{
 		super(factory);
 		this.value = value;
@@ -76,9 +74,9 @@ public class FieldPLong
 	 * @return The additive inverse
 	 */
 	@Override
-	public FieldPLong negate()
+	public FieldP negate()
 	{
-		return factory.get(-value);
+		return getFactory().get(-value);
 	}
 
 	/**
@@ -92,10 +90,11 @@ public class FieldPLong
 	 *             fields Fp.
 	 */
 	@Override
-	public FieldPLong add(FieldPLong val) throws IllegalArgumentException
+	public FieldP add(FieldP val) throws IllegalArgumentException
 	{
-		if (val.factory == this.factory) {
-			return factory.get(this.value + val.value);
+		if (val.getFactory() == this.getFactory()) {
+			return getFactory().get(getInternalValue().longValue()
+					+ val.getInternalValue().longValue());
 		}
 
 		throw new IllegalArgumentException(val + " is from a different Fp than "
@@ -114,69 +113,48 @@ public class FieldPLong
 	 *             fields Fp.
 	 */
 	@Override
-	public FieldPLong multiply(FieldPLong val) throws IllegalArgumentException
+	public FieldP multiply(FieldP val) throws IllegalArgumentException
 	{
-
-		if (val.factory == this.factory) {
-			return factory.get(this.value * val.value);
+		if (val.getFactory() == getFactory()) {
+			return getFactory()
+					.get(this.value * ((FieldPLong) val).getInternalValue());
 		}
 		throw new IllegalArgumentException(val + " is from a different Fp than "
 				+ this + "! You cannot multiply them.");
 	}
 
-	/**
-	 * Returns a string representation of the element. The string representation
-	 * consists of the value of the smallest non- negative representant of the
-	 * equivalence class in 10-adic, the letter m and the number of elements in
-	 * the field in 10-adic.
-	 * 
-	 * @return The string representation of the element.
-	 */
 	@Override
-	public String toString()
+	protected Long getInternalValue()
 	{
-		return value + "m" + ((FieldPLongFactory) factory).p;
-	}
-
-	/**
-	 * Compares this element with another element of the same field Fp. Note:
-	 * This order does not respect addition or multiplication!
-	 * 
-	 * @param par
-	 *            The element to compare to
-	 * @return -1, if this is less, 0, if they are equal, 1, if this is bigger
-	 */
-	@Override
-	public int compareTo(FieldPLong par)
-	{
-		if (this.factory == par.factory) {
-			long diff = this.value - par.value;
-			return (diff > 0 ? 1 : (diff < 0 ? -1 : 0));
-		}
-		throw new IllegalArgumentException(
-				par + " is from a differend field than " + this
-						+ "! You cannot compare them");
+		return value;
 	}
 
 	@Override
 	public FieldPLong invert()
 	{
 		if (inverse == null) {
-			inverse = ((FieldPLongFactory) factory).computeInverse(value);
+			inverse = getFactory().computeInverse(value);
 			inverse.inverse = this;
 		}
 		return inverse;
 	}
 
 	@Override
-	public boolean equals(Object o)
+	protected void setFactory(FieldPAbstractFactory factory)
 	{
-		if (o == null) return false;
-		FieldPLong f = (FieldPLong) o;
-		if (f.factory != factory) {
-			throw new IllegalArgumentException(
-					"Cannot compare elements in different fields");
-		}
-		return f.value == value;
+		internalFactory = (FieldPLongFactory) factory;
 	}
+
+	@Override
+	protected <N extends Number> int compareInternalValueWith(N number)
+	{
+		return Long.compare(this.value, number.longValue());
+	}
+
+	@Override
+	public FieldPLongFactory getFactory()
+	{
+		return internalFactory;
+	}
+
 }

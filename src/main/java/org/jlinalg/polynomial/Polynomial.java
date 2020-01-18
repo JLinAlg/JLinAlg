@@ -585,7 +585,7 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 	}
 
 	@SuppressWarnings("unchecked")
-	public <ARG extends IRingElement<BASE>> Polynomial<BASE> apply(final ARG x)
+	public Polynomial<BASE> apply(final IRingElement<BASE> x)
 	{
 		return (Polynomial<BASE>) (x.lt(x.getFactory().zero()) ? x.negate()
 				: x);

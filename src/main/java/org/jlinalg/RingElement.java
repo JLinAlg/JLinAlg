@@ -97,7 +97,7 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	 *            the function to apply
 	 * @return result of applying <tt>fun</tt> to this {@link RingElement}
 	 */
-	@SuppressWarnings("unchecked")
+
 	@Override
 	public RE apply(MonadicOperator<RE> fun)
 	{
@@ -203,7 +203,7 @@ public abstract class RingElement<RE extends IRingElement<RE>>
 	public RE divide(@SuppressWarnings("unused") RE val)
 			throws DivisionByZeroException, InvalidOperationException
 	{
-		throw new InvalidOperationException("RingElements  of type "
+		throw new InvalidOperationException("RingElements of type "
 				+ this.getClass().getCanonicalName() + " cannot be divided!");
 	}
 

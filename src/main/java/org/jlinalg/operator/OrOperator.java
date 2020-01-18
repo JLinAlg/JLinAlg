@@ -17,6 +17,7 @@
 package org.jlinalg.operator;
 
 import org.jlinalg.IRingElement;
+import org.jlinalg.IRingElementFactory;
 
 /**
  * logical OR of two FieldElements
@@ -31,7 +32,7 @@ public class OrOperator<RE extends IRingElement<RE>>
 	@Override
 	public RE apply(RE x, RE y)
 	{
-		return ((x.isZero() && y.isZero()) ? x.getFactory().zero()
-				: x.getFactory().one());
+		IRingElementFactory<RE> factory = x.getFactory();
+		return (x.isZero() && y.isZero()) ? factory.zero() : factory.one();
 	}
 }

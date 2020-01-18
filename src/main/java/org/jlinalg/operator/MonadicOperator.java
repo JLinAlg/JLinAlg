@@ -16,6 +16,8 @@
  */
 package org.jlinalg.operator;
 
+import java.util.function.UnaryOperator;
+
 import org.jlinalg.IRingElement;
 
 /**
@@ -29,15 +31,7 @@ import org.jlinalg.IRingElement;
  */
 
 public interface MonadicOperator<RE extends IRingElement<RE>>
+		extends
+		UnaryOperator<RE>
 {
-
-	/**
-	 * Applies the function to an element.
-	 * 
-	 * @param x
-	 *            the value of the element
-	 * @return the result of applying the function to <tt>x</tt>
-	 */
-	public RE apply(RE x);
-
 }

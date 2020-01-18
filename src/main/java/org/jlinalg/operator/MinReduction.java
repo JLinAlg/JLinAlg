@@ -16,6 +16,10 @@
  */
 package org.jlinalg.operator;
 
+import java.util.Iterator;
+import java.util.concurrent.atomic.AtomicReference;
+
+import org.jlinalg.IReducible;
 import org.jlinalg.IRingElement;
 
 /**
@@ -24,14 +28,22 @@ import org.jlinalg.IRingElement;
  * @author Simon Levy, Andreas Keilhauer
  */
 public class MinReduction<RE extends IRingElement<RE>>
-		extends Reduction<RE>
+		extends
+		Reduction<RE>
 {
-
 	@Override
-	public void track(RE currValue)
+	public RE apply(IReducible<RE> reducible)
 	{
-		if (currValue.lt(reducedValue)) {
-			reducedValue = currValue;
-		}
+		final Iterator<RE> iterator = reducible.iterator();
+		final RE firstElement = iterator.next();
+		final FEComparator<RE> comparator = firstElement.getFactory()
+				.getGreaterThanComparator();
+		final AtomicReference<RE> result = new AtomicReference<>(firstElement);
+		iterator.forEachRemaining(e -> {
+			if (comparator.compare(result.get(), e)) {
+				result.set(e);
+			}
+		});
+		return result.get();
 	}
 }

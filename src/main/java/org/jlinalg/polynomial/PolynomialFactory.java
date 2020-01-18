@@ -103,14 +103,13 @@ public class PolynomialFactory<BASE extends IRingElement<BASE>>
 		M_ONE = new Polynomial<>(coefficients, baseFactory);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object obj)
 	{
 		if (this == obj) return true;
 		if (!(obj instanceof PolynomialFactory)) return false;
 		return baseFactory
-				.equals(((PolynomialFactory<BASE>) obj).getBaseFactory());
+				.equals(((PolynomialFactory<?>) obj).getBaseFactory());
 	}
 
 	@Override

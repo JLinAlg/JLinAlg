@@ -16,6 +16,9 @@
  */
 package org.jlinalg.operator;
 
+import java.util.function.Function;
+
+import org.jlinalg.IReducible;
 import org.jlinalg.IRingElement;
 
 /**
@@ -24,14 +27,8 @@ import org.jlinalg.IRingElement;
  * @author Simon Levy, Andreas Keilhauer
  */
 public abstract class Reduction<RE extends IRingElement<RE>>
+		implements
+		Function<IReducible<RE>, RE>
 {
 
-	public RE reducedValue;
-
-	public void init(RE firstValue)
-	{
-		reducedValue = firstValue;
-	}
-
-	public abstract void track(RE currValue);
 }

@@ -29,9 +29,11 @@ import static org.junit.Assert.fail;
 import org.jlinalg.IRingElement;
 import org.jlinalg.Matrix;
 import org.jlinalg.Vector;
+import org.jlinalg.operator.DivideOperator;
+import org.jlinalg.operator.MultiplyOperator;
 import org.junit.Assume;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Georg Thimm, Andreas Keilhauer
@@ -65,6 +67,9 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	};
 	protected final static String[] vec_m2_3_6 = {
 			"-2", "3", "6"
+	};
+	protected final static String[] vec_m4_m7_m9 = {
+			"-4", "-7", "-9"
 	};
 
 	/**
@@ -278,6 +283,8 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 				"-4", "0", "1"
 		}, getFactory());
 		assertSimilar(res, v.divide(r), "0.00001");
+
+		assertSimilar(res, v.apply(r, new DivideOperator<>()), "0.00001");
 	}
 
 	/**
@@ -311,6 +318,7 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 				"-6", "9", "18"
 		}, getFactory());
 		assertEquals(res, v.multiply(r));
+		assertEquals(res, v.apply(r, new MultiplyOperator<>()));
 	}
 
 	/**
@@ -592,7 +600,7 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	 * {@link org.jlinalg.Vector#applyReplace(org.jlinalg.operator.MonadicOperator)}
 	 * .
 	 */
-	@Ignore
+	@Disabled
 	@Test
 	public void testApplyReplaceMonadicOperatorOfRE_base()
 	{
@@ -603,7 +611,7 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	 * Test method for
 	 * {@link org.jlinalg.Vector#apply(org.jlinalg.operator.MonadicOperator)}.
 	 */
-	@Ignore
+	@Disabled
 	@Test
 	public void testApplyMonadicOperatorOfQextendsIRingElement_base()
 	{
@@ -612,48 +620,48 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 
 	/**
 	 * Test method for
-	 * {@link org.jlinalg.Vector#applyReplace(org.jlinalg.Vector, org.jlinalg.operator.DyadicOperator)}
+	 * {@link org.jlinalg.Vector#applyReplace(org.jlinalg.Vector, org.jlinalg.operator.BinaryOperator)}
 	 * .
 	 */
-	@Ignore
+	@Disabled
 	@Test
-	public void testApplyReplaceVectorOfREDyadicOperatorOfRE_base()
+	public void testApplyReplaceVectorOfREBinaryOperatorOfRE_base()
 	{
 		fail("Not yet implemented"); // TODO
 	}
 
 	/**
 	 * Test method for
-	 * {@link org.jlinalg.Vector#apply(org.jlinalg.Vector, org.jlinalg.operator.DyadicOperator)}
+	 * {@link org.jlinalg.Vector#apply(org.jlinalg.Vector, org.jlinalg.operator.BinaryOperator)}
 	 * .
 	 */
-	@Ignore
+	@Disabled
 	@Test
-	public void testApplyVectorOfREDyadicOperatorOfRE_base()
+	public void testApplyVectorOfREBinaryOperatorOfRE_base()
 	{
 		fail("Not yet implemented"); // TODO
 	}
 
 	/**
 	 * Test method for
-	 * {@link org.jlinalg.Vector#applyReplace(org.jlinalg.IRingElement, org.jlinalg.operator.DyadicOperator)}
+	 * {@link org.jlinalg.Vector#applyReplace(org.jlinalg.IRingElement, org.jlinalg.operator.BinaryOperator)}
 	 * .
 	 */
-	@Ignore
+	@Disabled
 	@Test
-	public void testApplyReplaceREDyadicOperatorOfRE_base()
+	public void testApplyReplaceREBinaryOperatorOfRE_base()
 	{
 		fail("Not yet implemented"); // TODO
 	}
 
 	/**
 	 * Test method for
-	 * {@link org.jlinalg.Vector#apply(org.jlinalg.IRingElement, org.jlinalg.operator.DyadicOperator)}
+	 * {@link org.jlinalg.Vector#apply(org.jlinalg.IRingElement, org.jlinalg.operator.BinaryOperator)}
 	 * .
 	 */
-	@Ignore
+	@Disabled
 	@Test
-	public void testApplyREDyadicOperatorOfRE_base()
+	public void testApplyREBinaryOperatorOfRE_base()
 	{
 		fail("Not yet implemented"); // TODO
 	}
@@ -967,6 +975,16 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 		assertEquals(getFactory().get("2"), v.max());
 	}
 
+	@Test
+	void testMaxNegativeValuesOnly() throws Exception
+	{
+		Assume.assumeTrue(dataTypeHasNegativeValues());
+		Vector<RE> v = new Vector<>(vec_m4_m7_m9, getFactory());
+		assertEquals(getFactory().get("-4"),
+				v.apply(getFactory().getMaxOperator()));
+		assertEquals(getFactory().get("-4"), v.max());
+	}
+
 	/**
 	 * Test method for {@link org.jlinalg.Vector#mean()}.
 	 */
@@ -1017,7 +1035,7 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 	/**
 	 * Test method for {@link org.jlinalg.Vector#repmat(int)}.
 	 */
-	@Ignore
+	@Disabled
 	@Test
 	public void testRepmat_base()
 	{

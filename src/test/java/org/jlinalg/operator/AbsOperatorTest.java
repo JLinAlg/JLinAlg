@@ -39,7 +39,7 @@ public class AbsOperatorTest<RE extends IRingElement<RE>>
 	};
 
 	@Test
-	public void test()
+	public void testAbs()
 	{
 		assumeTrue(!methodIsDepreciated(getFactory().one(), "abs", null)
 				&& dataTypeHasNegativeValues());
@@ -48,4 +48,5 @@ public class AbsOperatorTest<RE extends IRingElement<RE>>
 		Vector<RE> should = new Vector<>(s_abs, getFactory());
 		assertEquals(getFactory().toString(), should, res);
 	}
+
 }

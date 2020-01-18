@@ -16,6 +16,10 @@
  */
 package org.jlinalg.operator;
 
+import java.util.Iterator;
+import java.util.concurrent.atomic.AtomicReference;
+
+import org.jlinalg.IReducible;
 import org.jlinalg.IRingElement;
 
 /**
@@ -26,20 +30,23 @@ import org.jlinalg.IRingElement;
  *            the type of the elements in the vectors to be reduced.
  */
 public class MaxReduction<RE extends IRingElement<RE>>
-		extends Reduction<RE>
+		extends
+		Reduction<RE>
 {
-
 	@Override
-	public void init(RE firstValue)
+	public RE apply(IReducible<RE> reducible)
 	{
-		reducedValue = firstValue.getFactory().zero();
+		final Iterator<RE> iterator = reducible.iterator();
+		final RE firstElement = iterator.next();
+		final FEComparator<RE> comparator = firstElement.getFactory()
+				.getLessThanComparator();
+		final AtomicReference<RE> result = new AtomicReference<>(firstElement);
+		iterator.forEachRemaining(e -> {
+			if (comparator.compare(result.get(), e)) {
+				result.set(e);
+			}
+		});
+		return result.get();
 	}
 
-	@Override
-	public void track(RE currValue)
-	{
-		if (currValue.gt(reducedValue)) {
-			reducedValue = currValue;
-		}
-	}
 }

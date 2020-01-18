@@ -40,7 +40,6 @@ public class RationalFunction<BASE extends IRingElement<BASE>>
 
 	private final IRingElementFactory<BASE> baseFactory;
 
-	// @SuppressWarnings("unchecked")
 	public RationalFunction(BASE value)
 	{
 		if (value == null) {

@@ -17,7 +17,6 @@
 package org.jlinalg.field_p;
 
 import org.jlinalg.FieldElement;
-import org.jlinalg.IRingElementFactory;
 
 /**
  * This class represents an element of the modulo p field Fp (i.e. the Galois
@@ -30,18 +29,14 @@ import org.jlinalg.IRingElementFactory;
  * This is only a wrapper class for the different implementations for
  * FieldPAbstract depending on the magnitude of p.
  */
-public abstract class FieldP<RE extends FieldP<RE>>
-		extends FieldElement<RE>
+public abstract class FieldP
+		extends
+		FieldElement<FieldP>
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * the factory for the creation of other elements of this type.
-	 */
-	final FieldPAbstractFactory<RE> factory;
 
 	/**
 	 * constructor for internal use only.
@@ -50,10 +45,14 @@ public abstract class FieldP<RE extends FieldP<RE>>
 	 *            the factory to be used for the creation of subsequent
 	 *            instances of specializations this class.
 	 */
-	FieldP(FieldPAbstractFactory<RE> factory)
+	FieldP(FieldPAbstractFactory factory)
 	{
-		this.factory = factory;
+		setFactory(factory);
 	}
+
+	protected abstract void setFactory(FieldPAbstractFactory factory);
+
+	protected abstract Number getInternalValue();
 
 	/**
 	 * Adds this element to val and returns the new element of Fp.
@@ -63,7 +62,7 @@ public abstract class FieldP<RE extends FieldP<RE>>
 	 * @return The element that is the sum of this and val.
 	 */
 	@Override
-	public abstract RE add(RE val);
+	public abstract FieldP add(FieldP val);
 
 	/**
 	 * Multiplies this element with val and returns the new element of Fp.
@@ -73,7 +72,7 @@ public abstract class FieldP<RE extends FieldP<RE>>
 	 * @return The element that is the sum of this and val.
 	 */
 	@Override
-	public abstract RE multiply(RE val);
+	public abstract FieldP multiply(FieldP val);
 
 	/**
 	 * Returns the additive inverse of this in the field Fp.
@@ -81,7 +80,7 @@ public abstract class FieldP<RE extends FieldP<RE>>
 	 * @return The additive inverse of this in the field Fp.
 	 */
 	@Override
-	public abstract RE negate();
+	public abstract FieldP negate();
 
 	/**
 	 * Returns the multiplicative inverse of this in the field Fp.
@@ -89,7 +88,7 @@ public abstract class FieldP<RE extends FieldP<RE>>
 	 * @return The multiplicative inverse of this in the field Fp.
 	 */
 	@Override
-	public abstract RE invert();
+	public abstract FieldP invert();
 
 	/**
 	 * Compares this element with another element. o must be a instance of
@@ -105,7 +104,17 @@ public abstract class FieldP<RE extends FieldP<RE>>
 	 *         the sense of equals), &gt; 0 if this is bigger than o
 	 */
 	@Override
-	public abstract int compareTo(RE o);
+	public int compareTo(FieldP par)
+	{
+		if (par.getFactory() == getFactory()) {
+			return compareInternalValueWith(par.getInternalValue());
+		}
+		throw new IllegalArgumentException(
+				par + " is from a differend field than " + this
+						+ "! You cannot compare them");
+	}
+
+	protected abstract <N extends Number> int compareInternalValueWith(N value);
 
 	/**
 	 * Returns true if and only if <code>this</code> and <code>o</code>
@@ -117,12 +126,17 @@ public abstract class FieldP<RE extends FieldP<RE>>
 	 *         the same field.
 	 */
 	@Override
-	public abstract boolean equals(Object e);
-
-	@Override
-	public IRingElementFactory<RE> getFactory()
+	public boolean equals(Object o)
 	{
-		return factory;
+		if (o instanceof FieldP) {
+			FieldP f = (FieldP) o;
+			if (f.getFactory() != getFactory()) {
+				throw new IllegalArgumentException(
+						"Cannot compare elements in different fields");
+			}
+			return f.getInternalValue().equals(getInternalValue());
+		}
+		return false;
 	}
 
 	/**
@@ -130,9 +144,21 @@ public abstract class FieldP<RE extends FieldP<RE>>
 	 * @see org.jlinalg.IRingElement#abs()
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
-	public RE abs()
+	public FieldP abs()
 	{
-		return (RE) this;
+		return this;
 	}
+
+	@Override
+	public abstract FieldPAbstractFactory getFactory();
+
+	/**
+	 * return the String representation of the encapsulated value.
+	 */
+	@Override
+	public String toString()
+	{
+		return getInternalValue().toString();
+	}
+
 }

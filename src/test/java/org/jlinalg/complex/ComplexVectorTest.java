@@ -28,7 +28,8 @@ import org.junit.Test;
  * @author Georg Thimm
  */
 public class ComplexVectorTest
-		extends VectorTestBase<Complex>
+		extends
+		VectorTestBase<Complex>
 {
 	/**
 	 * @see org.jlinalg.testutil.TestBaseInterface#getFactory()

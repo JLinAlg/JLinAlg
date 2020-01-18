@@ -198,7 +198,6 @@ public class RandomTests<RE extends IRingElement<RE>>
 	boolean isRandomValueMinMaxDepreceated()
 	{
 		return methodIsDepreciated(getFactory(), "randomValue", new Class<?>[] {
-				// IRingElement.class, IRingElement.class
 				getFactory().one().getClass(), getFactory().one().getClass()
 		});
 	}

@@ -20,6 +20,7 @@ import java.math.BigInteger;
 
 import org.jlinalg.DivisionByZeroException;
 import org.jlinalg.InvalidOperationException;
+import org.jlinalg.JLinAlgTypeProperties;
 
 /**
  * This class implements an element of Fp where p can be arbitrarily big by
@@ -27,19 +28,23 @@ import org.jlinalg.InvalidOperationException;
  * 
  * @author Andreas Lochbihler, Georg Thimm
  */
+@JLinAlgTypeProperties(isExact = true, hasNegativeValues = false, isDiscreet = true)
 public class FieldPBig
 		extends
-		FieldP<FieldPBig>
+		FieldP
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The smallest non-negative representative of the equivalence class in Fp.
 	 */
 	BigInteger value;
+
+	@Override
+	protected BigInteger getInternalValue()
+	{
+		return value;
+	}
 
 	/**
 	 * @see java.lang.Object#hashCode()
@@ -55,6 +60,8 @@ public class FieldPBig
 	 */
 	private FieldPBig inverse = null;
 
+	private FieldPBigFactory internalFactory;
+
 	/**
 	 * Constructs a new element of Fp which is the equivalence class containing
 	 * value.
@@ -66,7 +73,7 @@ public class FieldPBig
 	 *            the factory producing elements in Fp (typically the caller of
 	 *            this constructor).
 	 */
-	FieldPBig(BigInteger value, FieldPAbstractFactory<FieldPBig> factory)
+	FieldPBig(BigInteger value, FieldPAbstractFactory factory)
 	{
 		super(factory);
 		this.value = value;
@@ -80,32 +87,15 @@ public class FieldPBig
 	 * @return The sum of this and val.
 	 */
 	@Override
-	public FieldPBig add(FieldPBig val)
+	public FieldPBig add(FieldP val)
 	{
-		if (val.factory == factory) {
-			return factory.get(value.add(val.value));
+		if (val.getFactory() == getFactory()) {
+			return getFactory()
+					.get(value.add(((FieldPBig) val).getInternalValue()));
 		}
 		throw new IllegalArgumentException(
 				val + " is from a different field Fp than " + this
 						+ "! You cannot add them.");
-	}
-
-	/**
-	 * Returns the product of this and val.
-	 * 
-	 * @param val
-	 *            The other factor
-	 * @return The product of this and val.
-	 */
-	@Override
-	public FieldPBig multiply(FieldPBig val)
-	{
-		if (val.factory == factory) {
-			return factory.get(this.value.multiply(val.value));
-		}
-		throw new IllegalArgumentException(
-				val + " is from a different field Fp than " + this
-						+ "! You cannot multiply them.");
 	}
 
 	/**
@@ -116,7 +106,7 @@ public class FieldPBig
 	@Override
 	public FieldPBig negate()
 	{
-		return factory.get(value.negate());
+		return getFactory().get(value.negate());
 	}
 
 	/**
@@ -136,50 +126,42 @@ public class FieldPBig
 			throw new DivisionByZeroException("Multiplicative inversion of 0");
 		}
 		if (this.inverse == null) {
-			this.inverse = factory
-					.get(value.modInverse(((FieldPBigFactory) factory).p));
+			this.inverse = getFactory()
+					.get(value.modInverse(getFactory().getFieldSize()));
 			inverse.inverse = this;
 		}
 		return inverse;
 	}
 
-	/**
-	 * Compares this element with another element of the same field Fp. Note:
-	 * This order does not respect addition or multiplication!
-	 * 
-	 * @param par
-	 *            The element to compare to
-	 * @return -1, if this is less, 0, if they are equal, 1, if this is bigger
-	 */
 	@Override
-	public int compareTo(FieldPBig par)
+	public FieldPBigFactory getFactory()
 	{
-		if (par.factory == factory) {
-			return value.compareTo(par.value);
+		return internalFactory;
+	}
+
+	@Override
+	protected void setFactory(FieldPAbstractFactory factory)
+	{
+		internalFactory = (FieldPBigFactory) factory;
+	}
+
+	@Override
+	protected <N extends Number> int compareInternalValueWith(N value)
+	{
+		if (value instanceof BigInteger) {
+			return getInternalValue().compareTo((BigInteger) value);
 		}
-		throw new IllegalArgumentException(
-				par + " is from a differend field than " + this
-						+ "! You cannot compare them");
+		throw new InvalidOperationException("Mismatching types");
 	}
 
 	@Override
-	public boolean equals(Object o)
+	public FieldPBig multiply(FieldP val) throws IllegalArgumentException
 	{
-		FieldPBig f = (FieldPBig) o;
-		if (f.factory != factory) {
-			throw new IllegalArgumentException(
-					"Cannot compare elements in different fields");
+		if (val.getFactory() == getFactory()) {
+			return getFactory()
+					.get(value.multiply(((FieldPBig) val).getInternalValue()));
 		}
-		return f.value.equals(value);
+		throw new IllegalArgumentException(val + " is from a different Fp than "
+				+ this + "! You cannot multiply them.");
 	}
-
-	/**
-	 * return the String representation of the encapsulated value.
-	 */
-	@Override
-	public String toString()
-	{
-		return value.toString();
-	}
-
 }

@@ -17,7 +17,6 @@
 package org.jlinalg;
 
 import java.io.Serializable;
-import java.util.Random;
 
 /**
  * This class provides a set of methods for generating various common types of
@@ -80,17 +79,6 @@ public class LinAlgFactory<RE extends IRingElement<RE>>
 	}
 
 	/**
-	 * @deprecated this is a legacy front-end to {@link #uniformNoise(int,int)}
-	 *             ( <code>random</code> is ignored).
-	 */
-	@Deprecated
-	public Matrix<RE> uniformNoise(int numberOfRows, int numberOfCols,
-			@SuppressWarnings("unused") Random random)
-	{
-		return uniformNoise(numberOfRows, numberOfCols);
-	}
-
-	/**
 	 * Returns a Matrix of uniformly distributed random values. The kind of
 	 * random values you get depends on the RingElement you use to initialize
 	 * the LinAlgFactory
@@ -108,17 +96,6 @@ public class LinAlgFactory<RE extends IRingElement<RE>>
 			}
 		}
 		return a;
-	}
-
-	/**
-	 * @deprecated this is a legacy front-end to {@link #gaussianNoise(int,int)}
-	 *             ( <code>random</code> is ignored).
-	 */
-	@Deprecated
-	public Matrix<RE> gaussianNoise(int numberOfRows, int numberOfCols,
-			@SuppressWarnings("unused") Random random)
-	{
-		return gaussianNoise(numberOfRows, numberOfCols);
 	}
 
 	/**
@@ -169,17 +146,6 @@ public class LinAlgFactory<RE extends IRingElement<RE>>
 	}
 
 	/**
-	 * @deprecated this is a legacy front-end to {@link #uniformNoise(int)} (
-	 *             <code>random</code> is ignored).
-	 */
-	@Deprecated
-	public Vector<RE> uniformNoise(int length,
-			@SuppressWarnings("unused") Random random)
-	{
-		return uniformNoise(length);
-	}
-
-	/**
 	 * Returns a Vector of uniformly distributed random values.
 	 * 
 	 * @param length
@@ -212,17 +178,6 @@ public class LinAlgFactory<RE extends IRingElement<RE>>
 			v.set(i, factory.gaussianRandomValue());
 		}
 		return v;
-	}
-
-	/**
-	 * @deprecated this is a legacy front-end to {@link #gaussianNoise(int)} (
-	 *             <code>random</code> is ignored).
-	 */
-	@Deprecated
-	public Vector<RE> gaussianNoise(int length,
-			@SuppressWarnings("unused") Random random)
-	{
-		return gaussianNoise(length);
 	}
 
 	/**

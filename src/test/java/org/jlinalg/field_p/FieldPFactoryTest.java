@@ -21,9 +21,6 @@ import static org.junit.Assert.assertFalse;
 import java.math.BigInteger;
 import java.util.Collection;
 
-import org.jlinalg.IRingElementFactory;
-import org.jlinalg.field_p.FieldP;
-import org.jlinalg.field_p.FieldPFactoryMap;
 import org.jlinalg.testutil.FactoryTestBase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,8 +31,9 @@ import org.junit.runners.Parameterized.Parameters;
  * @author Georg Thimm
  */
 @RunWith(value = Parameterized.class)
-public class FieldPFactoryTest<RE extends FieldP<RE>>
-		extends FactoryTestBase<RE>
+public class FieldPFactoryTest
+		extends
+		FactoryTestBase<FieldP>
 {
 
 	/**
@@ -47,21 +45,20 @@ public class FieldPFactoryTest<RE extends FieldP<RE>>
 		return FieldPTest.data1();
 	}
 
-	private IRingElementFactory<RE> factory;
+	private FieldPAbstractFactory factory;
 
 	/**
 	 * @see org.jlinalg.testutil.TestBaseInterface#getFactory()
 	 */
 	@Override
-	public IRingElementFactory<RE> getFactory()
+	public FieldPAbstractFactory getFactory()
 	{
 		return factory;
 	}
 
-	@SuppressWarnings("unchecked")
 	public FieldPFactoryTest(String o)
 	{
-		factory = (IRingElementFactory<RE>) FieldPFactoryMap.getFactory(o);
+		factory = FieldPFactoryMap.getFactory(o);
 	}
 
 	/**
@@ -70,7 +67,7 @@ public class FieldPFactoryTest<RE extends FieldP<RE>>
 	@Test
 	public void testWrapNegativeArgs()
 	{
-		RE r = getFactory().get(-1.0);
+		FieldP r = getFactory().get(-1.0);
 		assertFalse("r=" + r.toString(), r.toString().startsWith("-"));
 		r = getFactory().get(-1);
 		assertFalse("r=" + r.toString(), r.toString().startsWith("-"));

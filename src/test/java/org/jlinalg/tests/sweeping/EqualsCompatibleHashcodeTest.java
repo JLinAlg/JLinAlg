@@ -38,7 +38,8 @@ import org.junit.runners.Parameterized.Parameters;
  */
 @RunWith(Parameterized.class)
 public class EqualsCompatibleHashcodeTest<RE extends IRingElement<RE>>
-		extends TestBaseFixture<RE>
+		extends
+		TestBaseFixture<RE>
 {
 	/**
 	 * @return the factories representing the fixtures
@@ -94,8 +95,8 @@ public class EqualsCompatibleHashcodeTest<RE extends IRingElement<RE>>
 	{
 		RE re3 = getFactory().get("3");
 		assertTrue("Factory: " + getFactory().toString(), re1.equals(re3));
-		assertEquals("Factory: " + getFactory().toString(), re1.hashCode(), re3
-				.hashCode());
+		assertEquals("Factory: " + getFactory().toString(), re1.hashCode(),
+				re3.hashCode());
 	}
 
 	/**
@@ -116,7 +117,7 @@ public class EqualsCompatibleHashcodeTest<RE extends IRingElement<RE>>
 	public void notEqualNull() throws Exception
 	{
 		RE re1 = getFactory().get("3");
-		assertFalse("Factory: " + getFactory().toString(), re1.equals(null));
+		assertFalse("Factory: " + getFactory(), re1.equals(null));
 	}
 
 	@Override
