@@ -24,6 +24,7 @@ import static org.junit.Assert.fail;
 import org.jlinalg.IRingElement;
 import org.jlinalg.InvalidOperationException;
 import org.jlinalg.Matrix;
+import org.jlinalg.MatrixMultiplication;
 import org.jlinalg.f2.F2.F2Factory;
 import org.jlinalg.fastrational.FastRationalFactory;
 import org.jlinalg.rational.Rational;
@@ -135,7 +136,7 @@ public abstract class MatrixTestBase<RE extends IRingElement<RE>>
 	{
 		Matrix<RE> inv = m.inverse();
 		Matrix<RE> id = getLinAlgFactory().identity(m.getCols());
-		Matrix<RE> prod = m.multiply(inv);
+		Matrix<RE> prod = MatrixMultiplication.school(m, inv);
 		assertSimilar(id, prod, "0.00001");
 	}
 
@@ -238,8 +239,7 @@ public abstract class MatrixTestBase<RE extends IRingElement<RE>>
 						"1", "2", "-5"
 				}
 		};
-		testDetSub(new Matrix<>(values2, getFactory()),
-				getFactory().get("-8"));
+		testDetSub(new Matrix<>(values2, getFactory()), getFactory().get("-8"));
 
 		m = getLinAlgFactory().identity(5);
 		m.multiplyReplace(getFactory().m_one());
@@ -279,7 +279,8 @@ public abstract class MatrixTestBase<RE extends IRingElement<RE>>
 						Integer.valueOf(0), "1", "2"
 
 				}, {
-						Rational.FACTORY.get(3), Long.valueOf(4), Double.valueOf(5),
+						Rational.FACTORY.get(3), Long.valueOf(4),
+						Double.valueOf(5),
 				}
 		};
 		Matrix<RE> m = new Matrix<>(o, getFactory());

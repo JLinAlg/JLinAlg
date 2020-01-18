@@ -29,7 +29,7 @@ import org.jlinalg.JLinAlgTypeProperties;
 @JLinAlgTypeProperties(isExact = true, hasNegativeValues = false, isDiscreet = true)
 public class FieldPLongFactory
 		extends
-		FieldPAbstractFactory<FieldPLong>
+		FieldPAbstractFactory
 {
 	private static final long serialVersionUID = 1L;
 
@@ -42,19 +42,19 @@ public class FieldPLongFactory
 	{
 		if (this == obj) return true;
 		if (!(obj instanceof FieldPLongFactory)) return false;
-		return p == ((FieldPLongFactory) obj).p;
+		return getFieldSize() == ((FieldPLongFactory) obj).getFieldSize();
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return (int) (p ^ p >> 16);
+		return (int) (getFieldSize() ^ getFieldSize() >> 16);
 	}
 
 	/**
 	 * the internal value for an instance
 	 */
-	final long p;
+	private final Long fieldSize;
 
 	/**
 	 * the constant 0
@@ -81,10 +81,10 @@ public class FieldPLongFactory
 	 */
 	protected FieldPLongFactory(final long p)
 	{
-		this.p = p;
+		this.fieldSize = p;
 		ZERO = new FieldPLong(0L, this);
 		ONE = new FieldPLong(1L, this);
-		M_ONE = ONE.negate();
+		M_ONE = new FieldPLong(normalize(-1L, p), this);
 	}
 
 	/**
@@ -118,25 +118,26 @@ public class FieldPLongFactory
 	@Override
 	public FieldPLong get(double d)
 	{
-		return new FieldPLong(normalize((long) d, p), this);
+		return new FieldPLong(normalize((long) d, getFieldSize()), this);
 	}
 
 	@Override
 	public FieldPLong get(int i)
 	{
-		return new FieldPLong(normalize(i, p), this);
+		return new FieldPLong(normalize(i, getFieldSize()), this);
 	}
 
 	@Override
 	public FieldPLong get(Object o)
 	{
 		if (o instanceof Number) {
-			return new FieldPLong(normalize(((Number) o).longValue(), p), this);
+			return new FieldPLong(
+					normalize(((Number) o).longValue(), getFieldSize()), this);
 		}
 		if (o instanceof String) {
 			try {
 				long l = Long.parseLong((String) o);
-				return new FieldPLong(normalize(l, p), this);
+				return new FieldPLong(normalize(l, getFieldSize()), this);
 			} catch (NumberFormatException e) {
 				throw new InvalidOperationException(
 						o + " is not a long number");
@@ -228,14 +229,14 @@ public class FieldPLongFactory
 	 */
 	protected FieldPLong computeInverse(long value)
 	{
-		long inverse = computeInverse(value, p);
+		long inverse = computeInverse(value, getFieldSize());
 		return new FieldPLong(inverse, this);
 	}
 
 	@Override
 	public FieldPLong get(long d)
 	{
-		d = normalize(d, p);
+		d = normalize(d, getFieldSize());
 		return new FieldPLong(d, this);
 	}
 
@@ -256,10 +257,10 @@ public class FieldPLongFactory
 	 *      IRingElement)
 	 */
 	@Override
-	public FieldPLong randomValue(FieldPLong min_, FieldPLong max_)
+	public FieldPLong randomValue(FieldP min_, FieldP max_)
 	{
-		long min = min_.value;
-		long max = max_.value;
+		long min = min_.getInternalValue().longValue();
+		long max = max_.getInternalValue().longValue();
 		long r = random.nextLong();
 		if (r < 0L) r = -r;
 		long l = (r % (max - min + 1)) + min;
@@ -275,7 +276,8 @@ public class FieldPLongFactory
 	@Override
 	public FieldPLong randomValue()
 	{
-		return new FieldPLong((long) (p * random.nextDouble()), this);
+		return new FieldPLong((long) (getFieldSize() * random.nextDouble()),
+				this);
 	}
 
 	/**
@@ -285,6 +287,12 @@ public class FieldPLongFactory
 	@Override
 	public String toString()
 	{
-		return "Factory: " + getClass().getName() + " p=" + p;
+		return "Factory: " + getClass().getName() + " p=" + getFieldSize();
+	}
+
+	@Override
+	public Long getFieldSize()
+	{
+		return fieldSize;
 	}
 }

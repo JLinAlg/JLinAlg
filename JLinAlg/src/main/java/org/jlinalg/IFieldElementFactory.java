@@ -14,25 +14,12 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with JLinALg. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.jlinalg.operator;
 
-import org.jlinalg.IRingElement;
-import org.jlinalg.IRingElementFactory;
+package org.jlinalg;
 
-/**
- * the logical AND operator for IRingElements
- * 
- * @author ???, Georg Thimm
- * @param <RE>
- */
-public class AndOperator<RE extends IRingElement<RE>>
-		implements
-		DyadicOperator<RE>
+public interface IFieldElementFactory<FE extends FieldElement<FE>>
+		extends
+		IRingElementFactory<FE>
 {
-	@Override
-	public RE apply(RE x, RE y)
-	{
-		IRingElementFactory<RE> factory = x.getFactory();
-		return (x.isZero() || y.isZero()) ? factory.zero() : factory.one();
-	}
+
 }

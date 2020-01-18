@@ -33,7 +33,8 @@ import org.junit.Test;
  * @author Georg Thimm
  */
 public abstract class FactoryTestBase<RE extends IRingElement<RE>>
-		extends TestBaseFixture<RE>
+		extends
+		TestBaseFixture<RE>
 {
 
 	/**
@@ -164,8 +165,8 @@ public abstract class FactoryTestBase<RE extends IRingElement<RE>>
 	@Test
 	public void testRandomValueRandom_base()
 	{
-		Assume.assumeTrue(!methodIsDepreciated(getFactory(), "randomValue",
-				null));
+		Assume.assumeTrue(
+				!methodIsDepreciated(getFactory(), "randomValue", null));
 		ArrayList<RE> array = new ArrayList<>();
 		for (int i = 0; i < 20; i++)
 			array.add(getFactory().randomValue());
@@ -188,8 +189,8 @@ public abstract class FactoryTestBase<RE extends IRingElement<RE>>
 		RE min = getFactory().zero();
 		RE max = getFactory().get("3");
 		if (!min.lt(max)) {
-			System.err
-					.println("Skipping  testRandomValueRandomIRingElementIRingElement_base for "
+			System.err.println(
+					"Skipping  testRandomValueRandomIRingElementIRingElement_base for "
 							+ getFactory().getClass());
 			return;
 		}
@@ -216,8 +217,7 @@ public abstract class FactoryTestBase<RE extends IRingElement<RE>>
 						"4", "5", "6"
 				}
 		};
-		Matrix<StringWrapper> in = new Matrix<>(values,
-				StringWrapper.FACTORY);
+		Matrix<StringWrapper> in = new Matrix<>(values, StringWrapper.FACTORY);
 		Matrix<RE> conv = getFactory().convert(in);
 		assertNotNull(conv);
 		assertEquals(values[0].length, conv.getCols());
@@ -244,13 +244,15 @@ public abstract class FactoryTestBase<RE extends IRingElement<RE>>
 				"1", "2", "3"
 		};
 
-		Vector<StringWrapper> in = new Vector<>(values,
-				StringWrapper.FACTORY);
+		Vector<StringWrapper> in = new Vector<>(values, StringWrapper.FACTORY);
 		Vector<RE> conv = getFactory().convert(in);
 		assertNotNull(conv);
 		assertEquals(values.length, conv.length());
 		for (int i = 1; i <= values.length; i++) {
-			assertTrue(conv.getEntry(i).toString().startsWith(values[i - 1]));
+			assertTrue(
+					conv.getEntry(i) + " is expected to start with "
+							+ values[i - 1],
+					conv.getEntry(i).toString().startsWith(values[i - 1]));
 		}
 	}
 }

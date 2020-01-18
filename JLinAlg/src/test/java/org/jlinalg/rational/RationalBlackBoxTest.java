@@ -19,8 +19,6 @@ package org.jlinalg.rational;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Random;
-
 import org.jlinalg.LinAlgFactory;
 import org.jlinalg.Matrix;
 import org.jlinalg.Vector;
@@ -360,8 +358,7 @@ public class RationalBlackBoxTest
 	{
 		DoubleWrapperFactory fac = DoubleWrapper.FACTORY;
 
-		LinAlgFactory<Rational> rfac = new LinAlgFactory<>(
-				Rational.FACTORY);
+		LinAlgFactory<Rational> rfac = new LinAlgFactory<>(Rational.FACTORY);
 
 		// for a vector
 		Vector<Rational> vRational = rfac.gaussianNoise(10);
@@ -382,8 +379,8 @@ public class RationalBlackBoxTest
 	public void doubleToRationalWrapper() throws Exception
 	{
 		RationalFactory fac = Rational.FACTORY;
-		for (DoubleWrapper d : new RandomNumberList<>(
-				DoubleWrapper.FACTORY, 20))
+		for (DoubleWrapper d : new RandomNumberList<>(DoubleWrapper.FACTORY,
+				20))
 		{
 			Rational r = fac.get(d);
 			assertTrue(d + "!=" + r + "(=" + r.doubleValue() + ")",
@@ -396,7 +393,6 @@ public class RationalBlackBoxTest
 	 * Test the conversion from {@link Rational} to {@link DoubleWrapper}
 	 * matrices
 	 */
-	@SuppressWarnings("deprecation")
 	@Test
 	public void doubleToRationalMatrices() throws Exception
 	{
@@ -406,7 +402,7 @@ public class RationalBlackBoxTest
 				DoubleWrapper.FACTORY);
 
 		// for a matrix
-		Matrix<DoubleWrapper> mDouble = rfac.gaussianNoise(10, 5, new Random());
+		Matrix<DoubleWrapper> mDouble = rfac.gaussianNoise(10, 5);
 		Matrix<Rational> mRational = fac.convert(mDouble);
 		for (int row = 1; row <= mRational.getRows(); row++) {
 			for (int col = 1; col <= mRational.getCols(); col++) {

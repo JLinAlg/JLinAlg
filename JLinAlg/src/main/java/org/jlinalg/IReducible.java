@@ -14,25 +14,20 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with JLinALg. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.jlinalg.operator;
 
-import org.jlinalg.IRingElement;
-import org.jlinalg.IRingElementFactory;
+package org.jlinalg;
+
+import org.jlinalg.operator.Reduction;
 
 /**
- * the logical AND operator for IRingElements
+ * A class implementing this interface can be reduced (i.e. the interface
+ * {@link Reduction} can be applied to instances of this class
  * 
- * @author ???, Georg Thimm
- * @param <RE>
+ * @author G. Thimm
  */
-public class AndOperator<RE extends IRingElement<RE>>
-		implements
-		DyadicOperator<RE>
+public interface IReducible<E extends IRingElement<E>>
+		extends
+		Iterable<E>
 {
-	@Override
-	public RE apply(RE x, RE y)
-	{
-		IRingElementFactory<RE> factory = x.getFactory();
-		return (x.isZero() || y.isZero()) ? factory.zero() : factory.one();
-	}
+
 }

@@ -23,13 +23,11 @@ import java.io.Serializable;
  * operation is attempted.
  */
 public class InvalidOperationException
-		extends RuntimeException
-		implements Serializable
+		extends
+		RuntimeException
+		implements
+		Serializable
 {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**

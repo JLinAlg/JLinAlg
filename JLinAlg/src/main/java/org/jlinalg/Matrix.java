@@ -18,16 +18,15 @@ package org.jlinalg;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.jlinalg.complex.Complex;
 import org.jlinalg.operator.DyadicOperator;
 import org.jlinalg.operator.FEComparator;
-import org.jlinalg.operator.MaxReduction;
-import org.jlinalg.operator.MinReduction;
 import org.jlinalg.operator.MonadicOperator;
 import org.jlinalg.operator.Reduction;
-import org.jlinalg.operator.SumReduction;
 import org.jlinalg.polynomial.Polynomial;
 import org.jlinalg.polynomial.PolynomialFactory;
 
@@ -40,12 +39,9 @@ import org.jlinalg.polynomial.PolynomialFactory;
  */
 public class Matrix<RE extends IRingElement<RE>>
 		implements
-		Serializable
+		Serializable,
+		IReducible<RE>
 {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -153,7 +149,7 @@ public class Matrix<RE extends IRingElement<RE>>
 
 		numOfRows = rowVectors.length;
 		numOfCols = vectorLength;
-		FACTORY = rowVectors[0].FACTORY;
+		FACTORY = rowVectors[0].getElementFactory();
 		entries = FACTORY.getArray(numOfRows, numOfCols);
 
 		for (int k = 0; k < numOfRows; k++) {
@@ -790,39 +786,6 @@ public class Matrix<RE extends IRingElement<RE>>
 	}
 
 	/**
-	 * Returns the matrix that is the product of this Matrix and another matrix.
-	 * 
-	 * @param anotherMatrix
-	 * @return product matrix
-	 * @throws InvalidOperationException
-	 *             if number of columns of this matrix does not equal number of
-	 *             rows of the other matrix
-	 */
-
-	public Matrix<RE> multiply(Matrix<RE> anotherMatrix)
-			throws InvalidOperationException
-	{
-		if (numOfCols != anotherMatrix.getRows()) {
-			throw new InvalidOperationException("Tried to multiply \n" + this
-					+ " and \n" + anotherMatrix + "Not correct format!");
-		}
-
-		int resultRows = this.numOfRows;
-		int resultCols = anotherMatrix.getCols();
-
-		Matrix<RE> resultMatrix = new Matrix<>(resultRows, resultCols,
-				anotherMatrix.FACTORY);
-
-		for (int i = 1; i <= resultRows; i++) {
-			for (int j = 1; j <= resultCols; j++) {
-				resultMatrix.set(i, j,
-						this.getRow(i).multiply(anotherMatrix.getCol(j)));
-			}
-		}
-		return resultMatrix;
-	}
-
-	/**
 	 * Returns a deep copy of this Matrix.
 	 * 
 	 * @return matrix copy
@@ -830,8 +793,7 @@ public class Matrix<RE extends IRingElement<RE>>
 
 	public Matrix<RE> copy()
 	{
-		Matrix<RE> tmp = new Matrix<>(this.getRows(), this.getCols(),
-				FACTORY);
+		Matrix<RE> tmp = new Matrix<>(this.getRows(), this.getCols(), FACTORY);
 		for (int row = 1; row <= this.getRows(); row++) {
 			for (int col = 1; col <= this.getCols(); col++) {
 				tmp.set(row, col, this.get(row, col));
@@ -1099,8 +1061,7 @@ public class Matrix<RE extends IRingElement<RE>>
 	 */
 	public Matrix<RE> transpose()
 	{
-		Matrix<RE> tmp = new Matrix<>(this.getCols(), this.getRows(),
-				FACTORY);
+		Matrix<RE> tmp = new Matrix<>(this.getCols(), this.getRows(), FACTORY);
 		for (int row = 1; row <= this.getRows(); row++) {
 			for (int col = 1; col <= this.getCols(); col++) {
 				tmp.set(col, row, this.get(row, col));
@@ -1147,8 +1108,7 @@ public class Matrix<RE extends IRingElement<RE>>
 		if (this.get(0, 0) instanceof Complex)
 			throw new InvalidOperationException(
 					"This can not be used for complex matrices.");
-		Matrix<RE> tmp = new Matrix<>(this.getCols(), this.getRows(),
-				FACTORY);
+		Matrix<RE> tmp = new Matrix<>(this.getCols(), this.getRows(), FACTORY);
 		for (int row = 1; row <= this.getRows(); row++) {
 			for (int col = 1; col <= this.getCols(); col++) {
 				RE test = this.get(row, col);
@@ -1320,17 +1280,18 @@ public class Matrix<RE extends IRingElement<RE>>
 	}
 
 	/**
-	 * Multiplies this Matrix element-wise by another.
+	 * Replaces this matrix with the element-wise product of it
+	 * with matrix <code>anotherMatrix</code>.
 	 * 
 	 * @param anotherMatrix
 	 * @throws InvalidOperationException
 	 *             if the matrices have different sizes
 	 */
-	public void multiplyReplace(Matrix<RE> anotherMatrix)
+	public void elementWiseProductReplace(Matrix<RE> anotherMatrix)
 			throws InvalidOperationException
 	{
 		operateReplace(anotherMatrix, FACTORY.getMultiplyOperator(),
-				"multiply");
+				"elementWiseProduct");
 	}
 
 	/**
@@ -1619,6 +1580,11 @@ public class Matrix<RE extends IRingElement<RE>>
 		return matrix;
 	}
 
+	public RE apply(Reduction<RE> reduction)
+	{
+		return reduction.apply(this);
+	}
+
 	/**
 	 * Sets this Matrix to the result of applying a specified function to
 	 * elements of this Matrix and another's. New functions can be applied to a
@@ -1644,6 +1610,8 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * Returns the result of applying a specified function to the elements of
 	 * this Matrix and another. New functions can be applied to a Matrix by
 	 * sub-classing the abstract <tt>DyadicOperator</tt> class.
+	 * If <code>fun</code> is the mulitplication, this does NOT result in the
+	 * operation commonly referred to as "matrix multiplication"!
 	 * 
 	 * @param anotherMatrix
 	 * @param fun
@@ -1712,15 +1680,15 @@ public class Matrix<RE extends IRingElement<RE>>
 	 * Returns the element-wise product of this Matrix and another.
 	 * 
 	 * @param anotherMatrix
-	 * @return this .* anotherMatrix
+	 * @return this .* anotherMatrix (the element wise product)
 	 * @throws InvalidOperationException
 	 *             if the matrices have different sizes
 	 */
-	public Matrix<RE> arrayMultiply(Matrix<RE> anotherMatrix)
+	public Matrix<RE> elementWiseProduct(Matrix<RE> anotherMatrix)
 			throws InvalidOperationException
 	{
 		return operate(anotherMatrix, FACTORY.getMultiplyOperator(),
-				"arrayMultiply");
+				"elementWiseProduct");
 	}
 
 	/**
@@ -1746,7 +1714,7 @@ public class Matrix<RE extends IRingElement<RE>>
 	 */
 	public RE sum()
 	{
-		return reduce(new SumReduction<RE>());
+		return apply(getFactory().getSumOperator());
 	}
 
 	/**
@@ -1767,7 +1735,7 @@ public class Matrix<RE extends IRingElement<RE>>
 	 */
 	public RE min()
 	{
-		return reduce(new MinReduction<RE>());
+		return apply(getFactory().getMinOperator());
 	}
 
 	/**
@@ -1777,7 +1745,7 @@ public class Matrix<RE extends IRingElement<RE>>
 	 */
 	public RE max()
 	{
-		return reduce(new MaxReduction<RE>());
+		return apply(getFactory().getMaxOperator());
 	}
 
 	/**
@@ -1963,20 +1931,6 @@ public class Matrix<RE extends IRingElement<RE>>
 		}
 	}
 
-	// generic method for sum, min, max
-	private RE reduce(Reduction<RE> r)
-	{
-		r.init(this.get(1, 1));
-		for (int i = 1; i <= this.getRows(); i++) {
-			for (int j = 1; j <= this.getCols(); j++) {
-				if (i != 1 || j != 1) {
-					r.track(this.get(i, j));
-				}
-			}
-		}
-		return r.reducedValue;
-	}
-
 	/**
 	 * Calculate the order o of this matrix: the integer number o for which m^o
 	 * is the identity matrix.
@@ -2006,7 +1960,7 @@ public class Matrix<RE extends IRingElement<RE>>
 		int i = 1;
 		while (!m.isIdentity() && i <= max) {
 			i++;
-			m = m.multiply(this);
+			m = MatrixMultiplication.strassenBodrato(m, this);
 		}
 		if (i >= max) return -2;
 		return i;
@@ -2163,5 +2117,39 @@ public class Matrix<RE extends IRingElement<RE>>
 	public Polynomial<RE> minimalPolynomial()
 	{
 		return this.characteristicPolynomial().minimalPolynomial();
+	}
+
+	/**
+	 * iterate rows-first through the elements.
+	 */
+	@Override
+	public Iterator<RE> iterator()
+	{
+		return new Iterator<RE>() {
+			private int row = 0;
+			private int col = 0;
+
+			@Override
+			public boolean hasNext()
+			{
+				return entries.length > row;
+			}
+
+			@Override
+			public RE next()
+			{
+				try {
+					return entries[row][col];
+				} catch (ArrayIndexOutOfBoundsException e) {
+					throw new NoSuchElementException();
+				} finally {
+					col++;
+					if (col >= entries[0].length) {
+						row++;
+						col = 0;
+					}
+				}
+			}
+		};
 	}
 }

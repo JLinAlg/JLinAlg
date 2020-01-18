@@ -185,22 +185,6 @@ public class Rational
 			.compile("([+-]?\\d+)/([-+]?\\d+)");
 
 	/**
-	 * @param number
-	 *            A string in the format of an integer, integer fraction or
-	 *            exponential notation aka scientific notation) to be converted
-	 *            into a rational.
-	 * @deprecated use {@link RationalFactory#get(Object)}.
-	 * @throws Error
-	 *             if called
-	 */
-	@Deprecated
-	Rational(@SuppressWarnings("unused") String number)
-	{
-		denominator = numerator = null;
-		throw new Error("use RationalFactory.get(String)");
-	}
-
-	/**
 	 * Returns a String representation of this Rational.
 	 */
 	@Override

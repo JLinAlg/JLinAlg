@@ -1,23 +1,74 @@
  
 plugins {
     id 'java-library'
-    id 'eclipse' // optional (to generate Eclipse project files) 
+    id 'maven-publish'
+     id 'eclipse' // optional (to generate Eclipse project files) 
 }
 
 ant.importBuild 'sourceforge.web/build.xml'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
+   mavenLocal() 
     jcenter()
     mavenCentral()
 }  
-
-sourceCompatibility = JavaVersion.VERSION_1_9
-targetCompatibility = JavaVersion.VERSION_1_9
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifactId 'jlinalg'
+            groupId 'org.jlinalg'
+            version '0.9'
+            pom {
+                name = "JLinAlg"
+                description = "JLinAlg is an open source and easy to use Java library for linear algebra."
+                url = "https://sourceforge.net/p/jlinalg/wiki/Home/"
+                licenses {
+                        license {
+                            name = " GNU LESSER GENERAL PUBLIC LICENSE;  Version 3, 29 June 2007"
+                            url="http://www.gnu.org/copyleft/lgpl.html"
+                      }
+                 } //licenses
+                 developers {
+                      developer { 
+                           name = "Georg Thimm"
+                       }
+                       developer {
+                            name = "Andreas Keilhauer"
+                        }
+                        developer { 
+                             name = "Andreas Lochbihler"
+                        }
+                        developer { 
+                                name = "Simon D. Levy"
+                        }
+                        developer { 
+                               name = "Wuerzebesser Christian"
+                        }
+                        developer { 
+                               name = "Şafak Ökmen"
+                        }
+                    } //licenses
+                    scm {
+                         connection = "scm:svn:https://svn.code.sf.net/p/jlinalg/code"
+                          developerConnection = "scm:svn:https://svn.code.sf.net/p/jlinalg/code"
+                         url = "https://sourceforge.net/projects/jlinalg/files/"
+                     } //scm
+              } //pom
+         } //mavenJava
+      } //publications
+    repositories {
+        mavenLocal()
+    }
+} //publishing
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 dependencies {
     testImplementation(
             'junit:junit:4.12',
-            'org.junit.jupiter:junit-jupiter-api:5.6.0-M1',
+            'org.junit.jupiter:junit-jupiter-api:5.6.0-M1',    
+            'org.junit.jupiter:junit-jupiter-params:5.6.0-M1',
             'org.junit.platform:junit-platform-runner:1.6.0-M1'
     )
     testRuntimeOnly(

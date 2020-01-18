@@ -30,7 +30,6 @@ import org.jlinalg.rational.RationalFactory;
  * 
  * @author Andreas Keilhauer, Simon D. Levy, Georg Thimm
  */
-
 public class Complex
 		extends
 		FieldElement<Complex>
@@ -275,7 +274,7 @@ public class Complex
 	/**
 	 * The class defining the complex number factory.
 	 */
-	@JLinAlgTypeProperties(isCompound = true)
+	@JLinAlgTypeProperties(isDiscreet = false, isExact = true, isCompound = false, hasNegativeValues = false)
 	public class ComplexFactory
 			extends
 			RingElementFactory<Complex>

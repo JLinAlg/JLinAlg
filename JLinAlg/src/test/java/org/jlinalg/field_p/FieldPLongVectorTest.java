@@ -16,25 +16,24 @@
  */
 package org.jlinalg.field_p;
 
-import java.util.Comparator;
+import org.jlinalg.testutil.VectorTestBase;
 
-class FieldPFactoryComparator<T>
-		implements
-		Comparator<Comparable<? super T>>
+/**
+ * @author Georg Thimm
+ */
+public class FieldPLongVectorTest
+		extends
+		VectorTestBase<FieldP>
 {
+	private FieldPAbstractFactory factory = FieldPFactoryMap.getFactory("113");
+
 	/**
-	 * If o1 and o2 are of the same class, return the value for a normal
-	 * comparison. Otherwise, assume that one object is an instance of {@code
-	 * java.lang.Long}, the other of {@code java.util.BigInteger} and that
-	 * instances of the later have always the larger values
+	 * @see org.jlinalg.testutil.TestBaseInterface#getFactory()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public int compare(Comparable<? super T> o1, Comparable<? super T> o2)
+	public FieldPAbstractFactory getFactory()
 	{
-		if (o1.getClass().equals(o2.getClass())) return o1.compareTo((T) o2);
-		if (o1 instanceof Long) return -1;
-		return 1;
+		return factory;
 	}
 
 }

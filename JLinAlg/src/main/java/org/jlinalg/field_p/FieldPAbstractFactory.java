@@ -16,8 +16,9 @@
  */
 package org.jlinalg.field_p;
 
+import org.jlinalg.FieldElementFactory;
+import org.jlinalg.IFieldElementFactory;
 import org.jlinalg.JLinAlgTypeProperties;
-import org.jlinalg.RingElementFactory;
 
 /**
  * This class defines the abstract class for actual implementations of FieldP.
@@ -27,24 +28,27 @@ import org.jlinalg.RingElementFactory;
  * 
  * @author Andreas Lochbihler, Georg Thimm
  */
-@JLinAlgTypeProperties(isExact = true, isDiscreet = true, hasNegativeValues = false)
-public abstract class FieldPAbstractFactory<RE extends FieldP<RE>>
+@JLinAlgTypeProperties(isExact = true, isDiscreet = true, hasNegativeValues = false, isCompound = false)
+public abstract class FieldPAbstractFactory
 		extends
-		RingElementFactory<RE>
+		FieldElementFactory<FieldP>
+		implements
+		IFieldElementFactory<FieldP>
 {
 	private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public RE[][] getArray(int rows, int columns)
+	public FieldP[][] getArray(int rows, int columns)
 	{
-		return (RE[][]) new FieldP[rows][columns];
+		return new FieldP[rows][columns];
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public RE[] getArray(int size)
+	public FieldP[] getArray(int size)
 	{
-		return (RE[]) new FieldP[size];
+		return new FieldP[size];
 	}
+
+	public abstract Number getFieldSize();
+
 }

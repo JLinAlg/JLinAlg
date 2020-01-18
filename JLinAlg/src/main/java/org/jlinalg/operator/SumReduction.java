@@ -16,6 +16,10 @@
  */
 package org.jlinalg.operator;
 
+import java.util.Iterator;
+import java.util.concurrent.atomic.AtomicReference;
+
+import org.jlinalg.IReducible;
 import org.jlinalg.IRingElement;
 
 /**
@@ -24,12 +28,19 @@ import org.jlinalg.IRingElement;
  * @author Simon Levy, Andreas Keilhauer
  */
 public class SumReduction<RE extends IRingElement<RE>>
-		extends Reduction<RE>
+		extends
+		Reduction<RE>
 {
-
 	@Override
-	public void track(RE currValue)
+	public RE apply(IReducible<RE> reducible)
 	{
-		reducedValue = reducedValue.add(currValue);
+		final Iterator<RE> iterator = reducible.iterator();
+		final RE firstElement = iterator.next();
+		final DyadicOperator<RE> operator = firstElement.getFactory()
+				.getAddOperator();
+		final AtomicReference<RE> result = new AtomicReference<>(firstElement);
+		iterator.forEachRemaining(
+				e -> result.set(operator.apply(e, result.get())));
+		return result.get();
 	}
 }

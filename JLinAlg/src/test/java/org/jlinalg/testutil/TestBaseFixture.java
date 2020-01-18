@@ -128,17 +128,33 @@ public abstract class TestBaseFixture<RE extends IRingElement<RE>>
 	 * 
 	 * @return true if it is depreciated.
 	 */
+	@SuppressWarnings("null")
 	public boolean methodIsDepreciated(Object object, String name,
 			Class<?>[] argTypes)
 	{
 		try {
-			Method method;
-			method = object.getClass().getMethod(name, argTypes);
+			Method method = null;
 
-			Deprecated annotation = method.getAnnotation(Deprecated.class);
-			// System.err.println(getFactory().getClass().getName() + " "
-			// + method.toGenericString() + " " + annotation);
-			return annotation != null;
+			Method[] methods = object.getClass().getMethods();
+			for (Method m : methods) {
+				if (m.getName().equals(name)
+						&& m.getParameterCount() == (argTypes == null ? 0
+								: argTypes.length))
+				{
+
+					if (method != null) {
+						if (method.getReturnType()
+								.isAssignableFrom(m.getReturnType()))
+						{
+							method = m;
+						}
+					}
+					else {
+						method = m;
+					}
+				}
+			}
+			return method.getAnnotation(Deprecated.class) != null;
 		} catch (Throwable e) {
 			fail("Exception " + e.getClass().getName() + ": " + e.getMessage()
 					+ " occured in for " + getFactory().getClass().getName()

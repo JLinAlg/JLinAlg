@@ -22,6 +22,7 @@ import java.util.Random;
 import org.jlinalg.operator.DyadicOperator;
 import org.jlinalg.operator.FEComparator;
 import org.jlinalg.operator.MonadicOperator;
+import org.jlinalg.operator.Reduction;
 
 /**
  * The interface defining the factory for ring elements.
@@ -159,6 +160,15 @@ public interface IRingElementFactory<RE extends IRingElement<RE>>
 	public Matrix<RE> convert(final Matrix<? extends IRingElement<?>> from);
 
 	/**
+	 * convert matrices
+	 * 
+	 * @param from
+	 *            the matrix to be converted
+	 * @return a matrix of type <RE>
+	 */
+	public Matrix<RE> convert(final String[][] from);
+
+	/**
 	 * The default random number generator for use in .
 	 */
 	static Random random = new Random();
@@ -192,4 +202,10 @@ public interface IRingElementFactory<RE extends IRingElement<RE>>
 	public abstract FEComparator<RE> getEqualToComparator();
 
 	public abstract DyadicOperator<RE> getOrOperator();
+
+	public abstract Reduction<RE> getMaxOperator();
+
+	public abstract Reduction<RE> getSumOperator();
+
+	public abstract Reduction<RE> getMinOperator();
 }

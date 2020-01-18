@@ -37,9 +37,6 @@ public final class RationalFunctionFactoryMap<RE extends IRingElement<RE>>
 		Hashtable<IRingElementFactory<RE>, RationalFunctionFactory<RE>>
 {
 
-	/*
-	 * this is a singleton class
-	 */
 	@SuppressWarnings("rawtypes")
 	private final static RationalFunctionFactoryMap<?> INSTANCE = new RationalFunctionFactoryMap();
 
@@ -61,7 +58,7 @@ public final class RationalFunctionFactoryMap<RE extends IRingElement<RE>>
 	public static <RE extends IRingElement<RE>> RationalFunctionFactory<RE> getFactory(
 			RE value)
 	{
-		return getFactory(value.getFactory());
+		return RationalFunctionFactoryMap.getFactory(value.getFactory());
 	}
 
 	@SuppressWarnings({

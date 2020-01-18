@@ -18,6 +18,7 @@ package org.jlinalg.operator;
 
 import org.jlinalg.IRingElement;
 import org.jlinalg.IRingElementFactory;
+import org.jlinalg.Matrix;
 import org.jlinalg.Vector;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,8 +31,11 @@ import org.junit.runners.Parameterized;
  */
 @RunWith(Parameterized.class)
 public class SumReductionTest<RE extends IRingElement<RE>>
-		extends OperatorTestBase<RE>
+		extends
+		OperatorTestBase<RE>
 {
+
+	private final SumReduction<RE> red = new SumReduction<>();
 
 	/**
 	 * Constructor: used by the test suite runner.
@@ -42,12 +46,38 @@ public class SumReductionTest<RE extends IRingElement<RE>>
 	}
 
 	@Test
-	public void test()
+	public void testMethod()
 	{
 		Vector<RE> v = new Vector<>(s_1to5, getFactory());
-		SumReduction<RE> red = new SumReduction<>();
-		RE result = v.reduce(red);
+		RE result = v.apply(red);
 		assertSimilar(getFactory().get("15"), result, "0.000001");
+
+	}
+
+	@Test
+	public void testVectorOperator()
+	{
+		Vector<RE> v = new Vector<>(s_1to5, getFactory());
+		RE result = red.apply(v);
+		assertSimilar(getFactory().get("15"), result, "0.000001");
+	}
+
+	@Test
+	public void testMatrixOperator()
+	{
+		Matrix<RE> m = getFactory().convert(new String[][] {
+				{
+						"-1", "5"
+				}, {
+						"2", "2"
+				}, {
+						"0", "4"
+				}
+		});
+
+		RE result = red.apply(m);
+
+		assertSimilar(getFactory().get("12"), result, "0.000001");
 	}
 
 }

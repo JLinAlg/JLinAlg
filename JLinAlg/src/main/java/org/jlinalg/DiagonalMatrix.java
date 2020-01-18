@@ -25,7 +25,8 @@ package org.jlinalg;
  */
 
 class DiagonalMatrix<RE extends IRingElement<RE>>
-		extends Matrix<RE>
+		extends
+		Matrix<RE>
 {
 
 	/**
@@ -44,8 +45,8 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 	 */
 	public DiagonalMatrix(RE[] diagElements) throws InvalidOperationException
 	{
-		super(diagElements.length, diagElements.length, diagElements[0]
-				.getFactory());
+		super(diagElements.length, diagElements.length,
+				diagElements[0].getFactory());
 
 		int arraysize = diagElements.length;
 
@@ -130,9 +131,8 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 	public void set(int rowIndex, int colIndex, RE newEntry)
 			throws InvalidOperationException
 	{
-		if (rowIndex != colIndex)
-			throw new InvalidOperationException(
-					"Tried to set non-diagonal entry.");
+		if (rowIndex != colIndex) throw new InvalidOperationException(
+				"Tried to set non-diagonal entry.");
 		setDiagElement(rowIndex, newEntry);
 	}
 
@@ -216,9 +216,8 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 
 		int size = this.numOfRows;
 
-		if (size != vectorsize)
-			throw new InvalidOperationException(
-					"Tried to set a row with a voctor of invalid size.");
+		if (size != vectorsize) throw new InvalidOperationException(
+				"Tried to set a row with a voctor of invalid size.");
 
 		for (int i = 1; i <= vectorsize; i++) {
 			if (i != rcIndex) {
@@ -296,8 +295,8 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 			throw new InvalidOperationException("Tried to subtract \n"
 					+ diagMatrix + "from \n" + this + "No correct format!");
 
-		DiagonalMatrix<RE> tmp = new DiagonalMatrix<>(this.numOfRows, FACTORY
-				.zero());
+		DiagonalMatrix<RE> tmp = new DiagonalMatrix<>(this.numOfRows,
+				FACTORY.zero());
 
 		for (int i = 1; i <= tmp.numOfRows; i++)
 			tmp.set(i, i, this.get(i, i).subtract(diagMatrix.get(i, i)));
@@ -344,8 +343,8 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 	public DiagonalMatrix<RE> multiply(RE scalar)
 	{
 		int size = this.getRows();
-		DiagonalMatrix<RE> diagMatrix = new DiagonalMatrix<>(size, FACTORY
-				.zero());
+		DiagonalMatrix<RE> diagMatrix = new DiagonalMatrix<>(size,
+				FACTORY.zero());
 
 		for (int i = 0; i < size; i++)
 			diagMatrix.entries[i][i] = this.entries[i][i].multiply(scalar);
@@ -380,7 +379,8 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 	}
 
 	/**
-	 * Calculate the product of this DiagonalMatrix and another Matrix.
+	 * Calculate the element-wise product of this DiagonalMatrix and another
+	 * Matrix.
 	 * Multiplication from right
 	 * 
 	 * @param matrix
@@ -389,7 +389,7 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 	 * @return Matrix
 	 */
 	@Override
-	public Matrix<RE> multiply(Matrix<RE> matrix)
+	public Matrix<RE> elementWiseProduct(Matrix<RE> matrix)
 			throws InvalidOperationException
 	{
 
@@ -399,13 +399,13 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 
 		}
 
-		Matrix<RE> resultMatrix = new Matrix<>(this.getRows(), matrix
-				.getCols(), FACTORY);
+		Matrix<RE> resultMatrix = new Matrix<>(this.getRows(), matrix.getCols(),
+				FACTORY);
 
 		for (int i = 1; i <= matrix.numOfRows; i++)
 			for (int j = 1; j <= matrix.numOfCols; j++)
-				resultMatrix.set(i, j, this.entries[i - 1][i - 1]
-						.multiply(matrix.get(i, j)));
+				resultMatrix.set(i, j,
+						this.entries[i - 1][i - 1].multiply(matrix.get(i, j)));
 
 		return resultMatrix;
 
@@ -434,8 +434,8 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 				FACTORY.zero());
 
 		for (int i = 1; i <= diagMatrix.numOfRows; i++)
-			result.setDiagElement(i, this.entries[i - 1][i - 1]
-					.multiply(diagMatrix.get(i, i)));
+			result.setDiagElement(i,
+					this.entries[i - 1][i - 1].multiply(diagMatrix.get(i, i)));
 
 		return result;
 	}
@@ -482,12 +482,11 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 	 *                being diagonal.
 	 */
 	@Override
-	public void swapRows(@SuppressWarnings("unused") int rowIndex1,
-			@SuppressWarnings("unused") int rowIndex2)
+	public void swapRows(int rowIndex1, int rowIndex2)
 			throws InvalidOperationException
 	{
-		throw new InvalidOperationException(
-				"swapRows is not allowed in diagonal matrices.");
+		throw new InvalidOperationException("Cannot swap rows " + rowIndex1
+				+ " and " + rowIndex2 + " in a diagonal matrix.");
 	}
 
 	/**
@@ -496,13 +495,12 @@ class DiagonalMatrix<RE extends IRingElement<RE>>
 	 *                being diagonal.
 	 */
 	@Override
-	public void swapCols(@SuppressWarnings("unused") int colIndex1,
-			@SuppressWarnings("unused") int colIndex2)
+	public void swapCols(int colIndex1, int colIndex2)
 			throws InvalidOperationException
 	{
 
-		throw new InvalidOperationException(
-				"swapCols is not allowed in diagonal matrices.");
+		throw new InvalidOperationException("Cannot swap columns " + colIndex1
+				+ " and " + colIndex2 + " in a diagonal matrix.");
 	}
 
 	/**

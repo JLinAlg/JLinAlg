@@ -16,6 +16,8 @@
  */
 package org.jlinalg.operator;
 
+import java.util.function.BinaryOperator;
+
 import org.jlinalg.IRingElement;
 
 /**
@@ -29,15 +31,8 @@ import org.jlinalg.IRingElement;
  */
 
 public interface DyadicOperator<RE extends IRingElement<RE>>
+		extends
+		BinaryOperator<RE>
 {
-	/**
-	 * Applies the function to two elements.
-	 * 
-	 * @param x
-	 *            the value of one element
-	 * @param y
-	 *            the value of the other element
-	 * @return the result of applying the function to <tt>x</tt> and <tt>y</tt>
-	 */
-	public RE apply(RE x, RE y);
+
 }

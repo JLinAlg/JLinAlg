@@ -25,7 +25,6 @@ import java.util.Collection;
 
 import org.jlinalg.IRingElement;
 import org.jlinalg.IRingElementFactory;
-import org.jlinalg.field_p.FieldPFactoryMap;
 import org.jlinalg.testutil.RingElementTestBase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +36,8 @@ import org.junit.runners.Parameterized.Parameters;
  */
 @RunWith(value = Parameterized.class)
 public class FieldPTest<RE extends IRingElement<RE>>
-		extends RingElementTestBase<RE>
+		extends
+		RingElementTestBase<RE>
 {
 	/**
 	 * Two values from which the fixture is created: a small to test
@@ -48,9 +48,9 @@ public class FieldPTest<RE extends IRingElement<RE>>
 	{
 		Object[][] data = {
 				{
-					"113"
+						"113"
 				}, {
-					"2932031007403"
+						"2932031007403"
 				}
 		};
 

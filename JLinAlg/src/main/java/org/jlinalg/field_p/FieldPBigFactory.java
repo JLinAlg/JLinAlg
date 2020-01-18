@@ -26,7 +26,7 @@ import org.jlinalg.InvalidOperationException;
  */
 public class FieldPBigFactory
 		extends
-		FieldPAbstractFactory<FieldPBig>
+		FieldPAbstractFactory
 {
 	private static final long serialVersionUID = 1L;
 
@@ -39,19 +39,19 @@ public class FieldPBigFactory
 	{
 		if (this == obj) return true;
 		if (!(obj instanceof FieldPBigFactory)) return false;
-		return p.equals(((FieldPBigFactory) obj).p);
+		return fieldSize.equals(((FieldPBigFactory) obj).fieldSize);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return p.hashCode();
+		return fieldSize.hashCode();
 	}
 
 	/**
 	 * The number of elements in Fp. Must be a prime.
 	 */
-	final BigInteger p;
+	private final BigInteger fieldSize;
 
 	/**
 	 * the zero element
@@ -78,7 +78,7 @@ public class FieldPBigFactory
 	 */
 	public FieldPBigFactory(BigInteger p)
 	{
-		this.p = p;
+		fieldSize = p;
 		ZERO = new FieldPBig(BigInteger.ZERO, this);
 		ONE = new FieldPBig(BigInteger.ONE, this);
 		M_ONE = new FieldPBig(p.subtract(BigInteger.ONE), this);
@@ -122,8 +122,8 @@ public class FieldPBigFactory
 	@Override
 	public FieldPBig randomValue()
 	{
-		BigInteger r = new BigDecimal(p).multiply(new BigDecimal(Math.random()))
-				.toBigInteger();
+		BigInteger r = new BigDecimal(fieldSize)
+				.multiply(new BigDecimal(Math.random())).toBigInteger();
 		return new FieldPBig(r, this);
 	}
 
@@ -137,21 +137,22 @@ public class FieldPBigFactory
 			if (o.equals(BigInteger.ZERO)) return ZERO;
 			if (o.equals(BigInteger.ONE)) return ONE;
 			if (((BigInteger) o).equals(M_ONE.value)) return M_ONE;
-			return new FieldPBig(((BigInteger) o).mod(p), this);
+			return new FieldPBig(((BigInteger) o).mod(fieldSize), this);
 		}
 		if (o instanceof Number) {
 			Number n = (Number) o;
 			if (n.longValue() == 1) return ONE;
 			if (n.longValue() == -1) return M_ONE;
 			if (n.longValue() == 0) return ZERO;
-			return new FieldPBig(BigInteger.valueOf(n.longValue()).mod(p),
-					this);
+			return new FieldPBig(
+					BigInteger.valueOf(n.longValue()).mod(fieldSize), this);
 		}
 		if (o instanceof String) {
 			if (o.equals("0")) return ZERO;
 			if (o.equals("1")) return ONE;
 			if (o.equals("-1")) return M_ONE;
-			return new FieldPBig(new BigInteger((String) o).mod(p), this);
+			return new FieldPBig(new BigInteger((String) o).mod(fieldSize),
+					this);
 		}
 		return get(o.toString());
 	}
@@ -162,7 +163,7 @@ public class FieldPBigFactory
 	@Override
 	public FieldPBig get(int i)
 	{
-		return new FieldPBig(BigInteger.valueOf(i).mod(p), this);
+		return new FieldPBig(BigInteger.valueOf(i).mod(fieldSize), this);
 	}
 
 	/**
@@ -171,7 +172,7 @@ public class FieldPBigFactory
 	@Override
 	public FieldPBig get(double d)
 	{
-		return new FieldPBig(BigInteger.valueOf((long) d).mod(p), this);
+		return new FieldPBig(BigInteger.valueOf((long) d).mod(fieldSize), this);
 	}
 
 	/**
@@ -180,7 +181,7 @@ public class FieldPBigFactory
 	@Override
 	public FieldPBig get(long d)
 	{
-		return new FieldPBig(BigInteger.valueOf(d).mod(p), this);
+		return new FieldPBig(BigInteger.valueOf(d).mod(fieldSize), this);
 	}
 
 	/**
@@ -196,23 +197,27 @@ public class FieldPBigFactory
 	}
 
 	/**
-	 * @throws UnsupportedOperationException
-	 */
-	@Override
-	@Deprecated
-	public FieldPBig randomValue(@SuppressWarnings("unused") FieldPBig min,
-			@SuppressWarnings("unused") FieldPBig max)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
 	 * @return a description of the factory
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString()
 	{
-		return "Factory: " + getClass().getName() + " p=" + p;
+		return "Factory: " + getClass().getName() + " p=" + fieldSize;
+	}
+
+	@SuppressWarnings("unused")
+	@Override
+	@Deprecated
+	public FieldP randomValue(FieldP min, FieldP max)
+	{
+		throw new InvalidOperationException(
+				"randomValue(IRingElement min, IRingElement max) is not implemented.");
+	}
+
+	@Override
+	public BigInteger getFieldSize()
+	{
+		return fieldSize;
 	}
 }
