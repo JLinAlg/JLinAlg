@@ -27,6 +27,7 @@ import org.jlinalg.IRingElement;
 import org.jlinalg.IRingElementFactory;
 import org.jlinalg.Vector;
 import org.jlinalg.doublewrapper.DoubleWrapper;
+import org.jlinalg.doublewrapper.DoubleWrapperFactory;
 import org.jlinalg.testutil.RingElementTestBase;
 import org.junit.Test;
 
@@ -118,8 +119,8 @@ public class RationalTest
 	public void testCompareToFieldsExceptions()
 	{
 		Rational one = rFac.get(1, 1);
-		DoubleWrapper done = new DoubleWrapper(1);
-		((IRingElement) one).compareTo(done); // force the use of compare.
+		DoubleWrapper dOne = DoubleWrapperFactory.INSTANCE.one();
+		((IRingElement) one).compareTo(dOne); // force the use of compare.
 	}
 
 	/**

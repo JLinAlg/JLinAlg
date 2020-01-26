@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 import org.jlinalg.doublewrapper.DoubleWrapper;
+import org.jlinalg.doublewrapper.DoubleWrapperFactory;
 import org.junit.jupiter.api.Test;
 
 public class SerializationTest
@@ -30,7 +31,8 @@ public class SerializationTest
 	public void serializeVector() throws IOException
 	{
 		Vector<DoubleWrapper> testVector = new Vector<>(new DoubleWrapper[] {
-				new DoubleWrapper(12), new DoubleWrapper(12)
+				DoubleWrapperFactory.INSTANCE.get(12),
+				DoubleWrapperFactory.INSTANCE.get(12)
 		});
 		ObjectOutputStream out = new ObjectOutputStream(
 				new ByteArrayOutputStream());

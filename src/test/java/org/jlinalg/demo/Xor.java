@@ -20,6 +20,7 @@ import org.jlinalg.LinAlgFactory;
 import org.jlinalg.Matrix;
 import org.jlinalg.Vector;
 import org.jlinalg.doublewrapper.DoubleWrapper;
+import org.jlinalg.doublewrapper.DoubleWrapperFactory;
 import org.jlinalg.operator.MonadicOperator;
 
 /**
@@ -151,10 +152,10 @@ public class Xor
 		// space savers
 		SigmoidOperator sgop = new SigmoidOperator();
 		SigdervOperator sdop = new SigdervOperator();
-		DoubleWrapper eta = new DoubleWrapper(ETA);
-		DoubleWrapper mu = new DoubleWrapper(MU);
-		DoubleWrapper npatd = new DoubleWrapper(npat);
-		DoubleWrapper errd = new DoubleWrapper(npat * nout);
+		DoubleWrapper eta = DoubleWrapperFactory.INSTANCE.get(ETA);
+		DoubleWrapper mu = DoubleWrapperFactory.INSTANCE.get(MU);
+		DoubleWrapper npatd = DoubleWrapperFactory.INSTANCE.get(npat);
+		DoubleWrapper errd = DoubleWrapperFactory.INSTANCE.get(npat * nout);
 
 		// initialize momentum terms for weight, bias changes
 		Matrix<DoubleWrapper> dwih1 = df.zeros(ninp, NHID);
@@ -261,7 +262,7 @@ public class Xor
 		public DoubleWrapper apply(DoubleWrapper x)
 		{
 			double dx = x.getValue();
-			return new DoubleWrapper(1 / (1 + Math.exp(-dx)));
+			return DoubleWrapperFactory.INSTANCE.get(1 / (1 + Math.exp(-dx)));
 		}
 	}
 
@@ -276,7 +277,7 @@ public class Xor
 		public DoubleWrapper apply(DoubleWrapper x)
 		{
 			double dx = (x).getValue();
-			return new DoubleWrapper(dx * (1 - dx));
+			return DoubleWrapperFactory.INSTANCE.get(dx * (1 - dx));
 		}
 	}
 
