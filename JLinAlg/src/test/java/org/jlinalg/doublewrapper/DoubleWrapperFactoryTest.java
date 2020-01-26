@@ -23,7 +23,6 @@ import org.jlinalg.InvalidOperationException;
 import org.jlinalg.LinAlgFactory;
 import org.jlinalg.Matrix;
 import org.jlinalg.Vector;
-import org.jlinalg.doublewrapper.DoubleWrapper.DoubleWrapperFactory;
 import org.jlinalg.rational.Rational;
 import org.jlinalg.rational.RationalFactory;
 import org.jlinalg.testutil.FactoryTestBase;
@@ -52,7 +51,7 @@ public class DoubleWrapperFactoryTest
 
 	/**
 	 * Test
-	 * {@link org.jlinalg.doublewrapper.DoubleWrapper.DoubleWrapperFactory#get(Object)}
+	 * {@link org.jlinalg.doublewrapper.DoubleWrapperFactory#get(Object)}
 	 */
 	@Test
 	public void get() throws Exception

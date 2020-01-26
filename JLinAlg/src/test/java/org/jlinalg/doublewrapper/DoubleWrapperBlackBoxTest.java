@@ -20,7 +20,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.jlinalg.LinAlgFactory;
 import org.jlinalg.Matrix;
-import org.jlinalg.doublewrapper.DoubleWrapper.DoubleWrapperFactory;
 import org.jlinalg.rational.Rational;
 import org.jlinalg.testutil.RandomNumberList;
 import org.junit.Test;

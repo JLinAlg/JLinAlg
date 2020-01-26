@@ -26,6 +26,7 @@ import java.math.BigInteger;
 import org.jlinalg.IRingElement;
 import org.jlinalg.Vector;
 import org.jlinalg.doublewrapper.DoubleWrapper;
+import org.jlinalg.doublewrapper.DoubleWrapperFactory;
 import org.junit.Test;
 
 /**
@@ -167,7 +168,7 @@ public class FastRationalTest
 	public void testCompareToFieldsExceptions()
 	{
 		FastRational one = rFac.get(1, 1);
-		DoubleWrapper done = new DoubleWrapper(1);
+		DoubleWrapper done = DoubleWrapperFactory.INSTANCE.one();
 		((IRingElement) one).compareTo(done); // force the use of compare.
 	}
 

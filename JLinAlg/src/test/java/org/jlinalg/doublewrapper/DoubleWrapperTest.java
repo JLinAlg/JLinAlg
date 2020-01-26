@@ -25,7 +25,6 @@ import org.jlinalg.InvalidOperationException;
 import org.jlinalg.LinAlgFactory;
 import org.jlinalg.Matrix;
 import org.jlinalg.Vector;
-import org.jlinalg.doublewrapper.DoubleWrapper.DoubleWrapperFactory;
 import org.jlinalg.rational.Rational;
 import org.jlinalg.testutil.RandomNumberList;
 import org.jlinalg.testutil.RingElementTestBase;

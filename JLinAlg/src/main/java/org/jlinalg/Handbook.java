@@ -18,6 +18,7 @@ package org.jlinalg;
 
 import org.jlinalg.complex.Complex;
 import org.jlinalg.doublewrapper.DoubleWrapper;
+import org.jlinalg.doublewrapper.DoubleWrapperFactory;
 
 /**
  * This file contains Java versions of the algorithms HQR, ELMHES, and BALANCE,
@@ -135,8 +136,8 @@ class Handbook
 	 * @param n
 	 * @param macheps
 	 */
-	protected static void hqr(double[][] h, double[] wr, double[] wi,
-			int[] cnt, int n, double macheps)
+	protected static void hqr(double[][] h, double[] wr, double[] wi, int[] cnt,
+			int n, double macheps)
 	{
 
 		double t = 0;
@@ -229,9 +230,9 @@ class Handbook
 					r = r / s;
 					if (m == l) break;
 					if (abs(get(h, m, m - 1)) * (abs(q) + abs(r)) <= macheps
-							* abs(p)
-							* (abs(get(h, m - 1, m - 1)) + abs(z) + abs(get(h,
-									m + 1, m + 1)))) break; // goto cont2
+							* abs(p) * (abs(get(h, m - 1, m - 1)) + abs(z)
+									+ abs(get(h, m + 1, m + 1))))
+						break; // goto cont2
 				}
 
 				// cont2
@@ -689,8 +690,8 @@ class Handbook
 	 * @throws InvalidOperationException
 	 *             if the index is out of bounds
 	 */
-	public static <RE extends IRingElement<RE>> double doubleValue(
-			Vector<RE> x, int i) throws InvalidOperationException
+	public static <RE extends IRingElement<RE>> double doubleValue(Vector<RE> x,
+			int i) throws InvalidOperationException
 	{
 		check_double(x);
 		return unwrap(x.getEntry(i));
@@ -712,8 +713,8 @@ class Handbook
 	 * @throws InvalidOperationException
 	 *             if either index is out of bounds
 	 */
-	public static <RE extends IRingElement<RE>> double doubleValue(
-			Matrix<RE> a, int i, int j) throws InvalidOperationException
+	public static <RE extends IRingElement<RE>> double doubleValue(Matrix<RE> a,
+			int i, int j) throws InvalidOperationException
 	{
 		check_double(a);
 		return unwrap(a.get(i, j));
@@ -749,7 +750,7 @@ class Handbook
 	private static <RE extends IRingElement<RE>> void check_double(RE value)
 			throws InvalidOperationException
 	{
-		check_type(value, new DoubleWrapper(0), "double");
+		check_type(value, DoubleWrapperFactory.INSTANCE.zero(), "double");
 	}
 
 	/**
@@ -770,8 +771,8 @@ class Handbook
 	 * @throws InvalidOperationException
 	 *             if v does not contain instances of Complex.
 	 */
-	private static <RE extends IRingElement<RE>> void check_complex(Vector<RE> v)
-			throws InvalidOperationException
+	private static <RE extends IRingElement<RE>> void check_complex(
+			Vector<RE> v) throws InvalidOperationException
 	{
 		check_complex(v.getEntry(1));
 	}
@@ -802,8 +803,7 @@ class Handbook
 	 *             if the types differ.
 	 */
 	private static <RE extends IRingElement<RE>> void check_type(RE value,
-			IRingElement<?> check, String name)
-			throws InvalidOperationException
+			IRingElement<?> check, String name) throws InvalidOperationException
 	{
 		if (!value.getClass().equals(check.getClass())) {
 			String err = "Matrix or Vector doesn't contain " + name;

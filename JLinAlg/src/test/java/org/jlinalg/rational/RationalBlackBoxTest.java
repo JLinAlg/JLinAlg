@@ -23,7 +23,7 @@ import org.jlinalg.LinAlgFactory;
 import org.jlinalg.Matrix;
 import org.jlinalg.Vector;
 import org.jlinalg.doublewrapper.DoubleWrapper;
-import org.jlinalg.doublewrapper.DoubleWrapper.DoubleWrapperFactory;
+import org.jlinalg.doublewrapper.DoubleWrapperFactory;
 import org.jlinalg.testutil.RandomNumberList;
 import org.junit.Test;
 

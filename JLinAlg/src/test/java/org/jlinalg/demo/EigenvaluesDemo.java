@@ -18,6 +18,7 @@ package org.jlinalg.demo;
 
 import org.jlinalg.Matrix;
 import org.jlinalg.doublewrapper.DoubleWrapper;
+import org.jlinalg.doublewrapper.DoubleWrapperFactory;
 
 /**
  * @author Andreas Keilhauer, Georg Thimm
@@ -34,22 +35,20 @@ public class EigenvaluesDemo
 	{
 		// create double values for the matrix
 		DoubleWrapper d0, d1, d2, d3;
-		d0 = new DoubleWrapper(0.0);
-		d1 = new DoubleWrapper(1.0);
-		d2 = new DoubleWrapper(2.0);
-		d3 = new DoubleWrapper(3.0);
+		DoubleWrapperFactory f = DoubleWrapperFactory.INSTANCE;
+		d0 = f.get(0.0);
+		d1 = f.get(1.0);
+		d2 = f.get(2.0);
+		d3 = f.get(3.0);
 
 		// create a diagonal matrix
 		Matrix<DoubleWrapper> diagonalMatrix = new Matrix<>(
-				new DoubleWrapper[][]
-				{
+				new DoubleWrapper[][] {
 						{
 								d1, d0, d0
-						},
-						{
+						}, {
 								d0, d2, d0
-						},
-						{
+						}, {
 								d0, d0, d3
 						}
 				});
@@ -58,16 +57,13 @@ public class EigenvaluesDemo
 		System.out.println("All eigenvalues: " + diagonalMatrix.eig());
 
 		// In general, the eigenvalues of a real matrix can be complex:
-		Matrix<DoubleWrapper> m = new Matrix<>(
-				new DoubleWrapper[][]
+		Matrix<DoubleWrapper> m = new Matrix<>(new DoubleWrapper[][] {
 				{
-						{
-								d1, d1.negate()
-						},
-						{
-								d1, d1
-						}
-				});
+						d1, d1.negate()
+				}, {
+						d1, d1
+				}
+		});
 		System.out.println("New matrix: \n" + m);
 		System.out.println("All eigenvalues: " + m.eig());
 
