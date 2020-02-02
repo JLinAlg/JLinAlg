@@ -151,6 +151,15 @@ public interface IRingElementFactory<RE extends IRingElement<RE>>
 	public Vector<RE> convert(final Vector<? extends IRingElement<?>> from);
 
 	/**
+	 * convert vectors to the type represented by this factory.
+	 * 
+	 * @param from
+	 *            the vector to be converted
+	 * @return a vector of type <RE>
+	 */
+	public Vector<RE> convert(final Object[] from);
+
+	/**
 	 * convert matrices
 	 * 
 	 * @param from
@@ -166,7 +175,7 @@ public interface IRingElementFactory<RE extends IRingElement<RE>>
 	 *            the matrix to be converted
 	 * @return a matrix of type <RE>
 	 */
-	public Matrix<RE> convert(final String[][] from);
+	public Matrix<RE> convert(final Object[][] from);
 
 	/**
 	 * The default random number generator for use in .
