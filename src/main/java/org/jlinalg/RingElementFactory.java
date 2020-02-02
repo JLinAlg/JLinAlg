@@ -188,7 +188,7 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 	 *         index is the row.
 	 */
 	@Override
-	public Matrix<RE> convert(final String[][] from)
+	public Matrix<RE> convert(final Object[][] from)
 	{
 		Matrix<RE> to = new Matrix<>(from.length, from[0].length, this);
 		for (int row = 0; row < from[0].length; row++) {
@@ -212,6 +212,23 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 		Vector<RE> to = new Vector<>(from.length(), this);
 		for (int row = 0; row < from.length(); row++) {
 			to.entries[row] = this.get(from.entries[row]);
+		}
+		return to;
+	}
+
+	/**
+	 * convert vectors
+	 * 
+	 * @param from
+	 *            the vector to be converted
+	 * @return a vector of type <RE>
+	 */
+	@Override
+	public Vector<RE> convert(final Object[] from)
+	{
+		Vector<RE> to = new Vector<>(from.length, this);
+		for (int i = 0; i < from.length; i++) {
+			to.entries[i] = this.get(from[i]);
 		}
 		return to;
 	}

@@ -17,6 +17,8 @@
 package org.jlinalg.doublewrapper;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.jlinalg.IRingElementFactory;
 import org.jlinalg.InvalidOperationException;
@@ -114,6 +116,22 @@ public class DoubleWrapperFactoryTest
 						- r.doubleValue()) <= (d.abs()).doubleValue() / 1000);
 			}
 		}
+	}
+
+	@Test
+	public void testConvertVector()
+	{
+		final double d = 3187;
+		Object[] in = new Object[] {
+				d, Double.toString(d), (int) d
+		};
+		Vector<DoubleWrapper> v = fac.convert(in);
+		assertEquals(in.length, v.length(), "number of elements is wrong");
+		assertAll(() -> {
+			for (int i = 0; i < v.length(); i++) {
+				assertEquals(d, v.getEntry(i + 1).value, "i=" + i);
+			}
+		});
 	}
 
 	/**
