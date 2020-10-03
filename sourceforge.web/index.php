@@ -99,7 +99,7 @@ It is licensed under the <a href="http://www.gnu.org/copyleft/lgpl.html"><strong
 <h2>Getting Started</h2>
 <ol>
 <li>Go to the <a href="#Download">Download</a> section and get the latest version of JLinAlg.</li>
-<li>Set up your environment (We recommend to use <a href="http://www.eclipse.org">Eclipse</a> in any of the following two cases):
+<li>Set up your environment (We recommend to use <a href="http://www.eclipse.org">Eclipse 2020-09</a> in any of the following two cases):
    <ul>
       <li>If you want to use JLinAlg as a library, use jlinalg-v0.xx.jar contained in the Zip-file. 
           In Eclipse you can just add it to your project by going to Project -> Properties -> 

@@ -16,13 +16,11 @@
  */
 package org.jlinalg.testutil;
 
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -100,7 +98,6 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 		assertEquals(vec_0_1_9.length, vec.length());
 		for (int i = 1; i <= vec.length(); i++) {
 			assertNotNull(vec.getEntry(i));
-			assertThat(vec.getEntry(i), instanceOf(IRingElement.class));
 		}
 	}
 

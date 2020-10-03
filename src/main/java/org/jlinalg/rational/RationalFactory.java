@@ -19,6 +19,7 @@ package org.jlinalg.rational;
 
 import java.math.BigInteger;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jlinalg.InvalidOperationException;
 import org.jlinalg.JLinAlgTypeProperties;
@@ -26,7 +27,7 @@ import org.jlinalg.RingElementFactory;
 import org.jlinalg.doublewrapper.DoubleWrapper;
 
 /**
- * The factory for Rationals
+ * The factory for rationals
  * 
  * @author Georg Thimm
  */
@@ -37,6 +38,20 @@ public class RationalFactory
 {
 
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * used in {@link #get(String)} to parse numbers in exponential
+	 * denotation.
+	 */
+	private final static Pattern expPattern = Pattern
+			.compile("([+-]?\\d+)\\.?(\\d*)([eE]([-+]?\\d+))?");
+
+	/**
+	 * used in {@link #get(String)} to parse numbers in fractional
+	 * denotation.
+	 */
+	private final static Pattern fracPattern = Pattern
+			.compile("([+-]?\\d+)/([-+]?\\d+)");
 
 	/**
 	 * this should only be used by {@link Rational} to create a single
@@ -104,7 +119,7 @@ public class RationalFactory
 		if (o instanceof String) {
 			try {
 				String number = (String) o;
-				Matcher m = Rational.expPattern.matcher(number);
+				Matcher m = expPattern.matcher(number);
 				BigInteger numerator;
 				BigInteger denominator;
 				if (m.matches()) {
@@ -130,7 +145,7 @@ public class RationalFactory
 
 				}
 				// consider fractional notation
-				m = Rational.fracPattern.matcher(number);
+				m = fracPattern.matcher(number);
 				if (m.matches()) {
 					numerator = new BigInteger(m.group(1));
 					denominator = new BigInteger(m.group(2));

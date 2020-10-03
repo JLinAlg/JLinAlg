@@ -1,8 +1,8 @@
- 
-plugins {
+ plugins {
+    id 'java'
     id 'java-library'
     id 'maven-publish'
-     id 'eclipse' // optional (to generate Eclipse project files) 
+    id 'eclipse' // optional (to generate Eclipse project files) 
 }
 
 ant.importBuild 'sourceforge.web/build.xml'
@@ -13,24 +13,25 @@ repositories {
     jcenter()
     mavenCentral()
 }  
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
             artifactId 'jlinalg'
             groupId 'org.jlinalg'
-            version '0.9'
+            version '0.9.1'
             pom {
                 name = "JLinAlg"
                 description = "JLinAlg is an open source and easy to use Java library for linear algebra."
                 url = "https://sourceforge.net/p/jlinalg/wiki/Home/"
-                licenses {
-                        license {
-                            name = " GNU LESSER GENERAL PUBLIC LICENSE;  Version 3, 29 June 2007"
-                            url="http://www.gnu.org/copyleft/lgpl.html"
-                      }
-                 } //licenses
-                 developers {
+               licenses {
+                     license {
+                         name = " GNU LESSER GENERAL PUBLIC LICENSE;  Version 3, 29 June 2007"
+                           url="http://www.gnu.org/copyleft/lgpl.html"
+                    }
+                } //licenses
+                developers {
                       developer { 
                            name = "Georg Thimm"
                        }
@@ -49,12 +50,12 @@ publishing {
                         developer { 
                                name = "Şafak Ökmen"
                         }
-                    } //licenses
+                    }
                     scm {
                          connection = "scm:svn:https://svn.code.sf.net/p/jlinalg/code"
                           developerConnection = "scm:svn:https://svn.code.sf.net/p/jlinalg/code"
                          url = "https://sourceforge.net/projects/jlinalg/files/"
-                     } //scm
+                     } //scm                    
               } //pom
          } //mavenJava
       } //publications
@@ -66,22 +67,20 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 dependencies {
     testImplementation(
-            'junit:junit:4.12',
-            'org.junit.jupiter:junit-jupiter-api:5.6.0-M1',    
-            'org.junit.jupiter:junit-jupiter-params:5.6.0-M1',
-            'org.junit.platform:junit-platform-runner:1.6.0-M1'
+            'org.junit.jupiter:junit-jupiter-api:5.7.0',    
+            'org.junit.jupiter:junit-jupiter-params:5.7.0',
+            'org.junit.platform:junit-platform-runner:1.7.0'
     )
-    testRuntimeOnly(
-            'org.junit.jupiter:junit-jupiter-engine:5.6.0-M1',
-            'org.junit.vintage:junit-vintage-engine:5.6.0-M1'
-    )
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.7.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.7.0")
 }
 
-test {
-    useJUnitPlatform()
-    testLogging {  events "passed", "skipped", "failed"  }    
-     
+task sourceJar(type: Jar) {
+  from sourceSets.main.allJava
+  archiveClassifier = "sources"
 }
+
 
  task myJavadocs(type: Javadoc) {
           source = sourceSets.main.allJava
