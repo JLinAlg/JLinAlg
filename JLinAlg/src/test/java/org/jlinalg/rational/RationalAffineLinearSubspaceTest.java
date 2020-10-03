@@ -23,7 +23,6 @@ import org.jlinalg.AffineLinearSubspace;
 import org.jlinalg.LinSysSolver;
 import org.jlinalg.Matrix;
 import org.jlinalg.Vector;
-import org.jlinalg.rational.Rational;
 import org.junit.Test;
 
 /**
@@ -44,8 +43,8 @@ public class RationalAffineLinearSubspaceTest
 		Vector<Rational> v = new Vector<>(3, Rational.FACTORY);
 		v.setAll(Rational.FACTORY.zero());
 		// now do some solving...
-		AffineLinearSubspace<Rational> sol = LinSysSolver
-				.solutionSpace(unit, v);
+		AffineLinearSubspace<Rational> sol = LinSysSolver.solutionSpace(unit,
+				v);
 		assertTrue("dim(sol) is not 1: " + sol,
 				sol.getGeneratingSystem().length == 1);
 	}
@@ -57,17 +56,14 @@ public class RationalAffineLinearSubspaceTest
 		RationalFactory f = Rational.FACTORY;
 		Rational z = f.zero();
 		Rational[][] entries = new Rational[2][2];
-		entries[0] = new Rational[]
-		{
+		entries[0] = new Rational[] {
 				f.one(), z
 		};
-		entries[1] = new Rational[]
-		{
+		entries[1] = new Rational[] {
 				z, f.one()
 		};
 		Matrix<Rational> m = new Matrix<>(entries);
-		Vector<Rational> v = new Vector<>(new Rational[]
-		{
+		Vector<Rational> v = new Vector<>(new Rational[] {
 				z, z
 		});
 

@@ -21,8 +21,8 @@ import java.util.TreeMap;
 
 /**
  * Cash for instances of polynomial factories. In order to obtain a factory for
- * a p-field of a given base type use the method {@link #get(Object)} with an
- * instance of {@link Long} as argument.
+ * a p-field of a given base type use {@link #getFactory(Long p)} or
+ * {@link #getFactory(String s)}
  * 
  * @author Georg Thimm (2008)
  */
@@ -40,7 +40,8 @@ public class FieldPFactoryMap
 	}
 
 	/**
-	 * for all primes p less than PRIME_SEPARATION_BOUNDARY long variables are
+	 * for all primes p less than PRIME_SEPARATION_BOUNDARY long variables
+	 * are
 	 * sufficient for computation whereas above BigInteger must be used.
 	 */
 	static final long PRIME_SEPARATION_BOUNDARY = 3037000500l;
@@ -53,21 +54,26 @@ public class FieldPFactoryMap
 
 	private static final int PRIME_CERTANITY = 10;
 	/**
-	 * for all Fp with p &lt;= inversesLookupTableBoundary inverses are stored
-	 * in a lookup table of size p , for bigger fields inverses are stored with
+	 * for all Fp with p &lt;= inversesLookupTableBoundary inverses are
+	 * stored
+	 * in a lookup table of size p , for bigger fields inverses are stored
+	 * with
 	 * the element. It is assumed that inversesLookupTableBoundary <
 	 * PRIME_SEPARATION_BOUNDARY
 	 */
 	private static long inversesLookupTableBoundary = 65521;
 
 	/**
-	 * Checks for primality of p. Intended to be used for checking the primality
-	 * requirement of p in a Fp field. Not implemented yet, it is left up to the
+	 * Checks for primality of p. Intended to be used for checking the
+	 * primality
+	 * requirement of p in a Fp field. Not implemented yet, it is left up to
+	 * the
 	 * user to ensure the primality of p.
 	 * 
 	 * @param p
 	 *            The number to check for primality
-	 * @return For the time being, 2 and all odd numbers are considered prime
+	 * @return For the time being, 2 and all odd numbers are considered
+	 *         prime
 	 */
 	static boolean isPrime(long p)
 	{
@@ -75,9 +81,10 @@ public class FieldPFactoryMap
 	}
 
 	/**
-	 * Give access to a factory of elements of type Fp (see {@link FieldP}). For
+	 * Give access to a factory of elements of type Fp (see {@link FieldP}).
+	 * For
 	 * a given value of p, only one factory is created (and then cached in
-	 * {@link #FACTORY_MAP}).
+	 * {@link #factories}).
 	 * 
 	 * @param p
 	 *            the size of the field
@@ -113,9 +120,10 @@ public class FieldPFactoryMap
 	}
 
 	/**
-	 * Give access to a factory of elements of type Fp (see {@link FieldP}). For
+	 * Give access to a factory of elements of type Fp (see {@link FieldP}).
+	 * For
 	 * a given value of p, only one factory is created (and then cached in
-	 * {@link #FACTORY_MAP}). {@code p} is tested with the certainty
+	 * {@link #factories}). {@code p} is tested with the certainty
 	 * {@link FieldPFactoryMap#PRIME_CERTANITY}
 	 * 
 	 * @see BigInteger#isProbablePrime(int).
@@ -140,8 +148,10 @@ public class FieldPFactoryMap
 	}
 
 	/**
-	 * Give access to a factory of elements of type Fp (see {@link FieldP}). For
-	 * a given value of bInt, only one factory is created (and then cached in
+	 * Give access to a factory of elements of type Fp (see {@link FieldP}).
+	 * For
+	 * a given value of bInt, only one factory is created (and then cached
+	 * in
 	 * {@link #FACTORY_MAP}). {@code bInt} is tested with the certainty
 	 * {@link FieldPFactoryMap#PRIME_CERTANITY}
 	 * 
@@ -171,7 +181,8 @@ public class FieldPFactoryMap
 	}
 
 	/**
-	 * Returns the number n which decides whether to store inverses in a lookup
+	 * Returns the number n which decides whether to store inverses in a
+	 * lookup
 	 * table (for fields with less or equal than n elements) or with the
 	 * elements (otherwise)
 	 * 
@@ -187,18 +198,25 @@ public class FieldPFactoryMap
 	 * inverses are stored with the elements and therefore may be computed
 	 * several times instead of storing them in a lookup table. When using a
 	 * lookup table for the inverses the inverse of a element will be
-	 * automatically computed at creation time and stored in the table. If you
+	 * automatically computed at creation time and stored in the table. If
+	 * you
 	 * are sure you will never need division it might be faster to set the
-	 * boundary lower than the number of elements in your field BEFORE creating
+	 * boundary lower than the number of elements in your field BEFORE
+	 * creating
 	 * the first element of it.
-	 * WARNING: If you change this boundary AFTER you have instantiated at least
-	 * one element of Fp where p is less than Integer.MAX_VALUE, all existing
+	 * WARNING: If you change this boundary AFTER you have instantiated at
+	 * least
+	 * one element of Fp where p is less than Integer.MAX_VALUE, all
+	 * existing
 	 * elements which have not used the lookup-table won't use it either
 	 * afterwards. Moreover, any new elements generated from these by unary
 	 * operations or by binary operations where they from the first operand
-	 * won't use it either. Similarily all elements which have used the lookup
-	 * table and all elements generated from them in the same way will still use
-	 * the lookup table. The memory allocated to the lookup table will not be
+	 * won't use it either. Similarily all elements which have used the
+	 * lookup
+	 * table and all elements generated from them in the same way will still
+	 * use
+	 * the lookup table. The memory allocated to the lookup table will not
+	 * be
 	 * freed before all elements using the lookup table are removed. Lookup
 	 * tables are separate for each Fp.
 	 * 

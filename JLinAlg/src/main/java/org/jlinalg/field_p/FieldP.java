@@ -97,7 +97,7 @@ public abstract class FieldP
 	 * only if its smallest nonnegative representative is smaller than the
 	 * other's one.
 	 * 
-	 * @param o
+	 * @param par
 	 *            The object to compare to. Must be a instance of FieldP and of
 	 *            the same field Fp as this.
 	 * @return &lt; 0 if this is smaller than o, = 0 if this is equal to o (in
@@ -120,7 +120,7 @@ public abstract class FieldP
 	 * Returns true if and only if <code>this</code> and <code>o</code>
 	 * represent the same element of the same field.
 	 * 
-	 * @param e
+	 * @param o
 	 *            The element to compare to.
 	 * @return True if and only if this and o are the same equivalence class of
 	 *         the same field.

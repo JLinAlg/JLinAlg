@@ -17,7 +17,6 @@
 package org.jlinalg.rational;
 
 import java.math.BigInteger;
-import java.util.regex.Pattern;
 
 import org.jlinalg.DivisionByZeroException;
 import org.jlinalg.FieldElement;
@@ -169,20 +168,6 @@ public class Rational
 		this.numerator = numerator;
 		this.denominator = tmp.getDenominator();
 	}
-
-	/**
-	 * used in {@link #Rational(String)} to parse numbers in exponential
-	 * denotation.
-	 */
-	public final static Pattern expPattern = Pattern
-			.compile("([+-]?\\d+)\\.?(\\d*)([eE]([-+]?\\d+))?");
-
-	/**
-	 * used in {@link #Rational(String)} to parse numbers in fractional
-	 * denotation.
-	 */
-	public final static Pattern fracPattern = Pattern
-			.compile("([+-]?\\d+)/([-+]?\\d+)");
 
 	/**
 	 * Returns a String representation of this Rational.

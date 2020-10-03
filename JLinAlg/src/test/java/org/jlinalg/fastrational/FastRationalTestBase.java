@@ -23,8 +23,9 @@ import org.jlinalg.testutil.RingElementTestBase;
  * 
  * @author Georg Thimm
  */
-class FastRationalTestBase
-		extends RingElementTestBase<FastRational>
+abstract class FastRationalTestBase
+		extends
+		RingElementTestBase<FastRational>
 {
 	@Override
 	public FastRationalFactory getFactory()
