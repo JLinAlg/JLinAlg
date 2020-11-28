@@ -19,8 +19,13 @@ package org.jlinalg.rational;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jlinalg.IRingElement;
 import org.jlinalg.IRingElementFactory;
 import org.jlinalg.Matrix;
+import org.jlinalg.Vector;
 import org.jlinalg.testutil.MatrixTestBase;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -29,7 +34,8 @@ import org.junit.Test;
  * @author Georg Thimm
  */
 public class RationalMatrixTest
-		extends MatrixTestBase<Rational>
+		extends
+		MatrixTestBase<Rational>
 {
 
 	/**
@@ -86,6 +92,17 @@ public class RationalMatrixTest
 		m1 = new Matrix<>(fes1);
 		m2 = new Matrix<>(fes2);
 		m3 = new Matrix<>(fes3);
+	}
+
+	@Test
+	public void MatrixFromListConstructor()
+	{
+		List<Vector<Rational>> rows = new ArrayList<>();
+		for (int r = 1; r <= 3; r++) {
+			rows.add(m3.getRow(r));
+		}
+		Matrix<Rational> copy = new Matrix<>(rows);
+		assertTrue("copy does not match original", copy.equals(m3));
 	}
 
 	/**
@@ -204,7 +221,7 @@ public class RationalMatrixTest
 	}
 
 	/**
-	 *test {@link Matrix#mean()} for data type Rational
+	 * test {@link Matrix#mean()} for data type Rational
 	 */
 	@Test
 	public void testMean_()
@@ -216,8 +233,8 @@ public class RationalMatrixTest
 			}
 		}
 		System.err.println(m);
-		assertTrue("wrong mean = " + m.mean() + " for matrix \n" + m, m.mean()
-				.equals(Rational.FACTORY.get(25, 24)));
+		assertTrue("wrong mean = " + m.mean() + " for matrix \n" + m,
+				m.mean().equals(Rational.FACTORY.get(25, 24)));
 	}
 
 	@Override

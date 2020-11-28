@@ -29,6 +29,8 @@ import org.jlinalg.testutil.VectorTestBase;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * Test the class {@link Vector} for {@link FastRational} elements
@@ -36,7 +38,8 @@ import org.junit.Test;
  * @author Georg Thimm
  */
 public class FastRationalVectorTest
-		extends VectorTestBase<FastRational>
+		extends
+		VectorTestBase<FastRational>
 {
 
 	/**
@@ -99,7 +102,19 @@ public class FastRationalVectorTest
 			v1b.set(i, FastRational.FACTORY.get(i, dim));
 			v2.set(i, FastRational.FACTORY.get(100 + i, dim));
 		}
+	}
 
+	@Test
+	public void vectorConstructor()
+	{
+		Vector<FastRational> v = new Vector<>(FastRationalFactory.M_ONE,
+				FastRationalFactory.ONE);
+		for (FastRational fastRational : v) {
+			assertNotNull("factory is missing in " + fastRational,
+					fastRational.getFactory());
+		}
+		assertNotNull("element factory is missing in " + v,
+				v.getElementFactory());
 	}
 
 	/**
@@ -138,8 +153,7 @@ public class FastRationalVectorTest
 	@Test(expected = InvalidOperationException.class)
 	public void testVectorSetDimMissmatch()
 	{
-		Vector<FastRational> v = new Vector<>(dim + 1,
-				FastRational.FACTORY);
+		Vector<FastRational> v = new Vector<>(dim + 1, FastRational.FACTORY);
 		v.set(v1a);
 	}
 
@@ -149,8 +163,7 @@ public class FastRationalVectorTest
 	@Test
 	public final void testElementProduct()
 	{
-		Vector<FastRational> v = new Vector<>(4,
-				FastRational.FACTORY);
+		Vector<FastRational> v = new Vector<>(4, FastRational.FACTORY);
 		v.setAll(FastRational.FACTORY.get(1, 2));
 		assertTrue("1/2^4=1/16",
 				v.elementProduct().equals(FastRational.FACTORY.get(1, 16)));
@@ -165,13 +178,11 @@ public class FastRationalVectorTest
 	@Test
 	public final void testCompareTo()
 	{
-		Vector<FastRational> v1 = new Vector<>(3,
-				FastRational.FACTORY);
+		Vector<FastRational> v1 = new Vector<>(3, FastRational.FACTORY);
 		for (int i = 1; i <= v1.length(); i++) {
 			v1.set(i, FastRational.FACTORY.get(i * 3 - 1, i));
 		}
-		Vector<FastRational> v2 = new Vector<>(3,
-				FastRational.FACTORY);
+		Vector<FastRational> v2 = new Vector<>(3, FastRational.FACTORY);
 		for (int i = 1; i <= v2.length(); i++) {
 			v2.set(i, FastRational.FACTORY.get(i * 3 - 1, i));
 		}
@@ -189,13 +200,11 @@ public class FastRationalVectorTest
 	@Test(expected = org.jlinalg.InvalidOperationException.class)
 	public final void testCompareToException()
 	{
-		Vector<FastRational> v1 = new Vector<>(3,
-				FastRational.FACTORY);
+		Vector<FastRational> v1 = new Vector<>(3, FastRational.FACTORY);
 		for (int i = 1; i <= v1.length(); i++) {
 			v1.set(i, FastRational.FACTORY.get(i * 3 - 1, i));
 		}
-		Vector<FastRational> v3 = new Vector<>(4,
-				FastRational.FACTORY);
+		Vector<FastRational> v3 = new Vector<>(4, FastRational.FACTORY);
 		for (int i = 1; i <= v3.length(); i++) {
 			v3.set(i, FastRational.FACTORY.get(i * 3 - 1, i));
 		}
@@ -210,8 +219,7 @@ public class FastRationalVectorTest
 	public void testDeterminante()
 	{
 		int dim = 3;
-		Matrix<FastRational> m = new Matrix<>(dim, dim,
-				FastRational.FACTORY);
+		Matrix<FastRational> m = new Matrix<>(dim, dim, FastRational.FACTORY);
 		for (int i = 1; i <= dim; i++) {
 			for (int j = 1; j <= dim; j++) {
 				if (i == j)
@@ -277,6 +285,19 @@ public class FastRationalVectorTest
 		assertTrue("v1<v3 (inv)", v3.compareTo(v1) == 1);
 		assertTrue("v1>v4", v1.compareTo(v4) == 1);
 		assertTrue("v1>v4 (inv)", v4.compareTo(v1) == -1);
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"1", "0", "-1"
+	})
+	public void ConstructurWithDefault(String defaultValue)
+	{
+		FastRational v = new FastRational(Long.parseLong(defaultValue));
+		Vector<FastRational> vector = new Vector<>(4, v);
+		for (int i = 1; i <= 4; i++) {
+			assertEquals("wrong value at i=" + i, v, vector.getEntry(i));
+		}
 	}
 
 	@Override
