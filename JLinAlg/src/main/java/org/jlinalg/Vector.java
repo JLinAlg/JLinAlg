@@ -95,14 +95,33 @@ public class Vector<RE extends IRingElement<RE>>
 	}
 
 	/**
+	 * A constructor that creates a Vector of a given length with all elements
+	 * set to the given value.
+	 * 
+	 * @param length
+	 * @param default
+	 *            the value to be used to create elements in this vector.
+	 */
+	public Vector(int length, RE defaultValue)
+	{
+		this.factory = defaultValue.getFactory();
+		entries = factory.getArray(length);
+		for (int i = 0; i < entries.length; i++) {
+			entries[i] = defaultValue;
+		}
+	}
+
+	/**
 	 * A constructor that puts an Array of RingElements into a Vector.
 	 * 
 	 * @param theEntries
 	 *            as an array of field elements
 	 * @throws InvalidOperationException
-	 *             if the array is null
+	 *             if the parameters list is empty or the elemets refer to
+	 *             distinct factories.
 	 */
-	public Vector(RE[] theEntries) throws InvalidOperationException
+	@SafeVarargs
+	public Vector(RE... theEntries) throws InvalidOperationException
 	{
 		if (theEntries == null || theEntries.length == 0) {
 			String err = "Tried to construct Vector but entry array was "
@@ -110,6 +129,14 @@ public class Vector<RE extends IRingElement<RE>>
 			throw new InvalidOperationException(err);
 		}
 		factory = theEntries[0].getFactory();
+		for (int i = 1; i < theEntries.length; i++) {
+			if (factory != theEntries[i].getFactory()) {
+				throw new InvalidOperationException(
+						"called method with incompatible element factories: "
+								+ factory + " and "
+								+ theEntries[i].getFactory());
+			}
+		}
 		entries = theEntries;
 	}
 

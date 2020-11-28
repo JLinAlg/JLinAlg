@@ -19,6 +19,7 @@ package org.jlinalg;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -155,6 +156,51 @@ public class Matrix<RE extends IRingElement<RE>>
 		for (int k = 0; k < numOfRows; k++) {
 			for (int l = 0; l < numOfCols; l++) {
 				entries[k][l] = rowVectors[k].getEntry(l + 1);
+			}
+		}
+	}
+
+	/**
+	 * Constructs a Matrix out of an list of row vectors.
+	 * 
+	 * @param rowVectors
+	 *            as an array of Vectors
+	 * @throws InvalidOperationException
+	 *             if rowVectors is null
+	 * @throws InvalidOperationException
+	 *             if rowVectors contains a null Vector
+	 * @throws InvalidOperationException
+	 *             if rowVectors contains Vectors of unequal lengths
+	 */
+	public Matrix(List<Vector<RE>> rowVectors)
+	{
+		if (rowVectors == null) {
+			throw new InvalidOperationException(
+					"Tried to construct matrix but array of row vectors was null");
+		}
+		for (int i = 0; i < rowVectors.size(); i++) {
+			if (rowVectors.get(i) == null) {
+				throw new InvalidOperationException(
+						"Tried to construct matrix and found null-vector");
+			}
+		}
+		int vectorLength = rowVectors.get(0).length();
+		for (int i = 0; i < rowVectors.size(); i++) {
+			if (rowVectors.get(i).length() != vectorLength) {
+				throw new InvalidOperationException(
+						"Tried to construct matrix but not all vectors"
+								+ " had the same length");
+			}
+		}
+
+		numOfRows = rowVectors.size();
+		numOfCols = vectorLength;
+		FACTORY = rowVectors.get(0).getElementFactory();
+		entries = FACTORY.getArray(numOfRows, numOfCols);
+
+		for (int k = 0; k < numOfRows; k++) {
+			for (int l = 0; l < numOfCols; l++) {
+				entries[k][l] = rowVectors.get(k).getEntry(l + 1);
 			}
 		}
 	}

@@ -45,6 +45,8 @@ public class FastRationalFactory
 
 	private static final long serialVersionUID = 1L;
 
+	public final static FastRationalFactory INSTANCE = new FastRationalFactory();
+
 	final public static FastRational M_ONE = new FastRational(-1L, 1L, false);
 
 	final public static FastRational ONE = new FastRational(1L, 1L, false);
@@ -63,8 +65,6 @@ public class FastRationalFactory
 		if (n == -1L) return M_ONE;
 		return new FastRational(n, 1, false);
 	}
-
-	public final static FastRationalFactory INSTANCE = new FastRationalFactory();
 
 	public FastRational get(final long n, final long d)
 	{
