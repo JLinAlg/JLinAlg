@@ -424,4 +424,17 @@ public class FastRational
 	{
 		return numerator;
 	}
+
+	@Override
+	public FastRational floor()
+	{
+		if (numerator == 0 || denominator == 1) {
+			return this;
+		}
+		long n = numerator / denominator;
+		if (numerator < 0) {
+			return new FastRational(n - 1, 1l, false);
+		}
+		return new FastRational(n, 1l, false);
+	}
 }

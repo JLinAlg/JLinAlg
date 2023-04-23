@@ -27,6 +27,7 @@ import static org.junit.Assert.fail;
 import org.jlinalg.IRingElement;
 import org.jlinalg.Matrix;
 import org.jlinalg.Vector;
+import org.jlinalg.bigdecimalwrapper.BigDecimalWrapperFactory;
 import org.jlinalg.operator.DivideOperator;
 import org.jlinalg.operator.MultiplyOperator;
 import org.junit.Assume;
@@ -142,6 +143,29 @@ public abstract class VectorTestBase<RE extends IRingElement<RE>>
 		Vector<RE> vec = new Vector<>(vec_0_1_9, getFactory());
 		for (int i = 0; i < vec_0_1_9.length; i++) {
 			assertEquals(getFactory().get(vec_0_1_9[i]), vec.getEntry(i + 1));
+		}
+	}
+
+	/**
+	 * Test method for {@link org.jlinalg.Vector} - new with variable
+	 * parameters.
+	 */
+	@Test
+	public void testNewVector()
+	{
+		Vector<RE> vec = new Vector<>(getFactory(), 1, 2.0, "3");
+		for (int i = 1; i <= vec.length(); i++) {
+			if (getFactory() instanceof BigDecimalWrapperFactory
+					&& vec.getEntry(i).toString().contains("."))
+			{
+				continue;
+			}
+			assertEquals(
+					"factory class: "
+							+ getFactory().getClass().getCanonicalName()
+							+ " vector element class: "
+							+ vec.getEntry(i).getClass().getCanonicalName(),
+					getFactory().get(i), vec.getEntry(i));
 		}
 	}
 

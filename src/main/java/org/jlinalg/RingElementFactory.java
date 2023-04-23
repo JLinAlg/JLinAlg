@@ -26,6 +26,7 @@ import org.jlinalg.operator.DivideOperator;
 import org.jlinalg.operator.DyadicOperator;
 import org.jlinalg.operator.EqualToComparator;
 import org.jlinalg.operator.FEComparator;
+import org.jlinalg.operator.FloorOperator;
 import org.jlinalg.operator.GreaterThanComparator;
 import org.jlinalg.operator.GreaterThanOrEqualToComparator;
 import org.jlinalg.operator.LessThanComparator;
@@ -106,6 +107,7 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 	transient private Reduction<RE> maxOperator;
 	transient private Reduction<RE> sumOperator;
 	transient private Reduction<RE> minOperator;
+	transient private MonadicOperator<RE> floorOperator;
 
 	/**
 	 * Try to use the string representation of the object <code>o</code> to
@@ -339,6 +341,15 @@ public abstract class RingElementFactory<RE extends RingElement<RE>>
 			absOperator = new AbsOperator<>();
 		}
 		return absOperator;
+	}
+
+	@Override
+	public MonadicOperator<RE> getFloorOperator()
+	{
+		if (floorOperator == null) {
+			floorOperator = new FloorOperator<>();
+		}
+		return floorOperator;
 	}
 
 	@Override

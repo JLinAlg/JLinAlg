@@ -244,4 +244,10 @@ public class DoubleWrapper
 		return (value >= 0) ? this : FACTORY.get(-value);
 	}
 
+	@Override
+	public DoubleWrapper floor()
+	{
+		return FACTORY.get(Math.floor(value));
+	}
+
 }

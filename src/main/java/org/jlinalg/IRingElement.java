@@ -165,4 +165,6 @@ public interface IRingElement<RE extends IRingElement<RE>>
 	 */
 	public IRingElementFactory<RE> getFactory();
 
+	public RE floor();
+
 }

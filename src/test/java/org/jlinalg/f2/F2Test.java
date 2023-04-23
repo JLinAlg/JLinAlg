@@ -34,7 +34,8 @@ import org.junit.Test;
  * @author Georg Thimm
  */
 public class F2Test
-		extends RingElementTestBase<F2>
+		extends
+		RingElementTestBase<F2>
 {
 	/**
 	 * the zero element
@@ -202,5 +203,12 @@ public class F2Test
 				getFactory().one().add(getFactory().m_one()));
 		assertEquals(getFactory().get("11"),
 				getFactory().one().add(getFactory().get("10")));
+	}
+
+	@Test
+	public void floor()
+	{
+		assertEquals(F2.ONE, F2.ONE.floor());
+		assertEquals(F2.ZERO, F2.ZERO.floor());
 	}
 }

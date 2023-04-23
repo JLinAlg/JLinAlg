@@ -217,4 +217,6 @@ public interface IRingElementFactory<RE extends IRingElement<RE>>
 	public abstract Reduction<RE> getSumOperator();
 
 	public abstract Reduction<RE> getMinOperator();
+
+	public abstract MonadicOperator<RE> getFloorOperator();
 }

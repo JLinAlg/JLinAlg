@@ -394,4 +394,10 @@ public class F2
 		return this;
 	}
 
+	@Override
+	public F2 floor()
+	{
+		return this;
+	}
+
 }

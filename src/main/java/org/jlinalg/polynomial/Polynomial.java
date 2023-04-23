@@ -660,4 +660,11 @@ public class Polynomial<BASE extends IRingElement<BASE>>
 
 	}
 
+	@Override
+	public Polynomial<BASE> floor()
+	{
+	    throw new InvalidOperationException(
+			"The floor operator is meaningless for a polynomial");
+	}
+
 }

@@ -96,8 +96,7 @@ public class FastRationalFactory
 	 * regular expression for fractions. Used in {@link #get(Object)}.
 	 */
 	Pattern fraction = Pattern
-			.compile("\\A(-?\\d{1,8})(?:/([-+]?\\d{1,8}))?\\z");
-
+            .compile("\\A([+-]?\\d{1,8})(?:/([-+]?\\d{1,8}))?\\z");
 	Pattern doublePattern = Pattern
 			.compile("([+-]?\\d+)\\.?(\\d*)([eE]([-+]?\\d+))?");
 
@@ -188,8 +187,7 @@ public class FastRationalFactory
 
 	/**
 	 * Translate other objects into {@code FastRational}s. Objects in the
-	 * following
-	 * classes are permissible:
+         * following classes are permissible:
 	 * <UL>
 	 * <li>those extending on {@link java.lang.Number},
 	 * <li>{@link Rational},
@@ -264,5 +262,4 @@ public class FastRationalFactory
 		}
 		return res;
 	}
-
 }

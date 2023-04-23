@@ -31,6 +31,8 @@ import org.jlinalg.testutil.RandomNumberList;
 import org.jlinalg.testutil.RingElementTestBase;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * @author Georg Thimm (2009)
@@ -373,6 +375,16 @@ public class BigDecimalWrapperTest
 			BigDecimalWrapper sq = s.sqrt();
 			assertSimilar(sq, n, diff);
 		}
+	}
+
+	@ParameterizedTest
+	@ValueSource(doubles = {
+			1, -1, 5.1, -6.1, 0, 000001, -.00001
+	})
+	public void floor(double value)
+	{
+		BigDecimalWrapper decimal = new BigDecimalWrapperFactory(10).get(value);
+		assertEquals(Math.floor(value), decimal.floor().doubleValue(), 0.0);
 	}
 
 	@Override

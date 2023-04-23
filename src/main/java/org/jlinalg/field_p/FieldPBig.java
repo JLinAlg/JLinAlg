@@ -164,4 +164,12 @@ public class FieldPBig
 		throw new IllegalArgumentException(val + " is from a different Fp than "
 				+ this + "! You cannot multiply them.");
 	}
+
+	@Deprecated
+	@Override
+	public FieldP floor()
+	{
+		throw new InvalidOperationException(
+				"The floor operator is meaningless for FieldP");
+	}
 }

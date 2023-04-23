@@ -313,4 +313,11 @@ public class BigDecimalWrapper
 					FACTORY);
 		return this;
 	}
+
+	@Override
+	public BigDecimalWrapper floor()
+	{
+		return new BigDecimalWrapper(value.setScale(0, RoundingMode.FLOOR),
+				FACTORY);
+	}
 }

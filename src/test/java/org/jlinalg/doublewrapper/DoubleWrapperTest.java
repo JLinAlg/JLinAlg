@@ -30,6 +30,8 @@ import org.jlinalg.testutil.RandomNumberList;
 import org.jlinalg.testutil.RingElementTestBase;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * @author Georg Thimm (2009)
@@ -569,6 +571,16 @@ public class DoubleWrapperTest
 		v.set(2, dfac.get(5));
 		v.set(3, dfac.get(11));
 		assertEquals(dfac.get(Math.sqrt(1 + 25 + 121 + 16)), v.L2Norm());
+	}
+
+	@ParameterizedTest
+	@ValueSource(doubles = {
+			5.1, -6.1, 0, 000001, -.00001
+	})
+	public void floor(double value)
+	{
+		DoubleWrapper decimal = DoubleWrapperFactory.INSTANCE.get(value);
+		assertEquals(Math.floor(value), decimal.floor().doubleValue(), 0.0);
 	}
 
 	@Override

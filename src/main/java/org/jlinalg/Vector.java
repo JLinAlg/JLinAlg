@@ -81,6 +81,12 @@ public class Vector<RE extends IRingElement<RE>>
 		}
 	}
 
+	public Vector(IRingElementFactory<RE> factory, Object... theEntries)
+			throws InvalidOperationException
+	{
+		this(theEntries, factory);
+	}
+
 	/**
 	 * A constructor that creates a Vector of a given length with no entries.
 	 * 

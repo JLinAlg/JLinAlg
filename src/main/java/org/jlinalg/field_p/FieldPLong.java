@@ -16,6 +16,8 @@
  */
 package org.jlinalg.field_p;
 
+import org.jlinalg.InvalidOperationException;
+
 /**
  * This class implements the operations in Fp where p &lt;
  * PRIME_SEPARATION_BOUNDARY. All computations can be done using long variables.
@@ -155,6 +157,14 @@ public class FieldPLong
 	public FieldPLongFactory getFactory()
 	{
 		return internalFactory;
+	}
+
+	@Deprecated
+	@Override
+	public FieldP floor()
+	{
+		throw new InvalidOperationException(
+				"The floor operator is meaningless for FieldPLong");
 	}
 
 }

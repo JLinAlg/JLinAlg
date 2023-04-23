@@ -455,4 +455,13 @@ public class Complex
 		return FACTORY.get(b.multiply(b).add(a.multiply(a)));
 	}
 
+	@Deprecated
+	@Override
+	public Complex floor()
+	{
+		throw new InvalidOperationException(
+				"floor() is not well defined for complex numbers.");
+
+	}
+
 }

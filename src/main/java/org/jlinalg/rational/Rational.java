@@ -359,4 +359,18 @@ public class Rational
 	 */
 	public final static RationalFactory FACTORY = new RationalFactory();
 
+	@Override
+	public Rational floor()
+	{
+		if (numerator.equals(BigInteger.ZERO)
+				|| denominator.equals(BigInteger.ONE))
+		{
+			return this;
+		}
+		BigInteger n = numerator.abs().divide(denominator);
+		if (numerator.signum() == -1) {
+			return new Rational(n.add(BigInteger.ONE).negate());
+		}
+		return new Rational(n);
+	}
 }

@@ -223,4 +223,10 @@ public class StringWrapper
 	{
 		return value.hashCode();
 	}
+
+	@Override
+	public StringWrapper floor()
+	{
+		return ZERO;
+	}
 }

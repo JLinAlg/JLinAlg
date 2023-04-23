@@ -453,4 +453,13 @@ public class FastRationalTest
 	{
 		getFactory().zero().invert();
 	}
+
+	@Test
+	public void floor()
+	{
+		assertEquals(rFac.one(), rFac.one().floor());
+		assertEquals(rFac.zero(), one_third.floor());
+		assertEquals(rFac.get(2), rFac.get(13, 5).floor());
+		assertEquals(rFac.get(-4), rFac.get(-17, 5).floor());
+	}
 }

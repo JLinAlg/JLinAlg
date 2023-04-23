@@ -277,4 +277,12 @@ public class RationalFunction<BASE extends IRingElement<BASE>>
 				+ ((numerator == null) ? 0 : numerator.hashCode());
 		return result;
 	}
+
+	@Deprecated
+	@Override
+	public RationalFunction<BASE> floor()
+	{
+		throw new InvalidOperationException(
+				"The function floor() is not implemented for RationalFunction.");
+	}
 }

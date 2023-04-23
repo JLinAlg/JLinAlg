@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 /**
- * tests for {@link SquareOperator}
+ * tests for {@link AbsOperator}
  * 
  * @author Georg Thimm 2009
  */
