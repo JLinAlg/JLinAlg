@@ -38,8 +38,6 @@ Getting Started
     *   In case you want to have a look at the source code, you can find it inside the Zip-file under "JLinAlg/src". In Eclipse you can just go to File -> Import -> Existing Projects into Workspace. Now select the directory containing the downloaded Zip-file and the project JLinAlg-v0.xx should appear and be checked. Now click "finish".
 3.  Get to know JLinAlg. Have a look at the [examples](#Examples) and the [documentation](#Documentation) (both also included in the Zip-File).
 4.  Do something cool with it.
-5.  Use our [forums](https://sourceforge.net/forum/?group_id=71387) at Sourceforge and tell us about it!
-6.  If you find a bug, please use our [bug tracker](https://sourceforge.net/p/jlinalg/bugs/) or [contact us](#Members) directly to let us know.
 
 Download
 --------
