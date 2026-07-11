@@ -55,15 +55,15 @@ Documentation
 Examples
 --------
 
-*   The class F2 represents an element of the modulo 2 field F2 and a factory as inner class. F2 is a field, just like the rational numbers. The examples in [F2Demo.java](https://jlinalg.sourceforge.net/code/F2Demo.html) illustrate how to create elements in F2 using the factory, how to create matrices, and to operate on them. The file [F2.java](https://jlinalg.sourceforge.net/code/F2.html) shows how to implement a type and a factory.
-*   [LinearEquationSystemDemo.java](https://jlinalg.sourceforge.net/code/LinearEquationSystemDemo.html): This example shows how to calculate a solution or its solution space.
-*   [MatrixOperationsDemo.java](https://jlinalg.sourceforge.net/code/MatrixOperationsDemo.html): How to calculate them for matrices over arbitrary fields.
-*   [EigenvaluesDemo.java](https://jlinalg.sourceforge.net/code/EigenvaluesDemo.html): This example shows how JLinAlg can do eigenvalue computation with real matrices (matrices with DoubleWrapper entries).
-*   [FieldPDemo.java](https://jlinalg.sourceforge.net/code/FieldPDemo.html): This demonstration of the class FieldP shows that in vector spaces over finite fields there can be linear dependent vectors which are all orthogonal to each other.
-*   [Xor.java](https://jlinalg.sourceforge.net/code/Xor.html): Exclusive-Or neural net problem using JLinAlg.
-*   [HilbertMatrixDemo.java](https://jlinalg.sourceforge.net/code/HilbertMatrixDemo.html): This demo shows how the squared distance between the real solution of an equation system to the one that is found when using floating point arithmetic, grows exponentially when the dimension of the Hilbert matrix increases.
-*   [ArbitraryPrecisionDemo.java](https://jlinalg.sourceforge.net/code/ArbitraryPrecisionDemo.html): Demonstration that shows how quickly floating point numbers can cause rounding errors and how you can avoid these using arbitrary precision (Rational).
-*   [PolynomialDemo.java](https://jlinalg.sourceforge.net/code/PolynomialDemo.html): Some operations on polynomials (including calculating the GCD using the Euclidean algorithm).
+*   The class F2 represents an element of the modulo 2 field F2 and a factory as inner class. F2 is a field, just like the rational numbers. The examples in [F2Demo.java](https://github.com/JLinAlg/JLinAlg/blob/master/src/test/java/org/jlinalg/demo/F2Demo.java) illustrate how to create elements in F2 using the factory, how to create matrices, and to operate on them. The file [F2.java](https://github.com/JLinAlg/JLinAlg/blob/master/src/main/java/org/jlinalg/f2/F2.java) shows how to implement a type and a factory.
+*   [LinearEquationSystemDemo.java](https://github.com/JLinAlg/JLinAlg/blob/master/src/test/java/org/jlinalg/demo/LinearEquationSystemDemo.java): This example shows how to calculate a solution or its solution space.
+*   [MatrixOperationsDemo.java](https://github.com/JLinAlg/JLinAlg/blob/master/src/test/java/org/jlinalg/demo/MatrixOperationsDemo.java): How to calculate them for matrices over arbitrary fields.
+*   [EigenvaluesDemo.java](https://github.com/JLinAlg/JLinAlg/blob/master/src/test/java/org/jlinalg/demo/EigenvaluesDemo.java): This example shows how JLinAlg can do eigenvalue computation with real matrices (matrices with DoubleWrapper entries).
+*   [FieldPDemo.java](https://github.com/JLinAlg/JLinAlg/blob/master/src/test/java/org/jlinalg/demo/FieldPDemo.java): This demonstration of the class FieldP shows that in vector spaces over finite fields there can be linear dependent vectors which are all orthogonal to each other.
+*   [Xor.java](https://github.com/JLinAlg/JLinAlg/blob/master/src/test/java/org/jlinalg/demo/Xor.java): Exclusive-Or neural net problem using JLinAlg.
+*   [HilbertMatrixDemo.java](https://github.com/JLinAlg/JLinAlg/blob/master/src/test/java/org/jlinalg/demo/HilbertMatrixDemo.java): This demo shows how the squared distance between the real solution of an equation system to the one that is found when using floating point arithmetic, grows exponentially when the dimension of the Hilbert matrix increases.
+*   [ArbitraryPrecisionDemo.java](https://github.com/JLinAlg/JLinAlg/blob/master/src/test/java/org/jlinalg/demo/ArbitraryPrecisionDemo.java): Demonstration that shows how quickly floating point numbers can cause rounding errors and how you can avoid these using arbitrary precision (Rational).
+*   [PolynomialDemo.java](https://github.com/JLinAlg/JLinAlg/blob/master/src/test/java/org/jlinalg/demo/PolynomialDemo.java): Some operations on polynomials (including calculating the GCD using the Euclidean algorithm).
 
 Project Members
 ---------------
